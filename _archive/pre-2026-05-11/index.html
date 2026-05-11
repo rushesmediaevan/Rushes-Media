@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rushes Media — Content &amp; Growth Infrastructure</title>
+  <meta name="description" content="Brand media and growth systems for local businesses in South Jersey and Philadelphia. Media done right." />
+  <meta name="theme-color" content="#1a2a3f" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── RESET ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--dark);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* ── VARIABLES ────────────────────────────────────────── */
+    :root {
+      --navy:      #1a2a3f;
+      --navy-deep: #0f1e2e;
+      --cream:     #f5f0e6;
+      --gold:      #b89860;
+      --dark:      #111111;
+      --cream-65:  rgba(245,240,230,0.65);
+      --cream-28:  rgba(245,240,230,0.28);
+      --gold-45:   rgba(184,152,96,0.45);
+      --font-head: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+      --max:       1200px;
+      --px:        clamp(24px, 6vw, 80px);
+      --py:        clamp(88px, 11vw, 140px);
+      --nav-h:     68px;
+    }
+
+    /* ── LAYOUT ───────────────────────────────────────────── */
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--px); }
+
+    /* ── NAV ──────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      padding: 0 var(--px);
+      transition: background .35s ease, box-shadow .35s ease;
+    }
+    nav.scrolled {
+      background: var(--navy);
+      box-shadow: 0 1px 0 rgba(184,152,96,.12);
+    }
+    .nav-inner {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo img {
+      height: 48px;
+      width: auto;
+      filter: brightness(0) invert(1);
+      opacity: .94;
+      transition: opacity .2s;
+    }
+    .nav-logo:hover img { opacity: 1; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--cream-65);
+      position: relative;
+      transition: color .2s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width .3s ease;
+    }
+    .nav-links a:hover { color: var(--cream); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: var(--gold) !important;
+      color: var(--navy) !important;
+      padding: 9px 20px !important;
+      border-radius: 2px;
+      letter-spacing: .1em !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: #c8a96e !important; }
+
+    @media (max-width: 768px) { .nav-links { display: none; } }
+
+    /* ── MOBILE BURGER ────────────────────────────────────── */
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .burger span {
+      display: block;
+      width: 22px; height: 1px;
+      background: var(--cream);
+    }
+    @media (max-width: 768px) { .burger { display: flex; } }
+
+    /* ── MOBILE OVERLAY ───────────────────────────────────── */
+    .mob {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--navy);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+    }
+    .mob.open { display: flex; }
+    .mob-close {
+      position: absolute;
+      top: 22px; right: var(--px);
+      font-size: 26px;
+      color: var(--cream-65);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: var(--font-head);
+      line-height: 1;
+    }
+    .mob a {
+      font-family: var(--font-head);
+      font-size: 38px;
+      font-weight: 300;
+      color: var(--cream);
+      letter-spacing: .04em;
+    }
+    .mob .mob-book {
+      font-family: var(--font-body);
+      font-size: 12px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      background: var(--gold);
+      color: var(--navy);
+      padding: 14px 34px;
+      border-radius: 2px;
+      font-weight: 500;
+      margin-top: 8px;
+    }
+
+    /* ── REVEAL ───────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.on { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: .1s; }
+    .d2 { transition-delay: .2s; }
+    .d3 { transition-delay: .3s; }
+
+    /* ── EYEBROW ──────────────────────────────────────────── */
+    .eye {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .eye-gold  { color: var(--gold); }
+    .eye-muted { color: var(--navy); opacity: .4; }
+    .eye-dim   { color: var(--cream-28); }
+
+    /* ── HERO ─────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      background: var(--navy);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: calc(var(--nav-h) + 40px) var(--px) clamp(64px, 9vw, 108px);
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold);
+      opacity: .5;
+    }
+
+    .hero-body {
+      max-width: var(--max);
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-wordmark {
+      height: clamp(52px, 7vw, 86px);
+      width: auto;
+      filter: brightness(0) invert(1);
+      opacity: 0;
+      transform: translateY(10px);
+      animation: up .65s ease forwards .05s;
+      margin-bottom: 28px;
+    }
+
+    .hero-eye {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 26px;
+      opacity: 0;
+      animation: up .6s ease forwards .2s;
+    }
+
+    .hero-h1 {
+      font-family: var(--font-head);
+      font-weight: 300;
+      font-size: clamp(58px, 9.5vw, 118px);
+      line-height: 1.0;
+      letter-spacing: -.01em;
+      color: var(--cream);
+      margin-bottom: 30px;
+      opacity: 0;
+      animation: up .85s ease forwards .36s;
+    }
+    .hero-h1 em { font-style: italic; }
+
+    .hero-sub {
+      font-family: var(--font-body);
+      font-size: clamp(15px, 1.8vw, 17px);
+      line-height: 1.75;
+      color: var(--cream-65);
+      max-width: 480px;
+      margin-bottom: 44px;
+      opacity: 0;
+      animation: up .85s ease forwards .52s;
+    }
+
+    .hero-btns {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: up .85s ease forwards .68s;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: background .25s, transform .25s;
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+      padding: 14px 28px;
+    }
+    .btn-gold:hover { background: #c8a96e; transform: translateY(-2px); }
+    .btn-gold .arr { transition: transform .25s; }
+    .btn-gold:hover .arr { transform: translateX(4px); }
+
+    .btn-ghost {
+      color: var(--cream-65);
+      padding-bottom: 2px;
+      border-bottom: 1px solid var(--gold-45);
+      transition: color .2s, border-color .2s;
+      border-radius: 0;
+    }
+    .btn-ghost:hover { color: var(--cream); border-color: var(--gold); }
+
+    .hero-rule {
+      margin-top: clamp(48px, 7vw, 84px);
+      padding-top: 22px;
+      border-top: 1px solid rgba(184,152,96,.18);
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--cream-28);
+      opacity: 0;
+      animation: up .85s ease forwards .86s;
+    }
+
+    @keyframes up {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── PROBLEM ──────────────────────────────────────────── */
+    #problem {
+      background: var(--cream);
+      padding: var(--py) var(--px);
+    }
+    .problem-grid {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    @media (min-width: 768px) {
+      .problem-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 96px;
+        align-items: start;
+      }
+    }
+    .problem-h2 {
+      font-family: var(--font-head);
+      font-weight: 300;
+      font-size: clamp(34px, 5vw, 56px);
+      line-height: 1.08;
+      color: var(--navy);
+    }
+    .problem-h2 em { font-style: italic; }
+
+    .problem-body p {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.82;
+      color: #3a3a3a;
+      margin-bottom: 20px;
+    }
+    .problem-body p:last-child { margin-bottom: 0; }
+    .problem-pull {
+      font-family: var(--font-head);
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(19px, 2.4vw, 26px);
+      line-height: 1.4;
+      color: var(--navy);
+      border-left: 2px solid var(--gold);
+      padding-left: 22px;
+      margin-top: 32px;
+    }
+
+    /* ── SERVICES ─────────────────────────────────────────── */
+    #services {
+      background: var(--navy);
+      padding: var(--py) var(--px);
+    }
+    .services-wrap { max-width: var(--max); margin: 0 auto; }
+    .services-hd { margin-bottom: clamp(48px, 6vw, 80px); }
+    .services-h2 {
+      font-family: var(--font-head);
+      font-weight: 300;
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.1;
+      color: var(--cream);
+      max-width: 560px;
+    }
+
+    .svc-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1px;
+      background: rgba(184,152,96,.1);
+      border: 1px solid rgba(184,152,96,.1);
+    }
+    @media (min-width: 640px) { .svc-grid { grid-template-columns: 1fr 1fr; } }
+
+    .svc {
+      background: var(--navy);
+      padding: clamp(32px, 4vw, 52px);
+      transition: background .3s;
+    }
+    .svc:hover { background: #1f3350; }
+    .svc-num {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .18em;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .svc-name {
+      font-family: var(--font-head);
+      font-weight: 400;
+      font-size: clamp(22px, 2.8vw, 32px);
+      color: var(--cream);
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .svc-desc {
+      font-family: var(--font-body);
+      font-size: 13px;
+      line-height: 1.75;
+      color: var(--cream-65);
+      margin-bottom: 16px;
+    }
+    .svc-pts {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .svc-pts li {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: rgba(245,240,230,.4);
+      letter-spacing: .04em;
+      padding-left: 14px;
+      position: relative;
+    }
+    .svc-pts li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--gold-45);
+    }
+
+    /* ── PROCESS ──────────────────────────────────────────── */
+    #process {
+      background: var(--cream);
+      padding: var(--py) var(--px);
+    }
+    .process-wrap { max-width: var(--max); margin: 0 auto; }
+    .process-hd { margin-bottom: clamp(48px, 6vw, 80px); }
+    .process-h2 {
+      font-family: var(--font-head);
+      font-weight: 300;
+      font-size: clamp(34px, 5vw, 56px);
+      line-height: 1.08;
+      color: var(--navy);
+    }
+    .process-h2 em { font-style: italic; }
+
+    .steps {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    @media (min-width: 768px) { .steps { grid-template-columns: repeat(3,1fr); gap: 44px; } }
+
+    .step-num {
+      font-family: var(--font-head);
+      font-size: 56px;
+      font-weight: 300;
+      color: var(--navy);
+      opacity: .1;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .step-title {
+      font-family: var(--font-head);
+      font-size: clamp(20px, 2.4vw, 28px);
+      font-weight: 400;
+      color: var(--navy);
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .step-desc {
+      font-family: var(--font-body);
+      font-size: 13px;
+      line-height: 1.78;
+      color: #444;
+      margin-bottom: 10px;
+    }
+    .step-tag {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border-bottom: 1px solid var(--gold-45);
+      padding-bottom: 2px;
+    }
+
+    /* ── WORK ─────────────────────────────────────────────── */
+    #work {
+      background: var(--navy-deep);
+      padding: var(--py) var(--px);
+    }
+    .work-wrap { max-width: var(--max); margin: 0 auto; }
+    .work-hd { margin-bottom: clamp(44px, 6vw, 76px); }
+    .work-h2 {
+      font-family: var(--font-head);
+      font-weight: 300;
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.1;
+      color: var(--cream);
+      max-width: 540px;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 2px;
+    }
+    @media (min-width: 768px) { .work-grid { grid-template-columns: repeat(3,1fr); } }
+
+    .work-tile {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: rgba(245,240,230,.04);
+      position: relative;
+    }
+    .work-tile img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .55s ease;
+    }
+    .work-tile:hover img { transform: scale(1.04); }
+
+    /* ── FAQ ──────────────────────────────────────────────── */
+    #faq {
+      background: var(--cream);
+      padding: var(--py) var(--px);
+    }
+    .faq-grid {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 60px;
+    }
+    @media (min-width: 768px) {
+      .faq-grid {
+        grid-template-columns: 4fr 7fr;
+        gap: 96px;
+        align-items: start;
+      }
+    }
+    .faq-h2 {
+      font-family: var(--font-head);
+      font-weight: 300;
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.08;
+      color: var(--navy);
+    }
+    .faq-h2 em { font-style: italic; }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid rgba(26,42,63,.12);
+    }
+    details.faq {
+      border-bottom: 1px solid rgba(26,42,63,.12);
+    }
+    details.faq summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 20px 0;
+      font-family: var(--font-head);
+      font-size: clamp(17px, 2vw, 22px);
+      font-weight: 400;
+      color: var(--navy);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      user-select: none;
+    }
+    details.faq summary::-webkit-details-marker { display: none; }
+    details.faq summary::after {
+      content: '+';
+      font-family: var(--font-body);
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--gold);
+      flex-shrink: 0;
+      transition: transform .25s;
+    }
+    details.faq[open] summary::after { transform: rotate(45deg); }
+    details.faq p {
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.8;
+      color: #3a3a3a;
+      padding-bottom: 20px;
+      max-width: 580px;
+    }
+
+    /* ── CTA ──────────────────────────────────────────────── */
+    #cta {
+      background: var(--navy);
+      padding: var(--py) var(--px);
+      position: relative;
+    }
+    #cta::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold);
+      opacity: .3;
+    }
+    .cta-wrap { max-width: var(--max); margin: 0 auto; }
+    .cta-h2 {
+      font-family: var(--font-head);
+      font-weight: 300;
+      font-size: clamp(40px, 7vw, 82px);
+      line-height: 1.04;
+      color: var(--cream);
+      margin-bottom: 24px;
+      max-width: 760px;
+    }
+    .cta-h2 em { font-style: italic; }
+    .cta-sub {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.72;
+      color: var(--cream-65);
+      max-width: 440px;
+      margin-bottom: 44px;
+    }
+    .btn-cream {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: var(--cream);
+      color: var(--navy);
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+      padding: 15px 30px;
+      border-radius: 2px;
+      transition: background .25s, transform .25s;
+    }
+    .btn-cream:hover { background: #e8e3d8; transform: translateY(-2px); }
+    .btn-cream .arr { transition: transform .25s; }
+    .btn-cream:hover .arr { transform: translateX(4px); }
+    .cta-note {
+      display: block;
+      margin-top: 16px;
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(245,240,230,.25);
+    }
+
+    /* ── FOOTER ───────────────────────────────────────────── */
+    footer {
+      background: var(--navy-deep);
+      padding: 48px var(--px);
+      border-top: 1px solid rgba(184,152,96,.1);
+    }
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    @media (min-width: 640px) {
+      .footer-inner {
+        grid-template-columns: 1fr 1fr 1fr;
+        align-items: start;
+        gap: 0;
+      }
+    }
+    .footer-brand { display: flex; flex-direction: column; gap: 8px; }
+    .footer-logo {
+      height: 26px; width: auto;
+      filter: brightness(0) invert(1);
+      opacity: .7;
+    }
+    .footer-tag {
+      font-family: var(--font-head);
+      font-style: italic;
+      font-weight: 300;
+      font-size: 12px;
+      color: var(--cream-28);
+    }
+    .f-col { display: flex; flex-direction: column; gap: 8px; }
+    .f-label {
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold-45);
+      margin-bottom: 2px;
+    }
+    .f-col a, .f-col span {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--cream-28);
+      letter-spacing: .03em;
+      transition: color .2s;
+    }
+    .f-col a:hover { color: var(--cream-65); }
+
+    .footer-bottom {
+      max-width: var(--max);
+      margin: 36px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid rgba(184,152,96,.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .footer-bottom span {
+      font-family: var(--font-body);
+      font-size: 9px;
+      color: rgba(245,240,230,.15);
+      letter-spacing: .05em;
+    }
+  </style>
+</head>
+<body>
+
+<!-- MOBILE OVERLAY -->
+<div class="mob" id="mob">
+  <button class="mob-close" id="mobClose" aria-label="Close menu">&#x2715;</button>
+  <a href="#services">Services</a>
+  <a href="#process">Process</a>
+  <a href="#work">Work</a>
+  <a href="#faq">FAQ</a>
+  <a href="https://calendly.com/evan-rushesmedia/discovery" target="_blank" rel="noopener" class="mob-book">Book a Call</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo" aria-label="Rushes Media">
+      <img src="assets/images/logo-icon.png" alt="Rushes Media" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="https://calendly.com/evan-rushesmedia/discovery" target="_blank" rel="noopener" class="nav-cta">Book a Call</a></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-body">
+    <img src="assets/images/logo-wordmark.png" alt="Rushes Media" class="hero-wordmark" />
+    <p class="hero-eye">South Jersey &middot; Philadelphia &middot; Main Line &middot; Bucks County</p>
+    <h1 class="hero-h1">Media<br><em>done right.</em></h1>
+    <p class="hero-sub">Brand media and growth systems for local businesses — so you show up first, and never lose a lead.</p>
+    <div class="hero-btns">
+      <a href="https://calendly.com/evan-rushesmedia/discovery" target="_blank" rel="noopener" class="btn btn-gold">
+        Book a Strategy Call <span class="arr">&rarr;</span>
+      </a>
+      <a href="#services" class="btn btn-ghost">See What We Build</a>
+    </div>
+    <p class="hero-rule">Content &amp; Growth Infrastructure</p>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="problem-grid">
+    <div class="reveal">
+      <span class="eye eye-muted">The Problem</span>
+      <h2 class="problem-h2">Most local businesses have presence.<br><em>Not pipeline.</em></h2>
+    </div>
+    <div class="reveal d1">
+      <div class="problem-body">
+        <p>Most agencies produce content with no system behind it. You get posts and follower counts — but no way to trace a single job back to what you're paying for.</p>
+        <p>Most automation companies are invisible. They build dashboards no one uses and never touch the brand. Owners don't trust what they can't see or measure.</p>
+        <p>Rushes closes that gap. The media creates demand. The infrastructure captures it. Every lead tracked. Every follow-up automatic.</p>
+      </div>
+      <blockquote class="problem-pull">
+        "Media that creates demand.<br>Infrastructure that captures it."
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-wrap">
+    <div class="services-hd reveal">
+      <span class="eye eye-gold">What We Build</span>
+      <h2 class="services-h2">Everything your brand needs to grow — nothing it doesn't.</h2>
+    </div>
+    <div class="svc-grid">
+      <article class="svc reveal">
+        <span class="svc-num">01</span>
+        <h3 class="svc-name">Brand Media</h3>
+        <p class="svc-desc">Reels, content management, and photography that puts your brand in front of the right people — consistently, professionally, on every platform that matters.</p>
+        <ul class="svc-pts">
+          <li>Social media content &amp; management</li>
+          <li>Commercial video production</li>
+          <li>Brand photography</li>
+        </ul>
+      </article>
+      <article class="svc reveal d1">
+        <span class="svc-num">02</span>
+        <h3 class="svc-name">Paid Advertising</h3>
+        <p class="svc-desc">Meta and Google campaigns built for local conversion, not vanity metrics. Every dollar tracked back to a lead, a call, or a booked job.</p>
+        <ul class="svc-pts">
+          <li>Meta &amp; Google advertising</li>
+          <li>Campaign strategy &amp; management</li>
+          <li>Offer positioning</li>
+        </ul>
+      </article>
+      <article class="svc reveal d2">
+        <span class="svc-num">03</span>
+        <h3 class="svc-name">Web Design</h3>
+        <p class="svc-desc">Fast, mobile-first sites that look premium and drive real action. Built to rank, built to convert, built to last — not templated, not generic.</p>
+        <ul class="svc-pts">
+          <li>Custom design &amp; development</li>
+          <li>Landing pages &amp; conversion funnels</li>
+          <li>Speed &amp; SEO optimization</li>
+        </ul>
+      </article>
+      <article class="svc reveal d3">
+        <span class="svc-num">04</span>
+        <h3 class="svc-name">Lead Systems</h3>
+        <p class="svc-desc">Contact capture, automated follow-up, and pipeline infrastructure — so no lead falls through and no conversation dies before it closes.</p>
+        <ul class="svc-pts">
+          <li>Automated lead routing &amp; follow-up</li>
+          <li>CRM &amp; booking systems</li>
+          <li>Performance tracking</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="process-wrap">
+    <div class="process-hd reveal">
+      <span class="eye eye-muted">The Process</span>
+      <h2 class="process-h2">Simple process.<br><em>Serious execution.</em></h2>
+    </div>
+    <div class="steps">
+      <div class="reveal">
+        <div class="step-num">01</div>
+        <h3 class="step-title">Growth Strategy</h3>
+        <p class="step-desc">We analyze your current marketing, sales process, and acquisition channels to find the highest-leverage opportunities for your market.</p>
+        <span class="step-tag">30-min call</span>
+      </div>
+      <div class="reveal d1">
+        <div class="step-num">02</div>
+        <h3 class="step-title">System Build</h3>
+        <p class="step-desc">We design and install the growth infrastructure — content, ad campaigns, landing pages, and lead conversion systems built for your business.</p>
+        <span class="step-tag">1–2 weeks</span>
+      </div>
+      <div class="reveal d2">
+        <div class="step-num">03</div>
+        <h3 class="step-title">Launch &amp; Optimize</h3>
+        <p class="step-desc">Campaigns go live and demand generation begins. We test, improve, and optimize every layer — so results compound month over month.</p>
+        <span class="step-tag">Ongoing</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="work-wrap">
+    <div class="work-hd reveal">
+      <span class="eye eye-gold">Brand Work</span>
+      <h2 class="work-h2">Built for businesses that refuse to blend in.</h2>
+    </div>
+    <div class="work-grid">
+      <div class="work-tile reveal">
+        <img src="assets/images/carousel/mpm-color.png" alt="MPM Landscape" loading="lazy" />
+      </div>
+      <div class="work-tile reveal d1">
+        <img src="assets/images/carousel/rushes-3.png" alt="Rushes Media" loading="lazy" />
+      </div>
+      <div class="work-tile reveal d2">
+        <img src="assets/images/carousel/estate-blue.png" alt="The Estate" loading="lazy" />
+      </div>
+      <div class="work-tile reveal d1">
+        <img src="assets/images/carousel/pngfile2.png" alt="Brand work" loading="lazy" />
+      </div>
+      <div class="work-tile reveal d2">
+        <img src="assets/images/carousel/portfolio.jpg" alt="Portfolio" loading="lazy" />
+      </div>
+      <div class="work-tile reveal d3">
+        <img src="assets/images/carousel/reach-for-it.png" alt="Reach for it" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="faq-grid">
+    <div class="reveal">
+      <span class="eye eye-muted">Common Questions</span>
+      <h2 class="faq-h2">What you<br><em>need to know.</em></h2>
+    </div>
+    <div class="faq-list reveal d1">
+      <details class="faq" open>
+        <summary>What businesses are the right fit?</summary>
+        <p>Established local service businesses that want consistent inbound leads and a professional brand presence. Landscaping, hardscaping, home services, cafes, restaurants, retail — any local business where attention equals revenue.</p>
+      </details>
+      <details class="faq">
+        <summary>What do you actually manage?</summary>
+        <p>The full growth system — content production, advertising campaigns, landing pages, lead funnels, automated follow-up, and performance optimization. One team running the whole engine.</p>
+      </details>
+      <details class="faq">
+        <summary>Do you run advertising campaigns?</summary>
+        <p>Yes. Advertising is one layer of the system. We build, manage, and optimize Meta and Google campaigns. Every dollar is tracked back to a lead, call, or booked job — not vanity metrics.</p>
+      </details>
+      <details class="faq">
+        <summary>How quickly can results start?</summary>
+        <p>Most campaigns go live within 1–2 weeks of the strategy call. Early data comes in within the first few weeks. Results compound over time as we optimize every layer.</p>
+      </details>
+      <details class="faq">
+        <summary>What makes you different?</summary>
+        <p>We build the full system — not just ads, not just content. Demand generation, media production, conversion infrastructure, and automated follow-up under one roof. You work directly with the people building your system. No account managers, no handoffs.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-wrap reveal">
+    <h2 class="cta-h2">Ready to grow<br><em>your brand?</em></h2>
+    <p class="cta-sub">One call. We'll show you exactly what your growth system looks like and what it takes to build it.</p>
+    <a href="https://calendly.com/evan-rushesmedia/discovery" target="_blank" rel="noopener" class="btn-cream">
+      Book a Strategy Call <span class="arr">&rarr;</span>
+    </a>
+    <span class="cta-note">No commitment &middot; 30 minutes &middot; South Jersey &amp; Philadelphia</span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="assets/images/logo-wordmark.png" alt="Rushes Media" class="footer-logo" />
+      <span class="footer-tag">Media done right.</span>
+    </div>
+    <div class="f-col">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#work">Work</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="f-col">
+      <span class="f-label">Contact</span>
+      <a href="https://calendly.com/evan-rushesmedia/discovery" target="_blank" rel="noopener">Book a Call</a>
+      <a href="https://rushesmedia.com" target="_blank" rel="noopener">rushesmedia.com</a>
+      <span>South Jersey &middot; Philadelphia</span>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Rushes Media. All rights reserved.</span>
+    <span>Content &amp; Growth Infrastructure</span>
+  </div>
+</footer>
+
+<script>
+  // NAV SCROLL
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+
+  // MOBILE MENU
+  const mob = document.getElementById('mob');
+  document.getElementById('burger').addEventListener('click', () => mob.classList.add('open'));
+  document.getElementById('mobClose').addEventListener('click', () => mob.classList.remove('open'));
+  mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mob.classList.remove('open')));
+
+  // SCROLL REVEALS
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

@@ -8,12 +8,12 @@ const LOGO_ICON = "LOGO ITSELF/Rushes logo 2.png";
 const LOGO_WORDMARK = "JUST WORDS/LOGO W WORDS.png";
 
 const BRAND_MARKS = [
-  "carosel images/MPM Color (1).png",
-  "carosel images/Rushes 3 fix copy.png",
-  "carosel images/The estate blue-WHITHOUT TREES copy.png",
-  "carosel images/pngfile2 copy.png",
-  "carosel images/portfolio copy.jpg",
-  "carosel images/reach for it all text.png",
+  "carousel-images/MPM Color (1).png",
+  "carousel-images/Rushes 3 fix copy.png",
+  "carousel-images/The estate blue-WHITHOUT TREES copy.png",
+  "carousel-images/pngfile2 copy.png",
+  "carousel-images/portfolio copy.jpg",
+  "carousel-images/reach for it all text.png",
 ];
 
 /* ── DATA ── */
