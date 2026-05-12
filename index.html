@@ -109,8 +109,18 @@
     }
     .nav-r .cta:hover { background: rgba(184,152,96,.12) !important; border-color: var(--gold) !important; }
     .burger { display: none; background: none; border: none; color: var(--cream); cursor: none; flex-direction: column; gap: 5px; padding: 8px; }
-    .burger span { display: block; width: 20px; height: 1.5px; background: var(--cream); }
-    @media (max-width: 720px) { .nav-r li:not(:last-child) { display: none; } .burger { display: flex; } }
+    .burger span { display: block; width: 22px; height: 1.5px; background: var(--cream); }
+    @media (max-width: 720px) {
+      /* On mobile: hide the entire desktop nav list (incl. BOOK A CALL — hero CTA covers it),
+         show only the burger. Cleaner top bar, no cramped logo collision. */
+      .nav-r { display: none; }
+      .burger { display: flex; }
+    }
+    /* When the mobile overlay menu is open, hide the burger so its lines
+       don't bleed through behind the overlay's ✕ close button.
+       :has() works on modern Safari/Chrome; .mob-open is the JS-toggled fallback. */
+    body:has(#mob.on) .burger,
+    body.mob-open .burger { display: none; }
 
     /* ── MOB OVERLAY ─────────────────────────────────── */
     #mob {
@@ -1545,9 +1555,17 @@
 
   // Mobile
   const mob = document.getElementById('mob');
-  function closeMob() { mob.classList.remove('on'); }
-  document.getElementById('burger').onclick = () => mob.classList.add('on');
+  function closeMob() {
+    mob.classList.remove('on');
+    document.body.classList.remove('mob-open');
+  }
+  document.getElementById('burger').onclick = () => {
+    mob.classList.add('on');
+    document.body.classList.add('mob-open');
+  };
   document.getElementById('mob-x').onclick = closeMob;
+  // close on link tap so nav anchors actually go somewhere visible
+  document.querySelectorAll('#mob a').forEach(a => a.addEventListener('click', closeMob));
 
   // Floating CTA
   const fcta = document.getElementById('fcta');
