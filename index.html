@@ -1035,6 +1035,116 @@
     }
     @media (max-width: 600px) { .ft { flex-direction: column; text-align: center; } .ft-links { flex-wrap: wrap; justify-content: center; } }
 
+    /* ════════════════════════════════════════════════════
+       MOBILE POLISH — tighten sizes, stack tight grids,
+       restore body copy that was hidden at small widths.
+       Loads after every prior rule so it wins on tie-specificity.
+    ════════════════════════════════════════════════════ */
+    @media (max-width: 720px) {
+      /* hero */
+      .hero-body { padding-top: 96px; padding-bottom: clamp(48px, 9vw, 80px); }
+      .hero-loc { font-size: 9px; letter-spacing: .14em; margin-bottom: 22px; }
+      .hero-h1 { font-size: clamp(58px, 16.5vw, 110px); line-height: .94; }
+      .hero-h1 em { padding-left: clamp(14px, 5vw, 50px); }
+      .hero-div { margin: clamp(20px, 4vh, 32px) 0; }
+      .hero-flow { font-size: 9.5px; gap: 4px; }
+      .hero-sub { font-size: 14px; line-height: 1.7; }
+      .hero-foot { gap: 24px; }
+      .hero-btns { flex-direction: column; align-items: stretch; gap: 10px; width: 100%; }
+      .hero-btns .btn-lg { width: 100%; justify-content: center; font-size: 14px; padding: 16px 24px; }
+
+      /* marquee — slightly smaller, tighter */
+      .marquee-track span { font-size: 10px; padding: 0 22px; }
+      .marquee-track span::after { margin-left: 22px; }
+
+      /* proof — already 1-column, tighten padding + sizing */
+      #proof { padding: clamp(64px, 11vw, 100px) var(--px); }
+      .proof-cell { padding: 28px 22px; }
+      .proof-n { font-size: clamp(56px, 14vw, 84px); margin-bottom: 6px; }
+      .proof-lbl { font-size: 12px; }
+      .proof-txt { font-size: 12px; line-height: 1.6; }
+
+      /* problem section */
+      #problem { padding: clamp(64px, 11vw, 120px) var(--px); }
+      .problem-h2 { font-size: clamp(30px, 9vw, 44px); line-height: 1.1; }
+      .problem-body p { font-size: 14px; line-height: 1.78; margin-bottom: 16px; }
+      .problem-pull {
+        font-size: clamp(22px, 6.6vw, 32px);
+        padding: 22px 0 22px 20px;
+        margin-top: 32px;
+        line-height: 1.25;
+      }
+
+      /* services — re-show the body copy, switch to single-column row layout */
+      #services { padding: clamp(64px, 11vw, 120px) var(--px); }
+      .svc-hd { padding-bottom: 22px; margin-bottom: 36px; }
+      .svc-h2 { font-size: clamp(28px, 8vw, 42px); }
+      .svc-row {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 32px 6px;
+        align-items: start;
+      }
+      .svc-n { padding-top: 0; font-size: 11px; }
+      .svc-name { font-size: clamp(24px, 7vw, 32px); }
+      .svc-name-plain { font-size: 12px; margin-top: 6px; }
+      .svc-body { display: flex !important; padding-top: 0; }
+      .svc-desc { font-size: 13px; line-height: 1.7; }
+      .svc-tags { gap: 6px; }
+      .svc-tag { font-size: 9.5px; padding: 3px 8px; }
+      .svc-arr { display: none; }
+
+      /* system — stack the 5 steps vertically, kill horizontal arrows */
+      #system { padding: clamp(64px, 11vw, 120px) var(--px); }
+      .system-hd { margin-bottom: 44px; }
+      .system-h2 { font-size: clamp(28px, 8vw, 44px); }
+      .system-sub { font-size: 14px; line-height: 1.7; }
+      .system-flow {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .sys-step { flex-direction: row; align-items: center; text-align: left; gap: 18px; padding: 0; }
+      .sys-step-dot { width: 56px; height: 56px; margin-bottom: 0; flex-shrink: 0; }
+      .sys-step-icon { font-size: 20px; }
+      .sys-step-num { font-size: 9px; bottom: -10px; padding: 1px 8px; }
+      .sys-step-name { font-size: 20px; margin-bottom: 4px; }
+      .sys-step-desc { font-size: 12.5px; max-width: none; line-height: 1.55; }
+      .sys-step-stat { display: none; }
+      .sys-arrow { display: none; }
+      .system-loopback { margin-top: 32px; }
+
+      /* process — smaller step numbers, tighter rhythm */
+      #process { padding: clamp(64px, 11vw, 120px) var(--px); }
+      .process-hd { margin-bottom: 44px; }
+      .process-h2 { font-size: clamp(28px, 8vw, 44px); }
+      .steps { gap: 32px; }
+      .step-n { font-size: 56px; margin-bottom: 10px; }
+      .step-title { font-size: 15px; }
+      .step-desc { font-size: 13px; line-height: 1.7; }
+
+      /* faq */
+      #faq { padding: clamp(64px, 11vw, 120px) var(--px); }
+      .faq-sticky { margin-bottom: 28px; }
+      .faq-h2 { font-size: clamp(28px, 8vw, 44px); }
+
+      /* cta bottom */
+      #cta { padding: clamp(72px, 12vw, 140px) var(--px); }
+      .cta-h2 { font-size: clamp(28px, 8vw, 46px); }
+      .cta-sub { font-size: 14px; }
+      .cta-pledge { font-size: 13px; }
+    }
+
+    /* Small phones (≤ 380px — iPhone SE / mini era) */
+    @media (max-width: 380px) {
+      :root { --px: 20px; }
+      .hero-h1 { font-size: clamp(48px, 14.5vw, 64px); }
+      .hero-h1 em { padding-left: 6px; }
+      .logo { gap: 7px; height: 34px; }
+      .logo-wordmark { height: 14px; }
+      .nav-r .cta { padding: 8px 14px; font-size: 10px; }
+      nav { height: 64px; }
+    }
+
   </style>
 </head>
 <body>
