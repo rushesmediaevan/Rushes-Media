@@ -89,8 +89,10 @@
     }
     .logo:hover .logo-crest { transform: translateY(-1px); }
     @media (max-width: 720px) {
-      .logo { gap: 9px; height: 40px; }
-      .logo-wordmark { height: 17px; }
+      /* Logo +10% on mobile + nav height bumped so the lockup sits lower
+         (more breathing room between the top of the screen and the logo) */
+      .logo { gap: 10px; height: 44px; }
+      .logo-wordmark { height: 19px; }
     }
     .nav-r { display: flex; align-items: center; gap: 40px; list-style: none; }
     .nav-r a {
@@ -112,9 +114,11 @@
     .burger span { display: block; width: 22px; height: 1.5px; background: var(--cream); }
     @media (max-width: 720px) {
       /* On mobile: hide the entire desktop nav list (incl. BOOK A CALL — hero CTA covers it),
-         show only the burger. Cleaner top bar, no cramped logo collision. */
+         show only the burger. Cleaner top bar, no cramped logo collision.
+         Nav grows to 96px so the lockup sits lower visually — extra breathing room. */
+      nav { height: 96px; }
       .nav-r { display: none; }
-      .burger { display: flex; }
+      .burger { display: flex; padding: 14px 8px; }
     }
     /* When the mobile overlay menu is open, hide the burger so its lines
        don't bleed through behind the overlay's ✕ close button.
@@ -122,18 +126,146 @@
     body:has(#mob.on) .burger,
     body.mob-open .burger { display: none; }
 
-    /* ── MOB OVERLAY ─────────────────────────────────── */
+    /* ── MOB OVERLAY — editorial menu, z-indexed ABOVE nav so the ✕ actually works ── */
     #mob {
-      position: fixed; inset: 0; z-index: 700;
-      background: var(--ink);
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px;
-      opacity: 0; pointer-events: none;
-      transition: opacity .3s var(--ease);
+      position: fixed; inset: 0;
+      z-index: 900; /* above nav (800) so the close button is clickable */
+      background: linear-gradient(180deg, var(--ink) 0%, #0a1320 100%);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity .35s var(--ease), visibility .35s var(--ease);
+      overflow-y: auto;
     }
-    #mob.on { opacity: 1; pointer-events: auto; }
-    #mob a { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 7vw, 48px); color: var(--cream); transition: color .2s; }
-    #mob a:hover { color: var(--gold); }
-    #mob-x { position: absolute; top: 22px; right: var(--px); background: none; border: none; font-size: 20px; color: var(--cream); cursor: none; }
+    #mob.on {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    /* Subtle gold horizon line at the top — editorial brand mark */
+    #mob::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(184,152,96,.4) 50%, transparent);
+    }
+    .mob-inner {
+      min-height: 100%;
+      padding: clamp(96px, 18vw, 140px) clamp(28px, 8vw, 56px) clamp(40px, 8vw, 72px);
+      display: flex; flex-direction: column;
+      gap: clamp(32px, 6vw, 56px);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .mob-eye {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold);
+    }
+    .mob-list {
+      list-style: none;
+      display: flex; flex-direction: column;
+      gap: 0;
+    }
+    .mob-list li {
+      display: grid;
+      grid-template-columns: 36px 1fr auto;
+      align-items: baseline;
+      gap: 18px;
+      padding: 22px 0;
+      border-top: 1px solid rgba(245,240,230,.08);
+      transition: border-color .3s;
+    }
+    .mob-list li:last-child { border-bottom: 1px solid rgba(245,240,230,.08); }
+    .mob-list li:active { border-color: rgba(184,152,96,.5); }
+    .mob-n {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px; font-weight: 400;
+      color: var(--gold);
+      letter-spacing: .04em;
+    }
+    .mob-list a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 8vw, 44px);
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1.05;
+      letter-spacing: -.01em;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .mob-sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: rgba(245,240,230,.42);
+    }
+    .mob-arr {
+      font-size: 22px;
+      color: rgba(184,152,96,.5);
+      transition: transform .25s var(--ease), color .25s;
+      align-self: center;
+    }
+    .mob-list li:active .mob-arr {
+      transform: translateX(4px);
+      color: var(--gold);
+    }
+    .mob-foot {
+      margin-top: auto;
+      display: flex; flex-direction: column;
+      gap: 24px;
+      padding-top: 16px;
+    }
+    .mob-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: var(--gold);
+      color: var(--ink) !important;
+      font-family: 'Inter', sans-serif !important;
+      font-size: 15px !important;
+      font-weight: 600;
+      letter-spacing: .04em;
+      padding: 20px 28px;
+      border-radius: 3px;
+      transition: background .2s, transform .2s;
+    }
+    .mob-cta:active { background: #c8a96e; transform: translateY(-1px); }
+    .mob-foot-meta {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      line-height: 1.6;
+      color: rgba(245,240,230,.36);
+      letter-spacing: .04em;
+    }
+    .mob-foot-meta em {
+      color: var(--gold);
+      font-style: normal;
+    }
+    /* Close button — sits inside #mob so it inherits its show/hide state.
+       Fixed position keeps it pinned to the viewport corner regardless of scroll. */
+    #mob-x {
+      position: fixed;
+      top: 18px;
+      right: clamp(18px, 5vw, 32px);
+      z-index: 901; /* above the rest of #mob's content */
+      width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      background: transparent;
+      border: 1px solid rgba(245,240,230,.22);
+      border-radius: 50%;
+      font-size: 18px;
+      color: var(--cream);
+      cursor: pointer;
+      transition: border-color .2s, background .2s, transform .2s;
+    }
+    #mob-x:active {
+      background: rgba(184,152,96,.12);
+      border-color: var(--gold);
+      transform: scale(.94);
+    }
 
     /* ── FLOATING CTA ────────────────────────────────── */
     #fcta {
@@ -1167,13 +1299,54 @@
   </a>
 </div>
 
-<div id="mob">
-  <button id="mob-x" aria-label="Close">✕</button>
-  <a href="#services" onclick="closeMob()">Services</a>
-  <a href="#system" onclick="closeMob()">System</a>
-  <a href="#process" onclick="closeMob()">Process</a>
-  <a href="#faq" onclick="closeMob()">FAQ</a>
-  <a href="https://calendar.app.google/1AuFMX9JWGZk19Pm7" target="_blank" rel="noopener" onclick="closeMob()">Book a Call</a>
+<div id="mob" aria-hidden="true" role="dialog" aria-label="Navigation menu">
+  <button id="mob-x" aria-label="Close menu">✕</button>
+  <div class="mob-inner">
+    <span class="mob-eye">Menu</span>
+    <ul class="mob-list">
+      <li>
+        <span class="mob-n">01</span>
+        <a href="#services">
+          Services
+          <span class="mob-sub">What we build</span>
+        </a>
+        <span class="mob-arr" aria-hidden="true">→</span>
+      </li>
+      <li>
+        <span class="mob-n">02</span>
+        <a href="#system">
+          System
+          <span class="mob-sub">Five pieces, one machine</span>
+        </a>
+        <span class="mob-arr" aria-hidden="true">→</span>
+      </li>
+      <li>
+        <span class="mob-n">03</span>
+        <a href="#process">
+          Process
+          <span class="mob-sub">Simple to start, built to compound</span>
+        </a>
+        <span class="mob-arr" aria-hidden="true">→</span>
+      </li>
+      <li>
+        <span class="mob-n">04</span>
+        <a href="#faq">
+          FAQ
+          <span class="mob-sub">What you need to know</span>
+        </a>
+        <span class="mob-arr" aria-hidden="true">→</span>
+      </li>
+    </ul>
+    <div class="mob-foot">
+      <a class="mob-cta" href="https://calendar.app.google/1AuFMX9JWGZk19Pm7" target="_blank" rel="noopener">
+        Book a Strategy Call <span aria-hidden="true">→</span>
+      </a>
+      <p class="mob-foot-meta">
+        <em>Rushes Media</em><br>
+        Lead generation that runs on creative media.
+      </p>
+    </div>
+  </div>
 </div>
 
 <nav id="nav">
@@ -1199,7 +1372,6 @@
   <div class="hero-overlay" aria-hidden="true"></div>
   <div class="hero-grain" aria-hidden="true"></div>
   <div class="hero-body">
-    <p class="hero-loc">South Jersey &nbsp;·&nbsp; Philadelphia &nbsp;·&nbsp; Main Line &nbsp;·&nbsp; Bucks County</p>
     <h1 class="hero-h1">
       Media<br>
       <em>done right.</em>
@@ -1553,19 +1725,26 @@
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => nav.classList.toggle('on', scrollY > 40), { passive: true });
 
-  // Mobile
+  // Mobile menu — open/close with full state management
   const mob = document.getElementById('mob');
+  function openMob() {
+    mob.classList.add('on');
+    mob.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('mob-open');
+    document.body.style.overflow = 'hidden'; // lock background scroll
+  }
   function closeMob() {
     mob.classList.remove('on');
+    mob.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('mob-open');
+    document.body.style.overflow = ''; // release scroll
   }
-  document.getElementById('burger').onclick = () => {
-    mob.classList.add('on');
-    document.body.classList.add('mob-open');
-  };
+  document.getElementById('burger').onclick = openMob;
   document.getElementById('mob-x').onclick = closeMob;
-  // close on link tap so nav anchors actually go somewhere visible
+  // Close on any link tap inside the menu so anchor nav lands somewhere visible
   document.querySelectorAll('#mob a').forEach(a => a.addEventListener('click', closeMob));
+  // Esc closes the menu (desktop accessibility, doesn't hurt mobile)
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && mob.classList.contains('on')) closeMob(); });
 
   // Floating CTA
   const fcta = document.getElementById('fcta');
