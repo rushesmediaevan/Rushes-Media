@@ -1240,6 +1240,40 @@
           0 0 38px rgba(12,24,37,.55),
           0 10px 32px rgba(12,24,37,.65);
       }
+      /* Same lift treatment for the gold three-beat positioning lines —
+         they sit on the same bright cloud body and were blending too.
+         Thinner stroke (0.3px) because the type is small + tracked uppercase. */
+      .hero-flow {
+        -webkit-text-stroke: 0.3px rgba(12,24,37,.6);
+        text-shadow:
+          0 1px 0 rgba(12,24,37,.85),
+          0 1px 6px rgba(12,24,37,.9),
+          0 0 14px rgba(12,24,37,.7),
+          0 4px 18px rgba(12,24,37,.55);
+      }
+      .hero-flow .hero-sep {
+        /* the cream arrow between beats — give it a navy halo too so it
+           doesn't dissolve into the cloud highlights between gold words */
+        text-shadow:
+          0 1px 0 rgba(12,24,37,.7),
+          0 1px 6px rgba(12,24,37,.85);
+      }
+      /* Hero subtitle cream text also gets a small bump on mobile so it
+         doesn't fade into the brighter cloud zones */
+      .hero-sub {
+        text-shadow:
+          0 1px 0 rgba(12,24,37,.6),
+          0 2px 16px rgba(12,24,37,.85),
+          0 8px 28px rgba(12,24,37,.55);
+      }
+      /* Outlined "Our Services" button — border + cream text were also
+         washing out against bright clouds. Stronger border, denser bg. */
+      .hero-btns .btn-o {
+        background: rgba(12,24,37,.45);
+        border-color: rgba(245,240,230,.32);
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+      }
 
       /* marquee — slightly smaller, tighter */
       .marquee-track span { font-size: 10px; padding: 0 22px; }
