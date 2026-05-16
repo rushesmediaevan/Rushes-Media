@@ -1135,6 +1135,66 @@
     .btn-dk { background: var(--navy); color: var(--cream); border: 1px solid transparent; }
     .btn-dk:hover { background: var(--ink); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(12,24,37,.18); }
 
+    /* CTA lead form — primary tracked conversion (feeds /thanks/) */
+    .lead-form { max-width: 560px; margin-bottom: 22px; }
+    .lf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .lf-field { display: flex; flex-direction: column; }
+    .lf-field.full { grid-column: 1 / -1; }
+    .lead-form label {
+      font-size: 11px; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(26,42,63,.55);
+      margin-bottom: 7px;
+    }
+    .lead-form input,
+    .lead-form textarea {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px; color: var(--navy);
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(26,42,63,.18);
+      border-radius: 2px;
+      padding: 13px 15px;
+      width: 100%;
+      transition: border-color .2s var(--ease), background .2s;
+      cursor: none;
+    }
+    .lead-form textarea { resize: vertical; min-height: 92px; }
+    .lead-form input::placeholder,
+    .lead-form textarea::placeholder { color: rgba(26,42,63,.32); }
+    .lead-form input:focus,
+    .lead-form textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: #fff;
+    }
+    .lf-hp { position: absolute; left: -9999px; opacity: 0; height: 0; width: 0; }
+    .lead-form button {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px; font-weight: 500;
+      letter-spacing: .08em; text-transform: uppercase;
+      background: var(--navy); color: var(--cream);
+      border: 1px solid transparent; border-radius: 2px;
+      padding: 17px 36px;
+      display: inline-flex; align-items: center; gap: 10px;
+      cursor: none;
+      transition: background .2s var(--ease), transform .2s, box-shadow .2s;
+    }
+    .lead-form button:hover { background: var(--ink); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(12,24,37,.18); }
+    .lead-form button:disabled { opacity: .55; transform: none; box-shadow: none; }
+    .lf-err {
+      color: #9a3b2f; font-size: 13px; margin-top: 12px;
+      display: none;
+    }
+    .lf-alt {
+      font-size: 14px; color: rgba(26,42,63,.5);
+      margin-top: 4px;
+    }
+    .lf-alt a { color: var(--navy); border-bottom: 1px solid var(--gold); padding-bottom: 1px; transition: color .2s; }
+    .lf-alt a:hover { color: var(--gold); }
+    @media (max-width: 540px) {
+      .lf-row { grid-template-columns: 1fr; gap: 14px; }
+      .lead-form button { width: 100%; justify-content: center; }
+    }
+
     /* ════════════════════════════════════════════════════
        FOOTER
     ════════════════════════════════════════════════════ */
@@ -1766,11 +1826,48 @@
     <h2 class="cta-h2 r d1">Let's build something<br><em>worth noticing.</em></h2>
     <p class="cta-sub r d2">One 30-minute call. We'll find your highest-leverage opportunity and show you exactly how we'd grow it.</p>
     <p class="cta-pledge r d2">We only win when you do.<br><em>If the system isn't moving your numbers, we don't deserve the retainer. Built to be the long-term partner you actually want in the room.</em></p>
-    <div class="r d3">
-      <a href="https://calendar.app.google/1AuFMX9JWGZk19Pm7" target="_blank" rel="noopener" class="btn btn-dk">
-        Book a Strategy Call <span class="arr">→</span>
-      </a>
-    </div>
+    <form class="lead-form r d3" id="leadForm" novalidate>
+      <!-- Web3Forms — EVAN: replace the access key below. Get it free at
+           web3forms.com (enter your email → they email you a key, no account,
+           no backend). Submissions arrive at that email. -->
+      <input type="hidden" name="access_key" value="WEB3FORMS_ACCESS_KEY_REPLACE_ME" />
+      <input type="hidden" name="subject" value="New rushesmedia.com inquiry" />
+      <input type="hidden" name="from_name" value="Rushes Media Site" />
+      <input type="checkbox" name="botcheck" class="lf-hp" tabindex="-1" autocomplete="off" />
+
+      <div class="lf-row">
+        <div class="lf-field">
+          <label for="lf-name">Name</label>
+          <input id="lf-name" type="text" name="name" placeholder="Your name" required />
+        </div>
+        <div class="lf-field">
+          <label for="lf-biz">Business</label>
+          <input id="lf-biz" type="text" name="business" placeholder="Business name" required />
+        </div>
+        <div class="lf-field">
+          <label for="lf-email">Email</label>
+          <input id="lf-email" type="email" name="email" placeholder="you@business.com" required />
+        </div>
+        <div class="lf-field">
+          <label for="lf-phone">Phone</label>
+          <input id="lf-phone" type="tel" name="phone" placeholder="(000) 000-0000" required />
+        </div>
+        <div class="lf-field full">
+          <label for="lf-goal">What are you trying to grow?</label>
+          <textarea id="lf-goal" name="message" placeholder="A line or two — more calls, more booked jobs, a launch, whatever's on your mind." required></textarea>
+        </div>
+      </div>
+
+      <button type="submit" id="lfBtn">
+        <span id="lfBtnText">Send it over</span> <span class="arr">→</span>
+      </button>
+      <p class="lf-err" id="lfErr">Something went wrong sending that. Email evan@rushesmedia.com directly and I'll get right back to you.</p>
+    </form>
+
+    <p class="lf-alt r d3">
+      Prefer to skip ahead?
+      <a href="https://calendar.app.google/1AuFMX9JWGZk19Pm7" target="_blank" rel="noopener">Book a strategy call directly →</a>
+    </p>
   </div>
 </section>
 
@@ -1844,6 +1941,40 @@
       if (!open) item.classList.add('open');
     };
   });
+
+  // Lead form → Web3Forms → /thanks/ (conversion fires on that page)
+  (function () {
+    const form = document.getElementById('leadForm');
+    if (!form) return;
+    const btn = document.getElementById('lfBtn');
+    const btnText = document.getElementById('lfBtnText');
+    const err = document.getElementById('lfErr');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err.style.display = 'none';
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      btn.disabled = true;
+      btnText.textContent = 'Sending…';
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form)
+        });
+        const data = await res.json();
+        if (data.success) {
+          window.location.href = '/thanks/';
+        } else {
+          throw new Error(data.message || 'submit failed');
+        }
+      } catch (_) {
+        err.style.display = 'block';
+        btn.disabled = false;
+        btnText.textContent = 'Send it over';
+      }
+    });
+  })();
 </script>
 </body>
 </html>
