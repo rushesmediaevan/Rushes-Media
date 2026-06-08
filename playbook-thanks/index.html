@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scorecard on the way — Rushes Media</title>
+  <meta name="description" content="Your Local Lead Leak Scorecard is on the way. Check your email." />
+  <meta name="theme-color" content="#0c1825" />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- PLAYBOOK funnel thank-you page (IG → form → here).
+       Used as the form's On-Submit redirect for "PLAYBOOK — Scorecard capture".
+       No ad pixel needed (organic IG flow). If this page ever takes paid traffic,
+       add the Meta pixel here before launch. -->
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #0c1825;
+      color: #f5f0e6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      cursor: none;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    @media (hover: none) { body { cursor: auto; } }
+
+    :root {
+      --ink:   #0c1825;
+      --navy:  #1a2a3f;
+      --cream: #f5f0e6;
+      --gold:  #b89860;
+      --gold-d:#9a7d4a;
+      --px:    clamp(24px, 6vw, 80px);
+      --ease:  cubic-bezier(.4,0,.2,1);
+    }
+
+    #cur {
+      position: fixed; z-index: 9999;
+      width: 10px; height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%,-50%);
+      transition: width .18s var(--ease), height .18s var(--ease), opacity .18s;
+    }
+    #cur.big { width: 40px; height: 40px; opacity: .3; }
+    @media (hover: none) { #cur { display: none; } }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 38%, rgba(184,152,96,.10), transparent 70%);
+      pointer-events: none;
+    }
+
+    header { padding: 38px var(--px) 0; }
+    .logo { display: inline-flex; align-items: center; gap: 12px; height: 44px; }
+    .logo img {
+      height: 100%; width: auto;
+      filter: brightness(0) invert(1) brightness(0.96) sepia(.08);
+    }
+    .logo .wm { height: 20px; }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px var(--px);
+      position: relative;
+      z-index: 1;
+    }
+
+    .tick {
+      width: 64px; height: 64px;
+      border: 1px solid rgba(184,152,96,.45);
+      border-radius: 50%;
+      display: grid; place-items: center;
+      margin-bottom: 34px;
+      animation: pop .6s var(--ease) both;
+    }
+    .tick svg { width: 26px; height: 26px; stroke: var(--gold); }
+    @keyframes pop {
+      0%   { transform: scale(.6); opacity: 0; }
+      60%  { transform: scale(1.05); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .eyebrow {
+      font-size: 12px; letter-spacing: .26em; text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 22px;
+      animation: rise .7s var(--ease) .1s both;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(40px, 7vw, 76px);
+      line-height: 1.05;
+      letter-spacing: -.01em;
+      margin-bottom: 26px;
+      animation: rise .7s var(--ease) .18s both;
+    }
+    h1 em { font-style: italic; color: var(--gold); }
+    .sub {
+      font-size: clamp(16px, 1.9vw, 19px);
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(245,240,230,.72);
+      max-width: 540px;
+      margin-bottom: 44px;
+      animation: rise .7s var(--ease) .26s both;
+    }
+    .sub strong { color: var(--cream); font-weight: 500; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .btns {
+      display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+      animation: rise .7s var(--ease) .34s both;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 14px; font-weight: 500;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: 17px 34px; border-radius: 2px;
+      cursor: none;
+      transition: background .2s var(--ease), border-color .2s, transform .2s, color .2s;
+    }
+    .btn .arr { transition: transform .2s var(--ease); }
+    .btn:hover .arr { transform: translateX(4px); }
+    .btn-g {
+      background: var(--gold); color: var(--ink);
+      border: 1px solid var(--gold);
+    }
+    .btn-g:hover { background: var(--gold-d); border-color: var(--gold-d); transform: translateY(-2px); }
+    .btn-o {
+      background: transparent; color: var(--cream);
+      border: 1px solid rgba(245,240,230,.22);
+    }
+    .btn-o:hover { border-color: var(--gold); color: var(--gold); }
+
+    .signed {
+      margin-top: 46px;
+      font-size: 14px;
+      color: rgba(245,240,230,.45);
+      animation: rise .7s var(--ease) .42s both;
+    }
+    .signed b { color: rgba(245,240,230,.7); font-weight: 500; }
+
+    footer {
+      padding: 30px var(--px);
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: .04em;
+      color: rgba(245,240,230,.32);
+    }
+
+    @media (max-width: 540px) {
+      .btns { flex-direction: column; width: 100%; max-width: 320px; }
+      .btn { justify-content: center; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cur"></div>
+
+<header>
+  <a href="/" class="logo" aria-label="Rushes Media — home">
+    <img src="../assets/images/logo-icon.png" alt="" />
+    <img src="../assets/images/logo-wordmark.png" alt="Rushes Media" class="wm" />
+  </a>
+</header>
+
+<main>
+  <div class="tick" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 6 9 17l-5-5" />
+    </svg>
+  </div>
+
+  <p class="eyebrow">Scorecard on the way</p>
+
+  <!-- [EVAN: rewrite headline + sub if you want — placeholder per spec] -->
+  <h1>Check your <em>email.</em></h1>
+
+  <p class="sub">
+    Your <strong>Local Lead Leak Scorecard</strong> is on its way to your inbox —
+    give it a couple of minutes. Score all four areas 1–10.
+    <strong>Two or more under 5</strong> is worth a conversation.
+  </p>
+
+  <div class="btns">
+    <a href="https://api.leadconnectorhq.com/widget/booking/1GUofnPSyYefy2VOSxKO" target="_blank" rel="noopener" class="btn btn-g">
+      Book a Growth Call <span class="arr">→</span>
+    </a>
+    <a href="https://assets.cdn.filesafe.space/o3D3rSAdiE8inzOOk2oF/media/247c3e3b-dd18-4216-a3df-7b00f3991b89.pdf" target="_blank" rel="noopener" class="btn btn-o">
+      Download the scorecard now
+    </a>
+  </div>
+
+  <p class="signed">— <b>Evan O'Toole</b> &nbsp;·&nbsp; Founder, Rushes Media</p>
+</main>
+
+<footer>
+  © 2026 Rushes Media &nbsp;·&nbsp; South Jersey &nbsp;·&nbsp; Philadelphia &nbsp;·&nbsp; rushesmedia.com
+</footer>
+
+<script>
+  const cur = document.getElementById('cur');
+  document.addEventListener('mousemove', e => { cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; });
+  document.querySelectorAll('a,button').forEach(el => {
+    el.addEventListener('mouseenter', () => cur.classList.add('big'));
+    el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+  });
+</script>
+
+</body>
+</html>
