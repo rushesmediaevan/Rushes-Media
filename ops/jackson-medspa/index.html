@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Jackson — Medspa Outreach Queue</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#1a2a3f; --cream:#f5f0e6; --gold:#b89860; --line:#e3dccb; --muted:#6b7c8f; --green:#2d5a3d; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:Inter,system-ui,sans-serif; background:#fbf8f1; color:var(--navy); font-size:14px; line-height:1.5; }
+.wrap { max-width:800px; margin:0 auto; padding:20px 16px 48px; }
+header { border-bottom:2px solid var(--gold); padding-bottom:16px; margin-bottom:20px; }
+.eyebrow { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); font-weight:600; }
+h1 { font-size:28px; font-weight:700; margin:8px 0 6px; }
+.lede { color:var(--muted); font-size:14px; max-width:52em; }
+.share { margin-top:10px; font-size:12px; color:var(--muted); }
+.share a { color:var(--navy); font-weight:600; }
+.primer { background:var(--navy); color:var(--cream); border-radius:10px; padding:16px 18px; margin-bottom:18px; }
+.primer h2 { font-size:15px; color:var(--gold); margin-bottom:10px; }
+.primer ol { margin:0; padding-left:18px; font-size:13px; }
+.primer li { margin-bottom:6px; }
+.primer code { background:rgba(255,255,255,.1); padding:1px 5px; border-radius:3px; font-size:11px; }
+.quick { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+.quick a { font-size:12px; font-weight:600; text-decoration:none; padding:10px 14px; border-radius:6px; background:var(--navy); color:var(--cream); }
+.quick a.ghost { background:#fff; color:var(--navy); border:1px solid var(--line); }
+.toc { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:20px; }
+.toc a { font-size:11px; font-weight:600; text-decoration:none; padding:6px 10px; border-radius:20px; border:1px solid var(--line); color:var(--navy); background:#fff; }
+.card { background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px; margin-bottom:18px; }
+.card-top { display:flex; gap:12px; align-items:flex-start; margin-bottom:14px; flex-wrap:wrap; }
+.rank { flex-shrink:0; width:32px; height:32px; border-radius:50%; background:var(--gold); color:var(--navy); font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.title-block { flex:1; min-width:180px; }
+.card h2 { font-size:18px; font-weight:700; }
+.sub { font-size:12px; color:var(--muted); margin-top:2px; }
+.badges { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+.score { font-size:13px; font-weight:800; padding:5px 10px; border-radius:6px; background:var(--navy); color:var(--cream); }
+.chip { font-size:10px; font-weight:700; padding:4px 8px; border-radius:4px; background:rgba(26,42,63,.08); }
+.chip.li { background:rgba(184,152,96,.25); color:#5c4a28; }
+.chip.ph { background:rgba(62,107,79,.15); color:var(--green); }
+.chip.em { background:rgba(26,42,63,.12); }
+.contact-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+.btn { font-size:12px; font-weight:600; text-decoration:none; padding:10px 12px; border-radius:6px; border:1px solid var(--line); color:var(--navy); background:#fff; }
+.btn.primary { background:var(--navy); color:var(--cream); border-color:var(--navy); }
+.btn.gold { background:var(--gold); color:var(--navy); border-color:var(--gold); }
+.btn.ph { border-color:rgba(45,90,61,.3); color:var(--green); }
+.btn.em { font-size:11px; }
+.btn.ghost { background:transparent; }
+.block { margin-bottom:12px; padding:12px; border-radius:8px; background:rgba(26,42,63,.03); border-left:3px solid var(--line); }
+.block h3 { font-size:10px; text-transform:uppercase; letter-spacing:.6px; color:var(--gold); margin-bottom:6px; font-weight:700; }
+.block p, .block li { font-size:13px; }
+.block.money { border-left-color:var(--green); }
+.block.angle { border-left-color:var(--gold); }
+.block.move { border-left-color:var(--navy); background:rgba(26,42,63,.06); }
+.block.move .warn { margin-top:8px; font-size:12px; color:#8b4513; }
+.angle-type { font-weight:600; margin-bottom:6px; color:var(--navy); }
+.block.proofs ul { margin:0; padding-left:16px; }
+.block.log ol { margin:0; padding-left:18px; }
+.block.log li { margin-bottom:4px; font-size:12px; }
+code { background:rgba(26,42,63,.08); padding:1px 5px; border-radius:3px; font-size:11px; }
+footer { text-align:center; font-size:11px; color:var(--muted); margin-top:24px; line-height:1.6; }
+@media (min-width:960px) {
+  .wrap { max-width:1200px; }
+  .queue { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start; }
+  .card { margin:0; }
+  .primer, .quick, .toc, header { grid-column:1/-1; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Rushes Media · Jackson operator</div>
+    <h1>Medspa outreach — 6 HOT targets</h1>
+    <p class="lede">Researched list with scores, angles, and click-through contacts. Work top to bottom. Every touch gets logged in GoHighLevel — you have full access.</p>
+    <p class="share">Share link: <a href="https://rushesmedia.com/ops/jackson-medspa/">https://rushesmedia.com/ops/jackson-medspa/</a></p>
+  </header>
+
+  <section class="primer">
+    <h2>GoHighLevel — 60-second setup</h2>
+    <ol>
+      <li>Location = <strong>Rushes Media</strong> (top-left picker)</li>
+      <li><strong>Opportunities</strong> → pipeline dropdown → <strong>Rushes — Acquisition</strong> (not "Sales Pipeline")</li>
+      <li>Filter contacts by tag <code>jackson-queue</code> — only these 6</li>
+      <li>Each card below opens the exact GHL contact — fields + game plan note already filled</li>
+      <li>Reply on any thread → tag <code>replied</code> + text Evan — he closes and books</li>
+    </ol>
+  </section>
+
+  <div class="quick">
+    <a href="https://app.gohighlevel.com/v2/location/o3D3rSAdiE8inzOOk2oF/opportunities/list/n3VwmpUZYcHKUWQjMIwJ?tab=Opportunities" target="_blank" rel="noopener">Open pipeline board</a>
+    <a href="https://app.gohighlevel.com/v2/location/o3D3rSAdiE8inzOOk2oF/contacts/smart_list/All?filters=%7B%22tags%22%3A%22jackson-queue%22%7D" target="_blank" rel="noopener" class="ghost">Open my 6 contacts</a>
+  </div>
+
+  <nav class="toc">
+    <a href="#lead-1">#1 Charmed Medispa</a><a href="#lead-2">#2 DDK Med Spa</a><a href="#lead-3">#3 Serenity Medical Spa</a><a href="#lead-4">#4 Gillespie Med Spa</a><a href="#lead-5">#5 Novique Medical Aesthetics</a><a href="#lead-6">#6 New You Med Spa</a>
+  </nav>
+
+  <div class="queue">
+    
+      <article class="card" id="lead-1">
+        <div class="card-top">
+          <span class="rank">#1</span>
+          <div class="title-block">
+            <h2>Charmed Medispa</h2>
+            <p class="sub">Newark, DE · Loraine Savarese, RN</p>
+          </div>
+          <div class="badges">
+            <span class="score" title="Close-ease score (5 = easiest to close in this set)">5/5</span>
+            <span class="chip li">LinkedIn</span>
+          </div>
+        </div>
+
+        <div class="contact-row">
+          <a class="btn primary" href="https://app.gohighlevel.com/v2/location/o3D3rSAdiE8inzOOk2oF/contacts/detail/xf51z4JewifeNFY6fKWk" target="_blank" rel="noopener">Open in GHL</a>
+          <a class="btn gold" href="https://www.linkedin.com/in/loraineolson" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn ph" href="tel:+13022732827">(302) 273-2827</a>
+          <a class="btn ghost" href="https://charmedmedispa.com" target="_blank" rel="noopener">Website</a>
+          <a class="btn em" href="mailto:charmedmedispa@gmail.com">charmedmedispa@gmail.com</a>
+        </div>
+
+        <section class="block money">
+          <h3>Why they have money</h3>
+          <p>30+ treatments, 20+ yrs; active LinkedIn poster (med-spa tour video)</p>
+        </section>
+
+        <section class="block angle">
+          <h3>Angle of attack</h3>
+          <p class="angle-type">Personal LinkedIn — reference something specific on their site</p>
+          <p>Warmest of the six — real personal LinkedIn, posts video. gmail business email = systems gap. &quot;Home Old&quot; menu item = incomplete migration; &quot;Call to Book&quot; not online; dead IG</p>
+        </section>
+
+        <section class="block move">
+          <h3>First move (do this)</h3>
+          <p>Connect with Loraine Savarese. Your note should mention one real flaw you saw (e.g. &quot;Home Old&quot; menu still live, or booking is call-only). She posts video — you're not cold.</p>
+          
+        </section>
+
+        <section class="block proofs">
+          <h3>Score proof</h3>
+          <ul><li>Template platform (wordpress)</li><li>No online booking widget</li><li>Verified personal email (charmedmedispa@gmail.com)</li></ul>
+        </section>
+
+        <section class="block log">
+          <h3>After you touch — log in GHL</h3>
+          <ol>
+            <li>Pipeline <strong>Rushes — Acquisition</strong> → drag <strong>Sourced → First Touch Sent</strong></li>
+            <li>Add note: channel + what you said (one line)</li>
+            <li>They reply? Tag <code>replied</code> → stage <strong>Replied</strong> → text Evan</li>
+          </ol>
+        </section>
+      </article>
+
+      <article class="card" id="lead-2">
+        <div class="card-top">
+          <span class="rank">#2</span>
+          <div class="title-block">
+            <h2>DDK Med Spa (fmr. A Medical Spa at Rizzieri)</h2>
+            <p class="sub">Moorestown, NJ · Dr. Donna Wilcox, DO</p>
+          </div>
+          <div class="badges">
+            <span class="score" title="Close-ease score (5 = easiest to close in this set)">5/5</span>
+            <span class="chip ph">Phone</span>
+          </div>
+        </div>
+
+        <div class="contact-row">
+          <a class="btn primary" href="https://app.gohighlevel.com/v2/location/o3D3rSAdiE8inzOOk2oF/contacts/detail/OPnGZYNMcNS4btWmxF13" target="_blank" rel="noopener">Open in GHL</a>
+          
+          <a class="btn ph" href="tel:+18569858500">(856) 985-8500</a>
+          <a class="btn ghost" href="https://ddkmedspa.com" target="_blank" rel="noopener">Website</a>
+          
+        </div>
+
+        <section class="block money">
+          <h3>Why they have money</h3>
+          <p>Physician-led, Rizzieri brand lineage, full injectable/laser menu</p>
+        </section>
+
+        <section class="block angle">
+          <h3>Angle of attack</h3>
+          <p class="angle-type">Phone to front desk — ask for owner by full name</p>
+          <p>Booking outsourced to Rizzieri salon's Phorest system — they don't own their own intake. Mid-rebrand (A Medical Spa→DDK): old domain 301s to a different brand, placeholder image tags, no before/after, no reviews</p>
+        </section>
+
+        <section class="block move">
+          <h3>First move (do this)</h3>
+          <p>Call (856) 985-8500. Ask for Dr. Donna Wilcox. Hook: mid-rebrand chaos — old DDK domain redirects, they don't own their booking (Phorest/Rizzieri).</p>
+          <p class="warn">⚠ no email on site (info@ddkmedspa.com = GUESSED, do not send)</p>
+        </section>
+
+        <section class="block proofs">
+          <h3>Score proof</h3>
+          <ul><li>No video on site</li><li>Template platform (wordpress)</li><li>No online booking widget</li><li>No before/after gallery</li></ul>
+        </section>
+
+        <section class="block log">
+          <h3>After you touch — log in GHL</h3>
+          <ol>
+            <li>Pipeline <strong>Rushes — Acquisition</strong> → drag <strong>Sourced → First Touch Sent</strong></li>
+            <li>Add note: channel + what you said (one line)</li>
+            <li>They reply? Tag <code>replied</code> → stage <strong>Replied</strong> → text Evan</li>
+          </ol>
+        </section>
+      </article>
+
+      <article class="card" id="lead-3">
+        <div class="card-top">
+          <span class="rank">#3</span>
+          <div class="title-block">
+            <h2>Serenity Medical Spa</h2>
+            <p class="sub">Pennington, NJ · Dr. Sharon Gertzman, DO</p>
+          </div>
+          <div class="badges">
+            <span class="score" title="Close-ease score (5 = easiest to close in this set)">5/5</span>
+            <span class="chip ph">Phone</span>
+          </div>
+        </div>
+
+        <div class="contact-row">
+          <a class="btn primary" href="https://app.gohighlevel.com/v2/location/o3D3rSAdiE8inzOOk2oF/contacts/detail/RL2oLolaw88biptiL8yr" target="_blank" rel="noopener">Open in GHL</a>
+          
+          <a class="btn ph" href="tel:+16097377737">(609) 737-7737</a>
+          <a class="btn ghost" href="https://serenitynj.com" target="_blank" rel="noopener">Website</a>
+          
+        </div>
+
+        <section class="block money">
+          <h3>Why they have money</h3>
+          <p>VirtueRF (premium RF microneedling), solo physician owner, active 2026 promo</p>
+        </section>
+
+        <section class="block angle">
+          <h3>Angle of attack</h3>
+          <p class="angle-type">Phone to front desk — ask for owner by full name</p>
+          <p>Site renders &quot;0/5 | 0 Total Reviews&quot; above real testimonials — visible review-capture failure. Phone+form only = classic lead leak. Tebra template, no video, no IG feed</p>
+        </section>
+
+        <section class="block move">
+          <h3>First move (do this)</h3>
+          <p>Call (609) 737-7737. Ask for Dr. Sharon Gertzman. If voicemail: mention their site shows &quot;0/5 reviews&quot; above real testimonials — that's the hook.</p>
+          <p class="warn">⚠ no email on site (info@serenitynj.com = GUESSED, do not send)</p>
+        </section>
+
+        <section class="block proofs">
+          <h3>Score proof</h3>
+          <ul><li>No video on site</li></ul>
+        </section>
+
+        <section class="block log">
+          <h3>After you touch — log in GHL</h3>
+          <ol>
+            <li>Pipeline <strong>Rushes — Acquisition</strong> → drag <strong>Sourced → First Touch Sent</strong></li>
+            <li>Add note: channel + what you said (one line)</li>
+            <li>They reply? Tag <code>replied</code> → stage <strong>Replied</strong> → text Evan</li>
+          </ol>
+        </section>
+      </article>
+
+      <article class="card" id="lead-4">
+        <div class="card-top">
+          <span class="rank">#4</span>
+          <div class="title-block">
+            <h2>Gillespie Med Spa (G&amp;G Med Spa)</h2>
+            <p class="sub">Wilmington, DE · Dr. John W. Gillespie III, MD</p>
+          </div>
+          <div class="badges">
+            <span class="score" title="Close-ease score (5 = easiest to close in this set)">5/5</span>
+            <span class="chip em">Email</span>
+          </div>
+        </div>
+
+        <div class="contact-row">
+          <a class="btn primary" href="https://app.gohighlevel.com/v2/location/o3D3rSAdiE8inzOOk2oF/contacts/detail/ucbCIavzkXH8zKT2YgVQ" target="_blank" rel="noopener">Open in GHL</a>
+          
+          <a class="btn ph" href="tel:+13022742996">(302) 274-2996</a>
+          <a class="btn ghost" href="https://ggmedispa.com" target="_blank" rel="noopener">Website</a>
+          <a class="btn em" href="mailto:ggmedspa@gmail.com">ggmedspa@gmail.com</a>
+        </div>
+
+        <section class="block money">
+          <h3>Why they have money</h3>
+          <p>Plastic-surgeon-owned, Opus Plasma + IPL; high job size (surgery brand gillespiemd.com too)</p>
+        </section>
+
+        <section class="block angle">
+          <h3>Angle of attack</h3>
+          <p class="angle-type">Email to verified address — Evan approves wording before you send</p>
+          <p>Two-site fragmentation (surgery brand + med spa) + gmail business email on a plastic-surgery practice = weak systems despite the money. Broken IG feed, &quot;Lorem ipsum&quot; still live, dead video button</p>
+        </section>
+
+        <section class="block move">
+          <h3>First move (do this)</h3>
+          <p>Draft lives with Evan. You log the send in GHL after he OKs it. Wedge: two-site fragmentation + gmail on a surgery practice = systems gap.</p>
+          
+        </section>
+
+        <section class="block proofs">
+          <h3>Score proof</h3>
+          <ul><li>No online booking widget</li><li>No before/after gallery</li><li>Verified personal email (ggmedspa@gmail.com)</li></ul>
+        </section>
+
+        <section class="block log">
+          <h3>After you touch — log in GHL</h3>
+          <ol>
+            <li>Pipeline <strong>Rushes — Acquisition</strong> → drag <strong>Sourced → First Touch Sent</strong></li>
+            <li>Add note: channel + what you said (one line)</li>
+            <li>They reply? Tag <code>replied</code> → stage <strong>Replied</strong> → text Evan</li>
+          </ol>
+        </section>
+      </article>
+
+      <article class="card" id="lead-5">
+        <div class="card-top">
+          <span class="rank">#5</span>
+          <div class="title-block">
+            <h2>Novique Medical Aesthetics</h2>
+            <p class="sub">Doylestown, PA · Dr. Gene V. Levinstein, MD</p>
+          </div>
+          <div class="badges">
+            <span class="score" title="Close-ease score (5 = easiest to close in this set)">5/5</span>
+            <span class="chip ph">Phone</span>
+          </div>
+        </div>
+
+        <div class="contact-row">
+          <a class="btn primary" href="https://app.gohighlevel.com/v2/location/o3D3rSAdiE8inzOOk2oF/contacts/detail/tLgfEnsOQqypv3Allu0G" target="_blank" rel="noopener">Open in GHL</a>
+          
+          <a class="btn ph" href="tel:+12678995020">(267) 899-5020</a>
+          <a class="btn ghost" href="https://novique.com" target="_blank" rel="noopener">Website</a>
+          
+        </div>
+
+        <section class="block money">
+          <h3>Why they have money</h3>
+          <p>Large service menu; affluent Bucks County</p>
+        </section>
+
+        <section class="block angle">
+          <h3>Angle of attack</h3>
+          <p class="angle-type">Phone to front desk — ask for owner by full name</p>
+          <p>Owner NOT named anywhere on his own site (team page hides him) — the 'owner invisible on own site' gap is itself a pitch. Broken GIF placeholders on homepage; only 31 reviews</p>
+        </section>
+
+        <section class="block move">
+          <h3>First move (do this)</h3>
+          <p>Call (267) 899-5020. Ask for Dr. Gene Levinstein. Hook: owner invisible on his own site + broken homepage GIFs in affluent Doylestown.</p>
+          <p class="warn">⚠ no email on site (info@novique.com = GUESSED, do not send)</p>
+        </section>
+
+        <section class="block proofs">
+          <h3>Score proof</h3>
+          <ul><li>Luxury geography (Doylestown)</li></ul>
+        </section>
+
+        <section class="block log">
+          <h3>After you touch — log in GHL</h3>
+          <ol>
+            <li>Pipeline <strong>Rushes — Acquisition</strong> → drag <strong>Sourced → First Touch Sent</strong></li>
+            <li>Add note: channel + what you said (one line)</li>
+            <li>They reply? Tag <code>replied</code> → stage <strong>Replied</strong> → text Evan</li>
+          </ol>
+        </section>
+      </article>
+
+      <article class="card" id="lead-6">
+        <div class="card-top">
+          <span class="rank">#6</span>
+          <div class="title-block">
+            <h2>New You Med Spa</h2>
+            <p class="sub">Sewell / Vineland, NJ · Dr. Raghuraj S. Tomar, MD</p>
+          </div>
+          <div class="badges">
+            <span class="score" title="Close-ease score (5 = easiest to close in this set)">5/5</span>
+            <span class="chip li">LinkedIn</span>
+          </div>
+        </div>
+
+        <div class="contact-row">
+          <a class="btn primary" href="https://app.gohighlevel.com/v2/location/o3D3rSAdiE8inzOOk2oF/contacts/detail/SnGVQxENlYsusA73GSKk" target="_blank" rel="noopener">Open in GHL</a>
+          
+          <a class="btn ph" href="tel:+18566963463">(856) 696-3463</a>
+          <a class="btn ghost" href="https://newyoumedspanj.com" target="_blank" rel="noopener">Website</a>
+          <a class="btn em" href="mailto:frontdesk@newyoumedspanj.com">frontdesk@newyoumedspanj.com</a>
+        </div>
+
+        <section class="block money">
+          <h3>Why they have money</h3>
+          <p>Morpheus8, IV therapy, Gainswave; membership tiers; two locations (Sewell + Vineland)</p>
+        </section>
+
+        <section class="block angle">
+          <h3>Angle of attack</h3>
+          <p class="angle-type">Personal LinkedIn — reference something specific on their site</p>
+          <p>Two-location consistency angle. frontdesk@ email is gatekept — owner outreach by phone/LinkedIn. Zero before/after gallery (fatal for aesthetics); 2024 promo banner still live; no reviews</p>
+        </section>
+
+        <section class="block move">
+          <h3>First move (do this)</h3>
+          <p>Find owner on LinkedIn. Connect with one specific observation from their site — not a generic agency pitch.</p>
+          
+        </section>
+
+        <section class="block proofs">
+          <h3>Score proof</h3>
+          <ul><li>Verified walk-in target — owner confirmed via site + board lookup</li></ul>
+        </section>
+
+        <section class="block log">
+          <h3>After you touch — log in GHL</h3>
+          <ol>
+            <li>Pipeline <strong>Rushes — Acquisition</strong> → drag <strong>Sourced → First Touch Sent</strong></li>
+            <li>Add note: channel + what you said (one line)</li>
+            <li>They reply? Tag <code>replied</code> → stage <strong>Replied</strong> → text Evan</li>
+          </ol>
+        </section>
+      </article>
+  </div>
+
+  <footer>
+    Updated 2026-06-08 21:02 · Internal — not indexed<br>
+    Evan refreshes via <code>npm run jackson:queue</code>
+  </footer>
+</div>
+</body>
+</html>
