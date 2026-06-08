@@ -7,7 +7,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const { capturePlaybookLead } = require('./lib/playbook-capture');
+const { capturePlaybookLead, loadGhlConfig } = require('./lib/playbook-capture');
 
 const ROOT = __dirname;
 const PORT = Number(process.env.PORT || 3000);
@@ -95,6 +95,15 @@ const server = http.createServer(async (req, res) => {
       'Access-Control-Allow-Headers': 'Content-Type',
     });
     res.end();
+    return;
+  }
+
+  if (req.method === 'GET' && req.url === '/api/health') {
+    const { loc, token } = loadGhlConfig();
+    sendJson(res, 200, {
+      ok: true,
+      ghlConfigured: Boolean(loc && token),
+    });
     return;
   }
 
