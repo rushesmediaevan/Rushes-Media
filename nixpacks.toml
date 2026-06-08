@@ -1,0 +1,5 @@
+# Railway: use Node (playbook capture API). Python requirements.txt is dev-only formatting.
+providers = ["node"]
+
+[phases.setup]
+nixPkgs = ["nodejs_20"]

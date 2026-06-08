@@ -124,6 +124,6 @@ const server = http.createServer(async (req, res) => {
   res.end('Method not allowed');
 });
 
-server.listen(PORT, () => {
-  console.log(`Rushes site listening on :${PORT}`);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`Rushes site listening on 0.0.0.0:${PORT}`);
 });
