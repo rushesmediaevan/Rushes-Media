@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get the scorecard — Rushes Media</title>
+  <meta name="description" content="Local Lead Leak Scorecard — free diagnostic for owner-operated businesses." />
+  <meta name="theme-color" content="#0c1825" />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #0c1825;
+      color: #f5f0e6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    :root {
+      --gold: #b89860;
+      --gold-d: #9a7d4a;
+      --px: clamp(24px, 6vw, 80px);
+      --ease: cubic-bezier(.4,0,.2,1);
+    }
+    header {
+      padding: 28px var(--px);
+      display: flex;
+      justify-content: center;
+    }
+    .logo img { height: 36px; }
+    .logo .wm { height: 22px; margin-left: 10px; }
+    main {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 0 var(--px) 80px;
+    }
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(36px, 8vw, 52px);
+      font-weight: 400;
+      line-height: 1.05;
+      margin-bottom: 12px;
+    }
+    h1 em { font-style: italic; color: var(--gold); }
+    .sub {
+      color: rgba(245,240,230,.72);
+      font-size: 15px;
+      line-height: 1.65;
+      margin-bottom: 36px;
+    }
+    form { display: grid; gap: 18px; }
+    label {
+      display: grid;
+      gap: 8px;
+      font-size: 13px;
+      letter-spacing: .04em;
+      color: rgba(245,240,230,.75);
+    }
+    input, select {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 2px;
+      border: 1px solid rgba(245,240,230,.18);
+      background: rgba(26,42,63,.55);
+      color: #f5f0e6;
+      font: inherit;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+    select option { color: #0c1825; }
+    .btn {
+      margin-top: 8px;
+      padding: 16px 24px;
+      border: none;
+      border-radius: 2px;
+      background: var(--gold);
+      color: #0c1825;
+      font: inherit;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .2s var(--ease), transform .2s;
+    }
+    .btn:hover { background: var(--gold-d); transform: translateY(-1px); }
+    .btn:disabled { opacity: .6; cursor: wait; transform: none; }
+    .err {
+      display: none;
+      padding: 12px 14px;
+      border: 1px solid rgba(220,80,80,.5);
+      color: #ffb4b4;
+      font-size: 14px;
+    }
+    .err.on { display: block; }
+    footer {
+      text-align: center;
+      padding: 30px var(--px);
+      font-size: 12px;
+      color: rgba(245,240,230,.32);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/" class="logo" aria-label="Rushes Media — home">
+      <img src="../assets/images/logo-icon.png" alt="" />
+      <img src="../assets/images/logo-wordmark.png" alt="Rushes Media" class="wm" />
+    </a>
+  </header>
+
+  <main>
+    <p class="eyebrow">Free diagnostic</p>
+    <h1>Local lead leak <em>scorecard</em></h1>
+    <p class="sub">Four areas, scored 1–10. Two or more under 5 means leads are leaking somewhere — we'll send the PDF to your inbox.</p>
+
+    <div id="err" class="err" role="alert"></div>
+
+    <form id="form" novalidate>
+      <input type="hidden" name="src" id="src" value="ig-growth" />
+
+      <label>First name *
+        <input name="firstName" required autocomplete="given-name" />
+      </label>
+
+      <label>Email *
+        <input name="email" type="email" required autocomplete="email" />
+      </label>
+
+      <label>Business name
+        <input name="businessName" autocomplete="organization" />
+      </label>
+
+      <label>Business type *
+        <select name="businessType" required>
+          <option value="">Select…</option>
+          <option>Home services / trades</option>
+          <option>Food & hospitality</option>
+          <option>Retail / shop</option>
+          <option>Other owner-operated</option>
+        </select>
+      </label>
+
+      <label>Main goal right now *
+        <select name="mainGoal" required>
+          <option value="">Select…</option>
+          <option>More calls / estimates</option>
+          <option>Ads that work</option>
+          <option>Consistent posting</option>
+          <option>Not sure yet</option>
+        </select>
+      </label>
+
+      <button class="btn" type="submit" id="submit">Send my scorecard</button>
+    </form>
+  </main>
+
+  <footer>© 2026 Rushes Media · rushesmedia.com</footer>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const src = params.get('src');
+    if (src === 'ig-playbook' || src === 'ig-growth') {
+      document.getElementById('src').value = src;
+    }
+
+    const form = document.getElementById('form');
+    const err = document.getElementById('err');
+    const btn = document.getElementById('submit');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err.classList.remove('on');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+
+      const data = Object.fromEntries(new FormData(form));
+      try {
+        const res = await fetch('/api/playbook-capture', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const json = await res.json();
+        if (!res.ok || !json.ok) {
+          throw new Error(json.error || 'Something went wrong');
+        }
+        location.href = '/playbook-thanks/';
+      } catch (ex) {
+        err.textContent = ex.message;
+        err.classList.add('on');
+        btn.disabled = false;
+        btn.textContent = 'Send my scorecard';
+      }
+    });
+  </script>
+</body>
+</html>
