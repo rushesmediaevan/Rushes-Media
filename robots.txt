@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /thanks/
+Disallow: /playbook-thanks/
+Disallow: /ops/
+
+Sitemap: https://rushesmedia.com/sitemap.xml

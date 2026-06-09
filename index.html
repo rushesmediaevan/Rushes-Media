@@ -6,6 +6,39 @@
   <title>Rushes Media — Media Done Right.</title>
   <meta name="description" content="Brand media and growth systems for local businesses in South Jersey and Philadelphia." />
   <meta name="theme-color" content="#0c1825" />
+  <link rel="canonical" href="https://rushesmedia.com/" />
+  <link rel="icon" type="image/png" href="assets/images/logo-icon.png" />
+  <link rel="apple-touch-icon" href="assets/images/logo-icon.png" />
+
+  <!-- Social link previews (iMessage, LinkedIn, Facebook, X) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Rushes Media" />
+  <meta property="og:title" content="Rushes Media — Media Done Right." />
+  <meta property="og:description" content="A lead-generation partner that runs on creative media. Content, ads, web, and follow-up — one machine." />
+  <meta property="og:url" content="https://rushesmedia.com/" />
+  <meta property="og:image" content="https://rushesmedia.com/assets/images/hero/hero-bg.jpg" />
+  <meta property="og:image:width" content="1920" />
+  <meta property="og:image:height" content="1080" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Rushes Media — Media Done Right." />
+  <meta name="twitter:description" content="A lead-generation partner that runs on creative media. Content, ads, web, and follow-up — one machine." />
+  <meta name="twitter:image" content="https://rushesmedia.com/assets/images/hero/hero-bg.jpg" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Rushes Media",
+    "url": "https://rushesmedia.com/",
+    "description": "A lead-generation partner that runs on creative media. Brand media, creative campaigns, web, and automated follow-up for local businesses.",
+    "email": "evan@rushesmedia.com",
+    "image": "https://rushesmedia.com/assets/images/hero/hero-bg.jpg",
+    "areaServed": ["South Jersey", "Philadelphia", "Main Line", "Bucks County", "Princeton", "Delaware"]
+  }
+  </script>
+
+  <!-- Hero poster is the first paint behind the video — fetch it early -->
+  <link rel="preload" as="image" href="assets/images/hero/hero-bg.jpg" fetchpriority="high" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -952,75 +985,6 @@
     @media (max-width: 720px) { .steps { grid-template-columns: 1fr; gap: 36px; } }
 
     /* ════════════════════════════════════════════════════
-       WORK — true masonry asymmetric
-    ════════════════════════════════════════════════════ */
-    #work {
-      background: var(--cream);
-      padding: clamp(88px, 11vw, 160px) var(--px);
-    }
-    .work-inner { max-width: var(--max); margin: 0 auto; }
-    .work-hd { margin-bottom: clamp(40px, 5vw, 60px); }
-    .work-h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(36px, 4.5vw, 58px);
-      font-weight: 300; line-height: 1.1;
-      color: var(--navy); margin-top: 16px;
-    }
-    .work-grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      grid-auto-rows: 80px;
-      gap: 12px;
-    }
-    .wt {
-      overflow: hidden; border-radius: 6px;
-      background: rgba(26,42,63,.06);
-      position: relative;
-    }
-    .wt-cap {
-      position: absolute;
-      left: 12px; bottom: 10px;
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 10px; font-weight: 600;
-      letter-spacing: .1em; text-transform: uppercase;
-      color: var(--cream);
-      background: rgba(12,24,37,.72);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      padding: 6px 10px; border-radius: 2px;
-      opacity: 0;
-      transform: translateY(6px);
-      transition: opacity .3s var(--ease), transform .3s var(--ease);
-      pointer-events: none;
-    }
-    .wt-cap-cli { color: var(--gold); }
-    .wt-cap-sep { color: rgba(245,240,230,.35); font-weight: 400; }
-    .wt-cap-tag { color: rgba(245,240,230,.82); font-weight: 500; }
-    .wt:hover .wt-cap { opacity: 1; transform: none; }
-    /* Tile layout: varied sizes */
-    .wt:nth-child(1) { grid-column: 1 / 8;  grid-row: 1 / 5; }
-    .wt:nth-child(2) { grid-column: 8 / 13; grid-row: 1 / 3; }
-    .wt:nth-child(3) { grid-column: 8 / 13; grid-row: 3 / 5; }
-    .wt:nth-child(4) { grid-column: 1 / 5;  grid-row: 5 / 7; }
-    .wt:nth-child(5) { grid-column: 5 / 10; grid-row: 5 / 7; }
-    .wt:nth-child(6) { grid-column: 10 / 13;grid-row: 5 / 7; }
-    .wt img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      transition: transform .55s var(--ease);
-    }
-    .wt:hover img { transform: scale(1.06); }
-    @media (max-width: 720px) {
-      .work-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 160px; }
-      .wt:nth-child(1) { grid-column: 1 / 3; grid-row: 1 / 2; }
-      .wt:nth-child(2) { grid-column: 1 / 2; grid-row: 2 / 3; }
-      .wt:nth-child(3) { grid-column: 2 / 3; grid-row: 2 / 3; }
-      .wt:nth-child(4) { grid-column: 1 / 2; grid-row: 3 / 4; }
-      .wt:nth-child(5) { grid-column: 2 / 3; grid-row: 3 / 4; }
-      .wt:nth-child(6) { grid-column: 1 / 3; grid-row: 4 / 5; }
-    }
-
-    /* ════════════════════════════════════════════════════
        FAQ
     ════════════════════════════════════════════════════ */
     #faq {
@@ -1131,10 +1095,6 @@
       border-left: 2px solid var(--gold);
     }
     .cta-pledge em { font-style: italic; color: rgba(26,42,63,.6); display: block; margin-top: 4px; font-size: 0.86em; }
-    /* CTA button — dark on cream */
-    .btn-dk { background: var(--navy); color: var(--cream); border: 1px solid transparent; }
-    .btn-dk:hover { background: var(--ink); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(12,24,37,.18); }
-
     /* CTA lead form — primary tracked conversion (feeds /thanks/) */
     .lead-form { max-width: 560px; margin-bottom: 22px; }
     .lf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
@@ -1167,6 +1127,22 @@
       background: #fff;
     }
     .lf-hp { position: absolute; left: -9999px; opacity: 0; height: 0; width: 0; }
+    /* SMS consent row — must out-specify the generic .lead-form label/input rules,
+       which otherwise uppercase the text and stretch the checkbox to full width.
+       A2P 10DLC reviewers verify this language renders visibly on the page. */
+    .lead-form .lf-consent {
+      display: flex; align-items: flex-start; gap: 9px;
+      font-size: 12.5px; font-weight: 400; line-height: 1.5;
+      text-transform: none; letter-spacing: normal;
+      color: rgba(26,42,63,.72);
+      margin: 4px 0 18px;
+      cursor: pointer;
+    }
+    .lead-form .lf-consent input[type="checkbox"] {
+      width: auto; flex: 0 0 auto; margin-top: 3px;
+      cursor: pointer; accent-color: var(--gold);
+    }
+    .lead-form .lf-consent a { color: var(--gold); text-decoration: underline; }
     .lead-form button {
       font-family: 'Inter', sans-serif;
       font-size: 14px; font-weight: 500;
@@ -1431,7 +1407,7 @@
 </head>
 <body>
 
-<div id="cur"></div>
+<div id="cur" aria-hidden="true"></div>
 
 <div id="fcta">
   <a href="https://api.leadconnectorhq.com/widget/booking/1GUofnPSyYefy2VOSxKO" target="_blank" rel="noopener">
@@ -1491,8 +1467,8 @@
 
 <nav id="nav">
   <a href="#" class="logo" aria-label="Rushes Media — home">
-    <img src="assets/images/logo-icon.png" alt="" class="logo-crest" />
-    <img src="assets/images/logo-wordmark.png" alt="Rushes Media" class="logo-wordmark" />
+    <img src="assets/images/logo-icon.png" alt="" class="logo-crest" width="833" height="959" />
+    <img src="assets/images/logo-wordmark.png" alt="Rushes Media" class="logo-wordmark" width="2888" height="322" />
   </a>
   <ul class="nav-r">
     <li><a href="#services">Services</a></li>
@@ -1501,7 +1477,7 @@
     <li><a href="#faq">FAQ</a></li>
     <li><a href="https://api.leadconnectorhq.com/widget/booking/1GUofnPSyYefy2VOSxKO" target="_blank" rel="noopener" class="cta">Book a Call</a></li>
   </ul>
-  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="mob"><span></span><span></span><span></span></button>
 </nav>
 
 <!-- ══ HERO ═════════════════════════════════════════════ -->
@@ -1788,31 +1764,31 @@
     </div>
     <div class="faq-list r d1">
       <div class="faq-item">
-        <div class="faq-q">What kinds of businesses do you work with?<span class="faq-ic">+</span></div>
+        <div class="faq-q" role="button" tabindex="0" aria-expanded="false">What kinds of businesses do you work with?<span class="faq-ic">+</span></div>
         <div class="faq-a"><div class="faq-ai">Any business where attention turns into revenue — service trades, hospitality, retail, professional services, premium consumer brands, and high-ticket operators. We're based in South Jersey and run work across Philly, the Main Line, Bucks County, and the wider tri-state, but the right partnership outweighs the zip code. Smaller operators are real work — we built our reputation on them — but our lane is built for businesses ready to spend on real growth.</div></div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">How quickly can we get started?<span class="faq-ic">+</span></div>
+        <div class="faq-q" role="button" tabindex="0" aria-expanded="false">How quickly can we get started?<span class="faq-ic">+</span></div>
         <div class="faq-a"><div class="faq-ai">Strategy call is usually within 48 hours of you reaching out. Once an agreement is signed, the core growth system — site, capture forms, follow-up automation — can be live in 24–48 hours. Creative production (Reels, photography, ad assets) starts the same week and rolls out as the calendar fills.</div></div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Do I have to be involved in the day-to-day?<span class="faq-ic">+</span></div>
+        <div class="faq-q" role="button" tabindex="0" aria-expanded="false">Do I have to be involved in the day-to-day?<span class="faq-ic">+</span></div>
         <div class="faq-a"><div class="faq-ai">No. The systems we build run without you. For content clients, we show up, shoot, and post. For ad clients, we manage, optimize, and report. Your job is to run your business — ours is to grow it.</div></div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">What's the minimum commitment?<span class="faq-ic">+</span></div>
+        <div class="faq-q" role="button" tabindex="0" aria-expanded="false">What's the minimum commitment?<span class="faq-ic">+</span></div>
         <div class="faq-a"><div class="faq-ai">We offer a 30-day trial period at reduced rate so you can see how we operate before locking in. After that, we work as a long-term partner — we're built to compound results over months and years, not run a one-off project and disappear.</div></div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Do you run organic content, paid ads, or both?<span class="faq-ic">+</span></div>
+        <div class="faq-q" role="button" tabindex="0" aria-expanded="false">Do you run organic content, paid ads, or both?<span class="faq-ic">+</span></div>
         <div class="faq-a"><div class="faq-ai">Both — and we believe most businesses should run both. Organic content (Reels, posts, photography) builds trust, audience, and a brand people remember. Paid ads on Meta and Google scale that creative to the right audience and put real spend behind the offers that are working. The two compound on each other when they're built by the same team.</div></div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">How do you measure results?<span class="faq-ic">+</span></div>
+        <div class="faq-q" role="button" tabindex="0" aria-expanded="false">How do you measure results?<span class="faq-ic">+</span></div>
         <div class="faq-a"><div class="faq-ai">Every engagement is tracked to real business outcomes: leads generated, calls booked, form submissions, cost per lead, and revenue attributed where traceable. You get a monthly report tied to what actually moves your numbers — not follower counts.</div></div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Why don't you call yourselves a "marketing agency"?<span class="faq-ic">+</span></div>
+        <div class="faq-q" role="button" tabindex="0" aria-expanded="false">Why don't you call yourselves a "marketing agency"?<span class="faq-ic">+</span></div>
         <div class="faq-a"><div class="faq-ai">Because we don't sell marketing. We're a lead-generation partner that runs on creative media — content, ads, web, and automated follow-up running as one machine. Most agencies do one piece. We build the full loop. You're hiring infrastructure, not a media buyer.</div></div>
       </div>
     </div>
@@ -1827,9 +1803,7 @@
     <p class="cta-sub r d2">One 30-minute call. We'll find your highest-leverage opportunity and show you exactly how we'd grow it.</p>
     <p class="cta-pledge r d2">We only win when you do.<br><em>If the system isn't moving your numbers, we don't deserve the retainer. Built to be the long-term partner you actually want in the room.</em></p>
     <form class="lead-form r d3" id="leadForm" novalidate>
-      <!-- Web3Forms — EVAN: replace the access key below. Get it free at
-           web3forms.com (enter your email → they email you a key, no account,
-           no backend). Submissions arrive at that email. -->
+      <!-- Web3Forms — submissions arrive at the email registered to this access key (public by design) -->
       <input type="hidden" name="access_key" value="3a77467e-5604-4704-a273-f8f1014c9e01" />
       <input type="hidden" name="subject" value="New rushesmedia.com inquiry" />
       <input type="hidden" name="from_name" value="Rushes Media Site" />
@@ -1838,19 +1812,19 @@
       <div class="lf-row">
         <div class="lf-field">
           <label for="lf-name">Name</label>
-          <input id="lf-name" type="text" name="name" placeholder="Your name" required />
+          <input id="lf-name" type="text" name="name" placeholder="Your name" autocomplete="name" required />
         </div>
         <div class="lf-field">
           <label for="lf-biz">Business</label>
-          <input id="lf-biz" type="text" name="business" placeholder="Business name" required />
+          <input id="lf-biz" type="text" name="business" placeholder="Business name" autocomplete="organization" required />
         </div>
         <div class="lf-field">
           <label for="lf-email">Email</label>
-          <input id="lf-email" type="email" name="email" placeholder="you@business.com" required />
+          <input id="lf-email" type="email" name="email" placeholder="you@business.com" autocomplete="email" required />
         </div>
         <div class="lf-field">
           <label for="lf-phone">Phone</label>
-          <input id="lf-phone" type="tel" name="phone" placeholder="(000) 000-0000" required />
+          <input id="lf-phone" type="tel" name="phone" placeholder="(000) 000-0000" autocomplete="tel" required />
         </div>
         <div class="lf-field full">
           <label for="lf-goal">What are you trying to grow?</label>
@@ -1858,9 +1832,9 @@
         </div>
       </div>
 
-      <label class="lf-consent" for="lf-sms" style="display:flex;align-items:flex-start;gap:9px;font-size:12.5px;line-height:1.5;color:rgba(245,240,230,.72);margin:4px 0 18px;cursor:pointer;">
-        <input id="lf-sms" type="checkbox" name="sms_consent" value="yes" style="margin-top:3px;flex:0 0 auto;" />
-        <span>Text me too — I agree to receive SMS from Rushes Media about my inquiry, appointment, and follow-ups. Msg &amp; data rates may apply. Frequency varies. Reply STOP to opt out, HELP for help. See our <a href="/privacy" target="_blank" style="color:var(--gold);text-decoration:underline;">Privacy Policy</a>.</span>
+      <label class="lf-consent" for="lf-sms">
+        <input id="lf-sms" type="checkbox" name="sms_consent" value="yes" />
+        <span>Text me too — I agree to receive SMS from Rushes Media about my inquiry, appointment, and follow-ups. Msg &amp; data rates may apply. Frequency varies. Reply STOP to opt out, HELP for help. See our <a href="/privacy" target="_blank">Privacy Policy</a>.</span>
       </label>
 
       <button type="submit" id="lfBtn">
@@ -1880,8 +1854,8 @@
 <footer>
   <div class="ft">
     <span class="ft-logo" aria-label="Rushes Media">
-      <img src="assets/images/logo-icon.png" alt="" class="ft-crest" />
-      <img src="assets/images/logo-wordmark.png" alt="Rushes Media" class="ft-wordmark" />
+      <img src="assets/images/logo-icon.png" alt="" class="ft-crest" width="833" height="959" loading="lazy" />
+      <img src="assets/images/logo-wordmark.png" alt="Rushes Media" class="ft-wordmark" width="2888" height="322" loading="lazy" />
     </span>
     <ul class="ft-links">
       <li><a href="#services">Services</a></li>
@@ -1895,9 +1869,11 @@
 </footer>
 
 <script>
-  // Cursor
+  // Cursor — positioned via transform so moves stay on the compositor (no layout work per frame)
   const cur = document.getElementById('cur');
-  document.addEventListener('mousemove', e => { cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; });
+  document.addEventListener('mousemove', e => {
+    cur.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+  });
   document.querySelectorAll('a,button,.svc-row,.faq-q').forEach(el => {
     el.addEventListener('mouseenter', () => cur.classList.add('big'));
     el.addEventListener('mouseleave', () => cur.classList.remove('big'));
@@ -1909,20 +1885,25 @@
 
   // Mobile menu — open/close with full state management
   const mob = document.getElementById('mob');
+  const burger = document.getElementById('burger');
+  const mobX = document.getElementById('mob-x');
   function openMob() {
     mob.classList.add('on');
     mob.setAttribute('aria-hidden', 'false');
+    burger.setAttribute('aria-expanded', 'true');
     document.body.classList.add('mob-open');
     document.body.style.overflow = 'hidden'; // lock background scroll
+    mobX.focus(); // move keyboard focus into the dialog
   }
   function closeMob() {
     mob.classList.remove('on');
     mob.setAttribute('aria-hidden', 'true');
+    burger.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('mob-open');
     document.body.style.overflow = ''; // release scroll
   }
-  document.getElementById('burger').onclick = openMob;
-  document.getElementById('mob-x').onclick = closeMob;
+  burger.onclick = openMob;
+  mobX.onclick = closeMob;
   // Close on any link tap inside the menu so anchor nav lands somewhere visible
   document.querySelectorAll('#mob a').forEach(a => a.addEventListener('click', closeMob));
   // Esc closes the menu (desktop accessibility, doesn't hurt mobile)
@@ -1938,13 +1919,23 @@
   }, { threshold: 0.08 });
   document.querySelectorAll('.r').forEach(el => io.observe(el));
 
-  // FAQ
+  // FAQ — click + keyboard (Enter/Space), aria-expanded kept in sync
   document.querySelectorAll('.faq-q').forEach(q => {
-    q.onclick = () => {
+    const toggle = () => {
       const item = q.closest('.faq-item'), open = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
-      if (!open) item.classList.add('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      });
+      if (!open) {
+        item.classList.add('open');
+        q.setAttribute('aria-expanded', 'true');
+      }
     };
+    q.onclick = toggle;
+    q.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
   });
 
   // Lead form → Web3Forms → /thanks/ (conversion fires on that page)

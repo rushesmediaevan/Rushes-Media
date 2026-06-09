@@ -24,7 +24,12 @@ const MIME = {
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',
   '.pdf': 'application/pdf',
+  '.woff': 'font/woff',
   '.woff2': 'font/woff2',
+  '.mp4': 'video/mp4',
+  '.webm': 'video/webm',
+  '.txt': 'text/plain; charset=utf-8',
+  '.xml': 'application/xml; charset=utf-8',
 };
 
 function readBody(req) {
@@ -82,9 +87,46 @@ function serveStatic(req, res) {
     return;
   }
   const ext = path.extname(filePath).toLowerCase();
-  const data = fs.readFileSync(filePath);
-  res.writeHead(200, { 'Content-Type': MIME[ext] || 'application/octet-stream' });
-  res.end(data);
+  const stat = fs.statSync(filePath);
+  const lastModified = stat.mtime.toUTCString();
+  const headers = {
+    'Content-Type': MIME[ext] || 'application/octet-stream',
+    // HTML revalidates every visit; assets cache for a week
+    'Cache-Control': ext === '.html' ? 'no-cache' : 'public, max-age=604800',
+    'Last-Modified': lastModified,
+    'Accept-Ranges': 'bytes',
+  };
+
+  if (req.headers['if-modified-since'] === lastModified) {
+    res.writeHead(304, headers);
+    res.end();
+    return;
+  }
+
+  // Byte-range support — Safari won't play <video> without it
+  const range = req.headers.range && /^bytes=(\d*)-(\d*)$/.exec(req.headers.range);
+  if (range && (range[1] || range[2])) {
+    let start = range[1] ? parseInt(range[1], 10) : stat.size - parseInt(range[2], 10);
+    let end = range[1] && range[2] ? parseInt(range[2], 10) : stat.size - 1;
+    if (Number.isNaN(start) || Number.isNaN(end) || start < 0 || start > end || start >= stat.size) {
+      res.writeHead(416, { 'Content-Range': `bytes */${stat.size}` });
+      res.end();
+      return;
+    }
+    end = Math.min(end, stat.size - 1);
+    res.writeHead(206, {
+      ...headers,
+      'Content-Range': `bytes ${start}-${end}/${stat.size}`,
+      'Content-Length': end - start + 1,
+    });
+    if (req.method === 'HEAD') { res.end(); return; }
+    fs.createReadStream(filePath, { start, end }).pipe(res);
+    return;
+  }
+
+  res.writeHead(200, { ...headers, 'Content-Length': stat.size });
+  if (req.method === 'HEAD') { res.end(); return; }
+  fs.createReadStream(filePath).pipe(res);
 }
 
 const server = http.createServer(async (req, res) => {
