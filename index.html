@@ -1404,6 +1404,7 @@
     }
 
   </style>
+  <script src="/assets/meta-pixel.js" defer></script>
 </head>
 <body>
 
@@ -1803,11 +1804,7 @@
     <p class="cta-sub r d2">One 30-minute call. We'll find your highest-leverage opportunity and show you exactly how we'd grow it.</p>
     <p class="cta-pledge r d2">We only win when you do.<br><em>If the system isn't moving your numbers, we don't deserve the retainer. Built to be the long-term partner you actually want in the room.</em></p>
     <form class="lead-form r d3" id="leadForm" novalidate>
-      <!-- Web3Forms — submissions arrive at the email registered to this access key (public by design) -->
-      <input type="hidden" name="access_key" value="3a77467e-5604-4704-a273-f8f1014c9e01" />
-      <input type="hidden" name="subject" value="New rushesmedia.com inquiry" />
-      <input type="hidden" name="from_name" value="Rushes Media Site" />
-      <input type="checkbox" name="botcheck" class="lf-hp" tabindex="-1" autocomplete="off" />
+      <input type="checkbox" name="botcheck" class="lf-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
       <div class="lf-row">
         <div class="lf-field">
@@ -1865,7 +1862,8 @@
       <li><a href="https://api.leadconnectorhq.com/widget/booking/1GUofnPSyYefy2VOSxKO" target="_blank" rel="noopener">Book a Call</a></li>
     </ul>
   </div>
-  <p class="ft-copy">© 2026 Rushes Media &nbsp;·&nbsp; South Jersey &nbsp;·&nbsp; Philadelphia &nbsp;·&nbsp; rushesmedia.com</p>
+  <p class="ft-copy">© 2026 Rushes Media · Rushes Group LLC · 1636 Oak Avenue, Haddon Heights, NJ 08035 · <a href="mailto:evan@rushesmedia.com" style="color:inherit">evan@rushesmedia.com</a> · <a href="tel:+16094059918" style="color:inherit">(609) 405-9918</a><br>
+  <a href="/privacy/" style="color:#b89860">Privacy</a> · <a href="/terms/" style="color:#b89860">Terms</a> · <a href="/connect/" style="color:#b89860">Contact</a></p>
 </footer>
 
 <script>
@@ -1938,7 +1936,7 @@
     });
   });
 
-  // Lead form → Web3Forms → /thanks/ (conversion fires on that page)
+  // Lead form → GHL via /api/lead → /thanks/
   (function () {
     const form = document.getElementById('leadForm');
     if (!form) return;
@@ -1952,17 +1950,27 @@
       if (!form.checkValidity()) { form.reportValidity(); return; }
       btn.disabled = true;
       btnText.textContent = 'Sending…';
+      const fd = new FormData(form);
       try {
-        const res = await fetch('https://api.web3forms.com/submit', {
+        const res = await fetch('/api/lead', {
           method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: new FormData(form)
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            niche: 'site',
+            name: fd.get('name'),
+            business: fd.get('business'),
+            phone: fd.get('phone'),
+            email: fd.get('email'),
+            need: fd.get('message'),
+            sms_consent: fd.get('sms_consent') === 'yes' ? 'yes' : '',
+            source_url: location.href,
+          }),
         });
-        const data = await res.json();
-        if (data.success) {
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
           window.location.href = '/thanks/';
         } else {
-          throw new Error(data.message || 'submit failed');
+          throw new Error(data.error || 'submit failed');
         }
       } catch (_) {
         err.style.display = 'block';
@@ -1972,5 +1980,6 @@
     });
   })();
 </script>
+<script src="https://link.msgsndr.com/js/external-tracking.js" data-tracking-id="tk_e022859e25cb4ac3901acfffc60cb59a" async></script>
 </body>
 </html>

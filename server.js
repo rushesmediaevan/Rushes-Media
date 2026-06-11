@@ -8,6 +8,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { capturePlaybookLead, loadGhlConfig } = require('./lib/playbook-capture');
+const { captureFunnelLead } = require('./lib/funnel-capture');
 
 const ROOT = __dirname;
 const PORT = Number(process.env.PORT || 3000);
@@ -129,8 +130,28 @@ function serveStatic(req, res) {
   fs.createReadStream(filePath).pipe(res);
 }
 
+// Per-IP rate limit for lead capture — funnel.js surfaces 'rate_limit' to the user
+const LEAD_RATE = new Map();
+function leadRateLimited(ip) {
+  const now = Date.now();
+  const hits = (LEAD_RATE.get(ip) || []).filter((t) => now - t < 60 * 60 * 1000);
+  if (hits.length >= 5) return true;
+  hits.push(now);
+  LEAD_RATE.set(ip, hits);
+  return false;
+}
+
 const server = http.createServer(async (req, res) => {
-  if (req.method === 'OPTIONS' && req.url === '/api/playbook-capture') {
+  const urlPath = (req.url || '/').split('?')[0];
+
+  // Retired niche LP — ads and links should land on main site
+  if (urlPath === '/hardscape' || urlPath === '/hardscape/' || urlPath.startsWith('/hardscape/')) {
+    res.writeHead(301, { Location: '/' });
+    res.end();
+    return;
+  }
+
+  if (req.method === 'OPTIONS' && (req.url === '/api/playbook-capture' || req.url === '/api/lead')) {
     res.writeHead(204, {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -146,6 +167,31 @@ const server = http.createServer(async (req, res) => {
       ok: true,
       ghlConfigured: Boolean(loc && token),
     });
+    return;
+  }
+
+  if (req.method === 'POST' && req.url === '/api/lead') {
+    const ip =
+      (req.headers['x-forwarded-for'] || '').split(',')[0].trim() ||
+      req.socket.remoteAddress ||
+      'unknown';
+    if (leadRateLimited(ip)) {
+      sendJson(res, 429, { ok: false, error: 'rate_limit' });
+      return;
+    }
+    try {
+      const raw = await readBody(req);
+      const body = parseBody(req, raw);
+      if (!body) {
+        sendJson(res, 400, { ok: false, error: 'Invalid body' });
+        return;
+      }
+      const result = await captureFunnelLead(body);
+      sendJson(res, result.ok ? 200 : 400, result);
+    } catch (err) {
+      console.error('lead-capture error:', err.message);
+      sendJson(res, 500, { ok: false, error: 'Server error' });
+    }
     return;
   }
 
