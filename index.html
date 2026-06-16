@@ -1219,88 +1219,75 @@
        Loads after every prior rule so it wins on tie-specificity.
     ════════════════════════════════════════════════════ */
     @media (max-width: 720px) {
-      /* hero */
-      .hero-body { padding-top: 96px; padding-bottom: clamp(48px, 9vw, 80px); }
+      /* hero — sit copy in the darker sky band, not over the bright cloud body */
+      .hero-body {
+        justify-content: flex-start;
+        padding-top: clamp(108px, 15vh, 132px);
+        padding-bottom: clamp(28px, 6vw, 48px);
+      }
+      .hero-video {
+        object-position: 50% 10%;
+        animation: none;
+        transform: scale(1.08);
+      }
+      #hero::before { display: none; }
       .hero-loc { font-size: 9px; letter-spacing: .14em; margin-bottom: 22px; }
       .hero-h1 { font-size: clamp(58px, 16.5vw, 110px); line-height: .94; }
       .hero-h1 em { padding-left: clamp(14px, 5vw, 50px); }
-      .hero-div { margin: clamp(20px, 4vh, 32px) 0; }
-      .hero-flow { font-size: 9.5px; gap: 4px; }
+      .hero-div { margin: clamp(12px, 2.5vh, 18px) 0; }
+      .hero-flow { font-size: 9.5px; gap: 3px; }
+      .hero-foot-text { gap: 10px; }
+      .hero-foot { gap: 20px; }
       .hero-sub { font-size: 14px; line-height: 1.7; }
-      .hero-foot { gap: 24px; }
       .hero-btns { flex-direction: column; align-items: stretch; gap: 10px; width: 100%; }
       .hero-btns .btn-lg { width: 100%; justify-content: center; font-size: 14px; padding: 16px 24px; }
 
-      /* MOBILE READABILITY — the bright cloud body sits directly behind the headline
-         on phones (no asymmetric desktop offset). Two-part fix:
-         (a) denser hero-overlay bottom mat — pushes the cloud body further back
-         (b) much heavier headline shadow halos + thin navy stroke on the gold italic
-             so "done right." reads against the cream/gold cloud highlights */
+      /* MOBILE READABILITY — cloud body sits behind the copy stack on phones.
+         Contrast comes from a lighter bottom mat on the overlay (not a radial
+         band + glow halos). Type gets tight shadows only — no stroke, no bloom. */
       .hero-overlay {
         background:
           linear-gradient(
-            to top,
-            rgba(12, 24, 37, 0.88) 0%,
-            rgba(12, 24, 37, 0.72) 18%,
-            rgba(12, 24, 37, 0.42) 38%,
-            rgba(12, 24, 37, 0.12) 58%,
-            rgba(12, 24, 37, 0.00) 76%
-          ),
-          radial-gradient(
-            ellipse 95% 55% at 50% 70%,
-            rgba(12, 24, 37, 0.32) 0%,
-            rgba(12, 24, 37, 0.00) 70%
+            to bottom,
+            rgba(12, 24, 37, 0.58) 0%,
+            rgba(12, 24, 37, 0.22) 30%,
+            rgba(12, 24, 37, 0.00) 55%
           ),
           linear-gradient(
-            180deg,
-            rgba(12, 24, 37, 0.42) 0%,
-            rgba(12, 24, 37, 0.10) 30%,
-            rgba(12, 24, 37, 0.18) 100%
+            to top,
+            rgba(12, 24, 37, 0.82) 0%,
+            rgba(12, 24, 37, 0.52) 24%,
+            rgba(12, 24, 37, 0.22) 46%,
+            rgba(12, 24, 37, 0.04) 66%,
+            rgba(12, 24, 37, 0.00) 80%
           );
       }
       .hero-h1 {
         text-shadow:
-          0 1px 0 rgba(12,24,37,.75),
-          0 2px 10px rgba(12,24,37,.85),
-          0 0 22px rgba(12,24,37,.7),
-          0 12px 36px rgba(12,24,37,.6);
+          0 1px 0 rgba(12,24,37,.5),
+          0 2px 12px rgba(12,24,37,.45),
+          0 10px 28px rgba(12,24,37,.32);
       }
       .hero-h1 em {
-        /* thin navy stroke + dense halos to lift the gold italic off the
-           cream/gold cloud highlights where shadows alone don't carry the contrast */
-        -webkit-text-stroke: 0.6px rgba(12,24,37,.55);
         text-shadow:
-          0 1px 0 rgba(12,24,37,.85),
-          0 2px 12px rgba(12,24,37,.95),
-          0 0 18px rgba(12,24,37,.8),
-          0 0 38px rgba(12,24,37,.55),
-          0 10px 32px rgba(12,24,37,.65);
+          0 1px 0 rgba(12,24,37,.55),
+          0 2px 10px rgba(12,24,37,.5),
+          0 0 18px rgba(184,152,96,.22),
+          0 8px 24px rgba(12,24,37,.38);
       }
-      /* Same lift treatment for the gold three-beat positioning lines —
-         they sit on the same bright cloud body and were blending too.
-         Thinner stroke (0.3px) because the type is small + tracked uppercase. */
+      /* Three-beat lines — crisp lift, no ghost bloom */
       .hero-flow {
-        -webkit-text-stroke: 0.3px rgba(12,24,37,.6);
         text-shadow:
-          0 1px 0 rgba(12,24,37,.85),
-          0 1px 6px rgba(12,24,37,.9),
-          0 0 14px rgba(12,24,37,.7),
-          0 4px 18px rgba(12,24,37,.55);
+          0 1px 2px rgba(12,24,37,.55),
+          0 2px 6px rgba(12,24,37,.35);
       }
       .hero-flow .hero-sep {
-        /* the cream arrow between beats — give it a navy halo too so it
-           doesn't dissolve into the cloud highlights between gold words */
-        text-shadow:
-          0 1px 0 rgba(12,24,37,.7),
-          0 1px 6px rgba(12,24,37,.85);
+        text-shadow: 0 1px 3px rgba(12,24,37,.4);
       }
-      /* Hero subtitle cream text also gets a small bump on mobile so it
-         doesn't fade into the brighter cloud zones */
       .hero-sub {
         text-shadow:
-          0 1px 0 rgba(12,24,37,.6),
-          0 2px 16px rgba(12,24,37,.85),
-          0 8px 28px rgba(12,24,37,.55);
+          0 1px 2px rgba(12,24,37,.45),
+          0 2px 10px rgba(12,24,37,.35);
       }
       /* Outlined "Our Services" button — border + cream text were also
          washing out against bright clouds. Stronger border, denser bg. */
