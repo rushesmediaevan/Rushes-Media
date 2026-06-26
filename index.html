@@ -1168,13 +1168,13 @@
     }
     .lf-alt a { color: var(--navy); border-bottom: 1px solid var(--gold); padding-bottom: 1px; transition: color .2s; }
     .lf-alt a:hover { color: var(--gold); }
-    /* GHL Growth Call — embedded on-page (URL stays rushesmedia.com) */
+    /* GHL Growth Call — single embed (URL stays rushesmedia.com) */
     .cta-book {
-      margin-top: 48px;
-      padding-top: 40px;
+      margin-top: 40px;
+      padding-top: 36px;
       border-top: 1px solid rgba(26,42,63,.12);
-      max-width: min(920px, 100%);
-      scroll-margin-top: 100px;
+      width: 100%;
+      scroll-margin-top: 96px;
     }
     .cta-book-h3 {
       font-family: 'Cormorant Garamond', serif;
@@ -1186,51 +1186,24 @@
     .cta-book-sub {
       font-size: 14px;
       color: rgba(26,42,63,.55);
-      margin-bottom: 20px;
-      max-width: 480px;
+      margin-bottom: 18px;
+      max-width: 52ch;
     }
     .cta-cal-wrap {
-      border: 1px solid rgba(26,42,63,.14);
-      border-radius: 2px;
+      width: 100%;
+      border: 1px solid rgba(26,42,63,.1);
+      border-radius: 4px;
       overflow: visible;
       background: #fff;
-      box-shadow: 0 12px 40px rgba(12,24,37,.06);
-      -webkit-overflow-scrolling: touch;
+      box-shadow: 0 16px 48px rgba(12,24,37,.08);
     }
     .cta-cal-wrap iframe {
       width: 100%;
-      min-height: 800px;
-      height: 800px;
+      min-height: 720px;
       border: none;
       display: block;
       background: #fff;
     }
-    .cta-sms-legal {
-      margin-top: 28px;
-      padding: 22px 24px;
-      border: 1px solid rgba(26,42,63,.12);
-      border-radius: 2px;
-      background: rgba(255,255,255,.45);
-      max-width: min(920px, 100%);
-    }
-    .cta-sms-legal h4 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--navy);
-      margin-bottom: 10px;
-    }
-    .cta-sms-legal p,
-    .cta-sms-legal li {
-      font-size: 13px;
-      line-height: 1.65;
-      color: rgba(26,42,63,.72);
-    }
-    .cta-sms-legal ol {
-      margin: 10px 0 10px 20px;
-    }
-    .cta-sms-legal li { margin: 8px 0; }
-    .cta-sms-legal a { color: var(--gold-d); border-bottom: 1px solid rgba(184,152,96,.35); }
     @media (max-width: 540px) {
       .lf-row { grid-template-columns: 1fr; gap: 14px; }
       .lead-form button { width: 100%; justify-content: center; }
@@ -1853,35 +1826,21 @@
   <div class="cta-inner">
     <span class="eye r" style="color:var(--gold)">Ready to grow?</span>
     <h2 class="cta-h2 r d1">Let's build something<br><em>worth noticing.</em></h2>
-    <p class="cta-sub r d2">One 30-minute call. We'll find your highest-leverage opportunity and show you exactly how we'd grow it.</p>
+    <p class="cta-sub r d2">Pick a time below. We'll find your highest-leverage opportunity and show you exactly how we'd grow it.</p>
     <p class="cta-pledge r d2">We only win when you do.<br><em>If the system isn't moving your numbers, we don't deserve the retainer. Built to be the long-term partner you actually want in the room.</em></p>
-    <div class="cta-actions r d3" style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:8px;">
-      <a href="/contact/" class="btn btn-g btn-lg">Contact us <span class="arr">→</span></a>
-      <a href="#book" class="btn btn-lg" style="background:transparent;color:var(--navy);border:1px solid rgba(26,42,63,.25);">Book a call</a>
-    </div>
 
-    <div id="book" class="cta-book r d4">
+    <div id="book" class="cta-book r d3">
       <span class="eye" style="color:var(--gold)">Growth Call</span>
       <h3 class="cta-book-h3">Book a strategy call</h3>
-      <p class="cta-book-sub">30 minutes with Evan. Pick a time — confirmations and reminders run through our CRM.</p>
+      <p class="cta-book-sub">Select a date and time — name, phone, and SMS preferences are on the final step inside the calendar.</p>
       <div class="cta-cal-wrap">
         <iframe
           src="https://api.leadconnectorhq.com/widget/booking/1GUofnPSyYefy2VOSxKO"
           title="Book a Growth Call with Rushes Media"
           id="rushes-growth-call-calendar"
           class="ghl-booking-embed"
+          allow="clipboard-write"
         ></iframe>
-      </div>
-
-      <div class="cta-sms-legal r d4" id="sms-opt-in">
-        <h4>SMS consent on the booking form</h4>
-        <p>When you pick a time and reach <strong>Enter details</strong>, the calendar shows <strong>two separate checkboxes</strong> (unchecked by default):</p>
-        <ol>
-          <li><strong>Customer care SMS</strong> — appointment confirmations, scheduling reminders, and follow-up about your booking.</li>
-          <li><strong>Promotional SMS (optional)</strong> — offers, service announcements, and marketing. Separate from customer care; not required to book.</li>
-        </ol>
-        <p>Message frequency varies. Message and data rates may apply. Reply <strong>STOP</strong> to opt out, <strong>HELP</strong> for help. Mobile information is not shared with third parties for marketing.
-          <a href="/privacy/">Privacy Policy</a> · <a href="/terms/">Terms of Service</a></p>
       </div>
     </div>
   </div>
@@ -1903,8 +1862,8 @@
     </ul>
   </div>
   <p class="ft-copy">© 2026 Rushes Group LLC (DBA Rushes Media) · 1636 Oak Avenue, Haddon Heights, NJ 08035 · <a href="mailto:evan@rushesmedia.com" style="color:inherit">evan@rushesmedia.com</a> · <a href="tel:+16094059918" style="color:inherit">(609) 405-9918</a><br>
-  <a href="/privacy/" style="color:#b89860">Privacy Policy</a> · <a href="/terms/" style="color:#b89860">Terms of Service</a> · <a href="/contact/" style="color:#b89860">Contact</a><br>
-  <span style="font-size:12px;color:rgba(245,240,230,.45);">SMS opt-in: two separate checkboxes on the Growth Call booking form at <a href="/#book" style="color:#b89860">rushesmedia.com/#book</a> (customer care + optional promotional). Message frequency varies. Message and data rates may apply. Reply STOP to opt out, HELP for help. See our <a href="/privacy/" style="color:#b89860">Privacy Policy</a>.</span></p>
+  <a href="/privacy/" style="color:#b89860">Privacy Policy</a> · <a href="/terms/" style="color:#b89860">Terms of Service</a> · <a href="mailto:evan@rushesmedia.com" style="color:#b89860">evan@rushesmedia.com</a><br>
+  <span style="font-size:12px;color:rgba(245,240,230,.45);">Book at <a href="/#book" style="color:#b89860">rushesmedia.com/#book</a>. SMS opt-in is on the booking form only. <a href="/privacy/" style="color:#b89860">Privacy</a></span></p>
 </footer>
 
 <script>
