@@ -75,7 +75,8 @@
       font-size: 12px; color: rgba(26,42,63,.7);
       margin: 4px 0 16px;
     }
-    .consent input { width: auto; margin-top: 3px; }
+    .consent input { width: auto; margin-top: 3px; flex-shrink: 0; }
+    .consent-block { margin: 8px 0 14px; }
     .lf-hp { position: absolute; left: -9999px; opacity: 0; height: 0; width: 0; }
     button {
       font-family: Inter, sans-serif;
@@ -117,7 +118,6 @@
   <script src="/assets/meta-pixel.js" defer></script>
 </head>
 <body>
-  <chat-widget location-id="o3D3rSAdiE8inzOOk2oF"></chat-widget>
   <div class="wrap">
     <div class="top">
       <h1>Contact us</h1>
@@ -151,10 +151,16 @@
               <textarea id="cf-msg" name="message" placeholder="A line or two is plenty." required></textarea>
             </div>
           </div>
-          <label class="consent">
-            <input type="checkbox" name="sms_consent" value="yes" />
-            <span>Text me about this inquiry and appointment reminders. Message frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out. See <a href="/privacy/">Privacy Policy</a>.</span>
-          </label>
+          <div class="consent-block">
+            <label class="consent">
+              <input type="checkbox" name="sms_consent_care" value="yes" />
+              <span>I agree to receive <strong>customer care SMS</strong> from Rushes Group LLC (Rushes Media) about this inquiry, appointment confirmations, and scheduling reminders. Message frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. <a href="/privacy/">Privacy Policy</a></span>
+            </label>
+            <label class="consent">
+              <input type="checkbox" name="sms_consent_promo" value="yes" />
+              <span>I agree to receive <strong>promotional SMS</strong> from Rushes Group LLC (Rushes Media) including offers and service announcements (optional, separate from customer care). Message frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out. <a href="/privacy/">Privacy Policy</a></span>
+            </label>
+          </div>
           <button type="submit" id="cfBtn"><span id="cfBtnText">Contact us →</span></button>
           <p class="lf-err" id="cfErr">Something went wrong. Email <a href="mailto:evan@rushesmedia.com">evan@rushesmedia.com</a>.</p>
         </form>
@@ -171,15 +177,15 @@
             class="ghl-booking-embed"
           ></iframe>
         </div>
+        <p style="font-size:12px;color:rgba(26,42,63,.65);margin-top:14px;line-height:1.6;">On <strong>Enter details</strong>, the booking form shows two separate SMS checkboxes (unchecked by default): customer care and optional promotional. <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a></p>
       </section>
     </div>
 
     <a class="back" href="/">← Back to rushesmedia.com</a>
     <footer>
-      <p>Rushes Group LLC (DBA Rushes Media) · <a href="/connect/">SMS opt-in info</a> · <a href="/privacy/">Privacy</a></p>
+      <p>Rushes Group LLC (DBA Rushes Media) · <a href="/#book">Book a call</a> · <a href="/privacy/">Privacy</a></p>
     </footer>
   </div>
-  <script src="https://widgets.leadconnectorhq.com/loader.js" data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" data-widget-id="6a2b489595a221ced5195b99" data-source="WEB_USER"></script>
   <script>
     (function () {
       const form = document.getElementById('contactForm');
@@ -204,7 +210,8 @@
               phone: fd.get('phone'),
               email: fd.get('email'),
               need: fd.get('message'),
-              sms_consent: fd.get('sms_consent') === 'yes' ? 'yes' : undefined,
+              sms_consent_care: fd.get('sms_consent_care') === 'yes' ? 'yes' : undefined,
+              sms_consent_promo: fd.get('sms_consent_promo') === 'yes' ? 'yes' : undefined,
               source_url: location.href,
             }),
           });
