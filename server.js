@@ -151,6 +151,12 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  if (urlPath === '/inquire' || urlPath === '/inquire/') {
+    res.writeHead(301, { Location: '/#book' });
+    res.end();
+    return;
+  }
+
   if (req.method === 'OPTIONS' && (req.url === '/api/playbook-capture' || req.url === '/api/lead')) {
     res.writeHead(204, {
       'Access-Control-Allow-Origin': '*',
