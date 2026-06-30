@@ -132,6 +132,24 @@ function serveStatic(req, res) {
 
 // Per-IP rate limit for lead capture — funnel.js surfaces 'rate_limit' to the user
 const LEAD_RATE = new Map();
+const LEAD_RATE_MAX_IPS = 5000;
+
+function pruneLeadRateMap() {
+  const now = Date.now();
+  for (const [ip, hits] of LEAD_RATE) {
+    const fresh = hits.filter((t) => now - t < 60 * 60 * 1000);
+    if (!fresh.length) LEAD_RATE.delete(ip);
+    else LEAD_RATE.set(ip, fresh);
+  }
+  if (LEAD_RATE.size > LEAD_RATE_MAX_IPS) {
+    for (const ip of [...LEAD_RATE.keys()].slice(0, LEAD_RATE.size - LEAD_RATE_MAX_IPS)) {
+      LEAD_RATE.delete(ip);
+    }
+  }
+}
+
+setInterval(pruneLeadRateMap, 15 * 60 * 1000).unref();
+
 function leadRateLimited(ip) {
   const now = Date.now();
   const hits = (LEAD_RATE.get(ip) || []).filter((t) => now - t < 60 * 60 * 1000);
@@ -239,6 +257,18 @@ const server = http.createServer(async (req, res) => {
   res.end('Method not allowed');
 });
 
+process.on('uncaughtException', (err) => {
+  console.error('uncaughtException:', err);
+});
+process.on('unhandledRejection', (reason) => {
+  console.error('unhandledRejection:', reason);
+});
+
+server.on('error', (err) => {
+  console.error('Server failed to start:', err);
+  process.exit(1);
+});
+
 server.listen(PORT, '0.0.0.0', () => {
-  console.log(`Rushes site listening on 0.0.0.0:${PORT}`);
+  console.log(`Rushes site listening on 0.0.0.0:${PORT} (pid ${process.pid})`);
 });
