@@ -151,7 +151,7 @@
          Nav grows to 96px so the lockup sits lower visually — extra breathing room. */
       nav { height: 96px; }
       .nav-r { display: none; }
-      .burger { display: flex; padding: 14px 8px; }
+      .burger { display: flex; padding: 14px 12px; }
     }
     /* When the mobile overlay menu is open, hide the burger so its lines
        don't bleed through behind the overlay's ✕ close button.
@@ -342,6 +342,12 @@
       position: relative;
       min-height: 100svh;
       background-color: var(--ink);
+      /* Poster plate painted on the section itself — if autoplay is refused
+         (iOS Low Power Mode / Data Saver), JS fades the video out and this
+         frame shows instead of Safari's native ▶ glyph. */
+      background-image: url('assets/images/hero/hero-bg.jpg');
+      background-size: cover;
+      background-position: center;
       display: grid;
       grid-template-rows: 1fr auto;
       overflow: hidden;
@@ -358,7 +364,9 @@
       transform-origin: 72% 42%;
       animation: hero-kenburns 34s ease-in-out infinite alternate;
       will-change: transform;
+      transition: opacity .5s var(--ease);
     }
+    #hero.video-still .hero-video { opacity: 0; }
     @keyframes hero-kenburns {
       0%   { transform: scale(1.03) translate(0%, 0%); }
       100% { transform: scale(1.09) translate(-1.0%, -1.2%); }
@@ -1028,7 +1036,7 @@
     .faq-item.open .faq-ic { transform: rotate(45deg); background: rgba(184,152,96,.15); }
     .faq-a { max-height: 0; overflow: hidden; transition: max-height .38s var(--ease); }
     .faq-ai { padding-bottom: 22px; font-size: 13px; line-height: 1.82; color: rgba(245,240,230,.4); }
-    .faq-item.open .faq-a { max-height: 400px; }
+    .faq-item.open .faq-a { max-height: 560px; }
     @media (max-width: 720px) { .faq-inner { grid-template-columns: 1fr; } .faq-sticky { position: static; } }
 
     /* ════════════════════════════════════════════════════
@@ -1268,6 +1276,8 @@
         animation: none;
         transform: scale(1.08);
       }
+      /* keep the fallback plate framed like the video on phones */
+      #hero { background-position: 50% 10%; }
       #hero::before { display: none; }
       .hero-loc { font-size: 9px; letter-spacing: .14em; margin-bottom: 22px; }
       .hero-h1 { font-size: clamp(58px, 16.5vw, 110px); line-height: .94; }
@@ -1508,7 +1518,7 @@
 
 <!-- ══ HERO ═════════════════════════════════════════════ -->
 <section id="hero">
-  <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/images/hero/hero-bg.jpg">
+  <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/images/hero/hero-bg.jpg" disablepictureinpicture disableremoteplayback aria-hidden="true">
     <source src="assets/video/hero-loop.mp4" type="video/mp4">
   </video>
   <div class="hero-overlay" aria-hidden="true"></div>
@@ -1880,6 +1890,28 @@
   // Nav
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => nav.classList.toggle('on', scrollY > 40), { passive: true });
+
+  // Hero video — iOS refuses autoplay in Low Power Mode / Data Saver and stamps
+  // a native ▶ glyph over the frame. Kick playback explicitly; if refused, fade
+  // the video out so the poster plate shows instead of the glyph, then retry on
+  // the first tap (a user gesture unlocks play() even in Low Power Mode).
+  const hero = document.getElementById('hero');
+  const heroVid = document.querySelector('.hero-video');
+  if (hero && heroVid) {
+    heroVid.addEventListener('playing', () => hero.classList.remove('video-still'));
+    const kick = () => {
+      const p = heroVid.play();
+      if (p && p.catch) p.catch(() => hero.classList.add('video-still'));
+    };
+    kick();
+    // paused mid-session (app switch, OS suspend) → fall back to the still
+    heroVid.addEventListener('pause', () => { if (!heroVid.ended) hero.classList.add('video-still'); });
+    // resume when the tab comes back, and retry on the first few taps
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && heroVid.paused) kick(); });
+    let vidTries = 0;
+    const vidRetry = () => { if (vidTries++ < 4 && heroVid.paused) kick(); };
+    ['touchend', 'click'].forEach(ev => window.addEventListener(ev, vidRetry, { passive: true }));
+  }
 
   // Mobile menu — open/close with full state management
   const mob = document.getElementById('mob');
