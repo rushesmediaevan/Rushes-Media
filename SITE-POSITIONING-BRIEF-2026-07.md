@@ -1,7 +1,6 @@
 # Site positioning brief — Rushes Media
 
-**Captured:** July 10, 2026 · **Status:** SHIPPED (copy-only homepage pass on `website/index.html`)  
-**Constraint:** Clear and professional. Did not overdo. Same layout, new promise.
+**Status:** SHIPPED · **Jul 10 evening:** middle-ground pass — restored familiar service names; Demand Loop stays for sales calls, not homepage chrome.
 
 ---
 
