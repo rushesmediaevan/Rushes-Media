@@ -1,0 +1,127 @@
+{
+  "id": "hardscape",
+  "slug": "hardscape",
+  "urlPath": "/hardscape/",
+  "meta": {
+    "title": "Hardscape Growth System — Rushes Media",
+    "description": "Growth systems for South Jersey outdoor living contractors — content, demand generation, landing pages, and fast follow-up for more booked estimates."
+  },
+  "hero": {
+    "eyebrow": "South Jersey · Outdoor living",
+    "headline": "Book More Hardscape Estimates Without Living on Angi",
+    "subhead": "Rushes helps hardscaping and outdoor living companies turn project footage, campaigns, landing pages, and fast follow-up into more qualified estimate requests.",
+    "trustLine": "For owner-operated hardscape, landscaping, and outdoor living companies ready to invest in growth."
+  },
+  "whoItsFor": {
+    "title": "Who this is for",
+    "items": [
+      "South Jersey and Philadelphia-suburb contractors",
+      "Patios, retaining walls, outdoor kitchens, drainage, lighting, full backyard transformations",
+      "Owner-operated operations roughly $750K–$5M",
+      "Strong work on the ground — marketing is inconsistent",
+      "You want better leads and booked estimates, not more random posts"
+    ]
+  },
+  "problems": {
+    "title": "Where growth leaks",
+    "items": [
+      { "title": "Buried proof", "body": "Your best work lives in your camera roll, not in front of buyers ready to book." },
+      { "title": "Slow follow-up", "body": "Leads die because nobody texts back from the job site." },
+      { "title": "Weak conversion", "body": "Your site does not sell the size of the job you actually build." },
+      { "title": "Referral cliff", "body": "Referrals are good until they are not." },
+      { "title": "Platform tax", "body": "Shared lead platforms are expensive and low-trust." },
+      { "title": "Visibility gap", "body": "Competitors with weaker work look more established online." }
+    ]
+  },
+  "mechanism": {
+    "title": "The Demand Loop",
+    "steps": [
+      "Show the work",
+      "Creative",
+      "Demand campaigns",
+      "Focused page",
+      "Fast follow-up",
+      "Booked estimate"
+    ],
+    "tagline": "We don’t sell posting. We install the Demand Loop — your project proof turned into qualified booked estimates."
+  },
+  "offer": {
+    "title": "Two paths — one conversation",
+    "paths": [
+      {
+        "name": "30-Day Growth Buildout",
+        "price": "$4,500 one-time",
+        "detail": "Install the system in 30 days — landing page, tracking, follow-up core, first creatives, Meta launch."
+      },
+      {
+        "name": "Growth Engine",
+        "price": "From $3,000/mo + setup",
+        "detail": "Ongoing creative, campaigns, capture, and follow-up once the flywheel is running."
+      }
+    ],
+    "note": "Ad spend is separate and runs on your accounts. Most clients invest $1,500+/mo in Meta to start.",
+    "partnerNote": "Larger multi-crew operations — Growth Partner from $5,000/mo. Not the default."
+  },
+  "proof": {
+    "title": "Proof",
+    "disclaimer": "No fabricated metrics. Slots fill as client work ships.",
+    "slots": [
+      { "label": "Case study", "status": "pending", "text": "Outdoor living client — case study in progress. Metrics logged when live." },
+      { "label": "Creative samples", "status": "pending", "text": "Ad and Reel frames — permissioned client work when available." },
+      { "label": "Landing example", "status": "pending", "text": "Conversion-focused page screenshot — coming with first harvest." },
+      { "label": "Follow-up system", "status": "pending", "text": "Speed-to-lead capture demo — screen record when shareable." }
+    ]
+  },
+  "process": {
+    "title": "What working together looks like",
+    "steps": [
+      { "label": "Audit", "body": "Where leads and trust are leaking" },
+      { "label": "Build", "body": "Landing page, tracking, follow-up, first creatives" },
+      { "label": "Launch", "body": "Meta campaign live" },
+      { "label": "Optimize", "body": "Weekly improvements toward booked estimates" }
+    ]
+  },
+  "qualification": {
+    "title": "Fit check",
+    "fitTitle": "This is a fit if you",
+    "fit": [
+      "Can handle more jobs in your service area",
+      "Answer your phone and follow up on leads",
+      "Have project photos or video to work with",
+      "Can invest at least $3,000/mo + ad spend when the math works",
+      "Want a system, not a posting service"
+    ],
+    "notFitTitle": "Not a fit if you",
+    "notFit": [
+      "You only want the cheapest social posts",
+      "You will not fund ad spend or follow up on inquiries",
+      "You need guaranteed closed revenue"
+    ]
+  },
+  "faq": {
+    "title": "FAQ",
+    "items": [
+      { "q": "Do you shoot the content?", "a": "Default: you film from our shot list. Full shoot days available as a separate add-on." },
+      { "q": "Is ad spend included?", "a": "No — runs on your Meta account. We manage and optimize." },
+      { "q": "Do you guarantee jobs?", "a": "No — we build lead flow and follow-up infrastructure. You close estimates." },
+      { "q": "How fast can this launch?", "a": "Buildout: about 30 days. Engine ongoing from week 3–4 after onboarding." },
+      { "q": "Do you only work with landscapers?", "a": "This page is for hardscape and outdoor living. Rushes takes other owner-operated trades inbound — case by case." }
+    ]
+  },
+  "cta": {
+    "primary": "Book a 20-minute Growth Call",
+    "formTitle": "Request your Growth Call",
+    "formSub": "Five fields. We reply within 24 hours with two times to talk — no pitch deck.",
+    "secondaryLabel": "Request a Lead Leak Audit",
+    "secondaryNote": "Paid diagnostic ($297–$497) — credited toward Buildout if you sign within 14 days. Mention it on the call or in the form."
+  },
+  "form": {
+    "needLabel": "Biggest bottleneck right now",
+    "needPlaceholder": "e.g. slow follow-up, weak site, referral slump"
+  },
+  "thanks": {
+    "path": "/thanks/",
+    "calendarUrl": "https://api.leadconnectorhq.com/widget/booking/1GUofnPSyYefy2VOSxKO"
+  },
+  "calendarUrl": "https://api.leadconnectorhq.com/widget/booking/1GUofnPSyYefy2VOSxKO"
+}

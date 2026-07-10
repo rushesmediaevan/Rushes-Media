@@ -1,0 +1,49 @@
+{
+  "id": "YOUR_SLUG",
+  "slug": "YOUR_SLUG",
+  "urlPath": "/YOUR_SLUG/",
+  "meta": {
+    "title": "— Rushes Media",
+    "description": "Growth systems for owner-operated businesses."
+  },
+  "hero": {
+    "eyebrow": "Geography · vertical",
+    "headline": "Headline — outcome focused",
+    "subhead": "One sentence on mechanism.",
+    "trustLine": "Who this page is for."
+  },
+  "whoItsFor": { "title": "Who this is for", "items": [] },
+  "problems": { "title": "Where growth leaks", "items": [] },
+  "mechanism": {
+    "title": "How the system works",
+    "steps": ["Project proof", "Creative", "Campaigns", "Landing page", "Fast follow-up", "Booked estimate"],
+    "tagline": "System line — not a posting service."
+  },
+  "offer": {
+    "title": "Two paths — one conversation",
+    "paths": [
+      { "name": "30-Day Growth Buildout", "price": "$4,500 one-time", "detail": "…" },
+      { "name": "Growth Engine", "price": "From $3,000/mo + setup", "detail": "…" }
+    ],
+    "note": "Ad spend separate…",
+    "partnerNote": ""
+  },
+  "proof": {
+    "title": "Proof",
+    "disclaimer": "No fabricated metrics.",
+    "slots": [{ "label": "Case study", "status": "pending", "text": "In progress." }]
+  },
+  "process": { "title": "Process", "steps": [] },
+  "qualification": { "title": "Fit check", "fitTitle": "Fit if", "fit": [], "notFitTitle": "Not a fit if", "notFit": [] },
+  "faq": { "title": "FAQ", "items": [] },
+  "cta": {
+    "primary": "Book a 20-minute Growth Call",
+    "formTitle": "Request your Growth Call",
+    "formSub": "Five fields. Reply within 24 hours.",
+    "secondaryLabel": "Request a Lead Leak Audit",
+    "secondaryNote": "Paid diagnostic — mention on the call."
+  },
+  "form": { "needLabel": "Biggest bottleneck right now", "needPlaceholder": "…" },
+  "thanks": { "path": "/thanks/", "calendarUrl": "https://calendar.app.google/1AuFMX9JWGZk19Pm7" },
+  "calendarUrl": "https://calendar.app.google/1AuFMX9JWGZk19Pm7"
+}

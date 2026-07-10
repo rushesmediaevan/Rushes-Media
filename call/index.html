@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Growth Call — Rushes Media</title>
+  <meta name="description" content="What happens on your Rushes Growth Call — the Demand Loop, what to bring, and real work proof." />
+  <meta name="theme-color" content="#0c1825" />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0c1825;
+      --navy-2: #1a2a3f;
+      --cream: #f5f0e6;
+      --gold: #b89860;
+      --gold-d: #9a7d4a;
+      --px: clamp(24px, 6vw, 72px);
+      --ease: cubic-bezier(.4,0,.2,1);
+      --max: 720px;
+    }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--navy);
+      color: var(--cream);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.55;
+    }
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { color: #d4b87a; }
+    header {
+      padding: 28px var(--px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo img { height: 36px; }
+    .logo .wm { height: 18px; }
+    .header-meta {
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(245,240,230,.45);
+    }
+    main {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px var(--px) 96px;
+    }
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(36px, 8vw, 52px);
+      font-weight: 400;
+      line-height: 1.08;
+      margin-bottom: 14px;
+    }
+    h1 em { font-style: italic; color: var(--gold); }
+    .lede {
+      color: rgba(245,240,230,.72);
+      font-size: 16px;
+      margin-bottom: 36px;
+      max-width: 38em;
+    }
+    section { margin-bottom: 48px; }
+    h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(24px, 5vw, 32px);
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+    .video-slot {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: linear-gradient(145deg, var(--navy-2), #0a1420);
+      border: 1px solid rgba(245,240,230,.12);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 24px;
+      margin-bottom: 12px;
+    }
+    .video-slot video,
+    .video-slot iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .video-placeholder {
+      max-width: 28em;
+      color: rgba(245,240,230,.55);
+      font-size: 14px;
+    }
+    .video-placeholder strong {
+      display: block;
+      color: var(--cream);
+      font-weight: 500;
+      margin-bottom: 8px;
+      letter-spacing: .04em;
+    }
+    .hint {
+      font-size: 13px;
+      color: rgba(245,240,230,.4);
+    }
+    .agenda {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+    .agenda li {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(245,240,230,.1);
+      font-size: 15px;
+      color: rgba(245,240,230,.82);
+    }
+    .agenda .n {
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: .12em;
+      padding-top: 3px;
+    }
+    .loop {
+      display: grid;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .loop-step {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: baseline;
+      padding: 12px 14px;
+      background: rgba(26,42,63,.55);
+      border-left: 2px solid var(--gold);
+      font-size: 14px;
+    }
+    .loop-step span {
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    /* MPM results card */
+    .proof-card {
+      background: linear-gradient(160deg, rgba(26,42,63,.9), rgba(12,24,37,.95));
+      border: 1px solid rgba(184,152,96,.35);
+      padding: 28px 24px;
+    }
+    .proof-card .tag {
+      font-size: 11px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .proof-card h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 28px;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+    .proof-card .sub {
+      font-size: 14px;
+      color: rgba(245,240,230,.6);
+      margin-bottom: 22px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 520px) {
+      .stats { grid-template-columns: 1fr; }
+    }
+    .stat {
+      padding: 16px;
+      background: rgba(12,24,37,.65);
+      border: 1px solid rgba(245,240,230,.08);
+    }
+    .stat .label {
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(245,240,230,.45);
+      margin-bottom: 8px;
+    }
+    .stat .val {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 26px;
+      line-height: 1.15;
+    }
+    .stat .note {
+      font-size: 12px;
+      color: rgba(245,240,230,.5);
+      margin-top: 6px;
+    }
+    .stat.bad .val { color: #e8a0a0; }
+    .stat.good .val { color: #b8d4a8; }
+    .honest {
+      font-size: 13px;
+      color: rgba(245,240,230,.55);
+      border-top: 1px solid rgba(245,240,230,.1);
+      padding-top: 16px;
+      line-height: 1.6;
+    }
+    .capacity {
+      padding: 18px 20px;
+      border: 1px solid rgba(184,152,96,.4);
+      font-size: 14px;
+      color: rgba(245,240,230,.78);
+    }
+    .capacity strong { color: var(--cream); font-weight: 500; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+      padding: 16px 24px;
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: background .2s var(--ease), transform .2s;
+    }
+    .btn:hover { background: var(--gold-d); color: var(--navy); transform: translateY(-1px); }
+    footer {
+      text-align: center;
+      padding: 24px var(--px) 48px;
+      font-size: 12px;
+      color: rgba(245,240,230,.32);
+      max-width: 960px;
+      margin: 0 auto;
+    }
+  </style>
+  <script src="/assets/meta-pixel.js" defer></script>
+</head>
+<body>
+  <header>
+    <a href="/" class="logo" aria-label="Rushes Media — home">
+      <img src="/assets/images/logo-icon.png" alt="" />
+      <img src="/assets/images/logo-wordmark.png" alt="Rushes Media" class="wm" />
+    </a>
+    <span class="header-meta">Growth Call</span>
+  </header>
+
+  <main>
+    <p class="eyebrow">Before we talk</p>
+    <h1>Your Growth Call.<br><em>Here’s what happens.</em></h1>
+    <p class="lede">
+      <!-- DRAFT — Evan finalizes -->
+      This is a short roadmap session for your market — not a pitch dump.
+      Watch the clip, skim the proof, bring what you know about how jobs come in today.
+    </p>
+
+    <!-- CALL-FRAME VIDEO: replace placeholder when Evan uploads -->
+    <section aria-labelledby="video-h">
+      <h2 id="video-h">60 seconds from Evan</h2>
+      <div class="video-slot" id="call-frame-slot">
+        <!--
+          OPTION A — self-hosted:
+          <video controls playsinline poster="/assets/images/hero/hero-bg.jpg">
+            <source src="/assets/video/call-frame.mp4" type="video/mp4" />
+          </video>
+
+          OPTION B — YouTube unlisted (replace VIDEO_ID):
+          <iframe
+            src="https://www.youtube.com/embed/VIDEO_ID"
+            title="Rushes Growth Call — what to expect"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        -->
+        <div class="video-placeholder">
+          <strong>Video landing here</strong>
+          Record per <code style="color:var(--gold)">sales/CALL-FRAME-VIDEO-BRIEF-2026-07-10.md</code>,
+          then drop the embed above this placeholder.
+        </div>
+      </div>
+      <p class="hint">Phone is fine. Unlisted YouTube or MP4 both work.</p>
+    </section>
+
+    <section aria-labelledby="agenda-h">
+      <h2 id="agenda-h">On the call</h2>
+      <ol class="agenda">
+        <li><span class="n">01</span><span>How work comes in today — referrals, ads, site, phone</span></li>
+        <li><span class="n">02</span><span>Where estimate requests stall or go cold</span></li>
+        <li><span class="n">03</span><span>Whether the Demand Loop fits — and what 30 days would look like</span></li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="loop-h">
+      <h2 id="loop-h">The Demand Loop</h2>
+      <p class="lede" style="margin-bottom:16px;font-size:14px">
+        One machine: show the work → creative → demand campaigns → focused page → capture → under-5-minute follow-up → booked estimate → track → repeat.
+      </p>
+      <div class="loop" role="list">
+        <div class="loop-step" role="listitem"><span>01</span>Show the work</div>
+        <div class="loop-step" role="listitem"><span>02</span>Creative that earns trust</div>
+        <div class="loop-step" role="listitem"><span>03</span>Demand campaigns</div>
+        <div class="loop-step" role="listitem"><span>04</span>Focused landing page</div>
+        <div class="loop-step" role="listitem"><span>05</span>Capture + speed-to-lead</div>
+        <div class="loop-step" role="listitem"><span>06</span>Booked estimate on the calendar</div>
+        <div class="loop-step" role="listitem"><span>07</span>Track → tighten → loop</div>
+      </div>
+    </section>
+
+    <section aria-labelledby="proof-h">
+      <h2 id="proof-h">Work proof</h2>
+      <article class="proof-card" id="mpm-results-card">
+        <p class="tag">MPM Landscaping · South Jersey · live run</p>
+        <h3>Capture fixed. Leads landed.</h3>
+        <p class="sub">Honest launch-week numbers — not a closed-job guarantee.</p>
+        <div class="stats">
+          <div class="stat bad">
+            <div class="label">Month 1</div>
+            <div class="val">163 clicks → 1 lead</div>
+            <div class="note">$427.84 spend · 1.93% CTR · form capture broke</div>
+          </div>
+          <div class="stat good">
+            <div class="label">Relaunch day</div>
+            <div class="val">2 leads in GHL</div>
+            <div class="note">Jun 24 · Meta → GHL verified · alerts firing</div>
+          </div>
+        </div>
+        <p class="honest">
+          Creative was already working in month 1. The leak was between the click and the calendar.
+          We fixed capture, then real contacts hit the CRM the same day.
+          Campaign later paused (client budget) — the stack still proved the path:
+          ads → form → CRM → alert.
+        </p>
+      </article>
+    </section>
+
+    <section aria-labelledby="cap-h">
+      <h2 id="cap-h">Capacity</h2>
+      <p class="capacity">
+        <strong>Founder-led.</strong> Limited concurrent Demand Loop Launch clients —
+        we don’t stack more than we can run. If it’s not a fit on the call, we’ll say so.
+      </p>
+    </section>
+
+    <section>
+      <a class="btn" href="/#book">Need to rebook? <span aria-hidden="true">→</span></a>
+    </section>
+  </main>
+
+  <footer>
+    Rushes Media · South Jersey · Philadelphia · Main Line<br />
+    <a href="/privacy/">Privacy</a> · <a href="/">Home</a>
+  </footer>
+</body>
+</html>
