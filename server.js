@@ -90,10 +90,12 @@ function serveStatic(req, res) {
   const ext = path.extname(filePath).toLowerCase();
   const stat = fs.statSync(filePath);
   const lastModified = stat.mtime.toUTCString();
+  // Code + config revalidate every visit (fast 304 via Last-Modified) so deploys
+  // land immediately; heavy static media (images/video/fonts) caches for a week.
+  const REVALIDATE = ['.html', '.js', '.css', '.json', '.xml', '.txt', '.webmanifest'];
   const headers = {
     'Content-Type': MIME[ext] || 'application/octet-stream',
-    // HTML revalidates every visit; assets cache for a week
-    'Cache-Control': ext === '.html' ? 'no-cache' : 'public, max-age=604800',
+    'Cache-Control': REVALIDATE.includes(ext) ? 'no-cache' : 'public, max-age=604800',
     'Last-Modified': lastModified,
     'Accept-Ranges': 'bytes',
   };
@@ -162,13 +164,6 @@ function leadRateLimited(ip) {
 const server = http.createServer(async (req, res) => {
   const urlPath = (req.url || '/').split('?')[0];
 
-  // Retired niche LP — ads and links should land on main site
-  if (urlPath === '/hardscape' || urlPath === '/hardscape/' || urlPath.startsWith('/hardscape/')) {
-    res.writeHead(301, { Location: '/' });
-    res.end();
-    return;
-  }
-
   if (urlPath === '/inquire' || urlPath === '/inquire/') {
     res.writeHead(301, { Location: '/#book' });
     res.end();
@@ -183,6 +178,16 @@ const server = http.createServer(async (req, res) => {
 
   if (urlPath === '/contact' || urlPath === '/contact/') {
     res.writeHead(301, { Location: '/#book' });
+    res.end();
+    return;
+  }
+
+  // /book → Growth Call booking widget (short SMS / speed-to-lead link).
+  // /call stays the pre-call proof page (website/call/index.html) for show-rate.
+  if (urlPath === '/book' || urlPath === '/book/') {
+    res.writeHead(302, {
+      Location: 'https://api.leadconnectorhq.com/widget/booking/1GUofnPSyYefy2VOSxKO',
+    });
     res.end();
     return;
   }
