@@ -8,10 +8,13 @@
  * Until the ID is set this file is a no-op — safe to ship.
  * PageView fires on every page that includes this script.
  * Lead fires automatically on /thanks/ (form submitted) and /playbook-thanks/.
+ * The $1,000 test optimizes Instant Form leads, not /thanks. After paste+deploy,
+ * still wire GHL CAPI Schedule on Growth Call book. Never paste the MPM pixel.
+ * Brief: systems/outreach/RUSHES-ACQUISITION-1000-TEST-2026-08-13.md
  */
 
 (function () {
-  var META_PIXEL_ID = ''; // ← EVAN: paste pixel ID here, e.g. '1234567890123456'
+  var META_PIXEL_ID = '1626816695538983'; // ← EVAN: paste pixel ID here, e.g. '1234567890123456'
 
   if (!META_PIXEL_ID) return;
 
