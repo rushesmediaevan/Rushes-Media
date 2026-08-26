@@ -8,6 +8,7 @@ import {
   COMPATIBILITY_FILES,
   GA4_MEASUREMENT_ID,
   GHL_TRACKING_ID,
+  HERO_VIDEO_POSTER_PATH,
   HERO_VIDEO_URL,
   HERO_VIDEO_VERSION,
   HOMEPAGE_FIRST_PARTY_JS_BUDGET,
@@ -250,7 +251,16 @@ assert.ok(homepageHtml.includes('~30 minutes'), 'Homepage Growth Call duration d
 assert.ok(homepageHtml.includes(GHL_TRACKING_ID), 'Homepage GHL tracking ID drifted.');
 assert.ok(homepageHtml.includes('https://link.msgsndr.com/js/external-tracking.js'));
 assert.ok(homepageHtml.includes('https://link.msgsndr.com/js/form_embed.js'));
-assert.ok(homepageHtml.includes('/assets/images/hero/hero-night-city-video-poster.jpg'));
+assert.ok(homepageHtml.includes(HERO_VIDEO_POSTER_PATH));
+const heroPosterVersion = path.basename(HERO_VIDEO_POSTER_PATH).match(/-([a-f0-9]{8})\.jpg$/)?.[1];
+assert.ok(heroPosterVersion, 'Homepage hero poster filename is missing its content hash.');
+const heroPosterHash = createHash('sha256')
+  .update(await readFile(path.join(distRoot, HERO_VIDEO_POSTER_PATH.slice(1))))
+  .digest('hex');
+assert.ok(
+  heroPosterHash.startsWith(heroPosterVersion),
+  'Homepage hero poster cache key does not match the built image bytes.',
+);
 assert.ok(
   homepageCss.includes('/assets/images/hero/hero-night-city-poster.jpg'),
   'Reduced-motion hero fallback poster is missing from the built stylesheet.',

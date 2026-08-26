@@ -10,7 +10,7 @@ const remotePlaybackAttributes = {
 
 <!-- ══ HERO ═════════════════════════════════════════════ -->
 <section id="hero">
-  <video id="hero-background-video" class="hero-video" muted loop playsinline preload="metadata" poster="/assets/images/hero/hero-night-city-video-poster.jpg" {...remotePlaybackAttributes} aria-hidden="true">
+  <video id="hero-background-video" class="hero-video" muted loop playsinline preload="metadata" poster={SITE.heroVideoPosterUrl} {...remotePlaybackAttributes} aria-hidden="true">
     <source src={SITE.heroVideoUrl} type="video/mp4" />
   </video>
   <div class="hero-overlay" aria-hidden="true"></div>

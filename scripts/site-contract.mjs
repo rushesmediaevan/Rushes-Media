@@ -11,6 +11,7 @@ export const {
 
 export const GA4_LOADER_PREFIX = 'https://www.googletagmanager.com/gtag/js?id=';
 export const HERO_VIDEO_URL = `/assets/video/hero-loop.mp4?v=${HERO_VIDEO_VERSION}`;
+export const HERO_VIDEO_POSTER_PATH = '/assets/images/hero/hero-night-city-video-poster-665c792f.jpg';
 export const HOMEPAGE_FIRST_PARTY_JS_BUDGET = 6652;
 
 /** @typedef {'generated' | 'compatibility' | 'review-only' | 'redirect' | 'api' | 'auxiliary'} RouteOwner */
@@ -54,7 +55,7 @@ export const SITE_CONTRACT = [
     canonical: `${SITE_ORIGIN}/`,
     requiredAssets: [
       '/assets/images/hero/hero-bg.jpg',
-      '/assets/images/hero/hero-night-city-video-poster.jpg',
+      HERO_VIDEO_POSTER_PATH,
       '/assets/video/hero-loop.mp4',
       '/assets/images/logo-icon.png',
       '/assets/images/logo-wordmark.png',
@@ -391,7 +392,7 @@ export const PUBLIC_ASSET_FILES = [
   'assets/meta-pixel.js',
   'assets/images/hero/hero-bg.jpg',
   'assets/images/hero/hero-night-city-poster.jpg',
-  'assets/images/hero/hero-night-city-video-poster.jpg',
+  HERO_VIDEO_POSTER_PATH.slice(1),
   'assets/images/logo-icon.png',
   'assets/images/logo-wordmark.png',
   'assets/video/hero-loop.mp4',

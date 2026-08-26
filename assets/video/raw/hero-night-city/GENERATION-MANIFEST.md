@@ -38,6 +38,24 @@ account delta. The additional 8.03 credits are unresolved because the CLI does
 not expose a transaction ledger; they are not assigned to either job. No batch
 or automatic regeneration was submitted.
 
+## Opening-visibility editorial trim
+
+The generated motion was not altered or regenerated. A free, frame-exact
+editorial trim removes the featureless opening and matching dense-cloud tail:
+source frames 59 through 311 inclusive, or 2.458333 s through 13.000000 s
+exclusive. The 253-frame result is 10.541667 seconds. Its first frame already
+shows the horizon aperture, river geometry, and city lights; the closing frame
+returns to matching cloud coverage with faint city light for the native loop
+cut. This paired trim improves both full-frame and portrait endpoint similarity
+over the nearest tested alternatives while retaining an immediate visible
+opening.
+There is no crossfade, fade, speed change, interpolation, reversal, duplicated
+frame, color treatment, or new generation cost. The untouched 15-second source,
+prior browser derivative, and full-length 4K upscale remain archived.
+The web encode uses libx264 High level 4.2, slow preset, CRF 17, BT.709,
+yuv420p, and fast-start. The matching archival 4K editorial derivative uses
+libx264 High level 5.2, slow preset, CRF 15, BT.709, yuv420p, and fast-start.
+
 ## Verified media
 
 | File | Directly measured properties | SHA-256 |
@@ -48,15 +66,19 @@ or automatic regeneration was submitted.
 | `../../../images/references/hero-night-city/hero-night-city-cloud-start-4k.png` | 3840x2160 16-bit RGB PNG, 5,962,463 bytes | `e141c27b8797bfb23e76aff6afaf4f350e0d3c9e9e296e4d461270471010da8d` |
 | `hero-night-city-seedance25-master-1080p-high.mp4` | 1920x1080, HEVC Main 10, 24 fps, yuv420p10le, 15.041667 s, silent, 8.19 Mbps video, 15,437,431 bytes | `0a501b5fb752efbf01547f9cfa0e0e3298227e2ebbbbb932189afa7b9c7dd878` |
 | `hero-night-city-seedance25-master-4k-upscaled.mp4` | 3840x2160, H.264 High, 24 fps, yuv420p, 15.041667 s, silent, 18.44 Mbps video, 34,673,173 bytes | `21397bbb429bb3d126d0b5b1bcef2a2960ca7a5abd6ca036e031f8c48175ecf0` |
+| `hero-night-city-seedance25-editorial-trim-4k.mp4` | Frame-exact 4K editorial derivative: 3840x2160, H.264 High, 24 fps, yuv420p, 10.541667 s, silent, fast-start, 27.65 Mbps, 36,432,324 bytes | `f08d609f3b56c765e71b8a3d79b1465455f5890c1a0095f95706a5a8d4a7fb59` |
 | `hero-night-city-loop-seedance20-crossfade-1080p.mp4` | Byte-identical archive of the retired 7.291667 s dissolve loop, 2,829,429 bytes | `c8f3a8ce59903e59999cd32bdb25eed5685ac3e5d2182824bbadb0257ec2587b` |
-| `../../hero-loop.mp4` | 1920x1080, H.264 High, 24 fps, yuv420p, 15.041667 s, silent, fast-start, 3.55 Mbps video, 6,681,154 bytes | `f15d25fb7db4b70f027831d4de5ea3bb415c262ee57163377c756a6df3a6aeca` |
+| `hero-night-city-loop-seedance25-full-cloud-1080p.mp4` | Byte-identical archive of the retired full-cloud browser derivative: 1920x1080, H.264 High, 24 fps, yuv420p, 15.041667 s, silent, fast-start, 3.55 Mbps video, 6,681,154 bytes | `f15d25fb7db4b70f027831d4de5ea3bb415c262ee57163377c756a6df3a6aeca` |
+| `../../hero-loop.mp4` | Frame-exact editorial derivative: 1920x1080, H.264 High level 4.2, 24 fps, yuv420p, 10.541667 s, silent, fast-start, 3.88 Mbps, 5,109,764 bytes | `904b53e7b2ff3201823ad5e1a423ece91a96de479e7c36f34319917a0dbf68a8` |
 | `../../../images/hero/hero-night-city-poster.jpg` | 1920x1080 JPEG, 184,263 bytes | `8bd5a2fe8309aef15f19e86ddf074247e4f545aeaceb1ceb2c479a2bf99855c5` |
-| `../../../images/hero/hero-night-city-video-poster.jpg` | Exact 1920x1080 first-frame JPEG for normal-motion startup, 18,333 bytes | `e7035531a9b5d260c4b6a558f24c32f74e1e428d21be05d728cba36a0e884076` |
+| `../../../images/hero/hero-night-city-video-poster-665c792f.jpg` | Exact 1920x1080 first-frame JPEG for the editorial derivative, 43,621 bytes | `665c792f1d5be7901feed1d97a80a44dbb52ffc6326e28490dc48f31c6a5af02` |
+| `../../../images/hero/hero-night-city-video-poster.jpg` | Preserved, unserved dense-cloud startup poster for the retired full-length derivative, 18,333 bytes | `e7035531a9b5d260c4b6a558f24c32f74e1e428d21be05d728cba36a0e884076` |
 | `hero-clouds-sunrise-legacy.mp4` | Byte-identical archive of the prior public sunrise loop, 3,288,906 bytes | `1498d77c659ce1f803c89b3892f077a7632055de4363ecc9d173330c3b8b37c6` |
 
 The active web loop contains no crossfade, reversal, speed ramp, or duplicated
-frames. Its `moov` atom begins at byte 36 and precedes `mdat` at byte 5250. The
-retired crossfade derivative remains archived so no prior source is lost.
+frames. Its `moov` atom begins at byte 36 and precedes `mdat` at byte 3974. The
+retired full-cloud and crossfade derivatives remain archived so no prior source
+is lost.
 
 ## Locked creative direction
 
@@ -82,8 +104,8 @@ skyline morphing, new objects, and lighting changes.
 - The replacement was inspected as one-second contact sheets plus full-resolution
   4K frames in the cloud transition and city passage; no person, aircraft, HUD,
   recognizable landmark, skyline collapse, or direction reversal was found.
-- The browser decoded the active derivative as 1920x1080 and 15.041667 seconds
-  at 24 fps with the versioned source `f15d25fb`.
+- The browser decoded the active derivative as 1920x1080 and 10.541667 seconds
+  at 24 fps with the versioned source `904b53e7`.
 - Three consecutive loops completed while remaining unpaused at ready state 4,
   with no media error and no browser console warning or error.
 - Desktop 1440x900 and mobile 390x844 hero crops passed with no horizontal
