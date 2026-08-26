@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   COMPATIBILITY_FILES,
+  HERO_VIDEO_URL,
   PUBLIC_ASSET_FILES,
   REDIRECT_ROUTES,
   REVIEW_ASSET_FILES,
@@ -251,7 +252,7 @@ async function assertHttpFailures(origin) {
 }
 
 async function assertByteRanges(origin) {
-  const route = '/assets/video/hero-loop.mp4';
+  const route = HERO_VIDEO_URL;
   await expectResponse(origin, route, 405, { method: 'PATCH' });
   await expectResponse(origin, route, 405, { method: 'POST' });
   const head = await expectResponse(origin, route, 200, { method: 'HEAD' });

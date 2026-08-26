@@ -8,6 +8,7 @@ import {
   COMPATIBILITY_FILES,
   GA4_MEASUREMENT_ID,
   GHL_TRACKING_ID,
+  HERO_VIDEO_URL,
   HOMEPAGE_FIRST_PARTY_JS_BUDGET,
   INDEXABLE_ROUTES,
   META_PIXEL_ID,
@@ -237,6 +238,7 @@ assert.ok(homepageHtml.includes(GHL_TRACKING_ID), 'Homepage GHL tracking ID drif
 assert.ok(homepageHtml.includes('https://link.msgsndr.com/js/external-tracking.js'));
 assert.ok(homepageHtml.includes('https://link.msgsndr.com/js/form_embed.js'));
 assert.ok(homepageHtml.includes('/assets/images/hero/hero-night-city-poster.jpg'));
+assert.ok(homepageHtml.includes(HERO_VIDEO_URL), 'Homepage hero video cache key drifted.');
 assert.ok(homepageHtml.includes('class="hero-media-toggle"'));
 assert.ok(homepageHtml.includes('aria-controls="hero-background-video"'));
 assert.ok(!/<video[^>]+autoplay/i.test(homepageHtml), 'Hero video must not autoplay before preference detection.');

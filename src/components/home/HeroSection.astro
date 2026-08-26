@@ -1,6 +1,6 @@
 ---
 import { heroFlow } from '../../data/home';
-import { SHARED_CTA } from '../../data/site';
+import { SHARED_CTA, SITE } from '../../data/site';
 
 const remotePlaybackAttributes = {
   disablepictureinpicture: true,
@@ -11,7 +11,7 @@ const remotePlaybackAttributes = {
 <!-- ══ HERO ═════════════════════════════════════════════ -->
 <section id="hero">
   <video id="hero-background-video" class="hero-video" muted loop playsinline preload="metadata" poster="/assets/images/hero/hero-night-city-poster.jpg" {...remotePlaybackAttributes} aria-hidden="true">
-    <source src="/assets/video/hero-loop.mp4" type="video/mp4" />
+    <source src={SITE.heroVideoUrl} type="video/mp4" />
   </video>
   <div class="hero-overlay" aria-hidden="true"></div>
   <div class="hero-grain" aria-hidden="true"></div>

@@ -4,11 +4,13 @@ export const {
   SITE_ORIGIN,
   BOOKING_URL,
   GA4_MEASUREMENT_ID,
+  HERO_VIDEO_VERSION,
   META_PIXEL_ID,
   GHL_TRACKING_ID,
 } = SITE_FACTS;
 
 export const GA4_LOADER_PREFIX = 'https://www.googletagmanager.com/gtag/js?id=';
+export const HERO_VIDEO_URL = `/assets/video/hero-loop.mp4?v=${HERO_VIDEO_VERSION}`;
 export const HOMEPAGE_FIRST_PARTY_JS_BUDGET = 6652;
 
 /** @typedef {'generated' | 'compatibility' | 'review-only' | 'redirect' | 'api' | 'auxiliary'} RouteOwner */
