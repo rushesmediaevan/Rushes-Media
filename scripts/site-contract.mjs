@@ -117,7 +117,7 @@ export const SITE_CONTRACT = [
       source: 'demand-loop/index.html',
       title: 'The Demand Loop — Rushes Media',
       description:
-        'Show the work, put it in front of ready buyers, catch them, book the estimate, run it tighter next month. One system. 20-minute Growth Call.',
+        'Show the work, put it in front of ready buyers, catch them, book the estimate, run it tighter next month. One system. 30-minute Growth Call.',
       priority: '0.9',
     },
     {

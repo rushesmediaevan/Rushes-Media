@@ -101,7 +101,7 @@ export const innerPages: readonly InnerPage[] = [
     slug: 'demand-loop',
     title: 'The Demand Loop — Rushes Media',
     description:
-      'Show the work, put it in front of ready buyers, catch them, book the estimate, run it tighter next month. One system. 20-minute Growth Call.',
+      'Show the work, put it in front of ready buyers, catch them, book the estimate, run it tighter next month. One system. 30-minute Growth Call.',
     eyebrow: 'The mechanism',
     heading: [
       { kind: 'text', text: 'The Demand Loop. ' },
@@ -110,7 +110,7 @@ export const innerPages: readonly InnerPage[] = [
     lede:
       'Show the real work → make it into creative → put it in front of the right people → one page → catch the lead → follow up in minutes → book the estimate → track it → do it sharper.',
     bodyParagraphs: [
-      'Everyone sells one piece — content, or ads, or a website. The money falls through the gaps. The Loop closes every gap. That is what we install. Public door is a 20-minute Growth Call. We do not quote a menu on this page.',
+      'Everyone sells one piece — content, or ads, or a website. The money falls through the gaps. The Loop closes every gap. That is what we install. Public door is a 30-minute Growth Call. We do not quote a menu on this page.',
     ],
     pullQuote:
       'You are hiring the path from attention to a booked calendar — not a media buyer.',
@@ -148,7 +148,7 @@ export const innerPages: readonly InnerPage[] = [
     lede:
       'For owner-operated HVAC shops doing changeouts worth the floor. Every missed call in the field is a replacement walking.',
     bodyParagraphs: [
-      'Posting more doesn’t fix that. A system that answers in minutes does — and it uses the installs you already do as the ad. 20-minute Growth Call. We’ll look at how work reaches you.',
+      'Posting more doesn’t fix that. A system that answers in minutes does — and it uses the installs you already do as the ad. 30-minute Growth Call. We’ll look at how work reaches you.',
     ],
     pullQuote: 'That missed call was a changeout. Your competitor already booked it.',
   },
@@ -181,7 +181,7 @@ export const innerPages: readonly InnerPage[] = [
     lede:
       'For owners — not the front desk queue. The room is expensive. The grid often isn’t. End of day is too late.',
     bodyParagraphs: [
-      'We show the work, put it in front of the right people, and book the consult in minutes. Same machine as the trades. The calendar word is consults. The Growth Call is still 20 minutes, owner only.',
+      'We show the work, put it in front of the right people, and book the consult in minutes. Same machine as the trades. The calendar word is consults. The Growth Call is still 30 minutes, owner only.',
     ],
     pullQuote: 'Front desk gets to the DMs. Sometimes. By then the consult is gone.',
   },

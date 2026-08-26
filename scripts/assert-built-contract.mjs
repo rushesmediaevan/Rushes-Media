@@ -139,6 +139,10 @@ assert.equal(publicHtmlRoutes.length, 17, 'Exactly 17 HTML routes belong in the 
 
 for (const route of publicHtmlRoutes) {
   const html = await readFile(pageFile(route.path), 'utf8');
+  assert.ok(
+    !/\b(?:20-minute|20 minutes|twenty minutes)\b/i.test(html),
+    `${route.path} still advertises the retired 20-minute Growth Call duration.`,
+  );
   const ga4Blocks = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].filter((match) =>
     match[1].includes(GA4_MEASUREMENT_ID),
   );
@@ -242,6 +246,7 @@ for (const utmKey of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']
   assert.ok(homepageHtml.includes(utmKey), `Homepage attribution is missing ${utmKey}.`);
 }
 assert.ok(homepageHtml.includes('slice(0,120)'), 'Homepage attribution must truncate at 120 characters.');
+assert.ok(homepageHtml.includes('~30 minutes'), 'Homepage Growth Call duration drifted from 30 minutes.');
 assert.ok(homepageHtml.includes(GHL_TRACKING_ID), 'Homepage GHL tracking ID drifted.');
 assert.ok(homepageHtml.includes('https://link.msgsndr.com/js/external-tracking.js'));
 assert.ok(homepageHtml.includes('https://link.msgsndr.com/js/form_embed.js'));
@@ -346,6 +351,7 @@ for (const reviewAsset of REVIEW_ASSET_FILES) {
 }
 
 const thanksHtml = await readFile(path.join(distRoot, 'thanks/index.html'), 'utf8');
+assert.ok(thanksHtml.includes('30-minute call'), '/thanks/ Growth Call duration drifted from 30 minutes.');
 assert.equal(
   (thanksHtml.match(/<script\b/gi) || []).length,
   (thanksHtml.match(/<\/script>/gi) || []).length,

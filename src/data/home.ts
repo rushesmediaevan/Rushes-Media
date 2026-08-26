@@ -131,7 +131,7 @@ export const processSteps = [
     title: 'Growth Call',
     description:
       'We look at how work comes in today, what’s working, and where estimates stall — then recommend the clearest next step. Or an honest no.',
-    badge: '~20 minutes',
+    badge: '~30 minutes',
   },
   {
     number: '02',
