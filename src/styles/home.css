@@ -1204,7 +1204,11 @@
       padding-top: 36px;
       border-top: 1px solid rgba(26,42,63,.12);
       width: 100%;
-      scroll-margin-top: 96px;
+    }
+    .booking-anchor {
+      display: block;
+      height: 0;
+      scroll-margin-top: 136px;
     }
     .cta-book-h3 {
       font-family: 'Cormorant Garamond', serif;
@@ -1235,6 +1239,7 @@
       background: #fff;
     }
     @media (max-width: 540px) {
+      .booking-anchor { scroll-margin-top: 148px; }
       .lf-row { grid-template-columns: 1fr; gap: 14px; }
       .lead-form button { width: 100%; justify-content: center; }
     }

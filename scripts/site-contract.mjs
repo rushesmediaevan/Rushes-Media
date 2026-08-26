@@ -54,7 +54,7 @@ export const SITE_CONTRACT = [
     canonical: `${SITE_ORIGIN}/`,
     requiredAssets: [
       '/assets/images/hero/hero-bg.jpg',
-      '/assets/images/hero/hero-night-city-poster.jpg',
+      '/assets/images/hero/hero-night-city-video-poster.jpg',
       '/assets/video/hero-loop.mp4',
       '/assets/images/logo-icon.png',
       '/assets/images/logo-wordmark.png',
@@ -391,6 +391,7 @@ export const PUBLIC_ASSET_FILES = [
   'assets/meta-pixel.js',
   'assets/images/hero/hero-bg.jpg',
   'assets/images/hero/hero-night-city-poster.jpg',
+  'assets/images/hero/hero-night-city-video-poster.jpg',
   'assets/images/logo-icon.png',
   'assets/images/logo-wordmark.png',
   'assets/video/hero-loop.mp4',

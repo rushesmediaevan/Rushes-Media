@@ -1,0 +1,24 @@
+PURPOSE
+One continuous silent 16:9 website-hero flight through an original generated East Coast river city at deep blue hour. This is atmospheric brand imagery, not a real place or client result.
+
+REFERENCE ROLES
+The supplied start image is the exact opening frame: dense deep-indigo cloud cover with only faint distant lights. The supplied reference image defines the original city, river, bridges, cloud palette, lighting, and responsive composition that must appear after the camera emerges.
+
+ACTION AND TIMING
+0.0-2.5 seconds: Begin exactly inside the dense cloud start frame. Fly physically forward through the vapor at a steady speed. The cloud texture passes toward the viewer, beneath the camera, and outward from the centered vanishing point.
+
+2.5-12.5 seconds: Emerge into the same original river-city environment from the reference image and continue one uninterrupted forward flyover. Maintain constant positive forward translation for the entire visible passage. Foreground clouds flow beneath and outward. The river, bridges, and city core grow gradually and monotonically larger at 25%, 50%, 75%, and 90% of the shot, proving real forward travel rather than a zoom or animated plate.
+
+12.5-15.0 seconds: Without slowing, reversing, or changing direction, fly forward into a new dense deep-indigo cloud bank. End while still moving forward inside textured near-opaque vapor with luminance and coverage close to the opening frame.
+
+CAMERA
+Single stabilized first-person aerial cinema camera, 24mm full-frame equivalent, level horizon, fixed yaw, pitch, and roll, centered vanishing point, and one gently descending physical flight path. Constant velocity from first frame through final frame. No cuts, orbit, pan, tilt, bank, roll, zoom, focus rack, shake, acceleration, deceleration, hover, push-pull, breathing, boomerang motion, backward drift, or endpoint morph.
+
+LIGHT AND PALETTE
+Preserve the deep ink and navy shadows, moonlit indigo and cobalt cloud edges, restrained aubergine depth, soft gold horizon accent, and antique-gold city lights. Stable exposure and color throughout. Keep the left side low-detail and dark enough for cream and gold website typography.
+
+PRESERVE
+Preserve the reference city's river shape, bridge count, skyline proportions, horizon, cloud realism, lighting direction, and center-right safe zone. Keep the top 12% and bottom 20% free of critical geometry. Maintain believable scale and physically coherent forward parallax.
+
+AVOID
+No person, superhero, armor, hands, HUD, aircraft, spacecraft, text, logos, recognizable skyline, new buildings, duplicated structures, skyline morphing, liquid clouds, warped horizon, fisheye distortion, Dutch angle, lightning, neon cyberpunk color, exposure pumping, flicker, coarse noise, reverse movement, looping within the generated shot, or audio.

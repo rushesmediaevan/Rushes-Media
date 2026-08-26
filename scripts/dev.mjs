@@ -6,8 +6,13 @@ import { dev } from 'astro';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-process.env.RUSHES_INCLUDE_REVIEW_ROUTES = '1';
-await import('./prepare-astro-public.mjs');
+async function stagePublic(includeReviewRoutes) {
+  process.env.RUSHES_INCLUDE_REVIEW_ROUTES = includeReviewRoutes ? '1' : '0';
+  const mode = includeReviewRoutes ? 'review' : 'release';
+  await import(`./prepare-astro-public.mjs?mode=${mode}`);
+}
+
+await stagePublic(true);
 
 function argumentValue(name) {
   const equalsArgument = process.argv.find((argument) => argument.startsWith(`${name}=`));
@@ -53,6 +58,7 @@ async function stop(signal = 'SIGTERM') {
   shuttingDown = true;
   backend.kill(signal);
   await astroServer?.stop();
+  await stagePublic(false);
 }
 
 for (const signal of ['SIGINT', 'SIGTERM']) {
