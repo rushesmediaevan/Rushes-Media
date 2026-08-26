@@ -1,0 +1,14 @@
+.git
+.github
+.astro
+.astro-public
+.venv
+dist
+node_modules
+__pycache__
+.DS_Store
+npm-debug.log*
+.env
+.env.*
+assets/images/references/
+assets/video/raw/

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rushes Media — Media Done Right.</title>
-  <meta name="description" content="Rushes Media — content, campaigns, web, and follow-up for local businesses. Built to get more qualified booked estimates on your calendar." />
+  <title>Rushes Media — booked estimates from the work you already do</title>
+  <meta name="description" content="Content, campaigns, a page that converts, and follow-up in minutes. One system for owners who can take more of the right work." />
   <meta name="theme-color" content="#0c1825" />
   <link rel="canonical" href="https://rushesmedia.com/" />
   <link rel="icon" type="image/png" href="assets/images/logo-icon.png" />
@@ -13,15 +13,15 @@
   <!-- Social link previews (iMessage, LinkedIn, Facebook, X) -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Rushes Media" />
-  <meta property="og:title" content="Rushes Media — Media Done Right." />
-  <meta property="og:description" content="Content, campaigns, web, and follow-up — one system that turns attention into booked estimates." />
+  <meta property="og:title" content="Rushes Media — booked estimates from the work you already do" />
+  <meta property="og:description" content="Content, campaigns, a page that converts, and follow-up in minutes. One system for owners who can take more of the right work." />
   <meta property="og:url" content="https://rushesmedia.com/" />
   <meta property="og:image" content="https://rushesmedia.com/assets/images/hero/hero-bg.jpg" />
   <meta property="og:image:width" content="1920" />
   <meta property="og:image:height" content="1080" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Rushes Media — Media Done Right." />
-  <meta name="twitter:description" content="Content, campaigns, web, and follow-up — one system that turns attention into booked estimates." />
+  <meta name="twitter:title" content="Rushes Media — booked estimates from the work you already do" />
+  <meta name="twitter:description" content="Content, campaigns, a page that converts, and follow-up in minutes. One system for owners who can take more of the right work." />
   <meta name="twitter:image" content="https://rushesmedia.com/assets/images/hero/hero-bg.jpg" />
 
   <script type="application/ld+json">
@@ -675,6 +675,44 @@
     .proof-n.proof-n-sm { font-size: clamp(48px, 6vw, 76px); letter-spacing: -.01em; }
     @media (max-width: 600px) { .proof-inner { grid-template-columns: 1fr; } }
 
+    #who {
+      background: var(--cream);
+      padding: 0 var(--px) clamp(56px, 7vw, 88px);
+    }
+    .who-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(26,42,63,.12);
+      border: 1px solid rgba(26,42,63,.12);
+    }
+    a.who-cell {
+      display: block;
+      background: var(--cream);
+      padding: 28px 22px;
+      color: inherit;
+      text-decoration: none;
+      min-height: 44px;
+      transition: background .2s var(--ease);
+    }
+    a.who-cell:hover { background: rgba(26,42,63,.04); }
+    a.who-cell:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+    .who-lbl {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .who-txt {
+      font-size: 13px;
+      line-height: 1.55;
+      color: rgba(26,42,63,.62);
+    }
+    @media (max-width: 900px) { .who-inner { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .who-inner { grid-template-columns: 1fr; } }
+
     /* ════════════════════════════════════════════════════
        PROBLEM
     ════════════════════════════════════════════════════ */
@@ -770,7 +808,10 @@
       transition: background .25s var(--ease);
       border-radius: 4px;
       padding-left: 16px; padding-right: 16px;
+      color: inherit;
+      text-decoration: none;
     }
+    a.svc-row { color: inherit; }
     .svc-row:hover { background: rgba(26,42,63,.04); }
     .svc-row:hover .svc-arr { color: var(--gold); transform: translate(3px, -3px); }
     .svc-n {
@@ -1590,6 +1631,27 @@
   </div>
 </section>
 
+<section id="who" aria-label="Who this is for">
+  <div class="who-inner">
+    <a class="who-cell" href="/hardscape/">
+      <div class="who-lbl">Outdoor living</div>
+      <div class="who-txt">Booked estimates from the jobs you already finish.</div>
+    </a>
+    <a class="who-cell" href="/hvac/">
+      <div class="who-lbl">HVAC</div>
+      <div class="who-txt">Replacements on the board, not missed calls in the truck.</div>
+    </a>
+    <a class="who-cell" href="/pools/">
+      <div class="who-lbl">Pools</div>
+      <div class="who-txt">The backyard is the ad.</div>
+    </a>
+    <a class="who-cell" href="/med-spa/">
+      <div class="who-lbl">Med spa</div>
+      <div class="who-txt">Consults booked, not sitting in a DM.</div>
+    </a>
+  </div>
+</section>
+
 <div class="site-section-ornament" aria-hidden="true">
   <div class="site-ornament-line"></div>
 </div>
@@ -1622,7 +1684,7 @@
     <span class="svc-count r d1">04 Services</span>
   </div>
   <div class="svc-list">
-    <div class="svc-row r">
+    <a class="svc-row r" href="/brand-media/">
       <span class="svc-n">01</span>
       <div>
         <h3 class="svc-name">Brand Media</h3>
@@ -1637,9 +1699,9 @@
           <span class="svc-tag">Brand Identity</span>
         </div>
       </div>
-      <span class="svc-arr">↗</span>
-    </div>
-    <div class="svc-row r d1">
+      <span class="svc-arr" aria-hidden="true">↗</span>
+    </a>
+    <a class="svc-row r d1" href="/campaigns/">
       <span class="svc-n">02</span>
       <div>
         <h3 class="svc-name">Creative Campaigns</h3>
@@ -1654,9 +1716,9 @@
           <span class="svc-tag">Offer Design</span>
         </div>
       </div>
-      <span class="svc-arr">↗</span>
-    </div>
-    <div class="svc-row r d2">
+      <span class="svc-arr" aria-hidden="true">↗</span>
+    </a>
+    <a class="svc-row r d2" href="/web/">
       <span class="svc-n">03</span>
       <div>
         <h3 class="svc-name">Web &amp; Landing</h3>
@@ -1671,9 +1733,9 @@
           <span class="svc-tag">Conversion UX</span>
         </div>
       </div>
-      <span class="svc-arr">↗</span>
-    </div>
-    <div class="svc-row r d3">
+      <span class="svc-arr" aria-hidden="true">↗</span>
+    </a>
+    <a class="svc-row r d3" href="/follow-up/">
       <span class="svc-n">04</span>
       <div>
         <h3 class="svc-name">Lead Capture &amp; Follow-up</h3>
@@ -1688,8 +1750,8 @@
           <span class="svc-tag">Booking</span>
         </div>
       </div>
-      <span class="svc-arr">↗</span>
-    </div>
+      <span class="svc-arr" aria-hidden="true">↗</span>
+    </a>
   </div>
 </section>
 
@@ -1851,6 +1913,19 @@
           class="ghl-booking-embed"
           allow="clipboard-write"
         ></iframe>
+        <script>
+          (function passProofAttributionToCalendar() {
+            var frame = document.getElementById('rushes-growth-call-calendar');
+            if (!frame) return;
+            var incoming = new URLSearchParams(location.search);
+            var target = new URL(frame.src);
+            ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(function (key) {
+              var value = incoming.get(key);
+              if (value) target.searchParams.set(key, value.slice(0, 120));
+            });
+            frame.src = target.toString();
+          })();
+        </script>
       </div>
     </div>
   </div>
@@ -1865,9 +1940,8 @@
     </span>
     <ul class="ft-links">
       <li><a href="#services">Services</a></li>
-      <li><a href="#system">System</a></li>
-      <li><a href="#process">Process</a></li>
-      <li><a href="#faq">FAQ</a></li>
+      <li><a href="/demand-loop/">Demand Loop</a></li>
+      <li><a href="/hardscape/">Outdoor living</a></li>
       <li><a href="#book">Book a Growth Call</a></li>
     </ul>
   </div>

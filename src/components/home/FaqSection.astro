@@ -1,0 +1,28 @@
+---
+import { faqs } from '../../data/home';
+---
+
+<!-- ══ FAQ ════════════════════════════════════════════════ -->
+<section id="faq">
+  <div class="faq-inner">
+    <div class="faq-sticky r">
+      <span class="eye">Questions</span>
+      <h2 class="faq-h2">What you<br /><em>need to know.</em></h2>
+    </div>
+    <div class="faq-list r d1">
+      {faqs.map((faq, index) => (
+        <div class="faq-item">
+          <button
+            class="faq-q"
+            type="button"
+            aria-expanded="false"
+            aria-controls={`faq-answer-${index + 1}`}
+          >
+            {faq.question}<span class="faq-ic" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a" id={`faq-answer-${index + 1}`} aria-hidden="true"><div class="faq-ai">{faq.answer}</div></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

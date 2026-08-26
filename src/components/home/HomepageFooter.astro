@@ -1,0 +1,20 @@
+---
+import { footerLinks } from '../../data/home';
+import { SITE } from '../../data/site';
+---
+
+<!-- ══ FOOTER ══════════════════════════════════════════════ -->
+<footer>
+  <div class="ft">
+    <span class="ft-logo" aria-label="Rushes Media">
+      <img src={SITE.logoIcon} alt="" class="ft-crest" width="833" height="959" loading="lazy" />
+      <img src={SITE.logoWordmark} alt="Rushes Media" class="ft-wordmark" width="2888" height="322" loading="lazy" />
+    </span>
+    <ul class="ft-links">
+      {footerLinks.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+    </ul>
+  </div>
+  <p class="ft-copy">© 2026 {SITE.legalName} · {SITE.address} · <a href={`mailto:${SITE.email}`} style="color:inherit">{SITE.email}</a> · <a href={SITE.phoneHref} style="color:inherit">{SITE.phoneDisplay}</a><br />
+  <a href="/privacy/" style="color:#b89860">Privacy Policy</a> · <a href="/terms/" style="color:#b89860">Terms of Service</a> · <a href={`mailto:${SITE.email}`} style="color:#b89860">{SITE.email}</a><br />
+  <span style="font-size:12px;color:rgba(245,240,230,.45);">Book at <a href="/#book" style="color:#b89860">rushesmedia.com/#book</a>. SMS opt-in is on the booking form only. <a href="/privacy/" style="color:#b89860">Privacy</a></span></p>
+</footer>

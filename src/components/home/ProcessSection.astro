@@ -1,0 +1,24 @@
+---
+import { processSteps } from '../../data/home';
+---
+
+<!-- ══ PROCESS ════════════════════════════════════════════ -->
+<section id="process">
+  <div class="process-inner">
+    <div class="process-hd r">
+      <span class="eye">The Process</span>
+      <h2 class="process-h2">Simple to start.<br /><em>Built to compound.</em></h2>
+    </div>
+    <div class="steps">
+      {processSteps.map((step, index) => (
+        <div class:list={['r', `d${index + 1}`]}>
+          <div class="step-rule"></div>
+          <div class="step-n">{step.number}</div>
+          <h3 class="step-title">{step.title}</h3>
+          <p class="step-desc">{step.description}</p>
+          <span class="step-badge">{step.badge}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

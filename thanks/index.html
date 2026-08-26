@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) — GA4, suppressed on local hosts -->
+<script>
+  (function () {
+    var host = window.location.hostname.toLowerCase();
+    if (['localhost', '127.0.0.1', '[::1]'].includes(host) || host.endsWith('.test')) return;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-86B4B79T54';
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', 'G-86B4B79T54');
+  })();
+</script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Thanks — Rushes Media</title>
@@ -41,21 +57,29 @@
   <script src="/assets/meta-pixel.js" defer></script>
 
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-REPLACE_ME"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    const analyticsHost = window.location.hostname.toLowerCase();
+    const suppressLocalAnalytics = ['localhost', '127.0.0.1', '[::1]'].includes(analyticsHost) || analyticsHost.endsWith('.test');
+    const adsConversionId = 'AW-REPLACE_ME'; // stays dormant until a real Google Ads conversion ID replaces the placeholder
+    if (!suppressLocalAnalytics && !adsConversionId.includes('REPLACE_ME')) {
+      const googleTag = document.createElement('script');
+      googleTag.async = true;
+      googleTag.src = 'https://www.googletagmanager.com/gtag/js?id=AW-REPLACE_ME';
+      document.head.appendChild(googleTag);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-    // ↓↓↓  REPLACE  AW-REPLACE_ME  WITH YOUR REAL CONVERSION ID  ↓↓↓
-    gtag('config', 'AW-REPLACE_ME');
+      // ↓↓↓  REPLACE  AW-REPLACE_ME  WITH YOUR REAL CONVERSION ID  ↓↓↓
+      gtag('config', 'AW-REPLACE_ME');
 
-    // ↓↓↓  REPLACE BOTH VALUES BELOW WITH YOUR REAL ID + LABEL  ↓↓↓
-    gtag('event', 'conversion', {
-      'send_to': 'AW-REPLACE_ME/REPLACE_ME_LABEL',
-      'value': 1.0,
-      'currency': 'USD'
-    });
+      // ↓↓↓  REPLACE BOTH VALUES BELOW WITH YOUR REAL ID + LABEL  ↓↓↓
+      gtag('event', 'conversion', {
+        'send_to': 'AW-REPLACE_ME/REPLACE_ME_LABEL',
+        'value': 1.0,
+        'currency': 'USD'
+      });
+    }
   </script>
 
   <style>
@@ -229,8 +253,8 @@
 
 <header>
   <a href="/" class="logo" aria-label="Rushes Media — home">
-    <img src="../assets/images/logo-icon.png" alt="" />
-    <img src="../assets/images/logo-wordmark.png" alt="Rushes Media" class="wm" />
+    <img src="../assets/images/logo-icon.png" alt="" width="833" height="959" />
+    <img src="../assets/images/logo-wordmark.png" alt="Rushes Media" class="wm" width="2888" height="322" />
   </a>
 </header>
 
@@ -272,6 +296,15 @@
     el.addEventListener('mouseenter', () => cur.classList.add('big'));
     el.addEventListener('mouseleave', () => cur.classList.remove('big'));
   });
-<script src="https://link.msgsndr.com/js/external-tracking.js" data-tracking-id="tk_e022859e25cb4ac3901acfffc60cb59a" async></script>
+</script>
+<script>
+  if (!['localhost', '127.0.0.1', '[::1]'].includes(window.location.hostname) && !window.location.hostname.toLowerCase().endsWith('.test')) {
+    const tracking = document.createElement('script');
+    tracking.src = 'https://link.msgsndr.com/js/external-tracking.js';
+    tracking.dataset.trackingId = 'tk_e022859e25cb4ac3901acfffc60cb59a';
+    tracking.async = true;
+    document.head.appendChild(tracking);
+  }
+</script>
 </body>
 </html>

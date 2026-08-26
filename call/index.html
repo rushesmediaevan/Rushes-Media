@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) — GA4, suppressed on local hosts -->
+<script>
+  (function () {
+    var host = window.location.hostname.toLowerCase();
+    if (['localhost', '127.0.0.1', '[::1]'].includes(host) || host.endsWith('.test')) return;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-86B4B79T54';
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', 'G-86B4B79T54');
+  })();
+</script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Your Growth Call — Rushes Media</title>
@@ -41,7 +57,7 @@
       margin: 0 auto;
     }
     .logo { display: flex; align-items: center; gap: 10px; }
-    .logo img { height: 36px; }
+    .logo img { height: 36px; width: auto; }
     .logo .wm { height: 18px; }
     .header-meta {
       font-size: 11px;
@@ -159,7 +175,7 @@
       letter-spacing: .14em;
       text-transform: uppercase;
     }
-    /* MPM results card */
+    /* Truth-labeled proof card */
     .proof-card {
       background: linear-gradient(160deg, rgba(26,42,63,.9), rgba(12,24,37,.95));
       border: 1px solid rgba(184,152,96,.35);
@@ -259,8 +275,8 @@
 <body>
   <header>
     <a href="/" class="logo" aria-label="Rushes Media — home">
-      <img src="/assets/images/logo-icon.png" alt="" />
-      <img src="/assets/images/logo-wordmark.png" alt="Rushes Media" class="wm" />
+      <img src="/assets/images/logo-icon.png" alt="" width="833" height="959" />
+      <img src="/assets/images/logo-wordmark.png" alt="Rushes Media" class="wm" width="2888" height="322" />
     </a>
     <span class="header-meta">Growth Call</span>
   </header>
@@ -326,28 +342,28 @@
 
     <section aria-labelledby="proof-h">
       <h2 id="proof-h">Work proof</h2>
-      <article class="proof-card" id="mpm-results-card">
-        <p class="tag">MPM Landscaping · South Jersey · live run</p>
-        <h3>Capture fixed. Leads landed.</h3>
-        <p class="sub">Honest launch-week numbers — not a closed-job guarantee.</p>
+      <article class="proof-card" id="rushes-system-proof-card">
+        <p class="tag">Functional demo + labeled concepts</p>
+        <h3>The label stays on.</h3>
+        <p class="sub">What the work demonstrates — and what it does not.</p>
         <div class="stats">
-          <div class="stat bad">
-            <div class="label">Month 1</div>
-            <div class="val">163 clicks → 1 lead</div>
-            <div class="note">$427.84 spend · 1.93% CTR · form capture broke</div>
+          <div class="stat good">
+            <div class="label">System proof</div>
+            <div class="val">Trigger → booking</div>
+            <div class="note">A passing controlled test needs retained IDs and timestamps</div>
           </div>
           <div class="stat good">
-            <div class="label">Relaunch day</div>
-            <div class="val">2 leads in GHL</div>
-            <div class="note">Jun 24 · Meta → GHL verified · alerts firing</div>
+            <div class="label">Capability proof</div>
+            <div class="val">Strategy → production</div>
+            <div class="note">Concept work stays labeled as concept work</div>
           </div>
         </div>
         <p class="honest">
-          Creative was already working in month 1. The leak was between the click and the calendar.
-          We fixed capture, then real contacts hit the CRM the same day.
-          Campaign later paused (client budget) — the stack still proved the path:
-          ads → form → CRM → alert.
+          A functional test can prove that the form, source, response, calendar, opportunity and confirmation connect.
+          It cannot prove client demand or revenue. A campaign concept can prove strategy, design and execution range.
+          It cannot be presented as delivered client work. Real client results require raw evidence and written permission.
         </p>
+        <p class="honest"><a href="/demand-loop/" style="color:var(--gold)">See how the full Demand Loop connects →</a></p>
       </article>
     </section>
 
@@ -360,7 +376,7 @@
     </section>
 
     <section>
-      <a class="btn" href="/#book">Need to rebook? <span aria-hidden="true">→</span></a>
+      <a class="btn" id="book-link" href="/#book">Need to rebook? <span aria-hidden="true">→</span></a>
     </section>
   </main>
 
@@ -368,5 +384,19 @@
     Rushes Media · South Jersey · Philadelphia · Main Line<br />
     <a href="/privacy/">Privacy</a> · <a href="/">Home</a>
   </footer>
+  <script>
+    (function preserveProofAttribution() {
+      const allowed = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
+      const incoming = new URLSearchParams(location.search);
+      const target = new URL('/', location.origin);
+      allowed.forEach((key) => {
+        const value = incoming.get(key);
+        if (value) target.searchParams.set(key, value.slice(0, 120));
+      });
+      target.hash = 'book';
+      const link = document.getElementById('book-link');
+      if (link) link.href = target.pathname + target.search + target.hash;
+    })();
+  </script>
 </body>
 </html>

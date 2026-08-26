@@ -1,0 +1,89 @@
+---
+import type { PageSeo } from '../../data/site';
+import { SITE } from '../../data/site';
+import LegalLayout from '../../layouts/LegalLayout.astro';
+
+const seo: PageSeo = {
+  title: 'Terms of Service & SMS Program — Rushes Media',
+  description:
+    'Terms of Service and SMS messaging program terms for Rushes Group LLC (DBA Rushes Media).',
+  canonical: `${SITE.origin}/terms/`,
+};
+---
+
+<LegalLayout seo={seo}>
+
+<main>
+  <h1>Terms of Service</h1>
+  <p class="eff">Effective June 26, 2026 · Rushes Group LLC (DBA Rushes Media) · Haddon Heights, NJ</p>
+
+  <div class="urls">
+    <strong>Terms of Service URL:</strong> <a href="https://rushesmedia.com/terms/">https://rushesmedia.com/terms/</a><br>
+    <strong>Privacy Policy URL:</strong> <a href="https://rushesmedia.com/privacy/">https://rushesmedia.com/privacy/</a><br>
+    <strong>SMS opt-in (booking form):</strong> <a href="https://rushesmedia.com/#book">https://rushesmedia.com/#book</a>
+  </div>
+
+  <h2>Agreement</h2>
+  <p>By accessing <a href="https://rushesmedia.com/">rushesmedia.com</a>, booking a call, or engaging our services, you agree to these Terms of Service and our <a href="https://rushesmedia.com/privacy/">Privacy Policy</a>. If you do not agree, do not use our site or services.</p>
+
+  <h2>Services</h2>
+  <p>Rushes Media provides media, content, demand generation, websites, and follow-up systems for owner-operated businesses. Specific scope, deliverables, and fees are defined in a separate signed agreement between you and Rushes Group LLC — not by this page alone.</p>
+  <p>We do not guarantee specific lead volume, revenue, show rates, close rates, or closed jobs. Results depend on many factors outside our control, including your sales process and market conditions.</p>
+
+  <h2>Acceptable use</h2>
+  <ul>
+    <li>You will provide accurate information when booking or contacting us.</li>
+    <li>You will not misuse our site, attempt unauthorized access, or interfere with our systems.</li>
+    <li>You will not use our services for unlawful purposes.</li>
+  </ul>
+
+  <h2>Intellectual property</h2>
+  <p>Content on rushesmedia.com — including text, design, logos, and creative work — is owned by Rushes Group LLC or its licensors and may not be copied or reused without permission, except as allowed by law.</p>
+
+  <h2>Limitation of liability</h2>
+  <p>To the fullest extent permitted by law, Rushes Group LLC is not liable for indirect, incidental, special, or consequential damages arising from use of our site or services. Our total liability for any claim related to these terms is limited to amounts you paid us in the twelve (12) months before the claim, or one hundred dollars ($100), whichever is greater.</p>
+
+  <h2>Governing law</h2>
+  <p>These terms are governed by the laws of the State of New Jersey, without regard to conflict-of-law rules. Disputes will be resolved in courts located in New Jersey, unless otherwise required by law.</p>
+
+  <h2>SMS messaging program terms</h2>
+  <div class="sms">
+    <p><strong>Rushes Media</strong> (operated by <strong>Rushes Group LLC</strong>)</p>
+
+    <p><strong>Program description.</strong> Rushes Media sends SMS messages including appointment confirmations, scheduling reminders, inquiry follow-ups, and — with separate opt-in — promotional offers and service announcements.</p>
+
+    <p><strong>Age Restriction (18+).</strong> You must be <strong>18 years of age or older</strong> (18+) to opt in to our SMS messaging program. By checking an SMS consent box and providing your mobile number, you represent that you are at least 18 years old.</p>
+
+    <p><strong>How to opt in.</strong> Opt-in occurs only through the Growth Call booking form at{' '}
+    <a href="https://rushesmedia.com/#book">https://rushesmedia.com/#book</a>. On the <strong>Enter details</strong> step, you will see two independent checkboxes (unchecked by default):</p>
+    <ul>
+      <li><strong>Customer care SMS</strong> — confirmations, reminders, and follow-up related to your booking.</li>
+      <li><strong>Promotional SMS (optional)</strong> — offers and marketing. Not required to complete a booking.</li>
+    </ul>
+
+    <p><strong>How to opt out.</strong> You can cancel SMS at any time by texting <strong>STOP</strong>. After you send STOP, we will send a confirmation message. You will no longer receive SMS from us unless you opt in again through the booking form at <a href="https://rushesmedia.com/#book">https://rushesmedia.com/#book</a>.</p>
+
+    <p><strong>Help.</strong> For help, reply <strong>HELP</strong> or contact <a href="mailto:evan@rushesmedia.com">evan@rushesmedia.com</a> or <a href="tel:+16094059918">(609) 405-9918</a>.</p>
+
+    <p><strong>Carriers.</strong> Carriers are not liable for delayed or undelivered messages.</p>
+
+    <p><strong>Rates &amp; frequency.</strong> Message and data rates may apply. Message frequency varies. Contact your wireless provider with questions about your text or data plan.</p>
+
+    <p><strong>Privacy.</strong> See our Privacy Policy: <a href="https://rushesmedia.com/privacy/">https://rushesmedia.com/privacy/</a></p>
+
+    <p><strong>Consent.</strong> SMS consent is not sold, rented, or shared with third parties for their marketing purposes. These terms are intended to comply with applicable messaging industry standards, including CTIA guidelines.</p>
+  </div>
+
+  <h2>Changes to these terms</h2>
+  <p>We may update these Terms of Service from time to time. The effective date at the top reflects the current version. Continued use of our site or services after updates constitutes acceptance.</p>
+
+  <h2>Contact</h2>
+  <p><strong>Rushes Group LLC</strong> (DBA Rushes Media)<br>
+  1636 Oak Avenue, Haddon Heights, NJ 08035<br>
+  Email: <a href="mailto:evan@rushesmedia.com">evan@rushesmedia.com</a><br>
+  Phone: <a href="tel:+16094059918">(609) 405-9918</a><br>
+  Website: <a href="https://rushesmedia.com/">https://rushesmedia.com</a></p>
+
+  <a href="https://rushesmedia.com/" class="back">← Back to rushesmedia.com</a>
+</main>
+</LegalLayout>

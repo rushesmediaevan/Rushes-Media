@@ -1,0 +1,50 @@
+---
+import AudienceSelector from '../components/home/AudienceSelector.astro';
+import BookingSection from '../components/home/BookingSection.astro';
+import CustomCursor from '../components/home/CustomCursor.astro';
+import FaqSection from '../components/home/FaqSection.astro';
+import FloatingCta from '../components/home/FloatingCta.astro';
+import HeroSection from '../components/home/HeroSection.astro';
+import HomepageFooter from '../components/home/HomepageFooter.astro';
+import HomepageHeader from '../components/home/HomepageHeader.astro';
+import MarqueeStrip from '../components/home/MarqueeStrip.astro';
+import ProblemSection from '../components/home/ProblemSection.astro';
+import ProcessSection from '../components/home/ProcessSection.astro';
+import ProofSection from '../components/home/ProofSection.astro';
+import SectionOrnament from '../components/home/SectionOrnament.astro';
+import ServicesSection from '../components/home/ServicesSection.astro';
+import SystemSection from '../components/home/SystemSection.astro';
+import { HOME_FONT_URL, homepageSeo, SITE } from '../data/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/home.css';
+---
+
+<BaseLayout
+  seo={homepageSeo}
+  fontUrl={HOME_FONT_URL}
+  faviconHref="assets/images/logo-icon.png"
+  appleTouchIconHref="assets/images/logo-icon.png"
+  preloadImage="assets/images/hero/hero-night-city-poster.jpg"
+  trackingId={SITE.ghlTrackingId}
+  includeMetaPixel
+>
+  <CustomCursor />
+  <FloatingCta />
+  <HomepageHeader />
+  <HeroSection />
+  <MarqueeStrip />
+  <ProofSection />
+  <AudienceSelector />
+  <SectionOrnament />
+  <ProblemSection />
+  <ServicesSection />
+  <SystemSection />
+  <ProcessSection />
+  <FaqSection />
+  <BookingSection />
+  <HomepageFooter />
+
+  <script>
+    import '../scripts/home';
+  </script>
+</BaseLayout>

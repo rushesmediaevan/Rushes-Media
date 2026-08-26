@@ -1,0 +1,16 @@
+---
+import { proofItems } from '../../data/home';
+---
+
+<!-- ══ PROOF ══════════════════════════════════════════════ -->
+<section id="proof">
+  <div class="proof-inner">
+    {proofItems.map((item, index) => (
+      <div class:list={['proof-cell', 'r', index > 0 && `d${index}`]}>
+        <div class="proof-n">{item.value}{item.suffix && <span>{item.suffix}</span>}</div>
+        <div class="proof-lbl">{item.label}</div>
+        <div class="proof-txt">{item.text}</div>
+      </div>
+    ))}
+  </div>
+</section>

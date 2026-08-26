@@ -1,0 +1,30 @@
+---
+import type { PageSeo } from '../data/site';
+import { LEGAL_FONT_URL } from '../data/site';
+import BaseLayout from './BaseLayout.astro';
+import '../styles/legal.css';
+
+interface Props {
+  seo: PageSeo;
+}
+
+const { seo } = Astro.props;
+---
+
+<BaseLayout seo={seo} fontUrl={LEGAL_FONT_URL} faviconHref="">
+  <nav>
+    <a href="/" class="logo" aria-label="Rushes Media — home">
+      <img src="/assets/images/logo-icon.png" alt="" class="logo-crest" width="833" height="959" />
+      <img src="/assets/images/logo-wordmark.png" alt="Rushes Media" class="logo-wordmark" width="2888" height="322" />
+    </a>
+    <a href="/" class="nav-cta">← Back to home</a>
+  </nav>
+
+  <slot />
+
+  <footer>
+    <p class="ft-copy">© 2026 Rushes Group LLC (DBA Rushes Media) ·{' '}
+    <a href="https://rushesmedia.com/privacy/" style="color:inherit">Privacy Policy</a>{' '}·{' '}
+    <a href="https://rushesmedia.com/terms/" style="color:inherit">Terms of Service</a></p>
+  </footer>
+</BaseLayout>

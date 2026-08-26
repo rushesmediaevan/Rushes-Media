@@ -1,0 +1,38 @@
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    :root{--ink:#0c1825;--navy:#1a2a3f;--cream:#f5f0e6;--gold:#b89860;--gold-d:#9a7d4a;--px:clamp(24px,6vw,80px);}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--ink);color:var(--cream);-webkit-font-smoothing:antialiased;line-height:1.7;}
+    a{color:var(--gold);text-decoration:none;}
+    a:hover{color:var(--gold-d);}
+    nav{position:sticky;top:0;z-index:800;display:flex;align-items:center;justify-content:space-between;
+        padding:0 var(--px);height:85px;background:rgba(12,24,37,.85);backdrop-filter:blur(10px);
+        border-bottom:1px solid rgba(184,152,96,.18);}
+    .logo{display:flex;align-items:center;gap:12px;}
+    .logo-crest{height:34px;width:auto;}
+    .logo-wordmark{height:18px;width:auto;}
+    .nav-cta{font-size:14px;font-weight:500;color:var(--ink);background:var(--gold);
+             padding:10px 20px;border-radius:2px;letter-spacing:.02em;}
+    .nav-cta:hover{background:var(--cream);color:var(--ink);}
+    main{max-width:780px;margin:0 auto;padding:64px var(--px) 96px;}
+    h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(38px,7vw,60px);line-height:1.05;color:var(--cream);}
+    .eff{color:var(--gold);font-size:15px;margin:14px 0 24px;letter-spacing:.02em;}
+    .urls{background:rgba(184,152,96,.08);border:1px solid rgba(184,152,96,.25);padding:18px 22px;border-radius:4px;margin-bottom:32px;font-size:14px;line-height:1.8;}
+    h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(24px,4vw,32px);color:var(--cream);
+       margin:44px 0 12px;padding-bottom:8px;border-bottom:1px solid rgba(184,152,96,.3);}
+    p{margin:12px 0;color:rgba(245,240,230,.86);}
+    ul{margin:12px 0 12px 22px;color:rgba(245,240,230,.86);}
+    li{margin:6px 0;}
+    strong{color:var(--cream);}
+    .sms{background:rgba(184,152,96,.08);border-left:3px solid var(--gold);padding:22px 26px;border-radius:6px;margin:16px 0;}
+    .back{display:inline-block;margin-top:24px;font-size:14px;}
+    footer{border-top:1px solid rgba(184,152,96,.18);padding:40px var(--px);text-align:center;}
+    .ft-copy{color:rgba(245,240,230,.5);font-size:13px;}
+
+a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

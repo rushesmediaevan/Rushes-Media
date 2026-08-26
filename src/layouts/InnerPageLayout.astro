@@ -1,0 +1,62 @@
+---
+import type { InnerPage } from '../data/inner-pages';
+import { innerPageNavigation, innerPageSeo } from '../data/inner-pages';
+import { HOME_FONT_URL, SHARED_CTA, SITE } from '../data/site';
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  page: InnerPage;
+}
+
+const { page } = Astro.props;
+const seo = innerPageSeo(page);
+---
+
+<BaseLayout seo={seo} fontUrl={HOME_FONT_URL} includeMetaPixel>
+  <link slot="head" rel="stylesheet" href="/assets/inner-page.css" />
+
+  <nav>
+    <a href="/" class="logo" aria-label="Rushes Media — home">
+      <img src={SITE.logoIcon} alt="" class="logo-crest" width="833" height="959" />
+      <img src={SITE.logoWordmark} alt="Rushes Media" class="logo-wordmark" width="2888" height="322" />
+    </a>
+    <a href="#book" class="nav-cta">{SHARED_CTA.label}</a>
+  </nav>
+  <main data-page-family={page.family}>
+    <span class="eye">{page.eyebrow}</span>
+    <h1>
+      {page.heading.map((segment) =>
+        segment.kind === 'emphasis' ? <em>{segment.text}</em> : segment.text,
+      )}
+    </h1>
+    <p class="lede">{page.lede}</p>
+    {page.bodyParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+    <blockquote class="pull">{page.pullQuote}</blockquote>
+    <p>Nobody buys a single piece off this page. The Growth Call is how we see whether the whole Loop fits.</p>
+    <div class="loop-links">
+      {innerPageNavigation.map((link) => <a href={link.href}>{link.label}</a>)}
+    </div>
+    <section id="book">
+      <span class="eye">Growth Call</span>
+      <h2>{SHARED_CTA.label}</h2>
+      <p class="book-sub">20 minutes. No deck. Name, phone, and SMS preferences are on the last step inside the calendar.</p>
+      <div class="cal-wrap">
+        <iframe
+          src={SITE.bookingUrl}
+          title={SHARED_CTA.iframeTitle}
+          allow="clipboard-write"
+          loading="lazy"
+          width="780"
+          height="640"
+        ></iframe>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p class="ft-copy">
+      <a href="/">Home</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a><br />
+      {SITE.legalName}
+    </p>
+    <a class="back" href="/">← Back to home</a>
+  </footer>
+</BaseLayout>

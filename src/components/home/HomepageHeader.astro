@@ -1,0 +1,44 @@
+---
+import { primaryNavigation } from '../../data/home';
+import { SHARED_CTA, SITE } from '../../data/site';
+---
+
+<div id="mob" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation menu" inert>
+  <button id="mob-x" aria-label="Close menu">✕</button>
+  <div class="mob-inner">
+    <span class="mob-eye">Menu</span>
+    <ul class="mob-list">
+      {primaryNavigation.map((item) => (
+        <li>
+          <span class="mob-n">{item.number}</span>
+          <a href={item.href}>
+            {item.label}
+            <span class="mob-sub">{item.mobileSubtitle}</span>
+          </a>
+          <span class="mob-arr" aria-hidden="true">→</span>
+        </li>
+      ))}
+    </ul>
+    <div class="mob-foot">
+      <a class="mob-cta" href={SHARED_CTA.href}>
+        {SHARED_CTA.label} <span aria-hidden="true">→</span>
+      </a>
+      <p class="mob-foot-meta">
+        <em>{SITE.name}</em><br />
+        Media that converts.
+      </p>
+    </div>
+  </div>
+</div>
+
+<nav id="nav">
+  <a href="#" class="logo" aria-label="Rushes Media — home">
+    <img src={SITE.logoIcon} alt="" class="logo-crest" width="833" height="959" />
+    <img src={SITE.logoWordmark} alt="Rushes Media" class="logo-wordmark" width="2888" height="322" />
+  </a>
+  <ul class="nav-r">
+    {primaryNavigation.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+    <li><a href={SHARED_CTA.href} class="cta">{SHARED_CTA.label}</a></li>
+  </ul>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="mob"><span></span><span></span><span></span></button>
+</nav>

@@ -1,0 +1,17 @@
+---
+import type { InnerPage } from '../../data/inner-pages';
+import { innerPages } from '../../data/inner-pages';
+import InnerPageLayout from '../../layouts/InnerPageLayout.astro';
+
+export function getStaticPaths() {
+  return innerPages.map((page) => ({ params: { slug: page.slug }, props: { page } }));
+}
+
+interface Props {
+  page: InnerPage;
+}
+
+const { page } = Astro.props;
+---
+
+<InnerPageLayout page={page} />

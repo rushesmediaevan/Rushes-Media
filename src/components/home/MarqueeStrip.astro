@@ -1,0 +1,12 @@
+---
+import { marqueeItems } from '../../data/home';
+
+const repeatedItems = [...marqueeItems, ...marqueeItems];
+---
+
+<!-- ══ MARQUEE ═══════════════════════════════════════════ -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track">
+    {repeatedItems.map((item) => <span>{item}</span>)}
+  </div>
+</div>

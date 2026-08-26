@@ -1,0 +1,14 @@
+---
+import { audiences } from '../../data/home';
+---
+
+<section id="who" aria-label="Who this is for">
+  <div class="who-inner">
+    {audiences.map((audience) => (
+      <a class="who-cell" href={audience.href}>
+        <div class="who-lbl">{audience.label}</div>
+        <div class="who-txt">{audience.text}</div>
+      </a>
+    ))}
+  </div>
+</section>

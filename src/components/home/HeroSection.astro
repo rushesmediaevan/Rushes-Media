@@ -1,0 +1,49 @@
+---
+import { heroFlow } from '../../data/home';
+import { SHARED_CTA } from '../../data/site';
+
+const remotePlaybackAttributes = {
+  disablepictureinpicture: true,
+  disableremoteplayback: true,
+};
+---
+
+<!-- ══ HERO ═════════════════════════════════════════════ -->
+<section id="hero">
+  <video id="hero-background-video" class="hero-video" muted loop playsinline preload="metadata" poster="/assets/images/hero/hero-night-city-poster.jpg" {...remotePlaybackAttributes} aria-hidden="true">
+    <source src="/assets/video/hero-loop.mp4" type="video/mp4" />
+  </video>
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-grain" aria-hidden="true"></div>
+  <button class="hero-media-toggle" type="button" aria-controls="hero-background-video" aria-label="Pause background video" aria-pressed="false">
+    <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3v14H7zm7 0h3v14h-3z" /></svg>
+    <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7z" /></svg>
+  </button>
+  <div class="hero-body">
+    <h1 class="hero-h1">
+      Media<br />
+      <em>done right.</em>
+    </h1>
+    <span class="hero-div" aria-hidden="true"></span>
+    <div class="hero-foot">
+      <div class="hero-foot-text">
+        <p class="hero-flow">
+          {heroFlow.map((item) => (
+            <span class="hero-flow-line">{item.from}<span class="hero-sep" aria-hidden="true">→</span>{item.to}</span>
+          ))}
+        </p>
+        <p class="hero-sub">We make the content, campaigns, and brand work that get you noticed — and the systems that turn that attention into booked estimates on your calendar.</p>
+      </div>
+      <div class="hero-btns">
+        <a href={SHARED_CTA.href} class="btn btn-g btn-lg">
+          {SHARED_CTA.label} <span class="arr">→</span>
+        </a>
+        <a href="#services" class="btn btn-o btn-lg">Our Services</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <div class="hero-scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>

@@ -183,6 +183,12 @@
               <label for="need">${esc(cfg.form?.needLabel)}</label>
               <textarea id="need" name="need" required placeholder="${esc(cfg.form?.needPlaceholder)}"></textarea>
             </div>
+            <div class="f-field">
+              <label for="sms_consent" style="display:flex;gap:.5rem;align-items:flex-start;font-weight:400;font-size:.78rem;line-height:1.45;cursor:pointer;text-transform:none;letter-spacing:normal;">
+                <input id="sms_consent" name="sms_consent" type="checkbox" value="yes" style="margin-top:.25rem;flex:none;width:auto;" />
+                <span>Text me about my request at the number above. Msg &amp; data rates may apply, message frequency varies. Reply STOP to opt out, HELP for help. Consent isn't a condition of purchase.</span>
+              </label>
+            </div>
             <button type="submit" class="f-submit">${esc(cfg.cta?.primary)}</button>
             <p class="f-form-msg" id="form-msg" role="status"></p>
           </form>
@@ -219,6 +225,7 @@
         email: fd.get('email'),
         need: fd.get('need'),
         website: fd.get('website'),
+        sms_consent: fd.get('sms_consent') === 'yes' ? 'yes' : 'no',
         source_url: location.href,
         calendarUrl: cfg.thanks?.calendarUrl || cfg.calendarUrl || '',
       };

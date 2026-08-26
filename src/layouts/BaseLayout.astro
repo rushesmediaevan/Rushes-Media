@@ -1,0 +1,73 @@
+---
+import type { PageSeo } from '../data/site';
+import { SITE } from '../data/site';
+
+interface Props {
+  seo: PageSeo;
+  fontUrl?: string;
+  faviconHref?: string;
+  appleTouchIconHref?: string;
+  includeMetaPixel?: boolean;
+  preloadImage?: string;
+  trackingId?: string;
+}
+
+const {
+  seo,
+  fontUrl,
+  faviconHref = SITE.logoIcon,
+  appleTouchIconHref,
+  includeMetaPixel = false,
+  preloadImage,
+  trackingId,
+} = Astro.props;
+const og = seo.openGraph;
+const twitter = seo.twitter;
+const ga4MeasurementId = SITE.ga4MeasurementId;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) — GA4, suppressed on local hosts -->
+    <script is:inline define:vars={{ ga4MeasurementId }}>
+      (()=>{const h=location.hostname.toLowerCase();if(['localhost','127.0.0.1','[::1]'].includes(h)||h.endsWith('.test'))return;const s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+ga4MeasurementId;document.head.append(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};gtag('js',new Date);gtag('config',ga4MeasurementId)})();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{seo.title}</title>
+    <meta name="description" content={seo.description} />
+    <meta name="theme-color" content={SITE.themeColor} />
+    {seo.canonical && <link rel="canonical" href={seo.canonical} />}
+    {seo.robots && <meta name="robots" content={seo.robots} />}
+    {faviconHref && <link rel="icon" type="image/png" href={faviconHref} />}
+    {appleTouchIconHref && <link rel="apple-touch-icon" href={appleTouchIconHref} />}
+
+    {og?.type && <meta property="og:type" content={og.type} />}
+    {og?.siteName && <meta property="og:site_name" content={og.siteName} />}
+    {og?.title && <meta property="og:title" content={og.title} />}
+    {og?.description && <meta property="og:description" content={og.description} />}
+    {og?.url && <meta property="og:url" content={og.url} />}
+    {og?.image && <meta property="og:image" content={og.image} />}
+    {og?.imageWidth && <meta property="og:image:width" content={String(og.imageWidth)} />}
+    {og?.imageHeight && <meta property="og:image:height" content={String(og.imageHeight)} />}
+    {twitter?.card && <meta name="twitter:card" content={twitter.card} />}
+    {twitter?.title && <meta name="twitter:title" content={twitter.title} />}
+    {twitter?.description && <meta name="twitter:description" content={twitter.description} />}
+    {twitter?.image && <meta name="twitter:image" content={twitter.image} />}
+    {seo.jsonLd && (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(seo.jsonLd)} />
+    )}
+
+    {preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
+    {fontUrl && <link rel="preconnect" href="https://fonts.googleapis.com" />}
+    {fontUrl && <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />}
+    {fontUrl && <link href={fontUrl} rel="stylesheet" />}
+    <slot name="head" />
+    {includeMetaPixel && <script is:inline src="/assets/meta-pixel.js" defer></script>}
+  </head>
+  <body data-tracking-id={trackingId}>
+    <slot />
+    <slot name="scripts" />
+  </body>
+</html>

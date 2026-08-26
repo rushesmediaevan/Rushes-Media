@@ -15,8 +15,10 @@
 
 (function () {
   var META_PIXEL_ID = '1626816695538983'; // ← EVAN: paste pixel ID here, e.g. '1234567890123456'
+  var LOCAL_HOSTS = ['localhost', '127.0.0.1', '[::1]'];
+  var isTestHost = window.location.hostname.toLowerCase().endsWith('.test');
 
-  if (!META_PIXEL_ID) return;
+  if (!META_PIXEL_ID || isTestHost || LOCAL_HOSTS.indexOf(window.location.hostname) !== -1) return;
 
   /* Meta base code */
   !(function (f, b, e, v, n, t, s) {

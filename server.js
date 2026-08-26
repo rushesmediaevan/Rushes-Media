@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Rushes site — static files + PLAYBOOK capture API.
+ * Rushes site — Astro-built static files + PLAYBOOK capture API.
  * Railway: set RUSHES_GHL_PIT_TOKEN + RUSHES_GHL_LOCATION_ID in service env.
  */
 
@@ -9,9 +9,19 @@ const fs = require('fs');
 const path = require('path');
 const { capturePlaybookLead, loadGhlConfig } = require('./lib/playbook-capture');
 const { captureFunnelLead } = require('./lib/funnel-capture');
+const { BOOKING_URL } = require('./scripts/site-facts.json');
 
 const ROOT = __dirname;
+const BUILD_ROOT = path.join(ROOT, 'dist');
+const API_ONLY = process.env.RUSHES_API_ONLY === '1';
+const STATIC_ROOT = BUILD_ROOT;
+const HOST = process.env.HOST || '0.0.0.0';
 const PORT = Number(process.env.PORT || 3000);
+
+if (!API_ONLY && !fs.existsSync(BUILD_ROOT)) {
+  console.error('Built site is missing. Run npm run build before starting the production server.');
+  process.exit(1);
+}
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -68,20 +78,30 @@ function sendJson(res, status, obj) {
 
 function resolveFile(urlPath) {
   const safe = decodeURIComponent(urlPath.split('?')[0]);
-  let filePath = path.join(ROOT, safe);
+  let filePath = path.join(STATIC_ROOT, safe);
 
   if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
     filePath = path.join(filePath, 'index.html');
   }
 
-  if (!filePath.startsWith(ROOT)) return null;
+  if (filePath !== STATIC_ROOT && !filePath.startsWith(`${STATIC_ROOT}${path.sep}`)) return null;
   if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) return null;
   return filePath;
 }
 
 function serveStatic(req, res) {
   const urlPath = req.url === '/' ? '/index.html' : req.url;
-  const filePath = resolveFile(urlPath);
+  let filePath;
+  try {
+    filePath = resolveFile(urlPath);
+  } catch (error) {
+    if (error instanceof URIError) {
+      res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
+      res.end('Bad request');
+      return;
+    }
+    throw error;
+  }
   if (!filePath) {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('Not found');
@@ -164,19 +184,19 @@ function leadRateLimited(ip) {
 const server = http.createServer(async (req, res) => {
   const urlPath = (req.url || '/').split('?')[0];
 
-  if (urlPath === '/inquire' || urlPath === '/inquire/') {
+  if (urlPath === '/inquire' || urlPath === '/inquire/' || urlPath === '/inquire/index.html') {
     res.writeHead(301, { Location: '/#book' });
     res.end();
     return;
   }
 
-  if (urlPath === '/connect' || urlPath === '/connect/') {
+  if (urlPath === '/connect' || urlPath === '/connect/' || urlPath === '/connect/index.html') {
     res.writeHead(301, { Location: '/#book' });
     res.end();
     return;
   }
 
-  if (urlPath === '/contact' || urlPath === '/contact/') {
+  if (urlPath === '/contact' || urlPath === '/contact/' || urlPath === '/contact/index.html') {
     res.writeHead(301, { Location: '/#book' });
     res.end();
     return;
@@ -186,7 +206,7 @@ const server = http.createServer(async (req, res) => {
   // /call stays the pre-call proof page (website/call/index.html) for show-rate.
   if (urlPath === '/book' || urlPath === '/book/') {
     res.writeHead(302, {
-      Location: 'https://api.leadconnectorhq.com/widget/booking/1GUofnPSyYefy2VOSxKO',
+      Location: BOOKING_URL,
     });
     res.end();
     return;
@@ -204,9 +224,10 @@ const server = http.createServer(async (req, res) => {
 
   if (req.method === 'GET' && req.url === '/api/health') {
     const { loc, token } = loadGhlConfig();
-    sendJson(res, 200, {
-      ok: true,
-      ghlConfigured: Boolean(loc && token),
+    const ghlConfigured = Boolean(loc && token);
+    sendJson(res, ghlConfigured ? 200 : 503, {
+      ok: ghlConfigured,
+      ghlConfigured,
     });
     return;
   }
@@ -274,6 +295,6 @@ server.on('error', (err) => {
   process.exit(1);
 });
 
-server.listen(PORT, '0.0.0.0', () => {
-  console.log(`Rushes site listening on 0.0.0.0:${PORT} (pid ${process.pid})`);
+server.listen(PORT, HOST, () => {
+  console.log(`Rushes site listening on ${HOST}:${PORT} (pid ${process.pid})`);
 });

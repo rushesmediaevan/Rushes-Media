@@ -1,0 +1,31 @@
+---
+import { systemSteps } from '../../data/home';
+---
+
+<!-- ══ SYSTEM ═════════════════════════════════════════════ -->
+<section id="system">
+  <div class="system-inner">
+    <div class="system-hd r">
+      <span class="eye">How It Connects</span>
+      <h2 class="system-h2">Four services.<br /><em>One system.</em></h2>
+      <p class="system-sub">Most agencies do one piece. We build the full path — media that earns attention, campaigns that drive demand, a site that converts, and follow-up that books — so nothing falls between vendors.</p>
+    </div>
+    <div class="system-flow r d1">
+      {systemSteps.map((step, index) => (
+        <div class="sys-step">
+          <div class="sys-step-dot">
+            <span class="sys-step-icon">{step.icon}</span>
+            <div class="sys-step-num">{step.number}</div>
+          </div>
+          <div class="sys-step-name">{step.name}</div>
+          <div class="sys-step-desc">{step.description}</div>
+          <div class="sys-step-stat">{step.stat}<span>{step.statLabel}</span></div>
+          {index < systemSteps.length - 1 && <span class="sys-arrow">→</span>}
+        </div>
+      ))}
+    </div>
+    <div class="system-loopback" aria-hidden="true">
+      <span>It compounds &nbsp;·&nbsp; Month over month</span>
+    </div>
+  </div>
+</section>

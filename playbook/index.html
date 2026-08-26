@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) — GA4, suppressed on local hosts -->
+<script>
+  (function () {
+    var host = window.location.hostname.toLowerCase();
+    if (['localhost', '127.0.0.1', '[::1]'].includes(host) || host.endsWith('.test')) return;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-86B4B79T54';
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', 'G-86B4B79T54');
+  })();
+</script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Get the scorecard — Rushes Media</title>
@@ -30,7 +46,7 @@
       display: flex;
       justify-content: center;
     }
-    .logo img { height: 36px; }
+    .logo img { height: 36px; width: auto; }
     .logo .wm { height: 22px; margin-left: 10px; }
     main {
       max-width: 520px;
@@ -115,8 +131,8 @@
 <body>
   <header>
     <a href="/" class="logo" aria-label="Rushes Media — home">
-      <img src="../assets/images/logo-icon.png" alt="" />
-      <img src="../assets/images/logo-wordmark.png" alt="Rushes Media" class="wm" />
+      <img src="../assets/images/logo-icon.png" alt="" width="833" height="959" />
+      <img src="../assets/images/logo-wordmark.png" alt="Rushes Media" class="wm" width="2888" height="322" />
     </a>
   </header>
 

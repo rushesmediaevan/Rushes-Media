@@ -1,43 +1,44 @@
 # Rushes Media Site
 
-This project contains:
+The Rushes marketing site uses Astro for the homepage, nine service/industry pages, and the privacy/terms pair. The Node server serves the built site and continues to own lead-capture APIs and production redirects. Approved legacy pages remain on an explicit compatibility layer.
 
-- `index.html` (main local page)
-- `rushes-media.html` (alternate page variant)
-- `RushesMediaSite.jsx` (Framer component version)
+## Requirements
 
-## Run locally (recommended)
+- Node.js 22.12 or newer in the Node 22 release line
+- npm
 
-This site is static, so you only need a local HTTP server.
-
-```bash
-cd "/Users/evanotoole/Documents/site"
-python3 -m http.server 8080
-```
-
-Then open:
-
-- `http://localhost:8080/index.html`
-- `http://localhost:8080/rushes-media.html`
-
-## Optional formatting tool
-
-If you want formatting support, create a virtual environment and install the dependency:
+With nvm installed:
 
 ```bash
-cd "/Users/evanotoole/Documents/site"
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+nvm use
+npm ci
 ```
 
-The JSX file can be formatted with:
+## Develop locally
 
 ```bash
-source .venv/bin/activate
-js-beautify -r -t -s 2 "RushesMediaSite.jsx"
+npm run dev
 ```
 
-## Framer component note
+Astro prints the local preview URL, normally `http://localhost:4321/`. The dev command starts the Node backend on a temporary local port, proxies API and redirect routes, and stages the local-review-only `/work/` and teleprompter pages. Those two pages are deliberately excluded from release builds.
 
-`RushesMediaSite.jsx` is designed for Framer and imports `addPropertyControls` from `framer`, so it is meant to be pasted into a Framer code file rather than run directly in this static site folder.
+## Validate
+
+```bash
+npm test
+```
+
+This runs Astro checks, isolated Node tests, the production build, built-contract assertions, a production-server smoke, and an Astro-development smoke. Credential variables are removed during HTTP failure tests, so validation never sends a successful GHL capture.
+
+## Production shape
+
+```bash
+npm run build
+npm start
+```
+
+`server.js` requires and serves `dist/`; it never falls back to the legacy project root. It also handles `/api/lead`, `/api/playbook-capture`, `/api/health`, and the redirect routes. `/api/health` returns `503` unless the production GHL location and token are both configured. Railway detects the multi-stage Dockerfile, runs the full suite under Node 22.23.1, and copies only runtime files into the final image.
+
+## Migration rule
+
+The route contract in `scripts/site-contract.mjs` controls Astro ownership, compatibility staging, redirects, sitemap membership, analytics expectations, assets, and tests. Keep backend-only modules in `lib/`. The root `index.html` remains an inert legacy fixture and is never served in production.

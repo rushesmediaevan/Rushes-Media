@@ -1,5 +1,7 @@
 # Rushes niche landing pages + speed-to-lead
 
+**2026-08-13:** `/hardscape/` is the outdoor-living Demand Loop page, not this JSON LP. Do not send the $1,000 test here. Live acquisition: `systems/outreach/RUSHES-ACQUISITION-1000-TEST-2026-08-13.md`.
+
 Config-driven acquisition LPs for Rushes Media ads. **No GHL** — form posts to a small Node handler that emails Evan, auto-replies to the lead, appends to `data/leads/`, and optionally texts via Twilio.
 
 **Blueprint:** `website/rushes-media-hardscape-lp-v1.md` · **Offer:** `offers/rushes-media-offer-ladder.md` §2–3
