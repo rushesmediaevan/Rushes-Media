@@ -34,7 +34,7 @@ async function openPort() {
   return port;
 }
 
-const backendPort = process.env.RUSHES_BACKEND_PORT || String(await openPort());
+const backendPort = process.env['RUSHES_BACKEND_PORT'] || String(await openPort());
 const backendOrigin = `http://127.0.0.1:${backendPort}`;
 const host = argumentValue('--host') || '127.0.0.1';
 const requestedPort = Number(argumentValue('--port')) || 4321;

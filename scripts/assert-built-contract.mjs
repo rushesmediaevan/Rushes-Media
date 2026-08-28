@@ -538,7 +538,7 @@ const workPageSource = await readFile(
 );
 const workScriptSource = await readFile(path.join(projectRoot, 'assets/work/work-review.js'), 'utf8');
 assert.ok(
-  workRouteSource.includes("process.env.RUSHES_INCLUDE_REVIEW_ROUTES !== '1'"),
+  workRouteSource.includes("Reflect.get(process.env, 'RUSHES_INCLUDE_REVIEW_ROUTES') !== '1'"),
   'Review routes are no longer gated behind the explicit build flag.',
 );
 assert.ok(workLayoutSource.includes('noindex,nofollow'), 'Work review layout lost noindex,nofollow.');
