@@ -1,0 +1,46 @@
+---
+import { workConcepts } from '../../data/work-concepts';
+---
+
+<main class="work-selector" id="main">
+  <header class="work-selector-head">
+    <a class="work-rushes-mark" href="/" aria-label="Rushes Media homepage">
+      <img src="/assets/images/logo-icon.png" width="833" height="959" alt="" />
+      <span>Rushes Media</span>
+    </a>
+    <p class="work-review-kicker">Local review · not public client proof</p>
+    <h1>Two fictional companies.<br /><em>Two complete website directions.</em></h1>
+    <p class="work-selector-lede">
+      Stonevale and Halewood are functional design demonstrations built from synthetic media.
+      They show how Rushes can translate one conversion system into two genuinely different
+      visual and buying experiences—without presenting either company, project, or result as real.
+    </p>
+  </header>
+
+  <section class="work-selector-grid" aria-label="Website concepts">
+    {workConcepts.map((concept) => (
+      <article class={`work-selector-card work-selector-card-${concept.theme}`}>
+        <a href={`/work/${concept.slug}/`} aria-label={`Open ${concept.name} concept`}>
+          <img
+            src={concept.heroPoster}
+            width="2560"
+            height="1440"
+            alt={`Synthetic hero still for the fictional ${concept.name} website concept.`}
+          />
+          <span class="work-card-scrim" aria-hidden="true"></span>
+          <span class="work-card-copy">
+            <small>Fictional company · functional demonstration</small>
+            <strong>{concept.name}</strong>
+            <span>{concept.descriptor}</span>
+            <b>Open concept <i aria-hidden="true">→</i></b>
+          </span>
+        </a>
+      </article>
+    ))}
+  </section>
+
+  <footer class="work-selector-foot">
+    <p>No analytics, booking system, phone action, or form submission is active on these review pages.</p>
+    <a href="/industries/">Return to the Rushes industry system</a>
+  </footer>
+</main>

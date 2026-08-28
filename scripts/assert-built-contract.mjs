@@ -17,12 +17,40 @@ import {
   PUBLIC_ASSET_FILES,
   REDIRECT_ROUTES,
   REVIEW_ASSET_FILES,
+  REVIEW_ONLY_ROUTES,
   SITE_CONTRACT,
 } from './site-contract.mjs';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const distRoot = path.join(projectRoot, 'dist');
 const publicRoot = path.join(projectRoot, '.astro-public');
+const homepageLock = JSON.parse(
+  await readFile(path.join(projectRoot, 'scripts/homepage-lock.json'), 'utf8'),
+);
+
+for (const [relativeFile, expectedHash] of Object.entries(homepageLock.protectedFiles)) {
+  const sourceHash = createHash('sha256')
+    .update(await readFile(path.join(projectRoot, relativeFile)))
+    .digest('hex');
+  assert.equal(
+    sourceHash,
+    expectedHash,
+    `Approved homepage lock from ${homepageLock.baseCommit} drifted: ${relativeFile}`,
+  );
+}
+const protectedCssSource = await readFile(
+  path.join(projectRoot, homepageLock.homepageCssProtectedPrefix.path),
+  'utf8',
+);
+const protectedCssPrefix = protectedCssSource
+  .split(/(?<=\n)/)
+  .slice(0, homepageLock.homepageCssProtectedPrefix.lineCount)
+  .join('');
+assert.equal(
+  createHash('sha256').update(protectedCssPrefix).digest('hex'),
+  homepageLock.homepageCssProtectedPrefix.sha256,
+  `Approved homepage header/hero CSS from ${homepageLock.baseCommit} drifted.`,
+);
 
 function decodeHtml(value) {
   return value
@@ -56,10 +84,27 @@ function linkHref(html, rel) {
   return tags(html, 'link').find((entry) => entry.rel === rel)?.href;
 }
 
+function jsonLdDocuments(html) {
+  return [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)]
+    .map((match) => JSON.parse(match[1]));
+}
+
 function pageFile(routePath) {
   return routePath === '/'
     ? path.join(distRoot, 'index.html')
     : path.join(distRoot, routePath.slice(1), 'index.html');
+}
+
+function pngDimensions(buffer) {
+  assert.equal(
+    buffer.subarray(0, 8).toString('hex'),
+    '89504e470d0a1a0a',
+    'Industry prototype is not a valid PNG.',
+  );
+  return {
+    width: buffer.readUInt32BE(16),
+    height: buffer.readUInt32BE(20),
+  };
 }
 
 async function walkFiles(root, directory = root) {
@@ -130,13 +175,18 @@ for (const route of REDIRECT_ROUTES) {
 }
 
 const generatedRoutes = SITE_CONTRACT.filter((route) => route.owner === 'generated');
-assert.equal(generatedRoutes.length, 12, 'Exactly 12 indexable routes must be Astro-generated.');
-assert.equal(INDEXABLE_ROUTES.length, 12, 'Exactly 12 routes must be in the sitemap contract.');
+assert.equal(generatedRoutes.length, 13, 'Exactly 13 content routes must be Astro-generated.');
+assert.equal(INDEXABLE_ROUTES.length, 13, 'Exactly 13 routes must be in the sitemap contract.');
+assert.equal(
+  generatedRoutes.filter((route) => route.indexable).length,
+  13,
+  'Exactly 13 generated routes must remain indexable.',
+);
 
 const publicHtmlRoutes = SITE_CONTRACT.filter((route) =>
   ['generated', 'compatibility'].includes(route.owner),
 );
-assert.equal(publicHtmlRoutes.length, 17, 'Exactly 17 HTML routes belong in the public release.');
+assert.equal(publicHtmlRoutes.length, 18, 'Exactly 18 HTML routes belong in the public release.');
 
 for (const route of publicHtmlRoutes) {
   const html = await readFile(pageFile(route.path), 'utf8');
@@ -216,6 +266,11 @@ for (const route of generatedRoutes) {
   for (const script of route.requiredScripts || []) {
     assert.ok(html.includes(script), `${route.path} is missing script ${script}.`);
   }
+  if (route.jsonLd) {
+    const documents = jsonLdDocuments(html);
+    assert.equal(documents.length, 1, `${route.path} must emit one JSON-LD document.`);
+    assert.deepEqual(documents[0], route.jsonLd, `${route.path} JSON-LD drifted.`);
+  }
   if (route.contentTextHash) {
     const textHash = createHash('sha256').update(visibleText(html)).digest('hex');
     assert.equal(textHash, route.contentTextHash, `${route.path} legal copy drifted.`);
@@ -235,6 +290,22 @@ const homepageSchemaText = homepageHtml.match(
 )?.[1];
 assert.ok(homepageSchemaText, 'Homepage JSON-LD is missing.');
 assert.deepEqual(JSON.parse(homepageSchemaText), SITE_CONTRACT[0].jsonLd);
+for (const approvedHomepageMarker of [
+  'Media<br',
+  '<em>done right.</em>',
+  'We make the content, campaigns, and brand work that get you noticed',
+  'Book a Growth Call',
+  'Our Services',
+  '>Services</a>',
+  '>System</a>',
+  '>Process</a>',
+  '>FAQ</a>',
+]) {
+  assert.ok(
+    homepageHtml.includes(approvedHomepageMarker),
+    `Approved homepage marker drifted: ${approvedHomepageMarker}`,
+  );
+}
 for (const proofLabel of [
   'More Booked Estimates',
   'First Responder Wins',
@@ -248,6 +319,14 @@ for (const utmKey of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']
 }
 assert.ok(homepageHtml.includes('slice(0,120)'), 'Homepage attribution must truncate at 120 characters.');
 assert.ok(homepageHtml.includes('~30 minutes'), 'Homepage Growth Call duration drifted from 30 minutes.');
+assert.ok(homepageHtml.includes('Best fit today'), 'Homepage lost the truthful industry-fit framing.');
+assert.ok(homepageHtml.includes('Outdoor Living &amp; Design-Build'));
+assert.ok(homepageHtml.includes('Interior Design &amp; Residential Build'));
+assert.ok(homepageHtml.includes('HVAC Replacement &amp; Home Comfort'));
+assert.ok(homepageHtml.includes('Med Spa &amp; Aesthetic Practices'));
+assert.ok(homepageHtml.includes('href="/industries/"'));
+assert.ok(!homepageHtml.includes('href="/hardscape/"'), 'Retired hardscape URL leaked into homepage links.');
+assert.ok(!homepageHtml.includes('href="/pools/"'), 'Retired pools URL leaked into homepage links.');
 assert.ok(homepageHtml.includes(GHL_TRACKING_ID), 'Homepage GHL tracking ID drifted.');
 assert.ok(homepageHtml.includes('https://link.msgsndr.com/js/external-tracking.js'));
 assert.ok(homepageHtml.includes('https://link.msgsndr.com/js/form_embed.js'));
@@ -312,15 +391,111 @@ for (const route of SITE_CONTRACT.filter(
   assert.ok(html.includes(`data-page-family=`), `${route.path} lost its semantic family discriminator.`);
 }
 
+const industryMarkers = new Map([
+  ['/industries/', ['Three buying models', 'Choose the buying model', 'Shared commercial discipline']],
+  ['/outdoor-living/', ['The outdoor-living project path', 'One outdoor-living system. Distinct project lanes.', 'Do hardscape, landscape design-build and pool projects need separate campaigns?']],
+  ['/interior-design/', ['The residential design-project path', 'A stronger path for the residential work worth protecting.', 'Will marketing make the brand feel generic?']],
+  ['/hvac/', ['The replacement-opportunity path', 'Built around replacement value—not just more phone volume.', 'Does this replace our dispatcher or office team?']],
+  ['/med-spa/', ['The aesthetic-consult path', 'Built around approved priorities and available provider capacity.', 'Does Rushes write medical or treatment claims?']],
+]);
+const industryTexts = [];
+for (const [routePath, markers] of industryMarkers) {
+  const route = SITE_CONTRACT.find((entry) => entry.path === routePath);
+  assert.ok(route, `Missing industry contract route ${routePath}.`);
+  const html = await readFile(pageFile(routePath), 'utf8');
+  const text = visibleText(html);
+  assert.ok(text.length > 2500, `${routePath} is still too thin to be a substantial industry page.`);
+  industryTexts.push(text);
+  for (const marker of markers) {
+    assert.ok(html.includes(marker), `${routePath} is missing its distinct content marker: ${marker}`);
+  }
+  assert.ok(html.includes('/assets/industry-page.css'), `${routePath} lost the industry design system.`);
+  assert.ok(html.includes('data-industry-booking-frame'), `${routePath} lost its booking frame.`);
+  for (const utmKey of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
+    assert.ok(html.includes(utmKey), `${routePath} attribution is missing ${utmKey}.`);
+  }
+  assert.ok(html.includes('slice(0,120)'), `${routePath} attribution must truncate at 120 characters.`);
+  assert.ok(html.includes('growth_call_click'), `${routePath} lost its Growth Call click event.`);
+  assert.ok(html.includes('booking_section_view'), `${routePath} lost meaningful booking visibility.`);
+  assert.ok(html.includes("host.endsWith('.test')"), `${routePath} analytics test-host suppression is missing.`);
+  assert.ok(!html.includes('astro-island'), `${routePath} emitted an Astro island.`);
+  assert.ok(!html.includes('/assets/proof/'), `${routePath} leaked a review-only proof asset into release HTML.`);
+  assert.ok(!html.includes('data-review-only-asset'), `${routePath} leaked private review markup.`);
+  assert.equal(route.primaryImage?.status, 'approved', `${routePath} primary-image gate drifted.`);
+  assert.ok(html.includes('data-visual-truth="labeled-concept"'), `${routePath} lost its visual truth label.`);
+  assert.ok(
+    html.includes('not a completed client project') ||
+      html.includes('not client work') ||
+      html.includes('not a client installation') ||
+      html.includes('no patient'),
+    `${routePath} lost its visible concept disclosure.`,
+  );
+  for (const source of tags(html, 'source').filter((entry) => entry.type?.startsWith('image/'))) {
+    assert.ok(source.srcset?.includes('w'), `${routePath} emitted an image source without width descriptors.`);
+    assert.ok(source.sizes, `${routePath} emitted an image source without sizes.`);
+  }
+  for (const image of tags(html, 'img').filter((entry) => entry.src?.includes('/assets/images/industries/'))) {
+    assert.ok(Number(image.width) > 0 && Number(image.height) > 0, `${routePath} image lacks measured dimensions.`);
+    assert.ok(image.alt, `${routePath} industry image lacks descriptive alt text.`);
+  }
+}
+assert.equal(new Set(industryTexts).size, industryTexts.length, 'Industry pages emitted repeated boilerplate documents.');
+
 const sitemap = await readFile(path.join(distRoot, 'sitemap.xml'), 'utf8');
 const sitemapLocations = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
+const expectedSitemapPaths = [
+  '/',
+  '/demand-loop/',
+  '/brand-media/',
+  '/campaigns/',
+  '/web/',
+  '/follow-up/',
+  '/industries/',
+  '/outdoor-living/',
+  '/interior-design/',
+  '/hvac/',
+  '/med-spa/',
+  '/privacy/',
+  '/terms/',
+];
 assert.deepEqual(
   sitemapLocations,
-  INDEXABLE_ROUTES.map((route) => route.canonical),
+  expectedSitemapPaths.map((routePath) => `https://rushesmedia.com${routePath}`),
   'Sitemap membership or order drifted.',
+);
+assert.deepEqual(
+  INDEXABLE_ROUTES.map((route) => route.path),
+  expectedSitemapPaths,
+  'Executable sitemap contract drifted from the independent expected list.',
 );
 assert.ok(!sitemap.includes('/work/'), '/work/ must remain outside the sitemap.');
 assert.ok(!sitemap.includes('/funnel/'), '/funnel/ must remain outside the sitemap.');
+assert.ok(sitemap.includes('/med-spa/'), '/med-spa/ must be present in the sitemap.');
+assert.ok(sitemap.includes('/industries/'), '/industries/ must be present in the sitemap.');
+assert.ok(!sitemap.includes('/hardscape/'), 'Retired /hardscape/ must remain outside the sitemap.');
+assert.ok(!sitemap.includes('/pools/'), 'Retired /pools/ must remain outside the sitemap.');
+assert.ok(!sitemap.includes('<priority>'), 'Sitemap must not emit meaningless priority values.');
+assert.ok(!sitemap.includes('<changefreq>'), 'Sitemap must not emit meaningless changefreq values.');
+const sitemapLastmods = [...sitemap.matchAll(/<lastmod>(.*?)<\/lastmod>/g)].map((match) => match[1]);
+assert.deepEqual(
+  sitemapLastmods,
+  INDEXABLE_ROUTES.map((route) => route.lastmod).filter(Boolean),
+  'Sitemap significant-content lastmod values drifted.',
+);
+
+const medSpaRoute = SITE_CONTRACT.find((route) => route.path === '/med-spa/');
+const medSpaHtml = await readFile(pageFile('/med-spa/'), 'utf8');
+assert.equal(medSpaRoute?.indexable, true);
+assert.equal(medSpaRoute?.sitemap, true);
+assert.equal(metaContent(medSpaHtml, 'name', 'robots'), undefined);
+
+for (const retiredRoute of ['/hardscape/', '/pools/']) {
+  await assert.rejects(
+    stat(pageFile(retiredRoute)),
+    { code: 'ENOENT' },
+    `${retiredRoute} was built despite redirect-only ownership.`,
+  );
+}
 
 const funnelRoute = SITE_CONTRACT.find((route) => route.path === '/funnel/');
 const funnelHtml = await readFile(path.join(distRoot, 'funnel/index.html'), 'utf8');
@@ -331,19 +506,80 @@ assert.equal(
   robots,
   'User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /thanks/\nDisallow: /playbook-thanks/\nDisallow: /playbook/\nDisallow: /call/\nDisallow: /work/\nDisallow: /ops/\n\nSitemap: https://rushesmedia.com/sitemap.xml\n',
 );
+assert.ok(!robots.includes('Disallow: /med-spa/'), 'Robots must allow crawling /med-spa/ so noindex can be observed.');
 
 assert.ok(!homepageHtml.includes('href="/work/"'), '/work/ must remain absent from navigation.');
-const workHtml = await readFile(path.join(projectRoot, 'work/index.html'), 'utf8');
-assert.equal(metaContent(workHtml, 'name', 'robots'), 'noindex,nofollow');
-for (const marker of ['Concept — not client result', 'width="1900" height="1862" loading="lazy"']) {
-  assert.ok(workHtml.includes(marker), `/work/ is missing review-only proof marker: ${marker}`);
-}
-assert.ok(!workHtml.includes(GA4_MEASUREMENT_ID), '/work/ must remain untracked while it is review-only.');
-await assert.rejects(
-  stat(path.join(distRoot, 'work/index.html')),
-  { code: 'ENOENT' },
-  '/work/ leaked into the release build.',
+assert.deepEqual(
+  REVIEW_ONLY_ROUTES.map((route) => route.path),
+  ['/work/', '/work/stonevale/', '/work/halewood/'],
+  'Review-route inventory drifted.',
 );
+for (const route of REVIEW_ONLY_ROUTES) {
+  assert.equal(route.robots, 'noindex,nofollow', `${route.path} lost its review robots contract.`);
+  assert.equal(route.sitemap, false, `${route.path} entered the sitemap contract.`);
+  await assert.rejects(
+    stat(pageFile(route.path)),
+    { code: 'ENOENT' },
+    `${route.path} leaked into the release build.`,
+  );
+}
+
+const workRouteSource = await readFile(
+  path.join(projectRoot, 'src/pages/work/[...path].astro'),
+  'utf8',
+);
+const workLayoutSource = await readFile(
+  path.join(projectRoot, 'src/layouts/WorkReviewLayout.astro'),
+  'utf8',
+);
+const workPageSource = await readFile(
+  path.join(projectRoot, 'src/components/work/WorkConceptPage.astro'),
+  'utf8',
+);
+const workScriptSource = await readFile(path.join(projectRoot, 'assets/work/work-review.js'), 'utf8');
+assert.ok(
+  workRouteSource.includes("process.env.RUSHES_INCLUDE_REVIEW_ROUTES !== '1'"),
+  'Review routes are no longer gated behind the explicit build flag.',
+);
+assert.ok(workLayoutSource.includes('noindex,nofollow'), 'Work review layout lost noindex,nofollow.');
+assert.ok(!workLayoutSource.includes(GA4_MEASUREMENT_ID), 'Work review layout must remain untracked.');
+for (const disclosure of [
+  'Fictional company · synthetic media · no client result',
+  'not a Rushes client before-and-after',
+  'not a Rushes client renovation or result',
+  'Local demonstration—nothing entered here can be sent or saved.',
+]) {
+  assert.ok(
+    workPageSource.includes(disclosure) ||
+      (await readFile(path.join(projectRoot, 'src/data/work-concepts.ts'), 'utf8')).includes(disclosure),
+    `Work review source lost truth boundary: ${disclosure}`,
+  );
+}
+for (const forbiddenAction of ['tel:', 'fetch(', 'XMLHttpRequest', 'sendBeacon', 'action=']) {
+  assert.ok(
+    !`${workLayoutSource}\n${workPageSource}\n${workScriptSource}`.includes(forbiddenAction),
+    `Work review source contains a forbidden live action: ${forbiddenAction}`,
+  );
+}
+for (const fabricatedMarker of ['180+', 'Since 2009', 'four weeks of work', 'year five looks like year one']) {
+  assert.ok(!workPageSource.includes(fabricatedMarker), `Work review source retained fabricated proof: ${fabricatedMarker}`);
+}
+for (const interactionMarker of [
+  "event.preventDefault()",
+  "setPointerCapture",
+  "pointercancel",
+  "ArrowDown",
+  "ArrowUp",
+  "Home",
+  "End",
+  "visibilitychange",
+  "prefers-reduced-motion: reduce",
+]) {
+  assert.ok(
+    `${workScriptSource}\n${await readFile(path.join(projectRoot, 'assets/work/work-review.css'), 'utf8')}`.includes(interactionMarker),
+    `Work review interaction contract lost ${interactionMarker}.`,
+  );
+}
 
 const teleprompterHtml = await readFile(path.join(projectRoot, 'call/teleprompter.html'), 'utf8');
 assert.ok(!teleprompterHtml.includes(GA4_MEASUREMENT_ID), 'Teleprompter must not include GA4.');
@@ -359,6 +595,20 @@ for (const reviewAsset of REVIEW_ASSET_FILES) {
     `Review-only asset leaked into release build: ${reviewAsset}`,
   );
 }
+
+const hardscapePrototype = await readFile(
+  path.join(projectRoot, 'assets/proof/industry-hardscape-hero-prototype.png'),
+);
+assert.deepEqual(
+  pngDimensions(hardscapePrototype),
+  { width: 1122, height: 1402 },
+  'Hardscape zero-credit prototype dimensions drifted.',
+);
+assert.equal(
+  createHash('sha256').update(hardscapePrototype).digest('hex'),
+  'd8260c8d878020d0ca593eccbcc7287985e4554accac77e38ad5ac02e07ee805',
+  'Hardscape zero-credit prototype bytes drifted from the provenance record.',
+);
 
 const thanksHtml = await readFile(path.join(distRoot, 'thanks/index.html'), 'utf8');
 assert.ok(thanksHtml.includes('30-minute call'), '/thanks/ Growth Call duration drifted from 30 minutes.');
@@ -387,5 +637,5 @@ for (const directory of ASTRO_ROUTE_DIRECTORIES) {
 }
 
 console.log(
-  `Built contract assertions passed: 12 sitemap routes; 17 GA4-tagged public pages; homepage JS ${builtFirstPartyBytes}/${HOMEPAGE_FIRST_PARTY_JS_BUDGET} legacy bytes; review routes excluded.`,
+  `Built contract assertions passed: 13 sitemap routes; 18 GA4-tagged public pages; homepage JS ${builtFirstPartyBytes}/${HOMEPAGE_FIRST_PARTY_JS_BUDGET} legacy bytes; review routes excluded.`,
 );

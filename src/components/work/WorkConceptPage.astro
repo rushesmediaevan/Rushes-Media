@@ -1,0 +1,200 @@
+---
+import type { WorkConcept } from '../../data/work-concepts';
+
+interface Props {
+  concept: WorkConcept;
+}
+
+const { concept } = Astro.props;
+---
+
+<div class="work-concept" data-work-concept={concept.slug}>
+  <a class="work-skip" href="#work-main">Skip to concept content</a>
+  <aside class="work-truth-strip" aria-label="Concept disclosure">
+    <strong>Local review only</strong>
+    <span>Fictional company · synthetic media · no client result</span>
+    <a href="/work/">All concepts</a>
+  </aside>
+
+  <nav class="work-nav" aria-label={`${concept.name} concept navigation`}>
+    <a class="work-brand" href="#work-top">
+      <span>{concept.name}</span>
+      <small>{concept.descriptor}</small>
+    </a>
+    <div>
+      <span class="work-dummy-contact" aria-label="Fictional phone number; calling is disabled">
+        Demo contact disabled
+      </span>
+      <a class="work-nav-cta" href="#work-consult">Review consultation</a>
+    </div>
+  </nav>
+
+  <main id="work-main">
+    <header class="work-hero" id="work-top">
+      <video
+        id={`work-${concept.slug}-film`}
+        class="work-hero-film"
+        data-work-film
+        src={concept.heroVideo}
+        poster={concept.heroPoster}
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        width={concept.heroWidth}
+        height={concept.heroHeight}
+        aria-hidden="true"
+      ></video>
+      <span class="work-hero-scrim" aria-hidden="true"></span>
+      <div class="work-hero-copy work-reveal">
+        <p class="work-eyebrow">{concept.locationLine}</p>
+        <h1>{concept.heroTitle}<br /><em>{concept.heroEmphasis}</em></h1>
+        <p>{concept.heroBody}</p>
+        <div class="work-actions">
+          <a class="work-primary-action" href="#work-consult">Review consultation</a>
+          <a class="work-secondary-action" href="#work-comparison">See the concept system</a>
+        </div>
+      </div>
+      <button
+        class="work-motion-toggle"
+        type="button"
+        data-work-motion-toggle
+        aria-controls={`work-${concept.slug}-film`}
+        aria-pressed="false"
+      >Play film</button>
+    </header>
+
+    <section class="work-statement">
+      <div class="work-wrap work-reveal">
+        <p>{concept.statement}</p>
+        <span>Strategy demonstration · not a statement about a real company</span>
+      </div>
+    </section>
+
+    <section class="work-comparison" id="work-comparison">
+      <div class="work-wrap">
+        <p class="work-eyebrow work-reveal">{concept.comparison.eyebrow}</p>
+        <h2 class="work-reveal">{concept.comparison.title}</h2>
+        <p class="work-section-lede work-reveal">{concept.comparison.body}</p>
+        <p class="work-inline-truth work-reveal">
+          Generated paired frames · interaction and art-direction demo only · not completed client work
+        </p>
+        <div class="work-slider work-reveal" data-work-slider>
+          <img
+            class="work-slider-finished"
+            src={concept.comparison.finishedImage}
+            alt={concept.comparison.finishedAlt}
+            width="2200"
+            height="1257"
+          />
+          <div class="work-slider-starting" data-work-slider-clip>
+            <img
+              src={concept.comparison.startingImage}
+              alt={concept.comparison.startingAlt}
+              width="2200"
+              height="1257"
+              data-work-slider-image
+            />
+            <span class="work-slider-label work-slider-label-start">Starting concept</span>
+          </div>
+          <span class="work-slider-label work-slider-label-finish">Finished concept</span>
+          <div
+            class="work-slider-handle"
+            data-work-slider-handle
+            role="slider"
+            aria-label="Compare the synthetic starting and finished concept frames"
+            aria-orientation="horizontal"
+            aria-valuemin="2"
+            aria-valuemax="98"
+            aria-valuenow="50"
+            aria-valuetext="50% starting concept and 50% finished concept"
+            tabindex="0"
+          ><span aria-hidden="true"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="work-services">
+      <div class="work-wrap">
+        <p class="work-eyebrow work-reveal">{concept.servicesEyebrow}</p>
+        <h2 class="work-reveal">{concept.servicesTitle}</h2>
+        <div class="work-service-grid">
+          {concept.services.map((service) => (
+            <article class="work-service-card work-reveal">
+              <h3>{service.title}</h3>
+              <p>{service.body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="work-gallery" aria-label={`${concept.name} concept gallery`}>
+      {concept.gallery.map((image) => (
+        <figure class="work-gallery-item work-reveal">
+          <img
+            src={image.src}
+            alt={image.alt}
+            loading="lazy"
+            width={image.width}
+            height={image.height}
+          />
+          <figcaption>{image.caption}<small>Synthetic concept · not client work</small></figcaption>
+        </figure>
+      ))}
+    </section>
+
+    <section class="work-process">
+      <div class="work-wrap">
+        <p class="work-eyebrow work-reveal">Conversion path</p>
+        <h2 class="work-reveal">{concept.processTitle}</h2>
+        <div class="work-process-grid">
+          {concept.process.map((step) => (
+            <article class="work-process-step work-reveal">
+              <span>{step.number}</span>
+              <h3>{step.title}</h3>
+              <p>{step.body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="work-consult" id="work-consult">
+      <div class="work-wrap work-consult-grid">
+        <div class="work-consult-copy work-reveal">
+          <p class="work-eyebrow">Inert local demonstration</p>
+          <h2>{concept.formTitle}</h2>
+          <p>{concept.formBody}</p>
+          <span class="work-dummy-contact">No call, calendar, analytics, or CRM connection is active.</span>
+        </div>
+        <form class="work-demo-form work-reveal" data-work-demo-form>
+          <label>
+            Name
+            <input type="text" name="name" autocomplete="off" placeholder="Demo name" required />
+          </label>
+          <label>
+            Phone
+            <input type="tel" name="phone" autocomplete="off" inputmode="tel" placeholder="Demo number" required />
+          </label>
+          <label>
+            {concept.projectLabel}
+            <input type="text" name="project" autocomplete="off" placeholder={concept.projectPlaceholder} required />
+          </label>
+          <button type="submit">Complete interaction demo</button>
+          <p class="work-form-note" data-work-form-note aria-live="polite">
+            Local demonstration—nothing entered here can be sent or saved.
+          </p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="work-concept-footer">
+    <div class="work-wrap">
+      <strong>{concept.name}</strong>
+      <p>{concept.name} is fictional. Every image and business statement on this page is part of a Rushes Media design demonstration.</p>
+      <a href="/work/">Return to all concepts</a>
+    </div>
+  </footer>
+</div>

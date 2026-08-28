@@ -7,9 +7,9 @@ import {
   COMPATIBILITY_ROUTES,
   GENERATED_ENDPOINT_ROUTES,
   PUBLIC_ASSET_FILES,
+  REDIRECT_ROUTES,
   REVIEW_ASSET_FILES,
   REVIEW_COMPATIBILITY_FILES,
-  REVIEW_ONLY_ROUTES,
   SITE_CONTRACT,
 } from './scripts/site-contract.mjs';
 
@@ -25,7 +25,7 @@ const proxy = backendOrigin
 
 const includeReviewRoutes = process.env.RUSHES_INCLUDE_REVIEW_ROUTES === '1';
 const compatibilityIndexes = new Map(
-  [...COMPATIBILITY_ROUTES, ...(includeReviewRoutes ? REVIEW_ONLY_ROUTES : [])].map((route) => {
+  COMPATIBILITY_ROUTES.map((route) => {
     const slashPath = route.path.endsWith('/') ? route.path : `${route.path}/`;
     return [slashPath, `${slashPath}index.html`];
   }),
@@ -36,12 +36,23 @@ const allowedBrowserFiles = new Set([
   ...(includeReviewRoutes ? REVIEW_ASSET_FILES : []),
   ...(includeReviewRoutes ? REVIEW_COMPATIBILITY_FILES : []),
 ]);
-const passThroughPaths = new Set(
-  SITE_CONTRACT.filter((route) => route.owner === 'redirect' || route.owner === 'api').map(
-    (route) => route.path,
-  ),
+const apiPaths = new Set(
+  SITE_CONTRACT.filter((route) => route.owner === 'api').map((route) => route.path),
 );
 const generatedEndpointPaths = new Set(GENERATED_ENDPOINT_ROUTES.map((route) => route.path));
+const redirectRoutes = new Map(REDIRECT_ROUTES.map((route) => [route.path, route]));
+
+function redirectLocation(destination, incomingSearch) {
+  const localOrigin = 'http://rushes.local';
+  const target = new URL(destination, localOrigin);
+  if (incomingSearch) {
+    const incoming = new URLSearchParams(incomingSearch);
+    for (const [key, value] of incoming) target.searchParams.set(key, value);
+  }
+  return target.origin === localOrigin
+    ? `${target.pathname}${target.search}${target.hash}`
+    : target.toString();
+}
 
 function serveDevelopmentVideo(request, response, pathname) {
   if (pathname !== '/assets/video/hero-loop.mp4') return false;
@@ -84,7 +95,14 @@ function compatibilityDirectoryIndexes() {
       const handleCompatibilityRequest = (request, response, next) => {
         if (!request.url) return next();
         const url = new URL(request.url, 'http://rushes.local');
-        const backendRequest = url.pathname.startsWith('/api/') || passThroughPaths.has(url.pathname);
+        const redirect = redirectRoutes.get(url.pathname);
+        if (redirect && ['GET', 'HEAD'].includes(request.method || 'GET')) {
+          response.statusCode = redirect.redirectStatus;
+          response.setHeader('Location', redirectLocation(redirect.redirectTo, url.search));
+          response.end();
+          return;
+        }
+        const backendRequest = url.pathname.startsWith('/api/') || apiPaths.has(url.pathname);
         if (!backendRequest && !['GET', 'HEAD'].includes(request.method || 'GET')) {
           response.statusCode = 405;
           response.setHeader('Content-Type', 'text/plain; charset=utf-8');
@@ -124,7 +142,8 @@ function sourceFileBoundary() {
           return next();
         }
         if (
-          passThroughPaths.has(url.pathname) ||
+          apiPaths.has(url.pathname) ||
+          redirectRoutes.has(url.pathname) ||
           generatedEndpointPaths.has(url.pathname) ||
           url.pathname.startsWith('/@') ||
           url.pathname.startsWith('/src/') ||

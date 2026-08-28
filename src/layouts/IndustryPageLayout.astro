@@ -1,0 +1,259 @@
+---
+import IndustryBooking from '../components/industry/IndustryBooking.astro';
+import IndustryBreadcrumbs from '../components/industry/IndustryBreadcrumbs.astro';
+import IndustryFooter from '../components/industry/IndustryFooter.astro';
+import IndustryHeader from '../components/industry/IndustryHeader.astro';
+import type { IndustryPage } from '../data/industry-pages';
+import { industryPageSeo } from '../data/industry-pages';
+import { HOME_FONT_URL } from '../data/site';
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  page: IndustryPage;
+}
+
+const { page } = Astro.props;
+const seo = industryPageSeo(page);
+const includeReviewAssets = process.env.RUSHES_INCLUDE_REVIEW_ROUTES === '1';
+const heroAsset = page.heroAsset.publicationStatus === 'approved' || includeReviewAssets
+  ? page.heroAsset
+  : undefined;
+const proofAsset = page.proof.asset &&
+  (page.proof.asset.publicationStatus === 'approved' || includeReviewAssets)
+  ? page.proof.asset
+  : undefined;
+const jpegSrcset = (asset: typeof page.heroAsset) =>
+  asset.sources[0].srcset.replaceAll('.avif', '.jpg');
+---
+
+<BaseLayout seo={seo} fontUrl={HOME_FONT_URL} includeMetaPixel>
+  <link slot="head" rel="stylesheet" href="/assets/industry-page.css" />
+  {heroAsset && (
+    <link
+      slot="head"
+      rel="preload"
+      as="image"
+      href={heroAsset.fallback.src}
+      imagesrcset={heroAsset.sources[0].srcset}
+      imagesizes={heroAsset.sizes}
+      type="image/avif"
+      fetchpriority="high"
+    />
+  )}
+
+  <IndustryHeader />
+  <main
+    data-page-family={page.family}
+    data-buying-model={page.buyingModelId}
+    data-page-variant={page.variant}
+    data-lifecycle={page.lifecycle}
+  >
+    <header class="industry-hero">
+      <div class="industry-hero-copy">
+        <IndustryBreadcrumbs current={page.eyebrow} />
+        <span class="industry-eye">{page.eyebrow}</span>
+        <h1>{page.heading}<br /><em>{page.emphasis}</em></h1>
+        <p class="industry-lede">{page.lede}</p>
+        <p class="industry-support">{page.support}</p>
+        <div class="industry-actions">
+          <a href="#book" class="industry-button industry-button-primary" data-growth-call-click data-link-location="hero">
+            {page.primaryCta} <span aria-hidden="true">→</span>
+          </a>
+          <a href={page.secondaryTarget} class="industry-button industry-button-secondary">
+            {page.secondaryCta}
+          </a>
+        </div>
+      </div>
+      {heroAsset ? (
+        <figure
+          class:list={['industry-hero-visual', { 'industry-hero-visual-wide': heroAsset.aspectRatio === '16 / 9' }]}
+          style={`--industry-visual-ratio:${heroAsset.aspectRatio};--industry-visual-position:${heroAsset.focalPoint}`}
+          data-visual-truth={heroAsset.truthClass}
+        >
+          <picture>
+            {heroAsset.sources.map((source) => <source srcset={source.srcset} sizes={heroAsset.sizes} type={source.type} />)}
+            <img
+              src={heroAsset.fallback.src}
+              srcset={jpegSrcset(heroAsset)}
+              sizes={heroAsset.sizes}
+              width={heroAsset.fallback.width}
+              height={heroAsset.fallback.height}
+              alt={heroAsset.alt}
+              fetchpriority="high"
+              decoding="async"
+            />
+          </picture>
+          <figcaption>{heroAsset.caption}</figcaption>
+          <ol aria-label={page.journeyLabel}>
+            {page.heroPath.map((step, index) => <li><span>{String(index + 1).padStart(2, '0')}</span>{step}</li>)}
+          </ol>
+        </figure>
+      ) : (
+      <aside class="industry-hero-map" aria-label={page.journeyLabel}>
+        <div class="industry-hero-map-head">
+          <span>Buying path</span>
+          <small>{page.journeyLabel}</small>
+        </div>
+        <ol>
+          {page.heroPath.map((step, index) => (
+            <li>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <strong>{step}</strong>
+            </li>
+          ))}
+        </ol>
+        <p>The handoffs change by market. The commercial objective stays clear.</p>
+      </aside>
+      )}
+    </header>
+
+    <section class="industry-section industry-pains" aria-labelledby="pain-heading">
+      <div class="industry-section-head">
+        <span class="industry-eye">The operational leak</span>
+        <h2 id="pain-heading">{page.painHeading}</h2>
+        <p>{page.painIntro}</p>
+      </div>
+      <div class="industry-pain-grid">
+        {page.pains.map((pain, index) => (
+          <article>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <h3>{pain.title}</h3>
+            <p>{pain.body}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="system" class="industry-section industry-system" aria-labelledby="system-heading">
+      <div class="industry-section-head">
+        <span class="industry-eye">The niche-specific system</span>
+        <h2 id="system-heading">{page.systemHeading}</h2>
+        <p>{page.systemIntro}</p>
+      </div>
+      <ol class="industry-system-list">
+        {page.systemSteps.map((step, index) => (
+          <li>
+            <span class="industry-step-number">{String(index + 1).padStart(2, '0')}</span>
+            <div>
+              <h3>{step.name}</h3>
+              <p>{step.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="industry-section industry-use-cases" aria-labelledby="use-case-heading">
+      <div class="industry-section-head">
+        <span class="industry-eye">Where it can apply</span>
+        <h2 id="use-case-heading">{page.useCaseHeading}</h2>
+      </div>
+      <div class="industry-use-grid">
+        {page.useCases.map((useCase) => (
+          <article>
+            <h3>{useCase.name}</h3>
+            <p>{useCase.body}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="industry-section industry-proof" data-proof-status={page.proof.status} aria-labelledby="proof-heading">
+      <div class="industry-proof-copy">
+        <span class="industry-proof-label">{page.proof.label}</span>
+        <h2 id="proof-heading">{page.proof.heading}</h2>
+        <p>{page.proof.body}</p>
+        <dl>
+          <div>
+            <dt>Shows</dt>
+            <dd>Strategy, system design and how one commercial idea can travel across the buyer path.</dd>
+          </div>
+          <div>
+            <dt>Does not claim</dt>
+            <dd>Client work, campaign performance, booked-job volume, revenue or a guaranteed outcome.</dd>
+          </div>
+        </dl>
+      </div>
+      {proofAsset && (
+        <figure
+          class="industry-proof-visual"
+          style={`--industry-visual-ratio:${proofAsset.aspectRatio};--industry-visual-position:${proofAsset.focalPoint}`}
+          data-visual-truth={proofAsset.truthClass}
+          data-review-only-asset={proofAsset.publicationStatus === 'held' ? '' : undefined}
+        >
+          <picture>
+            {proofAsset.sources.map((source) => (
+              <source srcset={source.srcset} sizes={proofAsset.sizes} type={source.type} />
+            ))}
+            <img
+              src={proofAsset.fallback.src}
+              srcset={jpegSrcset(proofAsset)}
+              sizes={proofAsset.sizes}
+              width={proofAsset.fallback.width}
+              height={proofAsset.fallback.height}
+              alt={proofAsset.alt}
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+          <figcaption>{proofAsset.caption}{proofAsset.publicationStatus === 'held' ? ' · private local review' : ''}</figcaption>
+        </figure>
+      )}
+    </section>
+
+    <section class="industry-section industry-fit" aria-labelledby="fit-heading">
+      <div class="industry-section-head">
+        <span class="industry-eye">Qualification</span>
+        <h2 id="fit-heading">Fit before volume.</h2>
+        <p>The Growth Call is designed to find this out before anyone buys disconnected work.</p>
+      </div>
+      <div class="industry-fit-grid">
+        <article>
+          <span class="industry-fit-label">Good fit</span>
+          <ul>{page.goodFit.map((item) => <li>{item}</li>)}</ul>
+        </article>
+        <article>
+          <span class="industry-fit-label">Poor fit</span>
+          <ul>{page.poorFit.map((item) => <li>{item}</li>)}</ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="industry-section industry-faq" aria-labelledby="faq-heading">
+      <div class="industry-section-head">
+        <span class="industry-eye">Questions owners ask</span>
+        <h2 id="faq-heading">Before the call.</h2>
+      </div>
+      <div class="industry-faq-list">
+        {page.faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}<span aria-hidden="true">+</span></summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="industry-section industry-region" aria-labelledby="region-heading">
+      <div>
+        <span class="industry-eye">Regional context</span>
+        <h2 id="region-heading">Local buying paths, deliberately scoped.</h2>
+        <p>{page.region}</p>
+      </div>
+      <div class="industry-context-links" aria-label="Related services">
+        <span>Build the connected path</span>
+        {page.contextualLinks.map((link) => <a href={link.href}>{link.label}<span aria-hidden="true">→</span></a>)}
+      </div>
+    </section>
+
+    <a class="industry-related" href={page.relatedRoute.href}>
+      <span class="industry-eye">{page.relatedRoute.eyebrow}</span>
+      <strong>{page.relatedRoute.heading}</strong>
+      <p>{page.relatedRoute.body}</p>
+      <span aria-hidden="true">Explore →</span>
+    </a>
+
+    <IndustryBooking route={page.route} />
+  </main>
+  <IndustryFooter />
+</BaseLayout>

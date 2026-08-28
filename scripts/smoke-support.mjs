@@ -36,6 +36,7 @@ export function credentialFreeEnv(extra = {}) {
     'RUSHES_GHL_PIT_TOKEN',
     'RUSHES_GHL_LOCATION_ID',
     'PLAYBOOK_GHL_B64',
+    'LEAD_ALERT_WEBHOOK_URL',
   ]) {
     delete environment[variable];
   }
@@ -105,8 +106,8 @@ async function assertContentRoutes(origin, includeReviewRoutes) {
   );
   assert.equal(
     contentRoutes.length,
-    includeReviewRoutes ? 18 : 17,
-    `The smoke matrix must cover ${includeReviewRoutes ? 18 : 17} content routes.`,
+    includeReviewRoutes ? 21 : 18,
+    `The smoke matrix must cover ${includeReviewRoutes ? 21 : 18} content routes.`,
   );
 
   for (const route of contentRoutes) {
@@ -125,6 +126,8 @@ async function assertContentRoutes(origin, includeReviewRoutes) {
   assert.match(await queryRoute.text(), /Your Growth Call/);
   await expectResponse(origin, '/call/teleprompter.html', includeReviewRoutes ? 200 : 404);
   await expectResponse(origin, '/work/', includeReviewRoutes ? 200 : 404);
+  await expectResponse(origin, '/work/stonevale/', includeReviewRoutes ? 200 : 404);
+  await expectResponse(origin, '/work/halewood/', includeReviewRoutes ? 200 : 404);
 }
 
 async function assertAssets(origin, includeReviewRoutes) {
@@ -141,7 +144,10 @@ async function assertAssets(origin, includeReviewRoutes) {
     '/sitemap.xml',
   ];
   for (const assetPath of new Set(assetPaths)) {
-    await expectResponse(origin, assetPath, 200);
+    const response = await expectResponse(origin, assetPath, 200);
+    if (assetPath.endsWith('.avif')) assert.match(response.headers.get('content-type') || '', /^image\/avif/);
+    if (assetPath.endsWith('.webp')) assert.match(response.headers.get('content-type') || '', /^image\/webp/);
+    if (assetPath.endsWith('.jpg')) assert.match(response.headers.get('content-type') || '', /^image\/jpeg/);
   }
 
   for (const excludedPath of [
@@ -163,7 +169,34 @@ async function assertRedirects(origin) {
   for (const route of REDIRECT_ROUTES) {
     const response = await expectResponse(origin, route.path, route.redirectStatus);
     assert.equal(response.headers.get('location'), route.redirectTo);
+
+    const separator = route.path.includes('?') ? '&' : '?';
+    const head = await expectResponse(
+      origin,
+      `${route.path}${separator}utm_source=smoke`,
+      route.redirectStatus,
+      { method: 'HEAD' },
+    );
+    const destination = new URL(route.redirectTo, 'http://rushes.local');
+    destination.searchParams.set('utm_source', 'smoke');
+    const expectedLocation = destination.origin === 'http://rushes.local'
+      ? `${destination.pathname}${destination.search}${destination.hash}`
+      : destination.toString();
+    assert.equal(head.headers.get('location'), expectedLocation);
+
+    await expectResponse(origin, route.path, 405, { method: 'POST' });
   }
+
+  const canonicalWithQuery = await expectResponse(
+    origin,
+    '/hardscape/index.html?utm_source=smoke',
+    301,
+    { method: 'HEAD' },
+  );
+  assert.equal(canonicalWithQuery.headers.get('location'), '/outdoor-living/?utm_source=smoke');
+
+  const rootExplicitFile = await expectResponse(origin, '/index.html?utm_medium=smoke', 301);
+  assert.equal(rootExplicitFile.headers.get('location'), '/?utm_medium=smoke');
 }
 
 async function assertApiNegatives(origin) {

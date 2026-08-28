@@ -72,10 +72,38 @@ export const proofItems: readonly HomeProofItem[] = [
 ];
 
 export const audiences = [
-  { href: '/hardscape/', label: 'Outdoor living', text: 'Booked estimates from the jobs you already finish.' },
-  { href: '/hvac/', label: 'HVAC', text: 'Replacements on the board, not missed calls in the truck.' },
-  { href: '/pools/', label: 'Pools', text: 'The backyard is the ad.' },
-  { href: '/med-spa/', label: 'Med spa', text: 'Consults booked, not sitting in a DM.' },
+  {
+    href: '/outdoor-living/',
+    label: 'Outdoor Living & Design-Build',
+    text: 'Turn finished hardscapes, complete outdoor spaces and custom pools into better-qualified project consultations.',
+    links: [
+      { href: '/outdoor-living/', label: 'See the project-led system' },
+    ],
+  },
+  {
+    href: '/interior-design/',
+    label: 'Interior Design & Residential Build',
+    text: 'Help the right homeowners understand your judgment, process and fit before the first consultation.',
+    links: [
+      { href: '/interior-design/', label: 'See the consultation path' },
+    ],
+  },
+  {
+    href: '/hvac/',
+    label: 'HVAC Replacement & Home Comfort',
+    text: 'Separate service from replacement intent and route more of the right changeout opportunities to the calendar.',
+    links: [
+      { href: '/hvac/', label: 'See the replacement system' },
+    ],
+  },
+  {
+    href: '/med-spa/',
+    label: 'Med Spa & Aesthetic Practices',
+    text: 'Connect approved treatment positioning, consult capture and follow-up around real provider capacity.',
+    links: [
+      { href: '/med-spa/', label: 'See the consult-booking system' },
+    ],
+  },
 ] as const;
 
 export const homeServices: readonly HomeService[] = [
@@ -153,7 +181,7 @@ export const faqs = [
   {
     question: 'What kinds of businesses do you work with?',
     answer:
-      'Owner-operated local businesses where attention should turn into booked estimates — hardscape and outdoor living, HVAC, med spa and aesthetics, and similar high-ticket service operators. We’re based in South Jersey and work across Philly, the Main Line, Bucks, and the wider tri-state. The right partnership outweighs the zip code.',
+      'Our best fit today is owner-led outdoor living and design-build, interior design and residential build, HVAC replacement, and med spa or aesthetic practices. Pools sit inside the broader outdoor-living path rather than as a separate specialty. We’re based in South Jersey and focus first on Philadelphia, the Main Line, Bucks County, and the wider Mid-Atlantic. Adjacent local-service businesses are evaluated by inquiry rather than given a page that pretends expertise.',
   },
   {
     question: 'How quickly can we get started?',
@@ -190,6 +218,6 @@ export const faqs = [
 export const footerLinks = [
   { href: '#services', label: 'Services' },
   { href: '/demand-loop/', label: 'Demand Loop' },
-  { href: '/hardscape/', label: 'Outdoor living' },
+  { href: '/industries/', label: 'Best-fit industries' },
   { href: '#book', label: 'Book a Growth Call' },
 ] as const;

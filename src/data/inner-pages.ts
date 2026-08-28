@@ -1,7 +1,7 @@
 import type { PageSeo } from './site';
 import { SITE } from './site';
 
-export type InnerPageFamily = 'service' | 'industry' | 'mechanism';
+export type InnerPageFamily = 'service' | 'mechanism';
 
 export interface HeadingSegment {
   kind: 'text' | 'emphasis';
@@ -115,76 +115,6 @@ export const innerPages: readonly InnerPage[] = [
     pullQuote:
       'You are hiring the path from attention to a booked calendar — not a media buyer.',
   },
-  {
-    family: 'industry',
-    slug: 'hardscape',
-    title: 'Marketing for outdoor living contractors — Rushes Media',
-    description:
-      'Turn patio and outdoor living jobs into booked estimates. Content, campaigns, a page that converts, and follow-up in minutes.',
-    eyebrow: 'Outdoor living',
-    heading: [
-      { kind: 'text', text: 'Booked estimates from the jobs ' },
-      { kind: 'emphasis', text: 'you already finish.' },
-    ],
-    lede:
-      'For owner-operated hardscape and outdoor living companies. The backyard is the proof. The gap is what happens in the five minutes after someone reaches out.',
-    bodyParagraphs: [
-      'We film the work, run demand, land it on one page, and book the estimate while you’re still on site. If your average job can’t support the work, we’ll say so on the call.',
-    ],
-    pullQuote:
-      'He called twice. You were on a job. He booked the other guy. That’s the problem we actually solve.',
-  },
-  {
-    family: 'industry',
-    slug: 'hvac',
-    title: 'Marketing for HVAC replacement companies — Rushes Media',
-    description:
-      'Replacements on the board, not missed calls in the truck. Demand campaigns, a page that books, follow-up in minutes.',
-    eyebrow: 'HVAC replacement',
-    heading: [
-      { kind: 'text', text: 'Replacements on the board, ' },
-      { kind: 'emphasis', text: 'not missed calls in the truck.' },
-    ],
-    lede:
-      'For owner-operated HVAC shops doing changeouts worth the floor. Every missed call in the field is a replacement walking.',
-    bodyParagraphs: [
-      'Posting more doesn’t fix that. A system that answers in minutes does — and it uses the installs you already do as the ad. 30-minute Growth Call. We’ll look at how work reaches you.',
-    ],
-    pullQuote: 'That missed call was a changeout. Your competitor already booked it.',
-  },
-  {
-    family: 'industry',
-    slug: 'pools',
-    title: 'Marketing for pool companies — Rushes Media',
-    description:
-      'The backyard is the ad. Campaigns, a page that books, and follow-up so the estimate lands on your calendar.',
-    eyebrow: 'Pools',
-    heading: [{ kind: 'text', text: 'The backyard is the ad.' }],
-    lede:
-      'For pool builders and outdoor spa companies whose work is already photogenic — and whose follow-up isn’t.',
-    bodyParagraphs: [
-      'We turn finished jobs into demand, send people to one page, and book the estimate in minutes. Same Demand Loop as outdoor living. Same Growth Call.',
-    ],
-    pullQuote: 'If the work is the proof, stop hiding it in a camera roll.',
-  },
-  {
-    family: 'industry',
-    slug: 'med-spa',
-    title: 'Med spa marketing for owners — Rushes Media',
-    description:
-      'Consults booked, not sitting in a DM. Owner on the call. Media, campaigns, page, and follow-up as one path.',
-    eyebrow: 'Med spa · owner access',
-    heading: [
-      { kind: 'text', text: 'Consults booked, ' },
-      { kind: 'emphasis', text: 'not sitting in a DM.' },
-    ],
-    lede:
-      'For owners — not the front desk queue. The room is expensive. The grid often isn’t. End of day is too late.',
-    bodyParagraphs: [
-      'We show the work, put it in front of the right people, and book the consult in minutes. Same machine as the trades. The calendar word is consults. The Growth Call is still 30 minutes, owner only.',
-    ],
-    pullQuote: 'Front desk gets to the DMs. Sometimes. By then the consult is gone.',
-  },
 ] as const;
 
 export const innerPageNavigation = [
@@ -193,10 +123,7 @@ export const innerPageNavigation = [
   { href: '/campaigns/', label: 'Campaigns' },
   { href: '/web/', label: 'Web' },
   { href: '/follow-up/', label: 'Follow-up' },
-  { href: '/hardscape/', label: 'Outdoor living' },
-  { href: '/hvac/', label: 'HVAC' },
-  { href: '/pools/', label: 'Pools' },
-  { href: '/med-spa/', label: 'Med spa' },
+  { href: '/industries/', label: 'Best-fit industries' },
 ] as const;
 
 export function innerPageSeo(page: InnerPage): PageSeo {

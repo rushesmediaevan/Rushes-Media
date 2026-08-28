@@ -1,0 +1,30 @@
+---
+import WorkConceptPage from '../../components/work/WorkConceptPage.astro';
+import WorkSelector from '../../components/work/WorkSelector.astro';
+import { workConceptBySlug, workConcepts } from '../../data/work-concepts';
+import WorkReviewLayout from '../../layouts/WorkReviewLayout.astro';
+
+export function getStaticPaths() {
+  if (process.env.RUSHES_INCLUDE_REVIEW_ROUTES !== '1') return [];
+  return [
+    { params: { path: undefined }, props: { slug: undefined } },
+    ...workConcepts.map((concept) => ({ params: { path: concept.slug }, props: { slug: concept.slug } })),
+  ];
+}
+
+const { slug } = Astro.props as { slug?: string };
+const concept = slug ? workConceptBySlug.get(slug as 'stonevale' | 'halewood') : undefined;
+if (slug && !concept) return Astro.redirect('/work/');
+
+const title = concept?.title ?? 'Rushes Media — local portfolio concept review';
+const description = concept?.description ?? 'Local-only review selector for fictional Rushes Media website concepts.';
+---
+
+<WorkReviewLayout
+  title={title}
+  description={description}
+  theme={concept?.theme ?? 'rushes'}
+  preloadImage={concept?.heroPoster}
+>
+  {concept ? <WorkConceptPage concept={concept} /> : <WorkSelector />}
+</WorkReviewLayout>

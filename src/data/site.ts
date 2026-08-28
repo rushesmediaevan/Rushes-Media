@@ -62,8 +62,17 @@ export interface SiteContractEntry {
   requiredAssets?: readonly string[];
   sitemap?: boolean;
   lastmod?: string;
-  changefreq?: 'weekly' | 'monthly' | 'yearly';
-  priority?: string;
+  parentRoute?: string;
+  breadcrumb?: readonly { name: string; path: string }[];
+  lifecycleStatus?: 'active' | 'core-market' | 'specialty' | 'selective-hold' | 'stable' | 'review-only';
+  primaryImage?: {
+    status: 'held' | 'approved';
+    truthClass: string;
+    sourceMaster?: string;
+    publicUrl?: string;
+    width?: number;
+    height?: number;
+  };
   compatibilityDisposition?: string;
   redirectStatus?: number;
   redirectTo?: string;
@@ -96,6 +105,19 @@ export const HOME_FONT_URL =
 
 export const LEGAL_FONT_URL =
   'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap';
+
+export function faqPageSchema(
+  faqs: ReadonlyArray<{ question: string; answer: string }>,
+): Record<string, unknown> {
+  return {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+    })),
+  };
+}
 
 export const SHARED_CTA = {
   label: 'Book a Growth Call',
@@ -134,6 +156,16 @@ export const homepageSeo: PageSeo = {
     description:
       'Rushes Media builds content, campaigns, websites, and follow-up systems for owner-operated local businesses — so more qualified estimates land on the calendar.',
     email: SITE.email,
+    telephone: SITE.phoneDisplay,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '1636 Oak Avenue',
+      addressLocality: 'Haddon Heights',
+      addressRegion: 'NJ',
+      postalCode: '08035',
+      addressCountry: 'US',
+    },
+    sameAs: ['https://www.instagram.com/rushes.media/'],
     image: `${SITE.origin}/assets/images/hero/hero-bg.jpg`,
     areaServed: [
       'South Jersey',

@@ -14,6 +14,8 @@
     window.gtag = function () { dataLayer.push(arguments); };
     gtag('js', new Date());
     gtag('config', 'G-86B4B79T54');
+    var src = new URLSearchParams(window.location.search).get('src');
+    gtag('event', 'generate_lead', { lead_source: 'playbook' + (src ? ':' + src : '') });
   })();
 </script>
 

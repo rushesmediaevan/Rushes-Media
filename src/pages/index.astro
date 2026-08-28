@@ -14,13 +14,23 @@ import ProofSection from '../components/home/ProofSection.astro';
 import SectionOrnament from '../components/home/SectionOrnament.astro';
 import ServicesSection from '../components/home/ServicesSection.astro';
 import SystemSection from '../components/home/SystemSection.astro';
-import { HOME_FONT_URL, homepageSeo, SITE } from '../data/site';
+import { faqs } from '../data/home';
+import { faqPageSchema, HOME_FONT_URL, homepageSeo, SITE } from '../data/site';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import '../styles/home.css';
+
+const { '@context': _jsonLdContext, ...homepageSchema } = homepageSeo.jsonLd ?? {};
+const seo = {
+  ...homepageSeo,
+  jsonLd: {
+    '@context': 'https://schema.org',
+    '@graph': [homepageSchema, faqPageSchema(faqs)],
+  },
+};
 ---
 
 <BaseLayout
-  seo={homepageSeo}
+  seo={seo}
   fontUrl={HOME_FONT_URL}
   faviconHref="assets/images/logo-icon.png"
   appleTouchIconHref="assets/images/logo-icon.png"

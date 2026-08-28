@@ -1,0 +1,17 @@
+---
+import { SHARED_CTA, SITE } from '../../data/site';
+---
+
+<nav class="industry-nav" aria-label="Primary navigation">
+  <a href="/" class="industry-logo" aria-label="Rushes Media — home">
+    <img src={SITE.logoIcon} alt="" width="833" height="959" />
+    <img src={SITE.logoWordmark} alt="Rushes Media" width="2888" height="322" />
+  </a>
+  <div class="industry-nav-links">
+    <a href="/industries/">Industries</a>
+    <a href="/demand-loop/">The system</a>
+    <a href="#book" class="industry-nav-cta" data-growth-call-click data-link-location="navigation">
+      {SHARED_CTA.label}
+    </a>
+  </div>
+</nav>

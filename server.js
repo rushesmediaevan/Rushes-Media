@@ -9,7 +9,6 @@ const fs = require('fs');
 const path = require('path');
 const { capturePlaybookLead, loadGhlConfig } = require('./lib/playbook-capture');
 const { captureFunnelLead } = require('./lib/funnel-capture');
-const { BOOKING_URL } = require('./scripts/site-facts.json');
 
 const ROOT = __dirname;
 const BUILD_ROOT = path.join(ROOT, 'dist');
@@ -17,6 +16,10 @@ const API_ONLY = process.env.RUSHES_API_ONLY === '1';
 const STATIC_ROOT = BUILD_ROOT;
 const HOST = process.env.HOST || '0.0.0.0';
 const PORT = Number(process.env.PORT || 3000);
+let redirectsByPath = new Map();
+const redirectsReady = import('./scripts/site-contract.mjs').then(({ REDIRECT_ROUTES }) => {
+  redirectsByPath = new Map(REDIRECT_ROUTES.map((route) => [route.path, route]));
+});
 
 if (!API_ONLY && !fs.existsSync(BUILD_ROOT)) {
   console.error('Built site is missing. Run npm run build before starting the production server.');
@@ -31,6 +34,7 @@ const MIME = {
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
+  '.avif': 'image/avif',
   '.webp': 'image/webp',
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',
@@ -74,6 +78,18 @@ function sendJson(res, status, obj) {
     'Content-Length': Buffer.byteLength(body),
   });
   res.end(body);
+}
+
+function redirectLocation(destination, incomingSearch) {
+  const localOrigin = 'http://rushes.local';
+  const target = new URL(destination, localOrigin);
+  if (incomingSearch) {
+    const incoming = new URLSearchParams(incomingSearch);
+    for (const [key, value] of incoming) target.searchParams.set(key, value);
+  }
+  return target.origin === localOrigin
+    ? `${target.pathname}${target.search}${target.hash}`
+    : target.toString();
 }
 
 function resolveFile(urlPath) {
@@ -182,31 +198,12 @@ function leadRateLimited(ip) {
 }
 
 const server = http.createServer(async (req, res) => {
-  const urlPath = (req.url || '/').split('?')[0];
-
-  if (urlPath === '/inquire' || urlPath === '/inquire/' || urlPath === '/inquire/index.html') {
-    res.writeHead(301, { Location: '/#book' });
-    res.end();
-    return;
-  }
-
-  if (urlPath === '/connect' || urlPath === '/connect/' || urlPath === '/connect/index.html') {
-    res.writeHead(301, { Location: '/#book' });
-    res.end();
-    return;
-  }
-
-  if (urlPath === '/contact' || urlPath === '/contact/' || urlPath === '/contact/index.html') {
-    res.writeHead(301, { Location: '/#book' });
-    res.end();
-    return;
-  }
-
-  // /book → Growth Call booking widget (short SMS / speed-to-lead link).
-  // /call stays the pre-call proof page (website/call/index.html) for show-rate.
-  if (urlPath === '/book' || urlPath === '/book/') {
-    res.writeHead(302, {
-      Location: BOOKING_URL,
+  const incomingUrl = new URL(req.url || '/', 'http://rushes.local');
+  const urlPath = incomingUrl.pathname;
+  const redirect = redirectsByPath.get(urlPath);
+  if (redirect && (req.method === 'GET' || req.method === 'HEAD')) {
+    res.writeHead(redirect.redirectStatus, {
+      Location: redirectLocation(redirect.redirectTo, incomingUrl.search),
     });
     res.end();
     return;
@@ -295,6 +292,13 @@ server.on('error', (err) => {
   process.exit(1);
 });
 
-server.listen(PORT, HOST, () => {
-  console.log(`Rushes site listening on ${HOST}:${PORT} (pid ${process.pid})`);
-});
+redirectsReady
+  .then(() => {
+    server.listen(PORT, HOST, () => {
+      console.log(`Rushes site listening on ${HOST}:${PORT} (pid ${process.pid})`);
+    });
+  })
+  .catch((error) => {
+    console.error('Site contract failed to load:', error);
+    process.exit(1);
+  });

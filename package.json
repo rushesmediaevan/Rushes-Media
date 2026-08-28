@@ -8,8 +8,10 @@
   "scripts": {
     "prepare:astro-public": "node scripts/prepare-astro-public.mjs",
     "dev": "node scripts/dev.mjs",
-    "prebuild": "npm run prepare:astro-public",
-    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "prebuild": "RUSHES_INCLUDE_REVIEW_ROUTES=0 npm run prepare:astro-public",
+    "build": "RUSHES_INCLUDE_REVIEW_ROUTES=0 ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "prebuild:review": "RUSHES_INCLUDE_REVIEW_ROUTES=1 npm run prepare:astro-public",
+    "build:review": "RUSHES_INCLUDE_REVIEW_ROUTES=1 ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
     "test:unit": "node --test lib/*.test.*",

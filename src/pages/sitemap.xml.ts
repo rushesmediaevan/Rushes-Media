@@ -6,10 +6,7 @@ export function GET() {
   const urls = INDEXABLE_ROUTES.map(
     (route) => `  <url>
     <loc>${SITE_ORIGIN}${route.path === '/' ? '/' : route.path}</loc>
-    <lastmod>${route.lastmod}</lastmod>
-    <changefreq>${route.changefreq}</changefreq>
-    <priority>${route.priority}</priority>
-  </url>`,
+${route.lastmod ? `    <lastmod>${route.lastmod}</lastmod>\n` : ''}  </url>`,
   ).join('\n');
 
   return new Response(

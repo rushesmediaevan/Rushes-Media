@@ -1,0 +1,29 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  theme?: 'rushes' | 'stonevale' | 'halewood';
+  preloadImage?: string;
+}
+
+const { title, description, theme = 'rushes', preloadImage } = Astro.props;
+---
+<!doctype html>
+<html lang="en" data-work-review="local-only">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="color-scheme" content="dark light" />
+    {preloadImage && <link rel="preload" as="image" href={preloadImage} />}
+    <link rel="icon" href="/assets/images/logo-icon.png" />
+    <link rel="stylesheet" href="/assets/work/work-review.css" />
+    <script is:inline>document.documentElement.classList.add('work-js');</script>
+  </head>
+  <body class={`work-review work-theme-${theme}`}>
+    <slot />
+    <script is:inline src="/assets/work/work-review.js" defer></script>
+  </body>
+</html>

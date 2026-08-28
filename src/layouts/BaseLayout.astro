@@ -31,7 +31,7 @@ const ga4MeasurementId = SITE.ga4MeasurementId;
   <head>
     <!-- Google tag (gtag.js) — GA4, suppressed on local hosts -->
     <script is:inline define:vars={{ ga4MeasurementId }}>
-      (()=>{const h=location.hostname.toLowerCase();if(['localhost','127.0.0.1','[::1]'].includes(h)||h.endsWith('.test'))return;const s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+ga4MeasurementId;document.head.append(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};gtag('js',new Date);gtag('config',ga4MeasurementId)})();
+      (()=>{let h=location.hostname;if(['localhost','127.0.0.1','[::1]'].includes(h)||h.endsWith('.test'))return;let s=document.createElement('script');s.async=1;s.src='https://www.googletagmanager.com/gtag/js?id='+ga4MeasurementId;document.head.append(s);window.dataLayer||=[];window.gtag=function(){dataLayer.push(arguments)};gtag('js',new Date);gtag('config',ga4MeasurementId);document.addEventListener('click',e=>{let a=e.target?.closest?.('a[href^="tel:"]');a&&gtag('event','tel_click',{link_url:a.href})})})();
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

@@ -2,13 +2,24 @@
 import { audiences } from '../../data/home';
 ---
 
-<section id="who" aria-label="Who this is for">
+<section id="who" aria-labelledby="who-heading">
+  <div class="who-head">
+    <span>Best fit today</span>
+    <h2 id="who-heading">Four markets. Three buying paths.</h2>
+    <p>Project-led work, urgent replacements and considered consultations each need a different path from attention to a real conversation.</p>
+    <a href="/industries/">Compare the industry systems <span aria-hidden="true">→</span></a>
+  </div>
   <div class="who-inner">
     {audiences.map((audience) => (
-      <a class="who-cell" href={audience.href}>
-        <div class="who-lbl">{audience.label}</div>
-        <div class="who-txt">{audience.text}</div>
-      </a>
+      <article class="who-cell">
+        <a class="who-primary-link" href={audience.href}>
+          <div class="who-lbl">{audience.label}</div>
+          <div class="who-txt">{audience.text}</div>
+        </a>
+        <div class="who-route-links">
+          {audience.links.map((link) => <a href={link.href}>{link.label}<span aria-hidden="true">→</span></a>)}
+        </div>
+      </article>
     ))}
   </div>
 </section>

@@ -1,0 +1,167 @@
+---
+import IndustryBooking from '../../components/industry/IndustryBooking.astro';
+import IndustryBreadcrumbs from '../../components/industry/IndustryBreadcrumbs.astro';
+import IndustryFooter from '../../components/industry/IndustryFooter.astro';
+import IndustryHeader from '../../components/industry/IndustryHeader.astro';
+import {
+  buyingModels,
+  industriesHub,
+  industriesHubSeo,
+  industryPages,
+  type VisualAsset,
+} from '../../data/industry-pages';
+import { HOME_FONT_URL } from '../../data/site';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const seo = industriesHubSeo();
+const pagesByRoute = new Map(industryPages.map((page) => [page.route, page]));
+const jpegSrcset = (asset: VisualAsset) => asset.sources[0].srcset.replaceAll('.avif', '.jpg');
+---
+
+<BaseLayout seo={seo} fontUrl={HOME_FONT_URL} includeMetaPixel>
+  <link slot="head" rel="stylesheet" href="/assets/industry-page.css" />
+
+  <IndustryHeader />
+  <main data-page-family={industriesHub.family}>
+    <header class="industry-hero industry-hub-hero">
+      <div class="industry-hero-copy">
+        <IndustryBreadcrumbs current="Industries" includeIndustries={false} />
+        <span class="industry-eye">{industriesHub.eyebrow}</span>
+        <h1>{industriesHub.heading}<br /><em>{industriesHub.emphasis}</em></h1>
+        <p class="industry-lede">{industriesHub.lede}</p>
+        <div class="industry-actions">
+          <a href="#book" class="industry-button industry-button-primary" data-growth-call-click data-link-location="hero">
+            {industriesHub.primaryCta} <span aria-hidden="true">→</span>
+          </a>
+          <a href="#markets" class="industry-button industry-button-secondary">{industriesHub.secondaryCta}</a>
+        </div>
+      </div>
+      <aside class="industry-hero-map industry-hub-map" aria-label="Three customer buying models">
+        <div class="industry-hero-map-head">
+          <span>Three buying models</span>
+          <small>Four focused markets</small>
+        </div>
+        <ol>
+          {buyingModels.map((model, index) => (
+            <li><span>{String(index + 1).padStart(2, '0')}</span><strong>{model.name}</strong></li>
+          ))}
+        </ol>
+        <p>No cloned niche pages. Each route reflects the way that customer actually decides.</p>
+      </aside>
+    </header>
+
+    <section id="markets" class="industry-section industry-markets" aria-labelledby="market-heading">
+      <div class="industry-section-head">
+        <span class="industry-eye">Choose the buying model</span>
+        <h2 id="market-heading">The work determines the path.</h2>
+        <p>Rushes starts with the real conversion event and handoffs—not a generic promise of “more leads.”</p>
+      </div>
+      <div class="industry-model-stack">
+        {buyingModels.map((model, modelIndex) => (
+          <article class="industry-model" data-model={model.id}>
+            <div class="industry-model-copy">
+              <span class="industry-market-number">{String(modelIndex + 1).padStart(2, '0')}</span>
+              <h3>{model.name}</h3>
+              <p class="industry-market-position">{model.positioning}</p>
+              <ul>{model.commercialLogic.map((item) => <li>{item}</li>)}</ul>
+            </div>
+            <div class="industry-market-pages">
+              {model.childRoutes.map((route) => {
+                const page = pagesByRoute.get(route);
+                if (!page) throw new Error(`Buying model references missing route: ${route}`);
+                const asset = page.heroAsset;
+                return (
+                  <a class="industry-market-card" href={page.route} data-visual-truth={asset.truthClass}>
+                    <picture>
+                      {asset.sources.map((source) => (
+                        <source srcset={source.srcset} sizes="(max-width: 760px) calc(100vw - 40px), 36vw" type={source.type} />
+                      ))}
+                      <img
+                        src={asset.fallback.src}
+                        srcset={jpegSrcset(asset)}
+                        sizes="(max-width: 760px) calc(100vw - 40px), 36vw"
+                        width={asset.fallback.width}
+                        height={asset.fallback.height}
+                        alt={asset.alt}
+                        loading="lazy"
+                        decoding="async"
+                        style={`--industry-visual-position:${asset.focalPoint}`}
+                      />
+                    </picture>
+                    <span>{page.eyebrow}</span>
+                    <strong>{page.heading} <em>{page.emphasis}</em></strong>
+                    <small>{asset.caption}</small>
+                    <b>Explore the market <span aria-hidden="true">→</span></b>
+                  </a>
+                );
+              })}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="industry-section industry-system" aria-labelledby="shared-path-heading">
+      <div class="industry-section-head">
+        <span class="industry-eye">Shared commercial discipline</span>
+        <h2 id="shared-path-heading">The labels change. The handoff still has to work.</h2>
+        <p>Each market receives its own buyer language, qualification and ownership inside this common operating sequence.</p>
+      </div>
+      <ol class="industry-system-list industry-system-list-six">
+        {industriesHub.sharedPath.map((step, index) => (
+          <li>
+            <span class="industry-step-number">{String(index + 1).padStart(2, '0')}</span>
+            <div><h3>{step.name}</h3><p>{step.body}</p></div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="industry-section industry-adjacent" aria-labelledby="adjacent-heading">
+      <div class="industry-section-head">
+        <span class="industry-eye">Adjacent fit by inquiry</span>
+        <h2 id="adjacent-heading">Broader service businesses can fit without a page pretending expertise.</h2>
+        <p>HVAC is the current deep service-and-replacement anchor. These adjacent businesses are evaluated against the same economics, capacity and ownership gate before Rushes recommends a system.</p>
+      </div>
+      <ul>{industriesHub.adjacentFits.map((item) => <li>{item}</li>)}</ul>
+    </section>
+
+    <section class="industry-section industry-fit" aria-labelledby="hub-fit-heading">
+      <div class="industry-section-head">
+        <span class="industry-eye">Qualification</span>
+        <h2 id="hub-fit-heading">Best fit is operational, not cosmetic.</h2>
+      </div>
+      <div class="industry-fit-grid">
+        <article><span class="industry-fit-label">Good fit</span><ul>{industriesHub.goodFit.map((item) => <li>{item}</li>)}</ul></article>
+        <article><span class="industry-fit-label">Poor fit</span><ul>{industriesHub.poorFit.map((item) => <li>{item}</li>)}</ul></article>
+      </div>
+    </section>
+
+    <section class="industry-section industry-region industry-hub-region" aria-labelledby="hub-region-heading">
+      <div>
+        <span class="industry-eye">Regional context</span>
+        <h2 id="hub-region-heading">Close enough to understand the work.</h2>
+        <p>{industriesHub.region}</p>
+      </div>
+      <div class="industry-context-links">
+        <span>Understand the mechanism</span>
+        <a href="/demand-loop/">See the Demand Loop <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section class="industry-section industry-faq" aria-labelledby="hub-faq-heading">
+      <div class="industry-section-head">
+        <span class="industry-eye">Questions owners ask</span>
+        <h2 id="hub-faq-heading">Before choosing a path.</h2>
+      </div>
+      <div class="industry-faq-list">
+        {industriesHub.faqs.map((faq) => (
+          <details><summary>{faq.question}<span aria-hidden="true">+</span></summary><p>{faq.answer}</p></details>
+        ))}
+      </div>
+    </section>
+
+    <IndustryBooking route="/industries/" />
+  </main>
+  <IndustryFooter />
+</BaseLayout>
