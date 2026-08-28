@@ -537,6 +537,11 @@ const workPageSource = await readFile(
   'utf8',
 );
 const workScriptSource = await readFile(path.join(projectRoot, 'assets/work/work-review.js'), 'utf8');
+const dockerfileSource = await readFile(path.join(projectRoot, 'Dockerfile'), 'utf8');
+assert.ok(
+  dockerfileSource.includes('COPY scripts/site-facts.json scripts/site-contract.mjs ./scripts/'),
+  'The production image no longer contains the route contract required by server.js.',
+);
 assert.ok(
   workRouteSource.includes("Reflect.get(process.env, 'RUSHES_INCLUDE_REVIEW_ROUTES') !== '1'"),
   'Review routes are no longer gated behind the explicit build flag.',
