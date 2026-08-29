@@ -61,7 +61,7 @@ const {
       <p class="booking-widget__plate-copy">{BOOKING_COPY.fallbackBody}</p>
     </div>
     <iframe
-      src={SITE.bookingUrl}
+      data-booking-src={SITE.bookingUrl}
       title={SHARED_CTA.iframeTitle}
       id={frameId}
       data-booking-frame
@@ -104,7 +104,7 @@ const {
       const route = widget.getAttribute('data-booking-route') || location.pathname;
       if (!(frame instanceof HTMLIFrameElement) || !(direct instanceof HTMLAnchorElement)) return;
 
-      const destination = new URL(frame.getAttribute('src') || direct.href, location.href);
+      const destination = new URL(frame.getAttribute('data-booking-src') || direct.href, location.href);
       const incoming = new URL(location.href);
       for (const key of keys) {
         const value = incoming.searchParams.get(key);
@@ -112,7 +112,6 @@ const {
       }
       const target = destination.toString();
       direct.href = target;
-      if (frame.getAttribute('src') !== target) frame.setAttribute('src', target);
 
       const analyticsContext = { booking_route: route };
       if (widget.classList.contains('booking-widget--industry')) analyticsContext.industry_route = route;
@@ -124,13 +123,11 @@ const {
         unavailable: widget.getAttribute('data-booking-copy-unavailable') || status?.textContent || '',
       };
       let frameResponded = false;
-      let connectionAvailable = false;
+      let frameVisible = false;
+      let targetNavigationStarted = false;
       let monitorStarted = false;
       let settled = false;
-      let timedOut = false;
-      let offline = false;
       let timeoutId;
-      let probeController;
       const setState = (state, message) => {
         shell?.setAttribute('data-booking-state', state);
         shell?.setAttribute('aria-busy', String(state === 'loading' || state === 'frame-loaded'));
@@ -139,7 +136,7 @@ const {
       };
 
       const maybeReady = () => {
-        if (settled || !frameResponded || !connectionAvailable) return;
+        if (settled || !frameResponded || !frameVisible) return;
         settled = true;
         if (timeoutId) window.clearTimeout(timeoutId);
         setState('ready', bookingCopy.ready);
@@ -149,53 +146,52 @@ const {
         if (settled) return;
         settled = true;
         if (timeoutId) window.clearTimeout(timeoutId);
-        probeController?.abort();
         setState(state, message);
+      };
+
+      const confirmFrameVisibility = () => {
+        if (settled) return;
+        const style = window.getComputedStyle(frame);
+        const rect = frame.getBoundingClientRect();
+        const hiddenByEmbedRuntime = frame.getAttribute('data-initial-iframe-hidden') === 'true';
+        frameVisible = !hiddenByEmbedRuntime
+          && style.display !== 'none'
+          && style.visibility !== 'hidden'
+          && Number.parseFloat(style.opacity || '1') > 0
+          && rect.width >= 240
+          && rect.height >= 300
+          && rect.right > 0;
+        if (frameVisible) maybeReady();
+        else showUnavailable('unavailable', bookingCopy.unavailable);
       };
 
       const startMonitor = () => {
         if (monitorStarted || settled) return;
         monitorStarted = true;
-        probeController = 'AbortController' in window ? new AbortController() : undefined;
         timeoutId = window.setTimeout(() => {
           if (settled) return;
-          timedOut = true;
-          probeController?.abort();
           showUnavailable('delayed', bookingCopy.delayed);
         }, 6500);
-
-        fetch(target, {
-          method: 'GET',
-          mode: 'no-cors',
-          cache: 'no-store',
-          credentials: 'omit',
-          referrerPolicy: 'no-referrer',
-          signal: probeController?.signal,
-        })
-          .then(() => {
-            if (settled) return;
-            connectionAvailable = true;
-            maybeReady();
-          })
-          .catch(() => {
-            if (settled || timedOut || offline) return;
-            showUnavailable('unavailable', bookingCopy.unavailable);
-          });
       };
 
       frame.addEventListener('load', () => {
         if (settled) return;
+        if (!targetNavigationStarted) return;
+        try {
+          if (!frame.contentWindow || frame.contentWindow.location.href === 'about:blank') return;
+        } catch {
+          // A cross-origin location is expected after the Growth Call calendar opens.
+        }
         frameResponded = true;
         setState('frame-loaded', bookingCopy.frameOpened);
         startMonitor();
-        maybeReady();
+        window.requestAnimationFrame(() => window.requestAnimationFrame(confirmFrameVisibility));
       });
       frame.addEventListener('error', () => {
         showUnavailable('unavailable', bookingCopy.unavailable);
       });
 
       window.addEventListener('offline', () => {
-        offline = true;
         showUnavailable('offline', bookingCopy.offline);
       });
 
@@ -214,6 +210,9 @@ const {
       } else {
         startMonitor();
       }
+
+      targetNavigationStarted = true;
+      frame.setAttribute('src', target);
 
       if (document.documentElement.getAttribute('data-booking-click-ready') !== 'true') {
         document.documentElement.setAttribute('data-booking-click-ready', 'true');

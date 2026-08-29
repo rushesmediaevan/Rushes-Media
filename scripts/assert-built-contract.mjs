@@ -330,7 +330,10 @@ assert.ok(!homepageHtml.includes('href="/hardscape/"'), 'Retired hardscape URL l
 assert.ok(!homepageHtml.includes('href="/pools/"'), 'Retired pools URL leaked into homepage links.');
 assert.ok(homepageHtml.includes(GHL_TRACKING_ID), 'Homepage GHL tracking ID drifted.');
 assert.ok(homepageHtml.includes('https://link.msgsndr.com/js/external-tracking.js'));
-assert.ok(homepageHtml.includes('https://link.msgsndr.com/js/form_embed.js'));
+assert.ok(
+  !homepageHtml.includes('https://link.msgsndr.com/js/form_embed.js'),
+  'The GHL resize runtime must not hide the owned booking widget iframe.',
+);
 assert.ok(homepageHtml.includes(HERO_VIDEO_POSTER_PATH));
 const heroPosterVersion = path.basename(HERO_VIDEO_POSTER_PATH).match(/-([a-f0-9]{8})\.jpg$/)?.[1];
 assert.ok(heroPosterVersion, 'Homepage hero poster filename is missing its content hash.');
@@ -369,10 +372,12 @@ for (const resilientBookingMarker of [
   'data-booking-state="loading"',
   'data-booking-loading',
   'data-booking-fallback',
+  'data-booking-src',
   'Calendar frame opened. Confirming availability',
   'The embedded calendar did not finish loading',
   "showUnavailable('unavailable'",
-  "mode: 'no-cors'",
+  'getBoundingClientRect',
+  'data-initial-iframe-hidden',
 ]) {
   assert.ok(homepageHtml.includes(resilientBookingMarker), `Homepage booking fail-safe is missing: ${resilientBookingMarker}`);
 }

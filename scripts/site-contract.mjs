@@ -127,7 +127,6 @@ export const SITE_CONTRACT = [
     requiredScripts: [
       GA4_LOADER_PREFIX,
       '/assets/meta-pixel.js',
-      'https://link.msgsndr.com/js/form_embed.js',
       'https://link.msgsndr.com/js/external-tracking.js',
     ],
     sitemap: true,
@@ -681,6 +680,16 @@ export const SITE_CONTRACT = [
     redirectTo: BOOKING_URL,
     compatibilityDisposition: 'authoritative booking redirect',
   })),
+  {
+    path: '/favicon.ico',
+    owner: 'redirect',
+    indexable: false,
+    source: 'server.js',
+    sitemap: false,
+    redirectStatus: 302,
+    redirectTo: '/assets/images/logo-icon.png',
+    compatibilityDisposition: 'browser favicon alias to the established Rushes icon',
+  },
   ...['/api/health', '/api/lead', '/api/playbook-capture'].map((path) => ({
     path,
     owner: /** @type {const} */ ('api'),

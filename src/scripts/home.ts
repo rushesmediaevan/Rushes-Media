@@ -156,21 +156,12 @@ const localHost =
   hostname === '[::1]' ||
   hostname.endsWith('.test');
 if (!localHost && window.__RUSHES_DISABLE_THIRD_PARTY__ !== true) {
-  const formEmbed = document.createElement('script');
-  formEmbed.src = 'https://link.msgsndr.com/js/form_embed.js';
-  formEmbed.type = 'text/javascript';
-  formEmbed.async = false;
-  const appendExternalTracking = () => {
-    const externalTracking = document.createElement('script');
-    externalTracking.src = 'https://link.msgsndr.com/js/external-tracking.js';
-    const trackingId = document.body.dataset.trackingId;
-    if (trackingId) externalTracking.dataset.trackingId = trackingId;
-    externalTracking.async = true;
-    document.body.appendChild(externalTracking);
-  };
-  formEmbed.addEventListener('load', appendExternalTracking, { once: true });
-  formEmbed.addEventListener('error', appendExternalTracking, { once: true });
-  document.body.appendChild(formEmbed);
+  const externalTracking = document.createElement('script');
+  externalTracking.src = 'https://link.msgsndr.com/js/external-tracking.js';
+  const trackingId = document.body.dataset.trackingId;
+  if (trackingId) externalTracking.dataset.trackingId = trackingId;
+  externalTracking.async = true;
+  document.body.appendChild(externalTracking);
 }
 
 export {};
