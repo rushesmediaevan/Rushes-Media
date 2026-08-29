@@ -12,11 +12,11 @@ export const {
 export const GA4_LOADER_PREFIX = 'https://www.googletagmanager.com/gtag/js?id=';
 export const HERO_VIDEO_URL = `/assets/video/hero-loop.mp4?v=${HERO_VIDEO_VERSION}`;
 export const HERO_VIDEO_POSTER_PATH = '/assets/images/hero/hero-night-city-video-poster-665c792f.jpg';
-// The homepage remains hydration-free. This 11 KiB ceiling includes the owned
+// The homepage remains hydration-free. This 15 KiB ceiling includes the owned
 // loading/fallback and delegated CTA telemetry required for resilient booking.
-// The bounded increase covers the no-hydration booking readiness probe and its
-// designed blocked-frame fallback; the approved hero runtime remains unchanged.
-export const HOMEPAGE_FIRST_PARTY_JS_BUDGET = 14 * 1024;
+// The bounded 15 KiB ceiling covers both visible-frame and credential-free
+// reachability checks; the approved hero runtime remains unchanged.
+export const HOMEPAGE_FIRST_PARTY_JS_BUDGET = 15 * 1024;
 
 const industryDerivativeFiles = (slug, widths, social = false) => [
   ...widths.flatMap((width) => ['avif', 'webp', 'jpg'].map(

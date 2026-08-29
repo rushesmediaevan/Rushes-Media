@@ -378,6 +378,8 @@ for (const resilientBookingMarker of [
   "showUnavailable('unavailable'",
   'getBoundingClientRect',
   'data-initial-iframe-hidden',
+  "mode: 'no-cors'",
+  "credentials: 'omit'",
 ]) {
   assert.ok(homepageHtml.includes(resilientBookingMarker), `Homepage booking fail-safe is missing: ${resilientBookingMarker}`);
 }
