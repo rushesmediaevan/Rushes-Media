@@ -1,6 +1,10 @@
-import { cp, mkdir, rm, stat } from 'node:fs/promises';
+import { cp, mkdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  CONVERSION_COPY_FILES,
+  renderConversionPageCopy,
+} from './conversion-page-copy.mjs';
 import {
   ASTRO_ROUTE_DIRECTORIES,
   COMPATIBILITY_FILES,
@@ -34,7 +38,12 @@ for (const relativeFile of publicFiles) {
     throw new Error(`Compatibility file is missing: ${relativeFile}`);
   }
   await mkdir(path.dirname(target), { recursive: true });
-  await cp(source, target);
+  if (CONVERSION_COPY_FILES.has(relativeFile)) {
+    const template = await readFile(source, 'utf8');
+    await writeFile(target, renderConversionPageCopy(relativeFile, template));
+  } else {
+    await cp(source, target);
+  }
 }
 
 for (const routeDirectory of ASTRO_ROUTE_DIRECTORIES) {

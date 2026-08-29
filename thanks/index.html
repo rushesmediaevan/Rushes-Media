@@ -22,7 +22,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Thanks — Rushes Media</title>
-  <meta name="description" content="We got your inquiry. Evan will reply within 24 hours." />
+  <meta name="description" content="{{COPY_META_DESCRIPTION}}" />
   <meta name="theme-color" content="#0c1825" />
   <meta name="robots" content="noindex" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -110,6 +110,11 @@
       --gold-d:#9a7d4a;
       --px:    clamp(24px, 6vw, 80px);
       --ease:  cubic-bezier(.4,0,.2,1);
+    }
+
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid #d4b87a;
+      outline-offset: 4px;
     }
 
     #cur {
@@ -227,14 +232,6 @@
     }
     .btn-o:hover { border-color: var(--gold); color: var(--gold); }
 
-    .signed {
-      margin-top: 46px;
-      font-size: 14px;
-      color: rgba(245,240,230,.45);
-      animation: rise .7s var(--ease) .42s both;
-    }
-    .signed b { color: rgba(245,240,230,.7); font-weight: 500; }
-
     footer {
       padding: 30px var(--px);
       text-align: center;
@@ -267,24 +264,18 @@
     </svg>
   </div>
 
-  <p class="eyebrow">Inquiry received</p>
+  <p class="eyebrow">{{COPY_EYEBROW}}</p>
 
-  <h1>Got it.<br /><em>Talk soon.</em></h1>
+  <h1>{{COPY_HEADLINE_LEAD}}<br /><em>{{COPY_HEADLINE_ACCENT}}</em></h1>
 
-  <p class="sub">
-    I personally read every inquiry that comes through. You'll hear from me
-    <strong>within 24 hours</strong> with two times to jump on a 30-minute call —
-    no pitch deck, just a straight conversation about what you're trying to grow.
-  </p>
+  <p class="sub">{{COPY_BODY}}</p>
 
   <div class="btns">
-    <a href="/#book" class="btn btn-g">
-      Skip the wait — book now <span class="arr">→</span>
+    <a href="/#book" class="btn btn-g" data-booking-return>
+      {{COPY_PRIMARY_CTA}} <span class="arr">→</span>
     </a>
-    <a href="/" class="btn btn-o">Back to site</a>
+    <a href="/" class="btn btn-o">{{COPY_SECONDARY_CTA}}</a>
   </div>
-
-  <p class="signed">— <b>Evan O'Toole</b> &nbsp;·&nbsp; Founder, Rushes Media</p>
 </main>
 
 <footer>
@@ -292,6 +283,17 @@
 </footer>
 
 <script>
+  const bookingReturn = document.querySelector('[data-booking-return]');
+  if (bookingReturn) {
+    const destination = new URL('/#book', window.location.origin);
+    const incoming = new URL(window.location.href);
+    for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
+      const value = incoming.searchParams.get(key);
+      if (value) destination.searchParams.set(key, value.slice(0, 120));
+    }
+    bookingReturn.href = destination.toString();
+  }
+
   const cur = document.getElementById('cur');
   document.addEventListener('mousemove', e => { cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; });
   document.querySelectorAll('a,button').forEach(el => {

@@ -1,0 +1,145 @@
+---
+import BookingWidget from '../components/shared/BookingWidget.astro';
+import EditorialFooter from '../components/shared/EditorialFooter.astro';
+import EditorialHeader from '../components/shared/EditorialHeader.astro';
+import type { MechanismPage } from '../data/inner-pages';
+import { innerPageNavigation, innerPageSeo } from '../data/inner-pages';
+import { HOME_FONT_URL, SHARED_CTA } from '../data/site';
+import BaseLayout from './BaseLayout.astro';
+
+interface Props { page: MechanismPage; }
+const { page } = Astro.props;
+const seo = innerPageSeo(page);
+---
+
+<BaseLayout seo={seo} fontUrl={HOME_FONT_URL} includeMetaPixel>
+  <link slot="head" rel="stylesheet" href="/assets/inner-page.css" />
+
+  <EditorialHeader current="demand-loop" />
+  <main class="commercial-page demand-loop-page" data-page-family={page.family}>
+    <header class="loop-hero">
+      <div class="loop-hero-copy">
+        <p class="commercial-breadcrumb"><a href="/">Home</a><span>/</span><b>Demand Loop</b></p>
+        <span class="commercial-eye">{page.eyebrow}</span>
+        <h1>{page.heading.map((segment) => segment.kind === 'emphasis' ? <em>{segment.text}</em> : segment.text)}</h1>
+        <p class="service-lede">{page.lede}</p>
+        <p class="loop-thesis">{page.thesis}</p>
+        <div class="service-actions">
+          <a class="commercial-button commercial-button-primary" href="#loop-stages">See all nine handoffs <span aria-hidden="true">↓</span></a>
+          <a class="commercial-button" href="#book" data-growth-call-click data-link-location="hero">{SHARED_CTA.label}</a>
+        </div>
+      </div>
+      <ol class="loop-hero-map" aria-label="Demand Loop overview">
+        {page.steps.map((step, index) => (
+          <li>
+            <a href={`#loop-stage-${index + 1}`}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <b>{step.name}</b>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </header>
+
+    <section class="loop-phases" aria-labelledby="loop-phases-heading">
+      <div class="commercial-section-head">
+        <span class="commercial-eye">Three operating phases</span>
+        <h2 id="loop-phases-heading">Attention is only the beginning.</h2>
+      </div>
+      <div class="loop-phase-grid">
+        {page.phases.map((phase) => (
+          <article>
+            <span>{phase.number} / {phase.range}</span>
+            <h3>{phase.label}</h3>
+            <p>{phase.objective}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="loop-stages" class="loop-stages" aria-labelledby="loop-stages-heading">
+      <div class="commercial-section-head loop-stages-head">
+        <span class="commercial-eye">The complete operating map</span>
+        <h2 id="loop-stages-heading">Nine handoffs. No mystery middle.</h2>
+        <p>Each stage has an input, an output and named ownership. The failure state is shown because that is where attractive diagrams usually stop being useful.</p>
+      </div>
+      <ol class="loop-stage-list">
+        {page.steps.map((step, index) => (
+          <li id={`loop-stage-${index + 1}`} class="loop-stage">
+            <header>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <div><h3>{step.name}</h3><p>{step.purpose}</p></div>
+              {step.tool && <small>{step.tool}</small>}
+            </header>
+            <div class="loop-stage-flow">
+              <div><span>Input</span><p>{step.input}</p></div>
+              <div><span>Output</span><p>{step.output}</p></div>
+            </div>
+            <div class="loop-stage-owners">
+              <div><span>Rushes owns</span><p>{step.rushes}</p></div>
+              <div><span>Owner owns</span><p>{step.owner}</p></div>
+            </div>
+            <aside><span>Failure point</span><p>{step.failure}</p></aside>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="commercial-section loop-responsibilities" aria-labelledby="loop-responsibilities-heading">
+      <div class="commercial-section-head commercial-section-head-split">
+        <div><span class="commercial-eye">Operating agreement</span><h2 id="loop-responsibilities-heading">Two owners. One visible handoff.</h2></div>
+        <p>The system works only when production responsibilities and business responsibilities remain explicit.</p>
+      </div>
+      <div class="loop-responsibility-grid">
+        <article><span>Owner brings</span><ol>{page.ownerInputs.map((item, index) => <li><b>{String(index + 1).padStart(2, '0')}</b>{item}</li>)}</ol></article>
+        <article><span>Rushes brings</span><ol>{page.rushesInputs.map((item, index) => <li><b>{String(index + 1).padStart(2, '0')}</b>{item}</li>)}</ol></article>
+      </div>
+    </section>
+
+    <section class="commercial-section loop-rules" aria-labelledby="loop-rules-heading">
+      <div class="commercial-section-head">
+        <span class="commercial-eye">Failure controls</span>
+        <h2 id="loop-rules-heading">Four rules keep the Loop honest.</h2>
+      </div>
+      <div class="loop-rule-grid">
+        {page.handoffRules.map((rule, index) => <article><span>{String(index + 1).padStart(2, '0')}</span><h3>{rule.title}</h3><p>{rule.body}</p></article>)}
+      </div>
+    </section>
+
+    <section class="commercial-section service-fit loop-fit" aria-labelledby="loop-fit-heading">
+      <div class="commercial-section-head">
+        <span class="commercial-eye">Qualification</span>
+        <h2 id="loop-fit-heading">The Loop is not for every operator.</h2>
+      </div>
+      <div class="commercial-fit-grid">
+        <article><span>Good fit</span><ul>{page.goodFit.map((item) => <li>{item}</li>)}</ul></article>
+        <article><span>Poor fit</span><ul>{page.poorFit.map((item) => <li>{item}</li>)}</ul></article>
+      </div>
+    </section>
+
+    <section class="commercial-section service-faq" aria-labelledby="loop-faq-heading">
+      <div class="commercial-section-head">
+        <span class="commercial-eye">Questions owners ask</span>
+        <h2 id="loop-faq-heading">Before installing the system.</h2>
+      </div>
+      <div class="commercial-faq-list">
+        {page.faqs.map((faq) => <details><summary>{faq.question}<span aria-hidden="true">+</span></summary><p>{faq.answer}</p></details>)}
+      </div>
+    </section>
+
+    <section id="book" tabindex="-1" class="commercial-booking loop-booking" aria-labelledby="loop-booking-heading">
+      <div class="commercial-booking-copy">
+        <span class="commercial-eye">Growth Call</span>
+        <h2 id="loop-booking-heading">Find the handoff worth fixing first.</h2>
+        <p>Thirty minutes to inspect the full path, identify the most valuable failure and decide whether a bounded next step fits.</p>
+        <ul><li>The work and buyer worth pursuing</li><li>Response and fulfillment reality</li><li>One next move—or an honest no</li></ul>
+      </div>
+      <BookingWidget route="/demand-loop/" variant="editorial" frameId="rushes-demand-loop-growth-call-calendar" />
+    </section>
+
+    <nav class="commercial-route-links" aria-label="Related Rushes Media routes">
+      {innerPageNavigation.map((link) => <a href={link.href}>{link.label}<span aria-hidden="true">→</span></a>)}
+    </nav>
+  </main>
+  <EditorialFooter />
+</BaseLayout>

@@ -197,6 +197,17 @@ async function assertRedirects(origin) {
 
   const rootExplicitFile = await expectResponse(origin, '/index.html?utm_medium=smoke', 301);
   assert.equal(rootExplicitFile.headers.get('location'), '/?utm_medium=smoke');
+
+  const longAttribution = 'x'.repeat(140);
+  const bookingWithAttribution = await expectResponse(
+    origin,
+    `/book?utm_source=${longAttribution}&utm_content=checkpoint&unexpected=drop-me`,
+    302,
+  );
+  const bookingDestination = new URL(bookingWithAttribution.headers.get('location'));
+  assert.equal(bookingDestination.searchParams.get('utm_source'), longAttribution.slice(0, 120));
+  assert.equal(bookingDestination.searchParams.get('utm_content'), 'checkpoint');
+  assert.equal(bookingDestination.searchParams.has('unexpected'), false);
 }
 
 async function assertApiNegatives(origin) {

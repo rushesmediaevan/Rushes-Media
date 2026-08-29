@@ -1,5 +1,5 @@
 ---
-import { SHARED_CTA, SITE } from '../../data/site';
+import BookingWidget from '../shared/BookingWidget.astro';
 
 interface Props {
   route: string;
@@ -12,7 +12,7 @@ const {
 } = Astro.props;
 ---
 
-<section id="book" class="industry-booking" data-booking-section data-industry-route={route}>
+<section id="book" tabindex="-1" class="industry-booking" data-booking-section data-industry-route={route}>
   <div class="industry-booking-copy">
     <span class="industry-eye">Growth Call</span>
     <h2>See whether the full path fits.</h2>
@@ -24,67 +24,6 @@ const {
     </ul>
   </div>
   <div class="industry-calendar-shell">
-    <div class="industry-calendar-heading">
-      <span>{SHARED_CTA.label}</span>
-      <small>Name, phone and SMS preferences are inside the calendar.</small>
-    </div>
-    <iframe
-      src={SITE.bookingUrl}
-      title={SHARED_CTA.iframeTitle}
-      id="rushes-industry-growth-call-calendar"
-      data-industry-booking-frame
-      allow="clipboard-write"
-      loading="lazy"
-      width="1280"
-      height="720"
-    ></iframe>
+    <BookingWidget route={route} variant="industry" frameId="rushes-industry-growth-call-calendar" />
   </div>
 </section>
-
-<script is:inline>
-  (() => {
-    const localHosts = ['localhost', '127.0.0.1', '[::1]'];
-    const host = location.hostname.toLowerCase();
-    const suppressAnalytics = localHosts.includes(host) || host.endsWith('.test');
-    const section = document.querySelector('[data-booking-section]');
-    const frame = section?.querySelector('[data-industry-booking-frame]');
-    const route = section?.getAttribute('data-industry-route') || location.pathname;
-    const keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
-
-    if (frame) {
-      const destination = new URL(frame.getAttribute('src'), location.href);
-      const current = new URL(location.href);
-      for (const key of keys) {
-        const value = current.searchParams.get(key);
-        if (value) destination.searchParams.set(key, value.slice(0,120));
-      }
-      frame.setAttribute('src', destination.toString());
-    }
-
-    const emit = (name, parameters) => {
-      if (suppressAnalytics || typeof window.gtag !== 'function') return;
-      window.gtag('event', name, { industry_route: route, ...parameters });
-    };
-
-    document.addEventListener('click', (event) => {
-      const link = event.target instanceof Element
-        ? event.target.closest('[data-growth-call-click]')
-        : null;
-      if (!link) return;
-      emit('growth_call_click', {
-        link_location: link.getAttribute('data-link-location') || 'unknown',
-      });
-    });
-
-    if (section && 'IntersectionObserver' in window) {
-      let sent = false;
-      const observer = new IntersectionObserver((entries) => {
-        if (sent || !entries.some((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.5)) return;
-        sent = true;
-        emit('booking_section_view', { visibility_threshold: 50 });
-        observer.disconnect();
-      }, { threshold: [0.5] });
-      observer.observe(section);
-    }
-  })();
-</script>

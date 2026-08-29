@@ -1,0 +1,30 @@
+---
+import { SITE } from '../../data/site';
+---
+
+<footer class="editorial-footer">
+  <div class="editorial-footer-brand">
+    <a href="/" aria-label="Rushes Media — home">
+      <img src={SITE.logoIcon} alt="" width="833" height="959" loading="lazy" />
+      <img src={SITE.logoWordmark} alt="Rushes Media" width="2888" height="322" loading="lazy" />
+    </a>
+    <p>Media, demand and follow-up built as one accountable path to the calendar.</p>
+  </div>
+  <div class="editorial-footer-column">
+    <span>Explore</span>
+    <a href="/demand-loop/">Demand Loop</a>
+    <a href="/brand-media/">Brand media</a>
+    <a href="/campaigns/">Campaigns</a>
+    <a href="/web/">Web & landing</a>
+    <a href="/follow-up/">Follow-up</a>
+  </div>
+  <div class="editorial-footer-column">
+    <span>Rushes Media</span>
+    <a href="/industries/">Best-fit industries</a>
+    <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+    <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/terms/">Terms</a>
+  </div>
+  <p class="editorial-footer-legal">© 2026 {SITE.legalName}<br />{SITE.address}</p>
+</footer>

@@ -47,7 +47,10 @@ function redirectLocation(destination, incomingSearch) {
   const target = new URL(destination, localOrigin);
   if (incomingSearch) {
     const incoming = new URLSearchParams(incomingSearch);
-    for (const [key, value] of incoming) target.searchParams.set(key, value);
+    for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
+      const value = incoming.get(key);
+      if (value) target.searchParams.set(key, value.slice(0, 120));
+    }
   }
   return target.origin === localOrigin
     ? `${target.pathname}${target.search}${target.hash}`
@@ -182,7 +185,7 @@ export default defineConfig({
   },
   vite: {
     build: {
-      assetsInlineLimit: 4600,
+      assetsInlineLimit: 4700,
     },
     plugins: [compatibilityDirectoryIndexes(), sourceFileBoundary()],
     server: {

@@ -83,9 +83,22 @@ if (mobileMenu && menuButton && closeButton) {
 const floatingCta = document.getElementById('fcta');
 const heroButtons = document.querySelector('.hero-btns');
 if (floatingCta && heroButtons) {
-  new IntersectionObserver((entries) => {
-    floatingCta.classList.toggle('on', !entries[0]?.isIntersecting);
-  }).observe(heroButtons);
+  let heroVisible = true;
+  let closeVisible = false;
+  const updateFloatingCta = () => floatingCta.classList.toggle('on', !heroVisible && !closeVisible);
+  const heroObserver = new IntersectionObserver((entries) => {
+    heroVisible = Boolean(entries[0]?.isIntersecting);
+    updateFloatingCta();
+  });
+  const closeObserver = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      entry.target.classList.toggle('fv', entry.isIntersecting);
+    }
+    closeVisible = Boolean(document.querySelector('.fv'));
+    updateFloatingCta();
+  }, { rootMargin: '0px 0px -35% 0px' });
+  heroObserver.observe(heroButtons);
+  document.querySelectorAll('#who, #cta, footer').forEach((element) => closeObserver.observe(element));
 }
 
 const revealObserver = new IntersectionObserver(
@@ -100,6 +113,17 @@ const revealObserver = new IntersectionObserver(
   { threshold: 0.08 },
 );
 document.querySelectorAll('.r').forEach((element) => revealObserver.observe(element));
+
+const bookingAnchor = document.getElementById('book');
+if (bookingAnchor) {
+  const alignBooking = () => bookingAnchor.scrollIntoView({ block: 'start', behavior: 'auto' });
+  document.querySelectorAll<HTMLAnchorElement>('a[href="#book"]').forEach((anchor) => {
+    anchor.addEventListener('click', () => window.setTimeout(alignBooking, 0));
+  });
+  if (window.location.hash === '#book') {
+    window.addEventListener('load', () => window.setTimeout(alignBooking, 120), { once: true });
+  }
+}
 
 document.querySelectorAll<HTMLButtonElement>('.faq-q').forEach((question) => {
   question.addEventListener('keydown', (event) => {
@@ -124,17 +148,6 @@ document.querySelectorAll<HTMLButtonElement>('.faq-q').forEach((question) => {
     }
   });
 });
-
-const bookingFrame = document.querySelector<HTMLIFrameElement>('#rushes-growth-call-calendar');
-if (bookingFrame) {
-  const incoming = new URLSearchParams(window.location.search);
-  const target = new URL(bookingFrame.src);
-  for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
-    const value = incoming.get(key);
-    if (value) target.searchParams.set(key, value.slice(0, 120));
-  }
-  bookingFrame.src = target.toString();
-}
 
 const hostname = window.location.hostname.toLowerCase();
 const localHost =

@@ -45,8 +45,9 @@ p, li { line-height: 1.68; }
   justify-content: space-between;
   gap: 28px;
   padding: 14px var(--page-x);
-  background: rgba(12, 24, 37, .96);
+  background: #0c1825;
   border-bottom: 1px solid var(--line-dark);
+  box-shadow: 0 10px 30px rgba(2, 8, 14, .16);
 }
 .industry-logo {
   display: inline-flex;
@@ -81,6 +82,7 @@ main { display: block; }
 .industry-section,
 .industry-related,
 .industry-booking {
+  scroll-margin-top: 104px;
   width: min(100%, var(--content));
   margin-inline: auto;
 }
@@ -432,11 +434,52 @@ main { display: block; }
 .industry-booking-copy > p { margin: 24px 0; color: var(--text-dark); }
 .industry-booking-copy ul { margin: 34px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line-dark); }
 .industry-booking-copy li { padding: 15px 0; border-bottom: 1px solid var(--line-dark); color: rgba(245, 240, 230, .66); font-size: 13px; }
-.industry-calendar-shell { min-width: 0; overflow: hidden; background: #fff; border: 1px solid rgba(245, 240, 230, .22); }
+.industry-calendar-shell { min-width: 0; overflow: visible; background: transparent; }
 .industry-calendar-heading { min-height: 82px; display: flex; align-items: center; justify-content: space-between; gap: 22px; padding: 18px 22px; color: var(--cream); background: var(--navy); }
 .industry-calendar-heading > span { font-family: "Cormorant Garamond", Georgia, serif; font-size: 25px; }
 .industry-calendar-heading small { max-width: 260px; color: rgba(245, 240, 230, .58); text-align: right; }
 .industry-calendar-shell iframe { width: 100%; min-height: 720px; display: block; border: 0; background: #fff; }
+
+/* Buying-model compositions: shared bones, materially different decision rhythms. */
+[data-page-variant='design-build'] .industry-hero { align-items: end; }
+[data-page-variant='design-build'] .industry-hero-copy { padding-bottom: clamp(16px, 4vw, 54px); }
+[data-page-variant='design-build'] .industry-system-list li:nth-child(even) { padding-left: clamp(18px, 4vw, 54px); }
+
+[data-page-variant='service-response'] .industry-hero {
+  grid-template-columns: minmax(0, .84fr) minmax(420px, 1.16fr);
+  gap: clamp(38px, 5vw, 72px);
+  background: #101f30;
+}
+[data-page-variant='service-response'] .industry-hero-visual picture { aspect-ratio: 16 / 10; }
+[data-page-variant='service-response'] .industry-hero-visual ol { grid-template-columns: repeat(4, 1fr); }
+[data-page-variant='service-response'] .industry-pains { background: #d9c7a5; }
+[data-page-variant='service-response'] .industry-pain-grid article { min-height: 240px; }
+[data-page-variant='service-response'] .industry-system-list li {
+  grid-template-columns: 120px minmax(0, 1fr);
+  border-left: 3px solid transparent;
+  padding-left: 22px;
+}
+[data-page-variant='service-response'] .industry-system-list li:nth-child(4),
+[data-page-variant='service-response'] .industry-system-list li:nth-child(5) { border-left-color: var(--gold); background: rgba(184, 152, 96, .055); }
+
+[data-page-variant='consultation'] .industry-hero {
+  width: 100%;
+  max-width: none;
+  padding-inline: max(var(--page-x), calc((100vw - var(--content)) / 2 + var(--page-x)));
+  color: var(--navy);
+  background: var(--cream);
+}
+[data-page-variant='consultation'] .industry-breadcrumbs li,
+[data-page-variant='consultation'] .industry-support { color: rgba(26, 42, 63, .56); }
+[data-page-variant='consultation'] .industry-lede { color: rgba(26, 42, 63, .82); }
+[data-page-variant='consultation'] .industry-breadcrumbs li:not(:last-child)::after { color: rgba(141, 111, 62, .7); }
+[data-page-variant='consultation'] .industry-eye { color: var(--gold-d, #8d6f3e); }
+[data-page-variant='consultation'] .industry-button-secondary { color: var(--navy); border-color: rgba(26, 42, 63, .35); }
+[data-page-variant='consultation'] .industry-button-secondary:hover { color: var(--cream); background: var(--ink); border-color: var(--ink); }
+[data-page-variant='consultation'] .industry-hero-visual figcaption { color: rgba(26, 42, 63, .58); }
+[data-page-variant='consultation'] .industry-hero-visual ol { border-color: var(--line-light); }
+[data-page-variant='consultation'] .industry-hero-visual li { border-color: var(--line-light); color: rgba(26, 42, 63, .68); }
+[data-page-variant='consultation'] .industry-use-cases { background: #e2d2bd; }
 
 .industry-footer {
   display: grid;
@@ -540,6 +583,8 @@ main { display: block; }
 
 @media (max-width: 960px) {
   .industry-hero { grid-template-columns: 1fr; min-height: auto; }
+  [data-page-variant='service-response'] .industry-hero { grid-template-columns: minmax(0, 1fr); }
+  [data-page-variant='service-response'] .industry-hero-visual ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .industry-hero-map { max-width: 760px; }
   .industry-hero-visual { max-width: 660px; }
 }
@@ -567,6 +612,10 @@ main { display: block; }
   .industry-pain-grid article:nth-last-child(2):nth-child(3n + 1) { grid-column: auto; min-height: 0; border-left: 1px solid var(--line-light); }
   .industry-pain-grid h3 { margin-top: 32px; }
   .industry-system-list li { grid-template-columns: 48px 1fr; gap: 14px; }
+  [data-page-variant='service-response'] .industry-system-list li {
+    grid-template-columns: 48px minmax(0, 1fr);
+    padding-left: 14px;
+  }
   .industry-use-grid { grid-template-columns: 1fr; }
   .industry-use-grid article:last-child { grid-column: auto; }
   .industry-use-grid article { min-height: 0; }
@@ -590,9 +639,10 @@ main { display: block; }
 }
 
 @media (max-width: 420px) {
-  .industry-logo img:last-child { width: 128px; }
-  .industry-nav-links .industry-nav-cta { padding-inline: 11px; }
-  .industry-nav-links .industry-nav-cta { max-width: 118px; text-align: center; line-height: 1.15; }
+  .industry-nav { gap: 12px; }
+  .industry-logo { min-width: 0; gap: 10px; }
+  .industry-logo img:last-child { width: 104px; }
+  .industry-nav-links .industry-nav-cta { max-width: 108px; padding-inline: 9px; text-align: center; line-height: 1.15; }
   .industry-hero h1 { font-size: 43px; }
   .industry-section h2, .industry-booking h2 { font-size: 39px; }
 }

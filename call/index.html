@@ -48,6 +48,10 @@
     }
     a { color: var(--gold); text-decoration: none; }
     a:hover { color: #d4b87a; }
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid #d4b87a;
+      outline-offset: 4px;
+    }
     header {
       padding: 28px var(--px);
       display: flex;
@@ -57,7 +61,11 @@
       margin: 0 auto;
     }
     .logo { display: flex; align-items: center; gap: 10px; }
-    .logo img { height: 36px; width: auto; }
+    .logo img {
+      height: 36px;
+      width: auto;
+      filter: brightness(0) invert(1) brightness(.96) sepia(.08);
+    }
     .logo .wm { height: 18px; }
     .header-meta {
       font-size: 11px;
@@ -284,38 +292,7 @@
   <main>
     <p class="eyebrow">Before we talk</p>
     <h1>Your Growth Call.<br><em>Here’s what happens.</em></h1>
-    <p class="lede">
-      <!-- DRAFT — Evan finalizes -->
-      This is a short roadmap session for your market — not a pitch dump.
-      Watch the clip, skim the proof, bring what you know about how jobs come in today.
-    </p>
-
-    <!-- CALL-FRAME VIDEO: replace placeholder when Evan uploads -->
-    <section aria-labelledby="video-h">
-      <h2 id="video-h">60 seconds from Evan</h2>
-      <div class="video-slot" id="call-frame-slot">
-        <!--
-          OPTION A — self-hosted:
-          <video controls playsinline poster="/assets/images/hero/hero-bg.jpg">
-            <source src="/assets/video/call-frame.mp4" type="video/mp4" />
-          </video>
-
-          OPTION B — YouTube unlisted (replace VIDEO_ID):
-          <iframe
-            src="https://www.youtube.com/embed/VIDEO_ID"
-            title="Rushes Growth Call — what to expect"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
-        -->
-        <div class="video-placeholder">
-          <strong>Video landing here</strong>
-          Record per <code style="color:var(--gold)">sales/CALL-FRAME-VIDEO-BRIEF-2026-07-10.md</code>,
-          then drop the embed above this placeholder.
-        </div>
-      </div>
-      <p class="hint">Phone is fine. Unlisted YouTube or MP4 both work.</p>
-    </section>
+    <p class="lede">{{COPY_LEDE}}</p>
 
     <section aria-labelledby="agenda-h">
       <h2 id="agenda-h">On the call</h2>
@@ -368,15 +345,14 @@
     </section>
 
     <section aria-labelledby="cap-h">
-      <h2 id="cap-h">Capacity</h2>
+      <h2 id="cap-h">{{COPY_CAPACITY_HEADING}}</h2>
       <p class="capacity">
-        <strong>Founder-led.</strong> Limited concurrent clients —
-        we don’t stack more than we can run. If it’s not a fit on the call, we’ll say so.
+        <strong>{{COPY_CAPACITY_LEAD}}</strong> {{COPY_CAPACITY_BODY}}
       </p>
     </section>
 
     <section>
-      <a class="btn" id="book-link" href="/#book">Need to rebook? <span aria-hidden="true">→</span></a>
+      <a class="btn" id="book-link" href="/#book">{{COPY_RETURN_CTA}} <span aria-hidden="true">→</span></a>
     </section>
   </main>
 

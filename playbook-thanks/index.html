@@ -22,7 +22,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Scorecard on the way — Rushes Media</title>
-  <meta name="description" content="Your Local Lead Leak Scorecard is on the way. Check your email." />
+  <meta name="description" content="{{COPY_META_DESCRIPTION}}" />
   <meta name="theme-color" content="#0c1825" />
   <meta name="robots" content="noindex" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -60,6 +60,11 @@
       --gold-d:#9a7d4a;
       --px:    clamp(24px, 6vw, 80px);
       --ease:  cubic-bezier(.4,0,.2,1);
+    }
+
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid #d4b87a;
+      outline-offset: 4px;
     }
 
     #cur {
@@ -172,14 +177,6 @@
     }
     .btn-o:hover { border-color: var(--gold); color: var(--gold); }
 
-    .signed {
-      margin-top: 46px;
-      font-size: 14px;
-      color: rgba(245,240,230,.45);
-      animation: rise .7s var(--ease) .42s both;
-    }
-    .signed b { color: rgba(245,240,230,.7); font-weight: 500; }
-
     footer {
       padding: 30px var(--px);
       text-align: center;
@@ -212,27 +209,20 @@
     </svg>
   </div>
 
-  <p class="eyebrow">Scorecard on the way</p>
+  <p class="eyebrow">{{COPY_EYEBROW}}</p>
 
-  <!-- [EVAN: rewrite headline + sub if you want — placeholder per spec] -->
-  <h1>Check your <em>email.</em></h1>
+  <h1>{{COPY_HEADLINE_LEAD}} <em>{{COPY_HEADLINE_ACCENT}}</em></h1>
 
-  <p class="sub">
-    Your <strong>Local Lead Leak Scorecard</strong> is on its way to your inbox —
-    give it a couple of minutes. Score all four areas 1–10.
-    <strong>Two or more under 5</strong> is worth a conversation.
-  </p>
+  <p class="sub">{{COPY_BODY}}</p>
 
   <div class="btns">
-    <a href="/#book" class="btn btn-g">
-      Book a Growth Call <span class="arr">→</span>
+    <a href="/#book" class="btn btn-g" data-booking-return>
+      {{COPY_PRIMARY_CTA}} <span class="arr">→</span>
     </a>
-    <a href="https://assets.cdn.filesafe.space/o3D3rSAdiE8inzOOk2oF/media/247c3e3b-dd18-4216-a3df-7b00f3991b89.pdf" target="_blank" rel="noopener" class="btn btn-o">
-      Download the scorecard now
+    <a href="{{COPY_SECONDARY_URL}}" target="_blank" rel="noopener" class="btn btn-o">
+      {{COPY_SECONDARY_CTA}}
     </a>
   </div>
-
-  <p class="signed">— <b>Evan O'Toole</b> &nbsp;·&nbsp; Founder, Rushes Media</p>
 </main>
 
 <footer>
@@ -240,6 +230,17 @@
 </footer>
 
 <script>
+  const bookingReturn = document.querySelector('[data-booking-return]');
+  if (bookingReturn) {
+    const destination = new URL('/#book', window.location.origin);
+    const incoming = new URL(window.location.href);
+    for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
+      const value = incoming.searchParams.get(key);
+      if (value) destination.searchParams.set(key, value.slice(0, 120));
+    }
+    bookingReturn.href = destination.toString();
+  }
+
   const cur = document.getElementById('cur');
   document.addEventListener('mousemove', e => { cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; });
   document.querySelectorAll('a,button').forEach(el => {

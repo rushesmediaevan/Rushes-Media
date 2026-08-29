@@ -1,3 +1,5 @@
+import { industryVisuals, type VisualAsset } from './industry-pages';
+
 export interface HomeNavItem {
   href: string;
   label: string;
@@ -19,6 +21,15 @@ export interface HomeService {
   plainName: string;
   description: string;
   tags: readonly string[];
+}
+
+export interface HomeAudience {
+  href: string;
+  label: string;
+  text: string;
+  buyingModel: 'project' | 'urgent' | 'consultation';
+  routeLabel: string;
+  visual: VisualAsset;
 }
 
 export const primaryNavigation: readonly HomeNavItem[] = [
@@ -47,62 +58,59 @@ export const marqueeItems = [
 
 export const proofItems: readonly HomeProofItem[] = [
   {
-    value: '↑',
+    value: '01',
     label: 'More Booked Estimates',
-    text: 'That’s the point. Content and campaigns only matter if they put the right people on your calendar.',
+    text: 'The conversion we inspect is a qualified, held estimate or consult—not a click, impression, or form load.',
   },
   {
-    value: '78',
-    suffix: '%',
+    value: '02',
     label: 'First Responder Wins',
-    text: 'Of buyers go with whoever answers first. We build follow-up so that can be you — in minutes, not tomorrow.',
+    text: 'Clear ownership and a fast acknowledgement protect intent while the buyer is still deciding what to do next.',
   },
   {
-    value: '<5',
-    suffix: 'm',
+    value: '03',
     label: 'Speed to Lead',
-    text: 'Capture and contact while interest is hot. Slow follow-up is where most marketing spend dies.',
+    text: 'Response time is measured from inquiry to first useful action, then tied to booking and held-call outcomes.',
   },
   {
-    value: '30',
-    suffix: 'd',
+    value: '04',
     label: 'Prove It First',
-    text: 'We prove real estimates are booking before you’re locked into month two. Risk sits on our side.',
+    text: 'The first operating cycle establishes what is actually working before the system is expanded.',
   },
 ];
 
-export const audiences = [
+export const audiences: readonly HomeAudience[] = [
   {
     href: '/outdoor-living/',
     label: 'Outdoor Living & Design-Build',
     text: 'Turn finished hardscapes, complete outdoor spaces and custom pools into better-qualified project consultations.',
-    links: [
-      { href: '/outdoor-living/', label: 'See the project-led system' },
-    ],
+    buyingModel: 'project',
+    routeLabel: 'Project-led path',
+    visual: industryVisuals.outdoorLiving,
   },
   {
     href: '/interior-design/',
     label: 'Interior Design & Residential Build',
     text: 'Help the right homeowners understand your judgment, process and fit before the first consultation.',
-    links: [
-      { href: '/interior-design/', label: 'See the consultation path' },
-    ],
+    buyingModel: 'project',
+    routeLabel: 'Considered consultation',
+    visual: industryVisuals.interiorDesign,
   },
   {
     href: '/hvac/',
     label: 'HVAC Replacement & Home Comfort',
     text: 'Separate service from replacement intent and route more of the right changeout opportunities to the calendar.',
-    links: [
-      { href: '/hvac/', label: 'See the replacement system' },
-    ],
+    buyingModel: 'urgent',
+    routeLabel: 'Urgent replacement',
+    visual: industryVisuals.hvac,
   },
   {
     href: '/med-spa/',
     label: 'Med Spa & Aesthetic Practices',
     text: 'Connect approved treatment positioning, consult capture and follow-up around real provider capacity.',
-    links: [
-      { href: '/med-spa/', label: 'See the consult-booking system' },
-    ],
+    buyingModel: 'consultation',
+    routeLabel: 'Appointment-led path',
+    visual: industryVisuals.medSpa,
   },
 ] as const;
 

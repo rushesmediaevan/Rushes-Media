@@ -1,0 +1,439 @@
+---
+import { BOOKING_COPY, SHARED_CTA, SITE } from '../../data/site';
+
+interface Props {
+  route: string;
+  variant?: 'home' | 'industry' | 'editorial';
+  frameId?: string;
+}
+
+const {
+  route,
+  variant = 'editorial',
+  frameId = `rushes-growth-call-calendar-${variant}`,
+} = Astro.props;
+---
+
+<div
+  class:list={['booking-widget', `booking-widget--${variant}`]}
+  data-booking-widget
+  data-booking-route={route}
+  data-booking-copy-frame-opened={BOOKING_COPY.frameOpenedStatus}
+  data-booking-copy-ready={BOOKING_COPY.readyStatus}
+  data-booking-copy-delayed={BOOKING_COPY.delayedStatus}
+  data-booking-copy-offline={BOOKING_COPY.offlineStatus}
+  data-booking-copy-unavailable={BOOKING_COPY.unavailableStatus}
+>
+  <div class="booking-widget__bar">
+    <p class="booking-widget__status" role="status" aria-live="polite">
+      <span class="booking-widget__pulse" aria-hidden="true"></span>
+      <span data-booking-status>{BOOKING_COPY.loadingStatus}</span>
+    </p>
+    <div class="booking-widget__actions">
+      <a
+        class="booking-widget__direct"
+        href={SITE.bookingUrl}
+        target="_blank"
+        rel="noopener"
+        data-booking-direct
+        data-growth-call-click
+        data-link-location="booking-fallback"
+      >
+        {BOOKING_COPY.directLabel} <span aria-hidden="true">↗</span>
+      </a>
+      <a
+        class="booking-widget__request"
+        href={`mailto:${SITE.email}?subject=30-minute%20Growth%20Call%20request`}
+      >
+        {BOOKING_COPY.requestLabel}
+      </a>
+    </div>
+  </div>
+  <div class="booking-widget__frame" data-booking-state="loading" aria-busy="true">
+    <div class="booking-widget__loading" data-booking-loading>
+      <p class="booking-widget__plate-kicker">{BOOKING_COPY.loadingKicker}</p>
+      <p class="booking-widget__plate-title">{BOOKING_COPY.loadingTitle}</p>
+      <p class="booking-widget__plate-copy">{BOOKING_COPY.loadingBody}</p>
+    </div>
+    <div class="booking-widget__fallback" data-booking-fallback aria-hidden="true">
+      <p class="booking-widget__plate-kicker">{BOOKING_COPY.fallbackKicker}</p>
+      <p class="booking-widget__plate-title">{BOOKING_COPY.fallbackTitle}</p>
+      <p class="booking-widget__plate-copy">{BOOKING_COPY.fallbackBody}</p>
+    </div>
+    <iframe
+      src={SITE.bookingUrl}
+      title={SHARED_CTA.iframeTitle}
+      id={frameId}
+      data-booking-frame
+      data-industry-booking-frame={variant === 'industry' ? '' : undefined}
+      allow="clipboard-write"
+      loading="lazy"
+      width="1280"
+      height="820"
+    ></iframe>
+  </div>
+  <noscript>
+    <p class="booking-widget__noscript">
+      The embedded calendar needs JavaScript. <a href={SITE.bookingUrl}>Open the 30-minute Growth Call calendar</a>
+      or <a href={`mailto:${SITE.email}?subject=30-minute%20Growth%20Call%20request`}>request a time by email</a>.
+    </p>
+  </noscript>
+</div>
+
+<script is:inline>
+  (() => {
+    const localHosts = ['localhost', '127.0.0.1', '[::1]'];
+    const host = location.hostname.toLowerCase();
+    const suppressAnalytics = localHosts.includes(host) || host.endsWith('.test');
+    const keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
+
+    const emit = (name, parameters) => {
+      if (suppressAnalytics || typeof window.gtag !== 'function') return;
+      window.gtag('event', name, parameters);
+    };
+
+    document.querySelectorAll('[data-booking-widget]').forEach((widget) => {
+      if (widget.getAttribute('data-booking-ready') === 'true') return;
+      widget.setAttribute('data-booking-ready', 'true');
+
+      const frame = widget.querySelector('[data-booking-frame]');
+      const direct = widget.querySelector('[data-booking-direct]');
+      const status = widget.querySelector('[data-booking-status]');
+      const shell = widget.querySelector('[data-booking-state]');
+      const fallback = widget.querySelector('[data-booking-fallback]');
+      const route = widget.getAttribute('data-booking-route') || location.pathname;
+      if (!(frame instanceof HTMLIFrameElement) || !(direct instanceof HTMLAnchorElement)) return;
+
+      const destination = new URL(frame.getAttribute('src') || direct.href, location.href);
+      const incoming = new URL(location.href);
+      for (const key of keys) {
+        const value = incoming.searchParams.get(key);
+        if (value) destination.searchParams.set(key, value.slice(0,120));
+      }
+      const target = destination.toString();
+      direct.href = target;
+      if (frame.getAttribute('src') !== target) frame.setAttribute('src', target);
+
+      const analyticsContext = { booking_route: route };
+      if (widget.classList.contains('booking-widget--industry')) analyticsContext.industry_route = route;
+      const bookingCopy = {
+        frameOpened: widget.getAttribute('data-booking-copy-frame-opened') || status?.textContent || '',
+        ready: widget.getAttribute('data-booking-copy-ready') || status?.textContent || '',
+        delayed: widget.getAttribute('data-booking-copy-delayed') || status?.textContent || '',
+        offline: widget.getAttribute('data-booking-copy-offline') || status?.textContent || '',
+        unavailable: widget.getAttribute('data-booking-copy-unavailable') || status?.textContent || '',
+      };
+      let frameResponded = false;
+      let connectionAvailable = false;
+      let monitorStarted = false;
+      let settled = false;
+      let timedOut = false;
+      let offline = false;
+      let timeoutId;
+      let probeController;
+      const setState = (state, message) => {
+        shell?.setAttribute('data-booking-state', state);
+        shell?.setAttribute('aria-busy', String(state === 'loading' || state === 'frame-loaded'));
+        fallback?.setAttribute('aria-hidden', String(!['delayed', 'offline', 'unavailable'].includes(state)));
+        if (status) status.textContent = message;
+      };
+
+      const maybeReady = () => {
+        if (settled || !frameResponded || !connectionAvailable) return;
+        settled = true;
+        if (timeoutId) window.clearTimeout(timeoutId);
+        setState('ready', bookingCopy.ready);
+      };
+
+      const showUnavailable = (state, message) => {
+        if (settled) return;
+        settled = true;
+        if (timeoutId) window.clearTimeout(timeoutId);
+        probeController?.abort();
+        setState(state, message);
+      };
+
+      const startMonitor = () => {
+        if (monitorStarted || settled) return;
+        monitorStarted = true;
+        probeController = 'AbortController' in window ? new AbortController() : undefined;
+        timeoutId = window.setTimeout(() => {
+          if (settled) return;
+          timedOut = true;
+          probeController?.abort();
+          showUnavailable('delayed', bookingCopy.delayed);
+        }, 6500);
+
+        fetch(target, {
+          method: 'GET',
+          mode: 'no-cors',
+          cache: 'no-store',
+          credentials: 'omit',
+          referrerPolicy: 'no-referrer',
+          signal: probeController?.signal,
+        })
+          .then(() => {
+            if (settled) return;
+            connectionAvailable = true;
+            maybeReady();
+          })
+          .catch(() => {
+            if (settled || timedOut || offline) return;
+            showUnavailable('unavailable', bookingCopy.unavailable);
+          });
+      };
+
+      frame.addEventListener('load', () => {
+        if (settled) return;
+        frameResponded = true;
+        setState('frame-loaded', bookingCopy.frameOpened);
+        startMonitor();
+        maybeReady();
+      });
+      frame.addEventListener('error', () => {
+        showUnavailable('unavailable', bookingCopy.unavailable);
+      });
+
+      window.addEventListener('offline', () => {
+        offline = true;
+        showUnavailable('offline', bookingCopy.offline);
+      });
+
+      document.addEventListener('securitypolicyviolation', (event) => {
+        if (!event.blockedURI || !event.blockedURI.includes(destination.origin)) return;
+        showUnavailable('unavailable', bookingCopy.unavailable);
+      });
+
+      if ('IntersectionObserver' in window) {
+        const loadObserver = new IntersectionObserver((entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          startMonitor();
+          loadObserver.disconnect();
+        }, { rootMargin: '700px 0px' });
+        loadObserver.observe(widget);
+      } else {
+        startMonitor();
+      }
+
+      if (document.documentElement.getAttribute('data-booking-click-ready') !== 'true') {
+        document.documentElement.setAttribute('data-booking-click-ready', 'true');
+        document.addEventListener('click', (event) => {
+          const link = event.target instanceof Element
+            ? event.target.closest('[data-growth-call-click], a[href="#book"]')
+            : null;
+          if (!link) return;
+          const inferredLocation = link.closest('.hero-btns')
+            ? 'hero'
+            : link.closest('#mob')
+              ? 'mobile-navigation'
+              : link.closest('#nav, .editorial-nav, .industry-nav')
+                ? 'navigation'
+                : link.closest('#fcta')
+                  ? 'floating'
+                  : link.closest('footer')
+                    ? 'footer'
+                    : 'unknown';
+          emit('growth_call_click', {
+            ...analyticsContext,
+            link_location: link.getAttribute('data-link-location') || inferredLocation,
+          });
+        });
+      }
+
+      if ('IntersectionObserver' in window) {
+        let sent = false;
+        const observer = new IntersectionObserver((entries) => {
+          if (sent || !entries.some((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.5)) return;
+          sent = true;
+          emit('booking_section_view', { ...analyticsContext, visibility_threshold: 50 });
+          observer.disconnect();
+        }, { threshold: [0.5] });
+        observer.observe(widget);
+      }
+    });
+  })();
+</script>
+
+<style>
+  .booking-widget {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid rgba(184, 152, 96, .32);
+    background: #fff;
+    color: #1a2a3f;
+    box-shadow: 0 30px 90px rgba(3, 10, 17, .2);
+  }
+  .booking-widget__bar {
+    min-height: 74px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(26, 42, 63, .12);
+    background: #eae2d4;
+  }
+  .booking-widget__status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    color: rgba(26, 42, 63, .72);
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  .booking-widget__pulse {
+    width: 8px;
+    height: 8px;
+    flex: none;
+    border-radius: 50%;
+    background: #b89860;
+    box-shadow: 0 0 0 5px rgba(184, 152, 96, .16);
+  }
+  .booking-widget__direct {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid rgba(26, 42, 63, .28);
+    color: #1a2a3f;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .055em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .booking-widget__direct:hover { border-color: #1a2a3f; background: #1a2a3f; color: #f5f0e6; }
+  .booking-widget__direct:focus-visible {
+    outline: 3px solid #b89860;
+    outline-offset: 3px;
+  }
+  .booking-widget__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 14px;
+  }
+  .booking-widget__request {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    color: rgba(26, 42, 63, .72);
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.35;
+    text-underline-offset: 3px;
+    white-space: nowrap;
+  }
+  .booking-widget__request:hover { color: #1a2a3f; }
+  .booking-widget__request:focus-visible {
+    outline: 3px solid #b89860;
+    outline-offset: 3px;
+  }
+  .booking-widget__frame {
+    position: relative;
+    min-height: 820px;
+    background:
+      linear-gradient(90deg, rgba(26,42,63,.035) 1px, transparent 1px) 0 0 / 32px 32px,
+      #fff;
+  }
+  .booking-widget__loading,
+  .booking-widget__fallback {
+    min-height: 100%;
+    padding: clamp(34px, 6vw, 76px);
+    align-content: center;
+    justify-items: center;
+    text-align: center;
+    color: #1a2a3f;
+  }
+  .booking-widget__loading {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: grid;
+    background: #f5f0e6;
+  }
+  .booking-widget__fallback {
+    display: none;
+    min-height: 320px;
+    background: #f5f0e6;
+  }
+  .booking-widget__plate-kicker,
+  .booking-widget__plate-title,
+  .booking-widget__plate-copy { margin: 0; }
+  .booking-widget__plate-kicker {
+    color: #8a6b39;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+  }
+  .booking-widget__plate-title {
+    margin-top: 14px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(30px, 4vw, 48px);
+    font-weight: 400;
+    line-height: 1.02;
+  }
+  .booking-widget__plate-copy {
+    max-width: 520px;
+    margin-top: 14px;
+    color: rgba(26, 42, 63, .7);
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .booking-widget__frame iframe {
+    width: 100%;
+    min-height: 820px;
+    display: block;
+    border: 0;
+    background: #fff;
+  }
+  .booking-widget__frame[data-booking-state='ready'] .booking-widget__loading { display: none; }
+  .booking-widget__frame[data-booking-state='delayed'],
+  .booking-widget__frame[data-booking-state='offline'],
+  .booking-widget__frame[data-booking-state='unavailable'] { min-height: 320px; }
+  .booking-widget__frame[data-booking-state='delayed'] iframe,
+  .booking-widget__frame[data-booking-state='offline'] iframe,
+  .booking-widget__frame[data-booking-state='unavailable'] iframe { display: none !important; min-height: 0; }
+  .booking-widget__frame[data-booking-state='delayed'] .booking-widget__loading,
+  .booking-widget__frame[data-booking-state='offline'] .booking-widget__loading,
+  .booking-widget__frame[data-booking-state='unavailable'] .booking-widget__loading { display: none; }
+  .booking-widget__frame[data-booking-state='delayed'] .booking-widget__fallback,
+  .booking-widget__frame[data-booking-state='offline'] .booking-widget__fallback,
+  .booking-widget__frame[data-booking-state='unavailable'] .booking-widget__fallback { display: grid; }
+  .booking-widget:has(.booking-widget__frame[data-booking-state='delayed']) .booking-widget__bar,
+  .booking-widget:has(.booking-widget__frame[data-booking-state='offline']) .booking-widget__bar,
+  .booking-widget:has(.booking-widget__frame[data-booking-state='unavailable']) .booking-widget__bar {
+    background: #d9c9ab;
+  }
+  .booking-widget__noscript {
+    margin: 0;
+    padding: 18px 20px;
+    background: #f5f0e6;
+    color: #1a2a3f;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 14px;
+  }
+  .booking-widget__noscript a { color: #7c6033; font-weight: 700; }
+
+  @media (max-width: 680px) {
+    .booking-widget__bar { grid-template-columns: 1fr; gap: 12px; padding: 16px; }
+    .booking-widget__actions { align-items: stretch; flex-direction: column; gap: 10px; }
+    .booking-widget__direct { width: 100%; }
+    .booking-widget__request { align-self: center; white-space: normal; }
+    .booking-widget__frame,
+    .booking-widget__frame iframe { min-height: 850px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .booking-widget__pulse { box-shadow: none; }
+  }
+</style>

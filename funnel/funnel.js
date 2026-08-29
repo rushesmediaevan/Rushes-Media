@@ -12,7 +12,10 @@
   const loading = document.getElementById('funnel-loading');
 
   if (!NICHE) {
-    if (root) root.innerHTML = '<p class="f-loading">Missing niche. Use /hardscape/ or ?niche=hardscape</p>';
+    renderFallback(
+      'Choose the right path for your market.',
+      'This compatibility route needs a market selection. You can return to the industry guide or open the 30-minute Growth Call calendar now.',
+    );
     return;
   }
 
@@ -31,8 +34,10 @@
       render(cfg);
     })
     .catch(() => {
-      if (loading) loading.textContent = 'Page not found.';
-      if (root) root.innerHTML = '<p class="f-loading">Niche not found.</p>';
+      renderFallback(
+        'That market page is not available.',
+        'The link may be outdated. Return to the industry guide or open the 30-minute Growth Call calendar directly.',
+      );
     });
 
   function esc(s) {
@@ -42,7 +47,47 @@
       .replace(/"/g, '&quot;');
   }
 
+  function directBookingUrl(cfg) {
+    const base = cfg.calendarUrl || cfg.thanks?.calendarUrl || 'https://api.leadconnectorhq.com/widget/booking/1GUofnPSyYefy2VOSxKO';
+    const target = new URL(base);
+    const incoming = new URL(location.href);
+    for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
+      const value = incoming.searchParams.get(key);
+      if (value) target.searchParams.set(key, value.slice(0,120));
+    }
+    return target.toString();
+  }
+
+  function renderFallback(headline, detail) {
+    if (loading) loading.remove();
+    if (!root) return;
+    const bookingUrl = directBookingUrl({});
+    root.innerHTML = `
+      <nav class="f-nav">
+        <a href="/" class="f-logo" aria-label="Rushes Media home">
+          <img src="/assets/images/logo-icon.png" alt="" />
+          <img src="/assets/images/logo-wordmark.png" alt="Rushes Media" class="wm" />
+        </a>
+        <a href="${esc(bookingUrl)}" target="_blank" rel="noopener" class="f-nav-cta">Book a Growth Call</a>
+      </nav>
+      <header class="f-hero">
+        <p class="f-eyebrow">Rushes Media</p>
+        <h1>${esc(headline)}</h1>
+        <p class="sub">${esc(detail)}</p>
+        <a href="${esc(bookingUrl)}" target="_blank" rel="noopener" class="f-hero-cta">Open the 30-minute calendar ↗</a>
+      </header>
+      <section class="f-section">
+        <div class="f-section-inner">
+          <h2>Explore by buying model.</h2>
+          <p class="f-note"><a href="/industries/">View the Rushes industry guide →</a></p>
+        </div>
+      </section>
+      <footer class="f-foot">© ${new Date().getFullYear()} Rushes Media · rushesmedia.com</footer>
+    `;
+  }
+
   function render(cfg) {
+    const bookingUrl = directBookingUrl(cfg);
     const steps = (cfg.mechanism?.steps || [])
       .map((s) => `<span class="f-step">${esc(s)}</span>`)
       .join('');
@@ -94,7 +139,7 @@
           <img src="/assets/images/logo-icon.png" alt="" />
           <img src="/assets/images/logo-wordmark.png" alt="Rushes Media" class="wm" />
         </a>
-        <a href="#growth-call" class="f-nav-cta">${esc(cfg.cta?.primary || 'Growth Call')}</a>
+        <a href="${esc(bookingUrl)}" target="_blank" rel="noopener" class="f-nav-cta">${esc(cfg.cta?.primary || 'Growth Call')}</a>
       </nav>
 
       <header class="f-hero">
@@ -102,7 +147,7 @@
         <h1>${esc(cfg.hero?.headline)}</h1>
         <p class="sub">${esc(cfg.hero?.subhead)}</p>
         <p class="f-trust">${esc(cfg.hero?.trustLine)}</p>
-        <a href="#growth-call" class="f-hero-cta">${esc(cfg.cta?.primary)} →</a>
+        <a href="${esc(bookingUrl)}" target="_blank" rel="noopener" class="f-hero-cta">${esc(cfg.cta?.primary)} ↗</a>
       </header>
 
       <section class="f-section"><div class="f-section-inner">
@@ -155,7 +200,7 @@
         ${faq}
       </div></section>
 
-      <section class="f-section f-form-section" id="growth-call">
+      <section class="f-section f-form-section" id="project-details">
         <div class="f-section-inner f-form-wrap">
           <h2>${esc(cfg.cta?.formTitle)}</h2>
           <p class="f-form-sub">${esc(cfg.cta?.formSub)}</p>
@@ -189,11 +234,12 @@
                 <span>Text me about my request at the number above. Msg &amp; data rates may apply, message frequency varies. Reply STOP to opt out, HELP for help. Consent isn't a condition of purchase.</span>
               </label>
             </div>
-            <button type="submit" class="f-submit">${esc(cfg.cta?.primary)}</button>
+            <button type="submit" class="f-submit">Send project details</button>
             <p class="f-form-msg" id="form-msg" role="status"></p>
           </form>
           <div class="f-secondary">
-            <strong>${esc(cfg.cta?.secondaryLabel)}</strong> — ${esc(cfg.cta?.secondaryNote)}
+            <strong>Prefer to choose a time now?</strong> <a href="${esc(bookingUrl)}" target="_blank" rel="noopener">Open the 30-minute Growth Call calendar ↗</a><br />
+            <span>${esc(cfg.cta?.secondaryLabel)} — ${esc(cfg.cta?.secondaryNote)}</span>
           </div>
         </div>
       </section>

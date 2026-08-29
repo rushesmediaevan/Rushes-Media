@@ -5,9 +5,10 @@
     a{color:var(--gold);text-decoration:none;}
     a:hover{color:var(--gold-d);}
     nav{position:sticky;top:0;z-index:800;display:flex;align-items:center;justify-content:space-between;
-        padding:0 var(--px);height:85px;background:rgba(12,24,37,.85);backdrop-filter:blur(10px);
+        padding:0 var(--px);height:85px;background:#0c1825;box-shadow:0 10px 28px rgba(2,8,14,.18);
         border-bottom:1px solid rgba(184,152,96,.18);}
     .logo{display:flex;align-items:center;gap:12px;}
+    .logo-crest,.logo-wordmark{filter:brightness(0) invert(1) brightness(.96) sepia(.08);}
     .logo-crest{height:34px;width:auto;}
     .logo-wordmark{height:18px;width:auto;}
     .nav-cta{font-size:14px;font-weight:500;color:var(--ink);background:var(--gold);

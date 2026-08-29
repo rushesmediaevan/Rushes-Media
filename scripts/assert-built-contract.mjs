@@ -20,6 +20,7 @@ import {
   REVIEW_ONLY_ROUTES,
   SITE_CONTRACT,
 } from './site-contract.mjs';
+import { CONVERSION_PAGE_COPY } from './conversion-page-copy.mjs';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const distRoot = path.join(projectRoot, 'dist');
@@ -360,6 +361,22 @@ assert.ok(
   homepageHtml.includes('id="rushes-growth-call-calendar"'),
   'Homepage Growth Call calendar iframe is missing.',
 );
+for (const resilientBookingMarker of [
+  'data-booking-status',
+  'Opening the secure 30-minute calendar',
+  'data-booking-direct',
+  'Open the calendar directly',
+  'data-booking-state="loading"',
+  'data-booking-loading',
+  'data-booking-fallback',
+  'Calendar frame opened. Confirming availability',
+  'The embedded calendar did not finish loading',
+  "showUnavailable('unavailable'",
+  "mode: 'no-cors'",
+]) {
+  assert.ok(homepageHtml.includes(resilientBookingMarker), `Homepage booking fail-safe is missing: ${resilientBookingMarker}`);
+}
+assert.ok(!homepageHtml.includes('Calendar loaded. Choose a time'), 'Iframe load alone must not claim that the third-party calendar hydrated.');
 assert.ok(homepageHtml.includes('class="hero-media-toggle"'));
 assert.ok(homepageHtml.includes('aria-controls="hero-background-video"'));
 assert.ok(!/<video[^>]+autoplay/i.test(homepageHtml), 'Hero video must not autoplay before preference detection.');
@@ -389,6 +406,19 @@ for (const route of SITE_CONTRACT.filter(
   assert.ok(!/<script[^>]+type="module"/i.test(html), `${route.path} emitted client module JS.`);
   assert.ok(!/_astro\/[^"']+\.js/.test(html), `${route.path} emitted Astro runtime JS.`);
   assert.ok(html.includes(`data-page-family=`), `${route.path} lost its semantic family discriminator.`);
+      assert.ok(html.includes('data-booking-direct'), `${route.path} lost the direct booking fallback.`);
+      assert.ok(html.includes('Request a time by email'), `${route.path} lost the owned accessible booking fallback.`);
+      assert.ok(
+        html.includes('mailto:evan@rushesmedia.com?subject=30-minute%20Growth%20Call%20request'),
+        `${route.path} accessible booking fallback destination drifted.`,
+      );
+  assert.ok(html.includes('data-booking-status'), `${route.path} lost the booking loading status.`);
+  assert.ok(html.includes('data-booking-state="loading"'), `${route.path} lost the booking loading state.`);
+  assert.ok(html.includes('data-booking-loading'), `${route.path} lost the designed booking loading plate.`);
+  assert.ok(html.includes('data-booking-fallback'), `${route.path} lost the collapsed booking failure state.`);
+  assert.ok(html.includes("showUnavailable('unavailable'"), `${route.path} lost the unavailable-frame state.`);
+  assert.ok(html.includes('data-booking-click-ready'), `${route.path} lost delegated Growth Call click tracking.`);
+  assert.ok(html.includes('a[href="#book"]'), `${route.path} no longer tracks every in-page Growth Call control.`);
 }
 
 const industryMarkers = new Map([
@@ -417,6 +447,7 @@ for (const [routePath, markers] of industryMarkers) {
   assert.ok(html.includes('slice(0,120)'), `${routePath} attribution must truncate at 120 characters.`);
   assert.ok(html.includes('growth_call_click'), `${routePath} lost its Growth Call click event.`);
   assert.ok(html.includes('booking_section_view'), `${routePath} lost meaningful booking visibility.`);
+  assert.ok(html.includes('industry_route'), `${routePath} lost its established industry analytics dimension.`);
   assert.ok(html.includes("host.endsWith('.test')"), `${routePath} analytics test-host suppression is missing.`);
   assert.ok(!html.includes('astro-island'), `${routePath} emitted an Astro island.`);
   assert.ok(!html.includes('/assets/proof/'), `${routePath} leaked a review-only proof asset into release HTML.`);
@@ -499,7 +530,23 @@ for (const retiredRoute of ['/hardscape/', '/pools/']) {
 
 const funnelRoute = SITE_CONTRACT.find((route) => route.path === '/funnel/');
 const funnelHtml = await readFile(path.join(distRoot, 'funnel/index.html'), 'utf8');
+const funnelScript = await readFile(path.join(distRoot, 'funnel/funnel.js'), 'utf8');
 assert.equal(metaContent(funnelHtml, 'name', 'robots'), funnelRoute?.robots);
+assert.ok(
+  funnelScript.includes('https://api.leadconnectorhq.com/widget/booking/1GUofnPSyYefy2VOSxKO'),
+  '/funnel/ lost the exact 30-minute Growth Call destination.',
+);
+assert.ok(funnelScript.includes('id="project-details"'), '/funnel/ project-details form anchor drifted.');
+assert.ok(funnelScript.includes('Open the 30-minute Growth Call calendar'), '/funnel/ lost its direct booking action.');
+assert.ok(
+  funnelScript.includes('Choose the right path for your market.') &&
+    funnelScript.includes('renderFallback('),
+  '/funnel/ lost its missing-market booking fail-safe.',
+);
+for (const utmKey of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
+  assert.ok(funnelScript.includes(utmKey), `/funnel/ attribution is missing ${utmKey}.`);
+}
+assert.ok(funnelScript.includes('slice(0,120)'), '/funnel/ attribution must truncate at 120 characters.');
 
 const robots = await readFile(path.join(distRoot, 'robots.txt'), 'utf8');
 assert.equal(
@@ -541,6 +588,10 @@ const dockerfileSource = await readFile(path.join(projectRoot, 'Dockerfile'), 'u
 assert.ok(
   dockerfileSource.includes('COPY scripts/site-facts.json scripts/site-contract.mjs ./scripts/'),
   'The production image no longer contains the route contract required by server.js.',
+);
+assert.ok(
+  dockerfileSource.includes('COPY content ./content'),
+  'The production image no longer contains centralized conversion copy required by the API runtime.',
 );
 assert.ok(
   workRouteSource.includes("Reflect.get(process.env, 'RUSHES_INCLUDE_REVIEW_ROUTES') !== '1'"),
@@ -616,7 +667,26 @@ assert.equal(
 );
 
 const thanksHtml = await readFile(path.join(distRoot, 'thanks/index.html'), 'utf8');
-assert.ok(thanksHtml.includes('30-minute call'), '/thanks/ Growth Call duration drifted from 30 minutes.');
+const thanksText = visibleText(thanksHtml);
+for (const value of Object.values(CONVERSION_PAGE_COPY['thanks/index.html'])) {
+  assert.ok(thanksHtml.includes(value), `/thanks/ lost centralized conversion copy: ${value}`);
+}
+for (const rejectedPhrase of [
+  'Got it.',
+  'Talk soon.',
+  'I personally',
+  'Skip the wait',
+  'Founder, Rushes Media',
+]) {
+  assert.ok(!thanksText.includes(rejectedPhrase), `/thanks/ retained rejected founder-speak: ${rejectedPhrase}`);
+}
+assert.ok(!/\{\{COPY_[A-Z0-9_]+\}\}/.test(thanksHtml), '/thanks/ contains unresolved copy markers.');
+assert.ok(thanksHtml.includes('30-minute Growth Call'), '/thanks/ Growth Call duration drifted from 30 minutes.');
+assert.ok(thanksHtml.includes('data-booking-return'), '/thanks/ lost its booking return action.');
+for (const utmKey of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
+  assert.ok(thanksHtml.includes(utmKey), `/thanks/ booking return is missing ${utmKey}.`);
+}
+assert.ok(thanksHtml.includes('slice(0, 120)'), '/thanks/ attribution must truncate at 120 characters.');
 assert.equal(
   (thanksHtml.match(/<script\b/gi) || []).length,
   (thanksHtml.match(/<\/script>/gi) || []).length,
@@ -626,6 +696,56 @@ assert.ok(thanksHtml.includes('AW-REPLACE_ME/REPLACE_ME_LABEL'));
 assert.ok(thanksHtml.includes("!adsConversionId.includes('REPLACE_ME')"));
 assert.ok(thanksHtml.includes("endsWith('.test')"));
 assert.ok(thanksHtml.includes("'[::1]'"));
+
+const playbookHtml = await readFile(path.join(distRoot, 'playbook/index.html'), 'utf8');
+const playbookText = visibleText(playbookHtml);
+for (const value of Object.values(CONVERSION_PAGE_COPY['playbook/index.html'])) {
+  assert.ok(playbookHtml.includes(value), `/playbook/ lost centralized conversion copy: ${value}`);
+}
+for (const rejectedPhrase of ['Two or more under 5', 'leads are leaking somewhere', 'Send my scorecard']) {
+  assert.ok(
+    !playbookText.includes(rejectedPhrase),
+    `/playbook/ retained rejected generic or first-person copy: ${rejectedPhrase}`,
+  );
+}
+assert.ok(!/\{\{COPY_[A-Z0-9_]+\}\}/.test(playbookHtml), '/playbook/ contains unresolved copy markers.');
+
+const playbookThanksHtml = await readFile(path.join(distRoot, 'playbook-thanks/index.html'), 'utf8');
+const playbookThanksText = visibleText(playbookThanksHtml);
+for (const value of Object.values(CONVERSION_PAGE_COPY['playbook-thanks/index.html'])) {
+  assert.ok(
+    playbookThanksHtml.includes(value),
+    `/playbook-thanks/ lost centralized conversion copy: ${value}`,
+  );
+}
+for (const rejectedPhrase of ['give it a couple of minutes', 'worth a conversation', 'Founder, Rushes Media']) {
+  assert.ok(
+    !playbookThanksText.includes(rejectedPhrase),
+    `/playbook-thanks/ retained rejected casual or founder copy: ${rejectedPhrase}`,
+  );
+}
+assert.ok(
+  !/\{\{COPY_[A-Z0-9_]+\}\}/.test(playbookThanksHtml),
+  '/playbook-thanks/ contains unresolved copy markers.',
+);
+assert.ok(playbookThanksHtml.includes('data-booking-return'), '/playbook-thanks/ lost its booking return action.');
+for (const utmKey of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
+  assert.ok(playbookThanksHtml.includes(utmKey), `/playbook-thanks/ booking return is missing ${utmKey}.`);
+}
+assert.ok(
+  playbookThanksHtml.includes('slice(0, 120)'),
+  '/playbook-thanks/ attribution must truncate at 120 characters.',
+);
+
+const callHtml = await readFile(path.join(distRoot, 'call/index.html'), 'utf8');
+const callText = visibleText(callHtml);
+for (const value of Object.values(CONVERSION_PAGE_COPY['call/index.html'])) {
+  assert.ok(callHtml.includes(value), `/call/ lost centralized conversion copy: ${value}`);
+}
+for (const rejectedPhrase of ['pitch dump', '60 seconds from Evan', 'Video landing here', 'Founder-led.']) {
+  assert.ok(!callText.includes(rejectedPhrase), `/call/ retained unfinished or founder-centric copy: ${rejectedPhrase}`);
+}
+assert.ok(!/\{\{COPY_[A-Z0-9_]+\}\}/.test(callHtml), '/call/ contains unresolved copy markers.');
 
 const stagedFiles = await walkFiles(publicRoot);
 assert.deepEqual(

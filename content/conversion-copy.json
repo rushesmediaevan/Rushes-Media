@@ -1,0 +1,61 @@
+{
+  "pages": {
+    "playbook/index.html": {
+      "META_DESCRIPTION": "Local Lead Leak Scorecard — a focused diagnostic for the path from attention to booked opportunity.",
+      "EYEBROW": "Free diagnostic",
+      "HEADLINE_LEAD": "Local lead leak",
+      "HEADLINE_ACCENT": "scorecard",
+      "BODY": "Score the four points where attention should become a booked opportunity. The result shows which handoff needs attention first and gives a Growth Call a useful starting point.",
+      "PRIMARY_CTA": "Send the scorecard"
+    },
+    "thanks/index.html": {
+      "META_DESCRIPTION": "Your Rushes Media inquiry is confirmed. Schedule a 30-minute Growth Call or return to the site.",
+      "EYEBROW": "Inquiry confirmed",
+      "HEADLINE_LEAD": "Your inquiry is",
+      "HEADLINE_ACCENT": "confirmed.",
+      "BODY": "Expect a response from Rushes Media within one business day with the clearest next step. If you’re ready to continue now, schedule a 30-minute Growth Call.",
+      "PRIMARY_CTA": "Book a Growth Call",
+      "SECONDARY_CTA": "Return to the site"
+    },
+    "playbook-thanks/index.html": {
+      "META_DESCRIPTION": "Your Local Lead Leak Scorecard is ready. Download it now or schedule a 30-minute Growth Call.",
+      "EYEBROW": "Request confirmed",
+      "HEADLINE_LEAD": "Your scorecard is",
+      "HEADLINE_ACCENT": "ready.",
+      "BODY": "The Local Lead Leak Scorecard is available below and has also been sent to the email address you submitted. Use it to identify where inquiries lose momentum before they become booked opportunities. If the gaps are clear, schedule a Growth Call to decide what should be fixed first.",
+      "PRIMARY_CTA": "Book a Growth Call",
+      "SECONDARY_CTA": "Download the scorecard",
+      "SECONDARY_URL": "https://assets.cdn.filesafe.space/o3D3rSAdiE8inzOOk2oF/media/247c3e3b-dd18-4216-a3df-7b00f3991b89.pdf"
+    },
+    "call/index.html": {
+      "LEDE": "The Growth Call is a focused working session: how demand enters the business today, where qualified opportunities stall, and whether the full system is the right fit. Bring the numbers and context you already have; no formal presentation is required.",
+      "CAPACITY_HEADING": "Working fit",
+      "CAPACITY_LEAD": "Capacity is confirmed before scope.",
+      "CAPACITY_BODY": "The work moves forward only when service area, demand, response coverage, project economics, and timing support it.",
+      "RETURN_CTA": "Return to the Growth Call calendar"
+    },
+    "call/teleprompter.html": {
+      "OPERATING_NOTE": "The script makes only operating promises the business can keep consistently. Update the system before strengthening the claim; do not turn personal diligence into a founder credential.",
+      "FRAME": "Welcome to Rushes Media. Your Growth Call is a focused working session: how demand enters the business today, where qualified opportunities stall, and whether the Demand Loop is the right fit.",
+      "STANDARD": "Rushes combines strategy, creative, conversion, and follow-up as one operating system. On the call, every example stays clearly labeled: functional demonstration, original concept, delivered work, or permissioned client result. That same standard applies to the recommendation for your business.",
+      "BRING": "Come prepared with the best numbers you have: where jobs come from now, average job value, available capacity, response time, and what has already been tried. Estimates are enough; the goal is a useful operating picture, not a polished presentation.",
+      "OUTCOME": "The call ends with a clear fit decision, a practical next step, and—when the numbers support it—a booked-opportunity target grounded in the business. If the Demand Loop is not the right answer, the recommendation will say so.",
+      "CLOSE": "The meeting link will arrive again before the call. See you then."
+    }
+  },
+  "messages": {
+    "leadAcknowledgementSms": {
+      "body": "Hi {{firstName}} — Rushes Media received your request. Schedule a 30-minute Growth Call here: {{bookingLink}}. If you prefer, reply with a time that works. Reply STOP to opt out."
+    },
+    "scorecardDeliveryEmail": {
+      "subject": "Your Local Lead Leak Scorecard",
+      "greeting": "Hello {{firstName}},",
+      "intro": "Your Local Lead Leak Scorecard is ready:",
+      "downloadCta": "Download the scorecard (PDF)",
+      "guidance": "Use the four sections to identify where inquiries stall before they become booked opportunities.",
+      "bookingPrompt": "If the gaps are clear, schedule a Growth Call to decide what should be fixed first.",
+      "bookingCta": "Book a 30-minute Growth Call",
+      "signoff": "Rushes Media"
+    }
+  }
+}

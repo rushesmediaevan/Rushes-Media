@@ -1,0 +1,26 @@
+---
+import { SHARED_CTA, SITE } from '../../data/site';
+
+interface Props { current?: string; }
+const { current = '' } = Astro.props;
+const links = [
+  { href: '/demand-loop/', label: 'Demand Loop', key: 'demand-loop' },
+  { href: '/brand-media/', label: 'Services', key: 'services' },
+  { href: '/industries/', label: 'Industries', key: 'industries' },
+] as const;
+---
+
+<nav class="editorial-nav" aria-label="Primary navigation">
+  <a href="/" class="editorial-logo" aria-label="Rushes Media — home">
+    <img src={SITE.logoIcon} alt="" width="833" height="959" />
+    <img src={SITE.logoWordmark} alt="Rushes Media" width="2888" height="322" />
+  </a>
+  <div class="editorial-nav-links">
+    {links.map((link) => (
+      <a href={link.href} aria-current={current === link.key ? 'page' : undefined}>{link.label}</a>
+    ))}
+    <a href="#book" class="editorial-nav-cta" data-growth-call-click data-link-location="navigation">
+      {SHARED_CTA.label}
+    </a>
+  </div>
+</nav>

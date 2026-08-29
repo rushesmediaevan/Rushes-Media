@@ -20,7 +20,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Get the scorecard — Rushes Media</title>
-  <meta name="description" content="Local Lead Leak Scorecard — free diagnostic for owner-operated businesses." />
+  <meta name="description" content="{{COPY_META_DESCRIPTION}}" />
   <meta name="theme-color" content="#0c1825" />
   <meta name="robots" content="noindex" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -46,7 +46,11 @@
       display: flex;
       justify-content: center;
     }
-    .logo img { height: 36px; width: auto; }
+    .logo img {
+      height: 36px;
+      width: auto;
+      filter: brightness(0) invert(1) brightness(.96) sepia(.08);
+    }
     .logo .wm { height: 22px; margin-left: 10px; }
     main {
       max-width: 520px;
@@ -95,6 +99,10 @@
       outline: none;
       border-color: var(--gold);
     }
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 3px solid #d4b87a;
+      outline-offset: 4px;
+    }
     select option { color: #0c1825; }
     .btn {
       margin-top: 8px;
@@ -137,9 +145,9 @@
   </header>
 
   <main>
-    <p class="eyebrow">Free diagnostic</p>
-    <h1>Local lead leak <em>scorecard</em></h1>
-    <p class="sub">Four areas, scored 1–10. Two or more under 5 means leads are leaking somewhere — we'll send the PDF to your inbox.</p>
+    <p class="eyebrow">{{COPY_EYEBROW}}</p>
+    <h1>{{COPY_HEADLINE_LEAD}} <em>{{COPY_HEADLINE_ACCENT}}</em></h1>
+    <p class="sub">{{COPY_BODY}}</p>
 
     <div id="err" class="err" role="alert"></div>
 
@@ -182,7 +190,7 @@
         </select>
       </label>
 
-      <button class="btn" type="submit" id="submit">Send my scorecard</button>
+      <button class="btn" type="submit" id="submit">{{COPY_PRIMARY_CTA}}</button>
     </form>
   </main>
 
@@ -198,6 +206,7 @@
     const form = document.getElementById('form');
     const err = document.getElementById('err');
     const btn = document.getElementById('submit');
+    const defaultButtonLabel = btn.textContent;
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -221,7 +230,7 @@
         err.textContent = ex.message;
         err.classList.add('on');
         btn.disabled = false;
-        btn.textContent = 'Send my scorecard';
+        btn.textContent = defaultButtonLabel;
       }
     });
   </script>

@@ -11,6 +11,7 @@ ENV NODE_ENV=production
 COPY --from=build /app/dist ./dist
 COPY package.json server.js ./
 COPY lib ./lib
+COPY content ./content
 COPY scripts/site-facts.json scripts/site-contract.mjs ./scripts/
 EXPOSE 3000
 CMD ["node", "server.js"]

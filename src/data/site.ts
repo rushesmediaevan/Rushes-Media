@@ -125,6 +125,24 @@ export const SHARED_CTA = {
   iframeTitle: 'Book a Growth Call with Rushes Media',
 } as const;
 
+export const BOOKING_COPY = {
+  loadingStatus: 'Opening the secure 30-minute calendar…',
+  frameOpenedStatus: 'Calendar frame opened. Confirming availability…',
+  readyStatus: 'The 30-minute Growth Call calendar is ready.',
+  delayedStatus: 'The embedded calendar did not finish loading. Use the direct calendar link.',
+  offlineStatus: 'You appear to be offline. Reconnect, then open the calendar directly.',
+  unavailableStatus: 'The embedded calendar is unavailable. The direct calendar link remains available.',
+  loadingKicker: 'Secure scheduling',
+  loadingTitle: 'Opening the Growth Call calendar.',
+  loadingBody: 'Available times will appear here. The direct calendar link above is ready at any point.',
+  fallbackKicker: 'Calendar fallback',
+  fallbackTitle: 'Continue in the secure calendar.',
+  fallbackBody:
+    'The embedded view did not finish loading in this browser. Open the same 30-minute calendar directly, or request a time by email.',
+  directLabel: 'Open the calendar directly',
+  requestLabel: 'Request a time by email',
+} as const;
+
 export const homepageSeo: PageSeo = {
   title: 'Rushes Media — booked estimates from the work you already do',
   description:
