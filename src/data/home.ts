@@ -1,5 +1,5 @@
 import { industryVisuals, type VisualAsset } from './industry-pages';
-import { revisionAssets } from './revision-assets';
+import { homepageAssets } from './homepage-assets';
 
 export interface HomeNavItem {
   href: string;
@@ -84,7 +84,7 @@ export const audiences: readonly HomeAudience[] = [
     summary:
       'Show the transformation, qualify the scope, and move the right homeowners toward a project consultation.',
     result: 'Better-fit project consultations',
-    visual: industryVisuals.outdoorLiving,
+    visual: homepageAssets.outdoorDuskFire,
   },
   {
     href: '/interior-design/',
@@ -111,7 +111,7 @@ export const audiences: readonly HomeAudience[] = [
     summary:
       'Build service-specific trust, guide the right consultation request, and keep follow-up timely.',
     result: 'Better-qualified consultation requests',
-    visual: revisionAssets.medSpa,
+    visual: homepageAssets.medSpaLounge,
   },
 ] as const;
 
@@ -125,7 +125,7 @@ export const homeServices: readonly HomeService[] = [
       'Photography and video that make the business—its people, products, services, places, and point of view—worth noticing across every channel.',
     tags: ['Photo & motion', 'Campaign creative', 'Organic content'],
     tone: 'ink',
-    visual: revisionAssets.bakery,
+    visual: homepageAssets.brandMediaRiversideMill,
   },
   {
     href: '/campaigns/',
@@ -136,6 +136,7 @@ export const homeServices: readonly HomeService[] = [
       'Meta and Google campaigns pair strong creative with a clear message and next step.',
     tags: ['Meta', 'Google', 'Campaign management'],
     tone: 'paper',
+    visual: homepageAssets.campaignsSubmerged,
   },
   {
     href: '/web/',
@@ -146,6 +147,7 @@ export const homeServices: readonly HomeService[] = [
       'Focused sites and landing pages answer key questions and make calling, booking, or requesting an estimate straightforward.',
     tags: ['Custom sites', 'Landing pages', 'Conversion UX'],
     tone: 'gold',
+    visual: homepageAssets.webLawOffice,
   },
   {
     href: '/follow-up/',
@@ -160,18 +162,36 @@ export const homeServices: readonly HomeService[] = [
 ];
 
 export const systemSteps = [
-  { stage: 'Attention', title: 'Earn attention.', description: 'Show people what makes the business worth choosing.', owner: 'Brand Media' },
-  { stage: 'Reach', title: 'Reach likely buyers.', description: 'Put the service in front of people who are likely to need it.', owner: 'Creative Campaigns' },
-  { stage: 'Decision', title: 'Make the next step clear.', description: 'Explain the service and make calling, booking, or requesting an estimate simple.', owner: 'Web & Landing' },
-  { stage: 'Response', title: 'Respond while intent is high.', description: 'Give each qualified inquiry a fast, useful response.', owner: 'Lead Capture & Follow-up' },
-  { stage: 'Booking', title: 'Book and confirm.', description: 'Make the estimate or consultation easy to schedule and confirm.', owner: 'Lead Capture & Follow-up' },
-] as const;
-
-export const systemOwners = [
-  { label: 'Brand Media', className: 'media' },
-  { label: 'Creative Campaigns', className: 'campaigns' },
-  { label: 'Web & Landing', className: 'web' },
-  { label: 'Lead Capture & Follow-up', className: 'follow-up' },
+  {
+    stage: 'Attention',
+    owner: 'Brand Media',
+    title: 'Earn attention.',
+    description: 'Make the reputation, expertise, and experience behind the business worth noticing.',
+  },
+  {
+    stage: 'Reach',
+    owner: 'Creative Campaigns',
+    title: 'Extend the right reach.',
+    description: 'Carry the strongest idea to more of the people most likely to value it.',
+  },
+  {
+    stage: 'Decision',
+    owner: 'Web & Landing',
+    title: 'Make the value clear.',
+    description: 'Help buyers understand the offer, judge fit, and take the next step.',
+  },
+  {
+    stage: 'Response',
+    owner: 'Lead Capture',
+    title: 'Protect the handoff.',
+    description: 'Route qualified inquiries to a timely, useful response while intent is high.',
+  },
+  {
+    stage: 'Continuity',
+    owner: 'Follow-up',
+    title: 'Keep opportunity moving.',
+    description: 'Make the agreed next step easier to complete and harder to lose.',
+  },
 ] as const;
 
 export const processSteps = [

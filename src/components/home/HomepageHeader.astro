@@ -41,4 +41,10 @@ import { SHARED_CTA, SITE } from '../../data/site';
     <li><a href={SHARED_CTA.href} class="cta">{SHARED_CTA.label}</a></li>
   </ul>
   <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="mob"><span></span><span></span><span></span></button>
+  <noscript>
+    <ul class="home-noscript-nav" aria-label="Mobile navigation">
+      {primaryNavigation.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      <li><a href={SHARED_CTA.href}>{SHARED_CTA.label}</a></li>
+    </ul>
+  </noscript>
 </nav>

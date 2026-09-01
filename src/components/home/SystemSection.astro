@@ -1,33 +1,30 @@
 ---
-import { systemOwners, systemSteps } from '../../data/home';
+import { systemSteps } from '../../data/home';
 ---
 
 <!-- ══ SYSTEM ═════════════════════════════════════════════ -->
 <section id="system" tabindex="-1">
   <div class="system-inner">
     <div class="system-hd r">
-      <span class="eye">How It Can Connect</span>
-      <h2 class="system-h2">A connected path, when the priority calls for one.</h2>
-      <p class="system-sub">Each capability can stand alone. When the work spans more than one stage, Rushes keeps the idea, experience, measurement, and handoffs coherent from attention to action.</p>
+      <span class="eye">How It Connects</span>
+      <h2 class="system-h2">Make a strong business easier to see—and easier to choose.</h2>
+      <p class="system-sub">Brand Media earns attention by making the value visible. Creative Campaigns carry the strongest idea to more of the right people. Web makes the offer easier to understand and act on. When inquiry or booking is part of the work, Lead Capture and Follow-up protect genuine interest through the next conversation.</p>
     </div>
-    <div class="system-map-key r d1" aria-label="Four services across five buyer moments">
-      <span>Four connected services</span>
-      <span>Five buyer moments</span>
-    </div>
-    <div class="system-ownership r d1" aria-label="Service ownership across the buyer path">
-      {systemOwners.map((owner) => <span class={`system-owner system-owner--${owner.className}`}>{owner.label}</span>)}
-    </div>
-    <ol class="system-flow r d1">
+    <ol class="system-flow r d1" aria-label="Five moments from visibility to qualified opportunity">
       {systemSteps.map((step, index) => (
         <li class="sys-step">
-          <div class="sys-stage"><span aria-hidden="true"></span>{step.stage}</div>
+          <span class="sys-node" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+          <div class="sys-stage">{step.stage}</div>
           <h3 class="sys-step-name">{step.title}</h3>
+          <p class="sys-step-service">
+            <span>Rushes capability</span>
+            <strong>{step.owner}</strong>
+          </p>
           <p class="sys-step-desc">{step.description}</p>
-          <p class="sys-step-service">{step.owner}</p>
           {index < systemSteps.length - 1 && <span class="sys-arrow" aria-hidden="true">→</span>}
         </li>
       ))}
     </ol>
-    <p class="system-close">Strengthen what matters now. Expand only when it becomes useful.</p>
+    <p class="system-close">Start with the business priority. Connect only what strengthens the path from visibility to qualified opportunity—and, ultimately, customers and revenue.</p>
   </div>
 </section>

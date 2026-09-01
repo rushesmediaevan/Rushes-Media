@@ -100,7 +100,7 @@ if (floatingCta && heroButtons && 'IntersectionObserver' in window) {
     updateFloatingCta();
   }, { rootMargin: '0px 0px -35% 0px' });
   heroObserver.observe(heroButtons);
-  document.querySelectorAll('#who, #cta, footer').forEach((element) => closeObserver.observe(element));
+  document.querySelectorAll('#system, #who, #cta, footer').forEach((element) => closeObserver.observe(element));
 }
 
 const revealElements = document.querySelectorAll('.r');
@@ -126,24 +126,6 @@ if (revealSupported && revealElements.length > 0) {
     document.documentElement.classList.remove('reveal-enabled');
   }
 }
-
-document.querySelectorAll<HTMLButtonElement>('.faq-q').forEach((question) => {
-  question.addEventListener('click', () => {
-    const item = question.closest('.faq-item');
-    if (!item) return;
-    const wasOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item.open').forEach((openItem) => {
-      openItem.classList.remove('open');
-      openItem.querySelector('.faq-q')?.setAttribute('aria-expanded', 'false');
-      openItem.querySelector('.faq-a')?.setAttribute('aria-hidden', 'true');
-    });
-    if (!wasOpen) {
-      item.classList.add('open');
-      question.setAttribute('aria-expanded', 'true');
-      item.querySelector('.faq-a')?.setAttribute('aria-hidden', 'false');
-    }
-  });
-});
 
 const hostname = window.location.hostname.toLowerCase();
 const localHost =

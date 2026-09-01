@@ -60,6 +60,25 @@ export const REVISION_BROWSER_ASSET_FILES = [
   ...REVISION_ASSETS.daylitVenue,
 ];
 
+const homepageDerivativeFiles = (slug) => [
+  ...[800, 1200, 1600].flatMap((width) => ['avif', 'webp'].map(
+    (extension) => `assets/images/homepage/${slug}-desktop-${width}.${extension}`,
+  )),
+  ...[480, 800, 1200].flatMap((width) => ['avif', 'webp'].map(
+    (extension) => `assets/images/homepage/${slug}-mobile-${width}.${extension}`,
+  )),
+];
+
+const HOMEPAGE_ASSETS = {
+  brandMediaRiversideMill: homepageDerivativeFiles('brand-media-riverside-mill'),
+  campaignsSubmerged: homepageDerivativeFiles('campaigns-submerged'),
+  webLawOffice: homepageDerivativeFiles('web-law-office'),
+  outdoorDuskFire: homepageDerivativeFiles('outdoor-dusk-fire'),
+  medSpaLounge: homepageDerivativeFiles('medspa-lounge'),
+};
+
+export const HOMEPAGE_BROWSER_ASSET_FILES = Object.values(HOMEPAGE_ASSETS).flat();
+
 const publicAssetUrls = (files) => files.map((file) => `/${file}`);
 
 /** @typedef {'generated' | 'compatibility' | 'review-only' | 'redirect' | 'api' | 'auxiliary'} RouteOwner */
@@ -135,8 +154,7 @@ export const SITE_CONTRACT = [
       '/assets/video/hero-loop.mp4',
       '/assets/images/logo-icon.png',
       '/assets/images/logo-wordmark.png',
-      ...publicAssetUrls(REVISION_ASSETS.bakery),
-      ...publicAssetUrls(REVISION_ASSETS.medSpa),
+      ...publicAssetUrls(HOMEPAGE_BROWSER_ASSET_FILES),
     ],
     requiredCtas: [
       '#book',
@@ -825,6 +843,7 @@ export const PUBLIC_ASSET_FILES = [
   'assets/images/logo-icon.png',
   'assets/images/logo-wordmark.png',
   'assets/video/hero-loop.mp4',
+  ...HOMEPAGE_BROWSER_ASSET_FILES,
   ...REVISION_BROWSER_ASSET_FILES,
   ...INDUSTRY_BROWSER_ASSET_FILES,
 ];

@@ -11,6 +11,7 @@ import {
   HERO_VIDEO_POSTER_PATH,
   HERO_VIDEO_URL,
   HERO_VIDEO_VERSION,
+  HOMEPAGE_BROWSER_ASSET_FILES,
   HOMEPAGE_FIRST_PARTY_JS_BUDGET,
   INDEXABLE_ROUTES,
   META_PIXEL_ID,
@@ -160,9 +161,9 @@ function assertOrdered(html, markers, label) {
   }
 }
 
-function assertRevisionPicture(html, assetId) {
+function assertArtDirectedPicture(html, folder, assetId) {
   const pictures = [...html.matchAll(/<picture\b[^>]*>[\s\S]*?<\/picture>/gi)].map((match) => match[0]);
-  const picture = pictures.find((candidate) => candidate.includes(`/assets/images/revision/${assetId}-`));
+  const picture = pictures.find((candidate) => candidate.includes(`/assets/images/${folder}/${assetId}-`));
   assert.ok(picture, `Missing art-directed picture for ${assetId}.`);
 
   const imageSources = tags(picture, 'source');
@@ -184,11 +185,14 @@ function assertRevisionPicture(html, assetId) {
   }
 
   const fallback = tags(picture, 'img')[0];
-  assert.equal(fallback?.src, `/assets/images/revision/${assetId}-mobile-1200.webp`);
+  assert.equal(fallback?.src, `/assets/images/${folder}/${assetId}-mobile-1200.webp`);
   assert.equal(fallback?.width, '1200');
   assert.equal(fallback?.height, '1500');
   assert.ok(fallback?.alt, `${assetId} fallback lacks descriptive alt text.`);
 }
+
+const assertRevisionPicture = (html, assetId) => assertArtDirectedPicture(html, 'revision', assetId);
+const assertHomepagePicture = (html, assetId) => assertArtDirectedPicture(html, 'homepage', assetId);
 
 function assertBookingRuntime(html, routePath) {
   for (const marker of [
@@ -281,24 +285,45 @@ assert.equal(
   48,
   'The revision derivative allowlist contains a duplicate.',
 );
+assert.equal(HOMEPAGE_BROWSER_ASSET_FILES.length, 60, 'The homepage derivative set must contain 60 files.');
+assert.equal(
+  new Set(HOMEPAGE_BROWSER_ASSET_FILES).size,
+  60,
+  'The homepage derivative allowlist contains a duplicate.',
+);
 assert.ok(
   PUBLIC_ASSET_FILES.every((file) => !file.startsWith('assets/images/home/')),
   'Superseded homepage derivatives remain public.',
 );
-for (const [routePath, assetIds] of [
-  ['/', ['02-bakery', '05-medspa']],
-  ['/brand-media/', ['04-restaurant', '06-daylit-venue']],
+for (const [routePath, assetIds, expectedCount] of [
+  ['/', [], 0],
+  ['/brand-media/', ['04-restaurant', '06-daylit-venue'], 24],
 ]) {
   const route = SITE_CONTRACT.find((entry) => entry.path === routePath);
   const revisionAssets = (route?.requiredAssets ?? []).filter((file) =>
     file.startsWith('/assets/images/revision/'),
   );
-  assert.equal(revisionAssets.length, 24, `${routePath} must own exactly 24 revision derivatives.`);
+  assert.equal(revisionAssets.length, expectedCount, `${routePath} revision derivative ownership drifted.`);
   assert.ok(
     revisionAssets.every((file) => assetIds.some((assetId) => file.includes(`/${assetId}-`))),
     `${routePath} owns a revision image assigned to another route.`,
   );
 }
+const homepageRoute = SITE_CONTRACT.find((entry) => entry.path === '/');
+const homepageAssets = (homepageRoute?.requiredAssets ?? []).filter((file) =>
+  file.startsWith('/assets/images/homepage/'),
+);
+assert.equal(homepageAssets.length, 60, 'Homepage must own exactly 60 art-directed derivatives.');
+assert.ok(
+  homepageAssets.every((file) => [
+    'brand-media-riverside-mill',
+    'campaigns-submerged',
+    'web-law-office',
+    'outdoor-dusk-fire',
+    'medspa-lounge',
+  ].some((assetId) => file.includes(`/${assetId}-`))),
+  'Homepage owns an image outside the selected review set.',
+);
 
 for (const route of publicHtmlRoutes) {
   const html = await readFile(pageFile(route.path), 'utf8');
@@ -455,10 +480,31 @@ assert.equal(
   2,
   'Homepage must disclose each image group once.',
 );
-assertRevisionPicture(homepageHtml, '02-bakery');
-assertRevisionPicture(homepageHtml, '05-medspa');
+for (const assetId of [
+  'brand-media-riverside-mill',
+  'campaigns-submerged',
+  'web-law-office',
+  'outdoor-dusk-fire',
+  'medspa-lounge',
+]) {
+  assertHomepagePicture(homepageHtml, assetId);
+}
+assert.ok(!homepageHtml.includes('brand-media-bakery'), 'Rejected Brand Media bakery image remained on the homepage.');
+assert.ok(!homepageHtml.includes('/assets/images/revision/02-bakery-'));
 assert.ok(!homepageHtml.includes('/assets/images/revision/04-restaurant-'));
+assert.ok(!homepageHtml.includes('/assets/images/revision/05-medspa-'));
 assert.ok(!homepageHtml.includes('/assets/images/revision/06-daylit-venue-'));
+assert.ok(homepageHtml.includes('How It Connects'));
+assert.ok(
+  homepageHtml.includes('Brand Media earns attention by making the value visible'),
+  'Homepage connection copy lost its tangible cause-and-effect sequence.',
+);
+for (const phrase of ['Earn attention.', 'Extend the right reach.', 'Make the value clear.', 'Protect the handoff.', 'Keep opportunity moving.']) {
+  assert.ok(homepageHtml.includes(phrase), `Homepage connection concept is missing: ${phrase}`);
+}
+assert.equal((homepageHtml.match(/Rushes capability/g) || []).length, 5, 'Each connection moment needs a visible capability relationship.');
+assert.ok(!homepageHtml.includes('How It Can Connect'));
+assert.ok(!homepageHtml.includes('A connected path, when the priority calls for one.'));
 for (const utmKey of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
   assert.ok(homepageHtml.includes(utmKey), `Homepage attribution is missing ${utmKey}.`);
 }
@@ -720,17 +766,33 @@ for (const image of brandMediaConceptImages) {
 
 const homepageImageSources = tags(homepageHtml, 'img').map((image) => image.src).filter(Boolean);
 const brandMediaImageSources = tags(brandMediaHtml, 'img').map((image) => image.src).filter(Boolean);
-for (const [routePath, assetId] of [
-  ['/', '02-bakery'],
-  ['/', '05-medspa'],
-  ['/brand-media/', '04-restaurant'],
-  ['/brand-media/', '06-daylit-venue'],
+for (const [routePath, folder, assetId] of [
+  ['/', 'homepage', 'brand-media-riverside-mill'],
+  ['/', 'homepage', 'campaigns-submerged'],
+  ['/', 'homepage', 'web-law-office'],
+  ['/', 'homepage', 'outdoor-dusk-fire'],
+  ['/', 'homepage', 'medspa-lounge'],
+  ['/brand-media/', 'revision', '04-restaurant'],
+  ['/brand-media/', 'revision', '06-daylit-venue'],
 ]) {
-  const expected = `/assets/images/revision/${assetId}-mobile-1200.webp`;
+  const expected = `/assets/images/${folder}/${assetId}-mobile-1200.webp`;
   const expectedRouteSources = routePath === '/' ? homepageImageSources : brandMediaImageSources;
   const otherRouteSources = routePath === '/' ? brandMediaImageSources : homepageImageSources;
   assert.equal(expectedRouteSources.filter((source) => source === expected).length, 1, `${expected} needs one prominent slot.`);
   assert.ok(!otherRouteSources.includes(expected), `${expected} was reused across prominent routes.`);
+}
+const homepageConceptImages = tags(homepageHtml, 'img').filter(
+  (entry) => entry.src?.includes('/assets/images/homepage/'),
+);
+assert.equal(homepageConceptImages.length, 5, 'Homepage must render five selected concept images.');
+assert.equal(
+  new Set(homepageConceptImages.map((image) => image.src)).size,
+  homepageConceptImages.length,
+  'Homepage reused a selected concept image in more than one prominent slot.',
+);
+for (const image of homepageConceptImages) {
+  assert.ok(Number(image.width) > 0 && Number(image.height) > 0, 'Homepage concept image lacks measured dimensions.');
+  assert.ok(image.alt, 'Homepage concept image lacks descriptive alt text.');
 }
 
 for (const [routePath, signature] of [

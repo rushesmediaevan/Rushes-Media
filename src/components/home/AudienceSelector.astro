@@ -18,12 +18,12 @@ import { audiences } from '../../data/home';
         <figure>
           <picture>
             {audience.visual.sources.map((source) => (
-              <source srcset={source.srcset} sizes="(max-width: 720px) calc(100vw - 44px), 50vw" type={source.type} media={source.media} />
+              <source srcset={source.srcset} sizes={audience.visual.sizes} type={source.type} media={source.media} />
             ))}
             <img
               src={audience.visual.fallback.src}
               srcset={audience.visual.fallback.srcset}
-              sizes="(max-width: 720px) calc(100vw - 44px), 50vw"
+              sizes={audience.visual.sizes}
               width={audience.visual.fallback.width}
               height={audience.visual.fallback.height}
               alt={audience.visual.alt}

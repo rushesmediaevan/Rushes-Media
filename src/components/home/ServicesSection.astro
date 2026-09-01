@@ -7,7 +7,7 @@ import { homeServices } from '../../data/home';
 <section id="services" tabindex="-1">
   <div class="svc-hd">
     <h2 class="svc-h2 r">What We Build</h2>
-    <p class="svc-intro r d1">Creative media, campaigns, web, and follow-up—used independently or together around the business priority.</p>
+    <span class="svc-count r d1">04 capabilities</span>
   </div>
   <div class="svc-board">
     {homeServices.map((service, index) => (
@@ -16,12 +16,12 @@ import { homeServices } from '../../data/home';
           <figure class="svc-card-visual" data-visual-truth={service.visual.truthClass}>
             <picture>
               {service.visual.sources.map((source) => (
-                <source srcset={source.srcset} sizes="(max-width: 768px) calc(100vw - 48px), 58vw" type={source.type} media={source.media} />
+                <source srcset={source.srcset} sizes={service.visual?.sizes} type={source.type} media={source.media} />
               ))}
               <img
                 src={service.visual.fallback.src}
                 srcset={service.visual.fallback.srcset}
-                sizes="(max-width: 768px) calc(100vw - 48px), 58vw"
+                sizes={service.visual?.sizes}
                 width={service.visual.fallback.width}
                 height={service.visual.fallback.height}
                 alt={service.visual.alt}

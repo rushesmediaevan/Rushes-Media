@@ -7,7 +7,7 @@
   },
   "approvedRevisionFiles": {
     "src/components/home/HeroSection.astro": "a3cb960380d58424f5f8633a7c72b8145c182df7d59704450ac7cee7fbcf9aac",
-    "src/components/home/HomepageHeader.astro": "c93d1fe44032a7a3f12135e1459caa5a3343e8b7a32bf76be5467a028c59c66d"
+    "src/components/home/HomepageHeader.astro": "4dca3fdb57441083a7d351662f36df91aa79f567e2eba53831081b5b1d070a3b"
   },
   "homepageCssProtectedPrefix": {
     "path": "src/styles/home.css",
