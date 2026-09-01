@@ -1,29 +1,51 @@
 ---
 import { homeServices } from '../../data/home';
+
 ---
 
 <!-- ══ SERVICES ═══════════════════════════════════════════ -->
-<section id="services">
+<section id="services" tabindex="-1">
   <div class="svc-hd">
     <h2 class="svc-h2 r">What We Build</h2>
-    <span class="svc-count r d1">04 Services</span>
+    <p class="svc-intro r d1">Creative media, campaigns, web, and follow-up—used independently or together around the business priority.</p>
   </div>
-  <div class="svc-list">
+  <div class="svc-board">
     {homeServices.map((service, index) => (
-      <a class:list={['svc-row', 'r', index > 0 && `d${index}`]} href={service.href}>
-        <span class="svc-n">{service.number}</span>
-        <div>
+      <a class:list={['svc-card', `svc-card--${service.tone}`, service.visual && 'svc-card--visual', 'r', index > 0 && `d${index}`]} href={service.href}>
+        {service.visual && (
+          <figure class="svc-card-visual" data-visual-truth={service.visual.truthClass}>
+            <picture>
+              {service.visual.sources.map((source) => (
+                <source srcset={source.srcset} sizes="(max-width: 768px) calc(100vw - 48px), 58vw" type={source.type} media={source.media} />
+              ))}
+              <img
+                src={service.visual.fallback.src}
+                srcset={service.visual.fallback.srcset}
+                sizes="(max-width: 768px) calc(100vw - 48px), 58vw"
+                width={service.visual.fallback.width}
+                height={service.visual.fallback.height}
+                alt={service.visual.alt}
+                loading="lazy"
+                decoding="async"
+                style={`--svc-focal:${service.visual.focalPoint};--svc-mobile-focal:${service.visual.mobileFocalPoint ?? service.visual.focalPoint}`}
+              />
+            </picture>
+          </figure>
+        )}
+        <div class="svc-card-top">
+          <span class="svc-stage">{service.stage}</span>
+          <span class="svc-arr" aria-hidden="true">↗</span>
+        </div>
+        <div class="svc-card-main">
           <h3 class="svc-name">{service.name}</h3>
-          <span class="svc-name-plain">{service.plainName}</span>
-        </div>
-        <div class="svc-body">
+          <p class="svc-name-plain">{service.plainName}</p>
           <p class="svc-desc">{service.description}</p>
-          <div class="svc-tags">
-            {service.tags.map((tag) => <span class="svc-tag">{tag}</span>)}
-          </div>
         </div>
-        <span class="svc-arr" aria-hidden="true">↗</span>
+        <ul class="svc-tags">
+          {service.tags.map((tag) => <li class="svc-tag">{tag}</li>)}
+        </ul>
       </a>
     ))}
   </div>
+  <p class="home-concept-disclosure">Image note: Original Rushes concept visualization; fictional generated environment, not client work, a documented location, or a performance result.</p>
 </section>

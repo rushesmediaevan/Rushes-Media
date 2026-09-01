@@ -1,11 +1,13 @@
 {
   "baseCommit": "e2b0d88eae1512b9db2348a2b958fba1b45dbaaf",
   "protectedFiles": {
-    "src/components/home/HeroSection.astro": "10453bac219744eef80dbc3bc1654b30ac04d45ebbf5039973e1bbe41419b8fc",
-    "src/components/home/HomepageHeader.astro": "f8cf44b14e594b96374eabcc0ffe99e2eec4ab65d20a3cc49062a1157e282c7e",
     "src/scripts/hero-media.mjs": "c9c6d49b949aed75c5514a4bbd05c58827edae8753ba637102e7885a7cc67c91",
     "assets/video/hero-loop.mp4": "904b53e7b2ff3201823ad5e1a423ece91a96de479e7c36f34319917a0dbf68a8",
     "assets/images/hero/hero-night-city-video-poster-665c792f.jpg": "665c792f1d5be7901feed1d97a80a44dbb52ffc6326e28490dc48f31c6a5af02"
+  },
+  "approvedRevisionFiles": {
+    "src/components/home/HeroSection.astro": "a3cb960380d58424f5f8633a7c72b8145c182df7d59704450ac7cee7fbcf9aac",
+    "src/components/home/HomepageHeader.astro": "c93d1fe44032a7a3f12135e1459caa5a3343e8b7a32bf76be5467a028c59c66d"
   },
   "homepageCssProtectedPrefix": {
     "path": "src/styles/home.css",

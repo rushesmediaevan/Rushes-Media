@@ -1,5 +1,6 @@
 ---
 import type { InnerPage } from '../data/inner-pages';
+import BrandMediaLayout from './BrandMediaLayout.astro';
 import DemandLoopLayout from './DemandLoopLayout.astro';
 import ServicePageLayout from './ServicePageLayout.astro';
 
@@ -7,6 +8,8 @@ interface Props { page: InnerPage; }
 const { page } = Astro.props;
 ---
 
-{page.family === 'mechanism'
-  ? <DemandLoopLayout page={page} />
-  : <ServicePageLayout page={page} />}
+{page.family === 'brand-media'
+  ? <BrandMediaLayout page={page} />
+  : page.family === 'mechanism'
+    ? <DemandLoopLayout page={page} />
+    : <ServicePageLayout page={page} />}

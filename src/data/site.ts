@@ -126,34 +126,34 @@ export const SHARED_CTA = {
 } as const;
 
 export const BOOKING_COPY = {
-  loadingStatus: 'Opening the secure 30-minute calendar…',
-  frameOpenedStatus: 'Calendar frame opened. Confirming availability…',
-  readyStatus: 'The 30-minute Growth Call calendar is ready.',
-  delayedStatus: 'The embedded calendar did not finish loading. Use the direct calendar link.',
-  offlineStatus: 'You appear to be offline. Reconnect, then open the calendar directly.',
-  unavailableStatus: 'The embedded calendar is unavailable. The direct calendar link remains available.',
-  loadingKicker: 'Secure scheduling',
-  loadingTitle: 'Opening the Growth Call calendar.',
-  loadingBody: 'Available times will appear here. The direct calendar link above is ready at any point.',
-  fallbackKicker: 'Calendar fallback',
-  fallbackTitle: 'Continue in the secure calendar.',
+  loadingStatus: 'Loading available times…',
+  frameOpenedStatus: 'Available times are loading…',
+  readyStatus: 'Available times are ready.',
+  delayedStatus: 'The calendar did not load here. Open it in a new tab, or request a time by email.',
+  offlineStatus: 'You appear to be offline. Reconnect, then open the calendar in a new tab.',
+  unavailableStatus: 'The calendar did not load here. Open it in a new tab, or request a time by email.',
+  loadingKicker: '30-minute Growth Call',
+  loadingTitle: 'Loading available times.',
+  loadingBody: 'Choose a time that works for you.',
+  fallbackKicker: 'Direct booking available',
+  fallbackTitle: 'Open the calendar in a new tab.',
   fallbackBody:
-    'The embedded view did not finish loading in this browser. Open the same 30-minute calendar directly, or request a time by email.',
-  directLabel: 'Open the calendar directly',
+    'The calendar did not load here. Use the direct link above, or request a time by email.',
+  directLabel: 'Open calendar in a new tab',
   requestLabel: 'Request a time by email',
 } as const;
 
 export const homepageSeo: PageSeo = {
-  title: 'Rushes Media — booked estimates from the work you already do',
+  title: 'Rushes Media | Exceptional Media, Web & Growth Systems',
   description:
-    'Content, campaigns, a page that converts, and follow-up in minutes. One system for owners who can take more of the right work.',
+    'Rushes helps strong companies express what makes them worth choosing through exceptional media, campaigns, websites, and focused systems built around the priority at hand.',
   canonical: `${SITE.origin}/`,
   openGraph: {
     type: 'website',
     siteName: SITE.name,
-    title: 'Rushes Media — booked estimates from the work you already do',
+    title: 'Rushes Media | Exceptional Media, Web & Growth Systems',
     description:
-      'Content, campaigns, a page that converts, and follow-up in minutes. One system for owners who can take more of the right work.',
+      'Rushes helps strong companies express what makes them worth choosing through exceptional media, campaigns, websites, and focused systems built around the priority at hand.',
     url: `${SITE.origin}/`,
     image: `${SITE.origin}/assets/images/hero/hero-bg.jpg`,
     imageWidth: 1920,
@@ -161,9 +161,9 @@ export const homepageSeo: PageSeo = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Rushes Media — booked estimates from the work you already do',
+    title: 'Rushes Media | Exceptional Media, Web & Growth Systems',
     description:
-      'Content, campaigns, a page that converts, and follow-up in minutes. One system for owners who can take more of the right work.',
+      'Rushes helps strong companies express what makes them worth choosing through exceptional media, campaigns, websites, and focused systems built around the priority at hand.',
     image: `${SITE.origin}/assets/images/hero/hero-bg.jpg`,
   },
   jsonLd: {
@@ -172,7 +172,7 @@ export const homepageSeo: PageSeo = {
     name: SITE.name,
     url: `${SITE.origin}/`,
     description:
-      'Rushes Media builds content, campaigns, websites, and follow-up systems for owner-operated local businesses — so more qualified estimates land on the calendar.',
+      'Rushes helps strong companies express what makes them worth choosing through exceptional media, campaigns, websites, and focused systems built around the priority at hand.',
     email: SITE.email,
     telephone: SITE.phoneDisplay,
     address: {

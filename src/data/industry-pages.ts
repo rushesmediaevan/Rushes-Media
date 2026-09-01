@@ -21,13 +21,25 @@ export interface BuyingModel {
 export interface VisualSourceSet {
   type: 'image/avif' | 'image/webp';
   srcset: string;
+  media?: string;
 }
 
 export interface VisualFallback {
   src: string;
+  srcset?: string;
   width: number;
   height: number;
-  type: 'image/jpeg' | 'image/png';
+  type: 'image/jpeg' | 'image/png' | 'image/webp';
+}
+
+export interface VisualInputProvenance {
+  assetPack: string;
+  masterPath: string;
+  masterSha256: string;
+  desktopCropPath: string;
+  desktopCropSha256: string;
+  mobileCropPath: string;
+  mobileCropSha256: string;
 }
 
 export interface VisualAsset {
@@ -45,6 +57,9 @@ export interface VisualAsset {
   caption: string;
   focalPoint: string;
   aspectRatio: string;
+  mobileFocalPoint?: string;
+  mobileAspectRatio?: string;
+  inputProvenance?: VisualInputProvenance;
   socialImage?: string;
 }
 
@@ -52,6 +67,7 @@ export interface IndustryPain { title: string; body: string; }
 export interface IndustrySystemStep { name: string; body: string; }
 export interface IndustryUseCase { name: string; body: string; }
 export interface IndustryFaq { question: string; answer: string; }
+export interface IndustryBookingClose { heading: string; body: string; bullets: readonly string[]; }
 
 export interface IndustryProofModule {
   label: string;
@@ -88,10 +104,14 @@ export interface IndustryPage {
   useCaseHeading: string;
   useCases: readonly IndustryUseCase[];
   proof: IndustryProofModule;
+  fitHeading: string;
+  faqHeading: string;
   goodFit: readonly string[];
   poorFit: readonly string[];
   faqs: readonly IndustryFaq[];
+  regionHeading: string;
   region: string;
+  bookingClose: IndustryBookingClose;
   contextualLinks: readonly { href: string; label: string }[];
   relatedRoute: { href: string; eyebrow: string; heading: string; body: string };
 }
@@ -109,7 +129,9 @@ export interface IndustriesHub {
   goodFit: readonly string[];
   poorFit: readonly string[];
   faqs: readonly IndustryFaq[];
+  regionHeading: string;
   region: string;
+  bookingClose: IndustryBookingClose;
 }
 
 function responsiveAsset(input: {
@@ -130,7 +152,7 @@ function responsiveAsset(input: {
 }): VisualAsset {
   const assetWidths = input.widths ?? [640, 960, 1440, 1920];
   const fallbackWidth = input.fallbackWidth ?? assetWidths.at(-1) ?? 1920;
-  const srcset = (extension: 'avif' | 'webp') =>
+  const srcset = (extension: 'avif' | 'webp' | 'jpg') =>
     assetWidths.map((width) => `/assets/images/industries/${input.slug}-${width}.${extension} ${width}w`).join(', ');
   return {
     id: input.id,
@@ -146,6 +168,7 @@ function responsiveAsset(input: {
     ],
     fallback: {
       src: `/assets/images/industries/${input.slug}-${fallbackWidth}.jpg`,
+      srcset: srcset('jpg'),
       width: fallbackWidth,
       height: input.renderedHeight,
       type: 'image/jpeg',
@@ -291,7 +314,7 @@ export const industriesHub: IndustriesHub = {
   eyebrow: 'Best-fit markets',
   heading: 'Different businesses are bought',
   emphasis: 'through different decisions.',
-  lede: 'Rushes builds around three buying models and four strong-fit markets: project-led design and build, urgent replacement, and consultation-led aesthetics. The work, qualification and handoffs change. The commercial discipline does not.',
+  lede: 'The business priority is specific; so is the decision path. Project-led design, urgent replacement, and consultation-led aesthetics require different proof, digital experiences, qualification, and follow-up—and not every engagement needs every capability.',
   primaryCta: 'Book a Growth Call',
   secondaryCta: 'Choose your market',
   sharedPath: [
@@ -310,7 +333,7 @@ export const industriesHub: IndustriesHub = {
   ],
   goodFit: [
     'A named decision-maker can approve the work.',
-    'Job or client value and capacity can support deliberate acquisition.',
+    'Customer, project, or client value and capacity can support deliberate investment.',
     'The desired work, service territory and primary conversion are defined.',
     'The team can report qualified, held appointments and business outcomes.',
   ],
@@ -323,11 +346,17 @@ export const industriesHub: IndustriesHub = {
   faqs: [
     { question: 'Why these industries?', answer: 'They reward the combination Rushes is built around: strong visual communication, focused demand, a clear buying path and disciplined follow-up. Each has meaningful economics and a conversion event the owner can actually measure.' },
     { question: 'Where do pools fit?', answer: 'Custom pool construction and substantial remodels sit inside Outdoor Living. They share the visual, property-led project journey while retaining their own qualification questions. Weekly service and maintenance do not.' },
-    { question: 'Do you work with roofing, plumbing, electrical or other services?', answer: 'Potentially. HVAC is the current deep service-and-replacement anchor. Adjacent trades are evaluated on the Growth Call, but Rushes does not publish a new specialty page until the buyer insight, creative and conversion path are genuinely distinct.' },
-    { question: 'Can I hire only one piece?', answer: 'The Growth Call begins with the full path. A focused project can be scoped when it is the right answer, but Rushes does not sell a disconnected menu as the primary offer.' },
+    { question: 'Do you work with roofing, plumbing, electrical or other services?', answer: 'Potentially. HVAC is the current service-and-replacement anchor. Adjacent trades are evaluated by buyer journey, economics, capacity, response ownership and the outcome the business can measure.' },
+    { question: 'Can I hire only one piece?', answer: 'Yes. Rushes maps the surrounding context, then scopes the smallest capable engagement—media, campaign, web, measurement, or follow-up—that materially supports the priority. Connected work is recommended only when the handoffs genuinely need it.' },
     { question: 'What happens on the Growth Call?', answer: 'In about 30 minutes, we inspect the work you want, how demand reaches you, what happens before an estimate or consult is booked, and whether the economics and capacity fit.' },
   ],
+  regionHeading: 'Regional reach starts with operating fit.',
   region: 'Rushes is based in Haddon Heights and focuses first on South Jersey, Philadelphia, the Main Line, Bucks County and the surrounding tri-state market. Delivery is remote by default; on-site production is scoped where the work requires it.',
+  bookingClose: {
+    heading: 'Choose the right buying path before investing in tactics.',
+    body: 'In 30 minutes, we’ll identify how customers decide, what already works, and which part of the experience offers the clearest opportunity to strengthen.',
+    bullets: ['The market and work worth pursuing', 'The buying decision the system must support', 'The first handoff worth improving'],
+  },
 };
 
 export const industryPages: readonly IndustryPage[] = [
@@ -342,14 +371,14 @@ export const industryPages: readonly IndustryPage[] = [
     heading: 'Turn finished spaces',
     emphasis: 'into the next right project.',
     lede: 'For established hardscape, landscape design-build and custom pool companies with work worth showing, a defined service area and capacity for more of the projects they actually want.',
-    support: 'Rushes connects project media, demand, qualification, consultation booking and estimate follow-up so a homeowner can move from inspiration to the right on-site conversation.',
+    support: 'Rushes starts with the desired project mix, then applies project media, demand, qualification, booking, or estimate follow-up where it materially strengthens the path from inspiration to the right on-site conversation.',
     primaryCta: 'Book a Growth Call',
     secondaryCta: 'See the outdoor-living system',
     secondaryTarget: '#system',
     journeyLabel: 'The outdoor-living project path',
     heroPath: ['Finished space', 'Project intent', 'Design or site consultation', 'Estimate decision'],
     heroAsset: industryVisuals.outdoorLiving,
-    painIntro: 'These are the handoffs we inspect with the owner—not assumptions about every outdoor-living company.',
+    painIntro: 'The highest-value breaks usually sit between portfolio attention, project qualification and the right on-site consultation.',
     painHeading: 'Great work can still disappear between the portfolio and the project walk.',
     pains: [
       { title: 'The best work leaves the jobsite—and stops working.', body: 'A finished patio, landscape or pool may earn one post, then disappear instead of helping the next homeowner understand the transformation.' },
@@ -383,6 +412,8 @@ export const industryPages: readonly IndustryPage[] = [
       status: 'concept',
       asset: industryVisuals.outdoorLivingPool,
     },
+    fitHeading: 'Capacity and project mix before volume.',
+    faqHeading: 'Before building project demand.',
     goodFit: [
       'Owner-led hardscape, premium landscape design-build, outdoor-living, custom pool construction or substantial pool-remodel company.',
       'Completed work and design judgment are genuinely worth showing.',
@@ -402,7 +433,13 @@ export const industryPages: readonly IndustryPage[] = [
       { question: 'Will this replace referrals?', answer: 'No. It adds an owned, measurable path around the reputation already generating referrals, so the company can better control project type, territory and timing.' },
       { question: 'Can Rushes guarantee sold projects?', answer: 'No. Rushes can own the agreed path to qualified booked consultations or estimates. The contractor owns pricing, design, estimating, sales, fulfillment and collection.' },
     ],
-    region: 'Rushes is based in Haddon Heights and focuses first on owner-led outdoor-living companies across South Jersey, Philadelphia, the Main Line, Bucks County and the surrounding tri-state market. The actual service radius, project calendar and on-site consultation model control every campaign; this is one substantive regional page, not a set of town-name duplicates.',
+    regionHeading: 'Project demand follows the real service radius.',
+    region: 'Rushes is based in Haddon Heights and focuses first on owner-led outdoor-living companies across South Jersey, Philadelphia, the Main Line, Bucks County and the surrounding tri-state market. The actual service radius, project calendar and on-site consultation model shape every campaign.',
+    bookingClose: {
+      heading: 'Turn the next finished project into the next right consultation.',
+      body: 'Bring a recent project, the work you want more of and the way inquiries reach you today. We’ll identify the proof, qualification and booking handoff worth building first.',
+      bullets: ['The project lanes worth promoting', 'The qualification that protects the site walk', 'The first project story to put to work'],
+    },
     contextualLinks: [
       { href: '/brand-media/', label: 'Turn completed projects into buyer-ready media' },
       { href: '/campaigns/', label: 'Put the right project in front of the right homeowner' },
@@ -427,14 +464,14 @@ export const industryPages: readonly IndustryPage[] = [
     heading: 'Make the caliber of the work clear',
     emphasis: 'before the first consultation.',
     lede: 'For principal-led interior design studios, kitchen and bath firms, residential design-build companies and custom cabinetry teams pursuing substantial, portfolio-led projects.',
-    support: 'Rushes connects editorial project storytelling, scope-aware inquiry paths, consultation booking and useful follow-up so the firm can protect its time without flattening the brand into generic lead generation.',
+    support: 'Rushes starts with the firm’s project mix and point of view, then strengthens editorial storytelling, inquiry design, consultation booking, or follow-up where it best protects the brand and principal’s time.',
     primaryCta: 'Book a Growth Call',
     secondaryCta: 'See the interior-project system',
     secondaryTarget: '#system',
     journeyLabel: 'The residential design-project path',
     heroPath: ['Finished room', 'Project scope', 'Discovery consultation', 'Proposal decision'],
     heroAsset: industryVisuals.interiorDesign,
-    painIntro: 'These are the project and consultation handoffs to inspect with the principal—not a diagnosis of every design firm.',
+    painIntro: 'The highest-value breaks usually sit between portfolio interest, scope clarity and the principal’s calendar.',
     painHeading: 'Taste can win attention while the wrong project still reaches the calendar.',
     pains: [
       { title: 'The portfolio proves taste, not fit.', body: 'Beautiful rooms attract attention, but the visitor may still not understand the firm’s scope, process, territory or minimum level of engagement.' },
@@ -468,6 +505,8 @@ export const industryPages: readonly IndustryPage[] = [
       status: 'concept',
       asset: industryVisuals.interiorDetail,
     },
+    fitHeading: 'Protect the calendar before adding volume.',
+    faqHeading: 'Before shaping the consultation path.',
     goodFit: [
       'Principal-led interior designer, kitchen-and-bath studio, residential design-build firm or custom cabinetry team.',
       'Distinctive rights-cleared work and a substantial project scope.',
@@ -487,7 +526,13 @@ export const industryPages: readonly IndustryPage[] = [
       { question: 'Do we need a large professional portfolio first?', answer: 'Not necessarily. Rushes audits rights-cleared work before recommending capture. Any generated environment remains visibly labeled as a concept and is never represented as a completed client project.' },
       { question: 'Can Rushes guarantee signed design projects?', answer: 'No. Rushes can own the agreed path to qualified booked consultations. The firm owns scope, fees, proposal, sales, design, construction and collection.' },
     ],
+    regionHeading: 'A regional brand can still feel deliberately selective.',
     region: 'Rushes is based in Haddon Heights and focuses first on principal-led firms across South Jersey, Philadelphia, the Main Line, Bucks County and the surrounding tri-state market. On-site project capture is scoped only when the work requires it; strategy, page, campaign and follow-up delivery can remain remote.',
+    bookingClose: {
+      heading: 'Protect the principal’s calendar without flattening the brand.',
+      body: 'Bring the project mix, service model and current inquiry path. We’ll identify what the right homeowner needs to understand before a consultation belongs on the calendar.',
+      bullets: ['The projects and engagement model to protect', 'The proof and scope cues the buyer needs', 'The qualification that earns a consultation'],
+    },
     contextualLinks: [
       { href: '/brand-media/', label: 'Turn finished rooms into an editorial proof library' },
       { href: '/web/', label: 'Build a project-aware consultation page' },
@@ -511,15 +556,15 @@ export const industryPages: readonly IndustryPage[] = [
     eyebrow: 'HVAC Replacement & Home Comfort',
     heading: 'Make the next replacement opportunity',
     emphasis: 'easier to catch, route and book.',
-    lede: 'For owner-led residential HVAC companies with install capacity, a defined service area and a reason to improve replacement demand, response or estimate follow-up.',
-    support: 'Rushes connects homeowner-aware creative, call and form capture, service-versus-replacement routing, booking and follow-up around the way opportunities actually reach the shop.',
+    lede: 'For owner-led residential HVAC companies that want more of the right replacement estimates without disrupting service and dispatch.',
+    support: 'Rushes starts with the shop’s real priority and coverage, then improves creative, intake, routing, booking, or estimate follow-up where it best supports replacement opportunity and team capacity.',
     primaryCta: 'Book a Growth Call',
     secondaryCta: 'See the HVAC system',
     secondaryTarget: '#system',
     journeyLabel: 'The replacement-opportunity path',
     heroPath: ['Comfort problem', 'Service or replacement route', 'Estimate calendar', 'Decision follow-up'],
     heroAsset: industryVisuals.hvac,
-    painIntro: 'These are workflow points to inspect with the company—not assumptions about any visitor’s call log or equipment.',
+    painIntro: 'The highest-value breaks usually sit between the first call, replacement qualification and estimator ownership.',
     painHeading: 'A replacement opportunity can vanish before the right person sees it.',
     pains: [
       { title: 'Service and replacement intent enter through the same door.', body: 'A tune-up, no-cool call and replacement conversation should not become one indistinguishable queue.' },
@@ -552,6 +597,8 @@ export const industryPages: readonly IndustryPage[] = [
       body: 'This Rushes concept translates an uneven-temperature problem into a coordinated visual system. It demonstrates creative strategy and production—not a real diagnosis, client campaign or measured result.',
       status: 'concept',
     },
+    fitHeading: 'Install capacity before demand.',
+    faqHeading: 'Before changing the intake and estimate path.',
     goodFit: [
       'Owner-led residential replacement and installation company.',
       'Defined territory, verified decision-maker and available install capacity.',
@@ -571,7 +618,13 @@ export const industryPages: readonly IndustryPage[] = [
       { question: 'Can we mention financing, rebates or energy savings?', answer: 'Only when the company offers them and approves the exact current language. Rushes does not invent availability, rates, eligibility, savings, diagnostics or utility claims.' },
       { question: 'Can Rushes guarantee installations?', answer: 'No. Rushes can own the qualified-opportunity and booking path defined in the agreement. The HVAC company owns diagnosis, pricing, sales, installation and collection.' },
     ],
-    region: 'Rushes is based in Haddon Heights and focuses first on owner-led residential HVAC companies across South Jersey, Philadelphia, the Main Line, Bucks County and the surrounding tri-state market. Service radius, dispatch coverage, estimator ownership and install capacity—not a list of town names—determine the actual campaign.',
+    regionHeading: 'Coverage and estimator ownership define the route.',
+    region: 'Rushes is based in Haddon Heights and focuses first on owner-led residential HVAC companies across South Jersey, Philadelphia, the Main Line, Bucks County and the surrounding tri-state market. Service radius, dispatch coverage, estimator ownership and install capacity determine the actual campaign.',
+    bookingClose: {
+      heading: 'Route more replacement intent to the right estimator.',
+      body: 'Bring the service area, install capacity and current call or form path. We’ll identify where replacement opportunities lose context and which response handoff should change first.',
+      bullets: ['The replacement work and territory worth pursuing', 'The service-versus-replacement route', 'The first response or estimate gap to fix'],
+    },
     contextualLinks: [
       { href: '/campaigns/', label: 'Build demand around a specific comfort problem' },
       { href: '/web/', label: 'Give service and replacement interest a clear route' },
@@ -595,15 +648,15 @@ export const industryPages: readonly IndustryPage[] = [
     eyebrow: 'Med Spa & Aesthetic Practice Growth',
     heading: 'Give treatment interest',
     emphasis: 'a clear path to the right consult.',
-    lede: 'For owner-led med spas and aesthetic practices with a defined growth priority, available provider capacity, direct decision access and practice-approved claims.',
-    support: 'Rushes connects approved treatment positioning, campaign creative, consult capture, booking and consented follow-up around the services, providers or locations the practice is ready to grow.',
+    lede: 'For owner-led med spas and aesthetic practices ready to fill defined provider, treatment or location capacity with practice-approved claims.',
+    support: 'Rushes starts with one practice-approved priority, then applies creative, qualification, consult booking, or consented follow-up only where it supports the right capacity and measurable outcome.',
     primaryCta: 'Book a Growth Call',
     secondaryCta: 'See the consult-growth system',
     secondaryTarget: '#system',
     journeyLabel: 'The aesthetic-consult path',
     heroPath: ['Approved priority', 'Qualified interest', 'Consult booking', 'Practice-reported outcome'],
     heroAsset: industryVisuals.medSpa,
-    painIntro: 'These are the operational and approval handoffs to inspect with the owner—not claims about a practice’s care, compliance or patients.',
+    painIntro: 'The highest-value breaks usually sit between treatment interest, approved qualification and the correct consult calendar.',
     painHeading: 'Attention can reach the practice without reaching the right consult calendar.',
     pains: [
       { title: 'The promotion and the calendar are out of sync.', body: 'A treatment, provider, device or location can be promoted without a clear view of the capacity the practice is actually ready to fill.' },
@@ -636,6 +689,8 @@ export const industryPages: readonly IndustryPage[] = [
       body: 'This concept demonstrates how a practice-approved growth priority can connect creative, qualification, booking and consented follow-up. It is not a client campaign, medical claim, testimonial or proof of growth.',
       status: 'concept',
     },
+    fitHeading: 'Approved capacity before promotion.',
+    faqHeading: 'Before connecting promotion to the consult calendar.',
     goodFit: [
       'Owner-led med spa or aesthetic practice with a named economic buyer directly involved.',
       'A current provider, device, location or treatment-category priority with real capacity.',
@@ -655,7 +710,13 @@ export const industryPages: readonly IndustryPage[] = [
       { question: 'Can we reactivate our database?', answer: 'Only with a documented consent basis, approved segmentation and practice-approved messages. The practice remains responsible for its privacy and compliance obligations.' },
       { question: 'Can Rushes guarantee treatments, memberships or revenue?', answer: 'No. Rushes can own the agreed path to qualified booked consults. The practice owns candidacy, care, pricing, consult conversion, treatment delivery and collection.' },
     ],
-    region: 'Rushes is based in Haddon Heights and focuses first on owner-led practices across South Jersey, Philadelphia, the Main Line, Bucks County and the surrounding tri-state market. Geography alone is not fit: direct decision access, approved claims, provider capacity, consent and measurable consult ownership remain the gate.',
+    regionHeading: 'Provider capacity matters more than radius alone.',
+    region: 'Rushes is based in Haddon Heights and focuses first on owner-led practices across South Jersey, Philadelphia, the Main Line, Bucks County and the surrounding tri-state market. Direct decision access, approved claims, provider capacity, consent and measurable consult ownership remain the operating gate.',
+    bookingClose: {
+      heading: 'Fill the right consult capacity with approved, measurable demand.',
+      body: 'Bring the provider, treatment or location priority the practice is ready to grow. We’ll inspect the approval, qualification, booking and follow-up path around that capacity.',
+      bullets: ['The approved priority and available capacity', 'The qualification the practice actually needs', 'The consult handoff the team can own'],
+    },
     contextualLinks: [
       { href: '/campaigns/', label: 'Build a campaign around one approved growth priority' },
       { href: '/web/', label: 'Create a clearer treatment-to-consult path' },

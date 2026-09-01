@@ -6,19 +6,17 @@ import BookingWidget from '../shared/BookingWidget.astro';
 <!-- ══ CTA ════════════════════════════════════════════════ -->
 <section id="cta">
   <div class="cta-inner">
-    <span class="eye r" style="color:var(--gold)">Ready when you are</span>
-    <h2 class="cta-h2 r d1">Let's build something<br /><em>that books work.</em></h2>
-    <p class="cta-sub r d2">Book a Growth Call. We’ll inspect the work you want, the handoffs into your calendar, and whether the economics and capacity fit.</p>
-    <p class="cta-pledge r d2">Thirty minutes. No generic deck.<br /><em>A practical next step—or an honest no.</em></p>
+    <span class="eye eye-on-light r">30-minute Growth Call</span>
+    <h2 class="cta-h2 r d1">Find the clearest way to strengthen how the business is seen and chosen.</h2>
+    <p class="cta-sub r d2">In 30 minutes, we’ll look at what already works, the priority that matters now, and the creative or digital move most likely to strengthen it.</p>
 
-    <div class="cta-book">
-      <span id="book" class="booking-anchor" aria-hidden="true"></span>
-      <span class="eye" style="color:var(--gold)">Growth Call</span>
-      <h3 class="cta-book-h3">{SHARED_CTA.label}</h3>
-      <p class="cta-book-sub">Choose a time in the secure calendar. If the embed is delayed or blocked, the direct link remains available.</p>
+    <section id="book" tabindex="-1" class="cta-book" aria-labelledby="home-booking-heading">
+      <span class="eye eye-on-light">Growth Call</span>
+      <h3 id="home-booking-heading" class="cta-book-h3">{SHARED_CTA.label}</h3>
+      <p class="cta-book-sub">Choose a time that works for you.</p>
       <div class="cta-cal-wrap">
         <BookingWidget route="/" variant="home" frameId="rushes-growth-call-calendar" />
       </div>
-    </div>
+    </section>
   </div>
 </section>

@@ -1,79 +1,47 @@
 ---
 import { audiences } from '../../data/home';
 
-const jpegSrcset = (srcset: string) => srcset.replaceAll('.avif', '.jpg');
-const marketGroups = [
-  {
-    id: 'project',
-    number: '01',
-    label: 'Considered project',
-    title: 'Show the transformation. Qualify the scope.',
-    note: 'The buyer needs enough proof and context to commit to a design conversation—not a generic quote form.',
-  },
-  {
-    id: 'urgent',
-    number: '02',
-    label: 'Urgent replacement',
-    title: 'Catch the need. Separate the intent.',
-    note: 'Service and replacement demand can enter together. The system has to recognize which opportunity belongs on which calendar.',
-  },
-  {
-    id: 'consultation',
-    number: '03',
-    label: 'Appointment-led',
-    title: 'Build confidence. Protect the handoff.',
-    note: 'Approved positioning, capacity and consent matter before interest becomes a held consultation.',
-  },
-] as const;
 ---
 
 <section id="who" aria-labelledby="who-heading">
   <div class="who-head">
     <span>Best fit today</span>
-    <h2 id="who-heading">Four markets. Three buying paths.</h2>
-    <p>Project-led work, urgent replacements and considered consultations each need a different path from attention to a real conversation.</p>
-    <a href="/industries/">Compare the industry systems <span aria-hidden="true">→</span></a>
+    <h2 id="who-heading">Where Rushes fits best right now.</h2>
+    <div>
+      <p>Rushes is strongest when a company has real value, reputation, or expertise worth presenting exceptionally—and a specific business priority that better creative or digital execution can advance. These are the markets we understand best today.</p>
+      <a href="/industries/">Explore the markets we know best <span aria-hidden="true">→</span></a>
+    </div>
   </div>
-  <div class="who-models">
-    {marketGroups.map((group) => (
-      <section class:list={['who-model', `who-model--${group.id}`]} aria-labelledby={`who-model-${group.id}`}>
-        <div class="who-model-copy">
-          <span>{group.number} / {group.label}</span>
-          <h3 id={`who-model-${group.id}`}>{group.title}</h3>
-          <p>{group.note}</p>
+  <div class="who-market-grid">
+    {audiences.map((audience, index) => (
+      <a class:list={['who-card', `who-card--${index + 1}`]} href={audience.href} data-visual-truth={audience.visual.truthClass}>
+        <figure>
+          <picture>
+            {audience.visual.sources.map((source) => (
+              <source srcset={source.srcset} sizes="(max-width: 720px) calc(100vw - 44px), 50vw" type={source.type} media={source.media} />
+            ))}
+            <img
+              src={audience.visual.fallback.src}
+              srcset={audience.visual.fallback.srcset}
+              sizes="(max-width: 720px) calc(100vw - 44px), 50vw"
+              width={audience.visual.fallback.width}
+              height={audience.visual.fallback.height}
+              alt={audience.visual.alt}
+              loading="lazy"
+              decoding="async"
+              style={`--who-focal:${audience.visual.focalPoint};--who-mobile-focal:${audience.visual.mobileFocalPoint ?? audience.visual.focalPoint}`}
+            />
+          </picture>
+        </figure>
+        <div class="who-card-copy">
+          <span class="who-card-route">{audience.routeLabel}</span>
+          <h3>{audience.label}</h3>
+          <p>{audience.summary}</p>
+          <div class="who-card-result"><span>Built to improve</span><b>{audience.result}</b></div>
+          <strong>Explore this market <span aria-hidden="true">→</span></strong>
         </div>
-        <div class="who-card-grid">
-          {audiences.filter((audience) => audience.buyingModel === group.id).map((audience) => (
-            <a class="who-card" href={audience.href} data-visual-truth={audience.visual.truthClass}>
-              <figure>
-                <picture>
-                  {audience.visual.sources.map((source) => (
-                    <source srcset={source.srcset} sizes="(max-width: 720px) calc(100vw - 44px), 42vw" type={source.type} />
-                  ))}
-                  <img
-                    src={audience.visual.fallback.src}
-                    srcset={jpegSrcset(audience.visual.sources[0].srcset)}
-                    sizes="(max-width: 720px) calc(100vw - 44px), 42vw"
-                    width={audience.visual.fallback.width}
-                    height={audience.visual.fallback.height}
-                    alt={audience.visual.alt}
-                    loading="lazy"
-                    decoding="async"
-                    style={`--who-focal:${audience.visual.focalPoint}`}
-                  />
-                </picture>
-                <figcaption>{audience.visual.caption}</figcaption>
-              </figure>
-              <div class="who-card-copy">
-                <span>{audience.routeLabel}</span>
-                <h4>{audience.label}</h4>
-                <p>{audience.text}</p>
-                <b>Explore this market <span aria-hidden="true">→</span></b>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
+      </a>
     ))}
   </div>
+  <p class="home-concept-disclosure">Image note: Original Rushes concept visualizations; fictional generated environments, not client work, documented locations, or performance results.</p>
 </section>

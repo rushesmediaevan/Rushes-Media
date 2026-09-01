@@ -1,0 +1,226 @@
+---
+interface MobileNavLink {
+  href: string;
+  label: string;
+  current?: 'page' | 'location';
+  cta?: boolean;
+}
+
+interface Props {
+  id: string;
+  links: readonly MobileNavLink[];
+}
+
+const { id, links } = Astro.props;
+const labelId = `${id}-label`;
+---
+
+<button
+  type="button"
+  class="shared-mobile-nav__trigger"
+  aria-haspopup="dialog"
+  aria-controls={id}
+  aria-expanded="false"
+  data-mobile-nav-trigger
+>
+  <span>Menu</span>
+  <span class="shared-mobile-nav__trigger-lines" aria-hidden="true"><i></i><i></i></span>
+</button>
+
+<dialog id={id} class="shared-mobile-nav" aria-labelledby={labelId} data-mobile-nav-dialog>
+  <div class="shared-mobile-nav__top">
+    <span id={labelId}>Navigation</span>
+    <button type="button" aria-label="Close navigation menu" data-mobile-nav-close>Close <span aria-hidden="true">×</span></button>
+  </div>
+  <nav aria-label="Mobile navigation">
+    {links.map((link, index) => (
+      <a
+        href={link.href}
+        class:list={[link.cta && 'shared-mobile-nav__cta']}
+        aria-current={link.current}
+      >
+        <span>{String(index + 1).padStart(2, '0')}</span>
+        <strong>{link.label}</strong>
+        <i aria-hidden="true">→</i>
+      </a>
+    ))}
+  </nav>
+</dialog>
+
+<noscript>
+  <style>.shared-mobile-nav__trigger { display: none !important; }</style>
+  <nav class="shared-mobile-nav__noscript" aria-label="Mobile navigation without JavaScript">
+    {links.map((link) => <a href={link.href} aria-current={link.current}>{link.label}</a>)}
+  </nav>
+</noscript>
+
+<script is:inline>
+  (() => {
+    document.querySelectorAll('[data-mobile-nav-dialog]').forEach((dialogNode) => {
+      if (!(dialogNode instanceof HTMLDialogElement) || dialogNode.dataset.ready === 'true') return;
+      const dialog = dialogNode;
+      const trigger = document.querySelector(`[data-mobile-nav-trigger][aria-controls="${dialog.id}"]`);
+      const closeButton = dialog.querySelector('[data-mobile-nav-close]');
+      if (!(trigger instanceof HTMLButtonElement) || !(closeButton instanceof HTMLButtonElement)) return;
+
+      dialog.dataset.ready = 'true';
+      let restoreFocus = true;
+      let previousOverflow = '';
+
+      const open = () => {
+        restoreFocus = true;
+        previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        dialog.showModal();
+        trigger.setAttribute('aria-expanded', 'true');
+        closeButton.focus();
+      };
+
+      const close = (shouldRestore = true) => {
+        restoreFocus = shouldRestore;
+        if (dialog.open) dialog.close();
+      };
+
+      trigger.addEventListener('click', open);
+      closeButton.addEventListener('click', () => close(true));
+      dialog.addEventListener('cancel', () => { restoreFocus = true; });
+      dialog.addEventListener('close', () => {
+        trigger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = previousOverflow;
+        if (restoreFocus) trigger.focus();
+      });
+      dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) close(true);
+      });
+      dialog.querySelectorAll('a[href]').forEach((link) => {
+        link.addEventListener('click', () => close(false));
+      });
+      dialog.addEventListener('keydown', (event) => {
+        if (event.key !== 'Tab') return;
+        const focusable = [...dialog.querySelectorAll('a[href], button:not([disabled])')]
+          .filter((node) => node instanceof HTMLElement && !node.hasAttribute('hidden'));
+        const first = focusable[0];
+        const last = focusable.at(-1);
+        if (!(first instanceof HTMLElement) || !(last instanceof HTMLElement)) return;
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      });
+
+      const desktopQuery = window.matchMedia('(min-width: 761px)');
+      desktopQuery.addEventListener('change', (event) => {
+        if (event.matches && dialog.open) close(false);
+      });
+    });
+  })();
+</script>
+
+<style is:global>
+  .shared-mobile-nav__trigger,
+  .shared-mobile-nav,
+  .shared-mobile-nav__noscript { display: none; }
+
+  @media (max-width: 760px) {
+    .shared-mobile-nav__trigger {
+      min-width: 74px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 9px 11px;
+      border: 1px solid rgba(245, 240, 230, .34);
+      color: #f5f0e6;
+      background: transparent;
+      font: 700 10px/1 Inter, system-ui, sans-serif;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .shared-mobile-nav__trigger-lines { width: 15px; display: grid; gap: 4px; }
+    .shared-mobile-nav__trigger-lines i { height: 1px; display: block; background: currentColor; }
+    .shared-mobile-nav__trigger:focus-visible,
+    .shared-mobile-nav button:focus-visible,
+    .shared-mobile-nav a:focus-visible {
+      outline: 3px solid #b89860;
+      outline-offset: 3px;
+    }
+    .shared-mobile-nav {
+      width: 100%;
+      max-width: none;
+      height: 100%;
+      max-height: none;
+      margin: 0;
+      padding: 24px 20px 30px;
+      border: 0;
+      color: #f5f0e6;
+      background: #0c1825;
+    }
+    .shared-mobile-nav[open] { display: block; }
+    .shared-mobile-nav::backdrop { background: rgba(3, 10, 17, .72); }
+    .shared-mobile-nav__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-bottom: 26px;
+      border-bottom: 1px solid rgba(245, 240, 230, .16);
+    }
+    .shared-mobile-nav__top > span {
+      color: #b89860;
+      font: 700 10px/1 Inter, system-ui, sans-serif;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .shared-mobile-nav__top button {
+      min-height: 44px;
+      padding: 8px 0 8px 16px;
+      border: 0;
+      color: #f5f0e6;
+      background: transparent;
+      font: 600 11px/1 Inter, system-ui, sans-serif;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .shared-mobile-nav__top button span { margin-left: 8px; color: #b89860; font-size: 20px; }
+    .shared-mobile-nav nav { margin-top: 36px; }
+    .shared-mobile-nav nav a {
+      min-height: 74px;
+      display: grid;
+      grid-template-columns: 32px minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      border-bottom: 1px solid rgba(245, 240, 230, .13);
+      color: #f5f0e6;
+      text-decoration: none;
+    }
+    .shared-mobile-nav nav a > span {
+      color: #b89860;
+      font: 600 9px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    .shared-mobile-nav nav a strong {
+      font: 400 clamp(25px, 8vw, 36px)/1 "Cormorant Garamond", Georgia, serif;
+    }
+    .shared-mobile-nav nav a i { color: #b89860; font-style: normal; }
+    .shared-mobile-nav nav a[aria-current] strong { color: #d5bc86; }
+    .shared-mobile-nav nav a.shared-mobile-nav__cta {
+      margin-top: 28px;
+      padding: 0 18px;
+      border: 1px solid #b89860;
+      color: #0c1825;
+      background: #b89860;
+    }
+    .shared-mobile-nav nav a.shared-mobile-nav__cta > span,
+    .shared-mobile-nav nav a.shared-mobile-nav__cta i { color: #0c1825; }
+    .shared-mobile-nav__noscript {
+      display: block;
+      padding: 10px 20px 14px;
+      border-top: 1px solid rgba(245, 240, 230, .14);
+      background: #0c1825;
+    }
+    .shared-mobile-nav__noscript a { margin-right: 14px; color: #f5f0e6; font: 600 11px/1.8 Inter, sans-serif; }
+  }
+</style>

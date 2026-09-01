@@ -1,0 +1,176 @@
+---
+import ConceptPicture from '../components/brand-media/ConceptPicture.astro';
+import BookingWidget from '../components/shared/BookingWidget.astro';
+import EditorialFooter from '../components/shared/EditorialFooter.astro';
+import EditorialHeader from '../components/shared/EditorialHeader.astro';
+import type { BrandMediaPage } from '../data/brand-media';
+import { innerPageNavigation, innerPageSeo } from '../data/inner-pages';
+import { HOME_FONT_URL, SHARED_CTA } from '../data/site';
+import BaseLayout from './BaseLayout.astro';
+
+interface Props { page: BrandMediaPage; }
+const { page } = Astro.props;
+const seo = innerPageSeo(page);
+---
+
+<BaseLayout seo={seo} fontUrl={HOME_FONT_URL} includeMetaPixel>
+  <link slot="head" rel="stylesheet" href="/assets/inner-page.css" />
+  <link slot="head" rel="stylesheet" href="/assets/brand-media.css" />
+
+  <EditorialHeader current="services" />
+  <main
+    id="main-content"
+    tabindex="-1"
+    class="brand-media-page"
+    data-page-family={page.family}
+    data-brand-media-page
+    data-service={page.slug}
+  >
+    <header class="brand-media-hero">
+      <div class="brand-media-hero__copy">
+        <p class="brand-media-breadcrumb">
+          <a href="/">{page.breadcrumb[0]}</a><span>/</span><span>{page.breadcrumb[1]}</span><span>/</span><b>{page.breadcrumb[2]}</b>
+        </p>
+        <span class="brand-media-eye">{page.eyebrow}</span>
+        <h1>{page.hero.heading}</h1>
+        <p class="brand-media-hero__support">{page.hero.support}</p>
+        <p class="brand-media-hero__audience">{page.hero.audience}</p>
+        <div class="brand-media-actions">
+          <a class="brand-media-button brand-media-button--primary" href="#book" data-growth-call-click data-link-location="hero">
+            {SHARED_CTA.label}<span aria-hidden="true">→</span>
+          </a>
+          <a class="brand-media-text-link" href={page.hero.secondaryTarget}>
+            {page.hero.secondaryLabel}<span aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </div>
+      <div class="brand-media-hero__visuals">
+        <ConceptPicture
+          asset={page.hero.visual}
+          className="brand-media-hero__main"
+          sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1200px) 48vw, 660px"
+          loading="eager"
+          fetchpriority="high"
+          showCaption={false}
+        />
+        <ConceptPicture
+          asset={page.hero.insetVisual}
+          className="brand-media-hero__inset"
+          sizes="(max-width: 760px) 40vw, 238px"
+          showCaption={false}
+        />
+        <p class="brand-media-hero__disclosure" role="note">{page.hero.disclosure}</p>
+      </div>
+    </header>
+
+    <section id="what-media-does" tabindex="-1" class="brand-media-distinction" aria-labelledby="brand-media-distinction-heading">
+      <div class="brand-media-section-lead brand-media-section-lead--light">
+        <span class="brand-media-eye">{page.distinction.eyebrow}</span>
+        <h2 id="brand-media-distinction-heading">{page.distinction.heading}</h2>
+        <p>{page.distinction.body}</p>
+      </div>
+      <div class="brand-media-role-pair">
+        {page.distinction.items.map((item) => (
+          <article>
+            <span>{item.label}</span>
+            <h3>{item.heading}</h3>
+            <p>{item.body}</p>
+          </article>
+        ))}
+      </div>
+      <p class="brand-media-connection">{page.distinction.connection}</p>
+    </section>
+
+    <section class="brand-media-visual-story" aria-labelledby="brand-media-visual-story-heading">
+      <div class="brand-media-section-lead">
+        <span class="brand-media-eye">{page.visualStory.eyebrow}</span>
+        <h2 id="brand-media-visual-story-heading">{page.visualStory.heading}</h2>
+        <p>{page.visualStory.intro}</p>
+      </div>
+      <p class="brand-media-disclosure" role="note">{page.visualStory.disclosure}</p>
+      <div class="brand-media-story-grid">
+        {page.visualStory.items.map((item) => (
+          <article class:list={['brand-media-story', `brand-media-story--${item.treatment}`, !item.visual && 'brand-media-story--text']}>
+            {item.visual && <ConceptPicture asset={item.visual} showCaption={false} />}
+            <div class="brand-media-story__copy">
+              <span>{item.label}</span>
+              <h3>{item.heading}</h3>
+              <p>{item.body}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="brand-media-delivery" aria-labelledby="brand-media-delivery-heading">
+      <div class="brand-media-delivery__lead">
+        <span class="brand-media-eye">{page.delivery.eyebrow}</span>
+        <h2 id="brand-media-delivery-heading">{page.delivery.heading}</h2>
+        <p>{page.delivery.intro}</p>
+      </div>
+      <div class="brand-media-deliverables">
+        {page.delivery.deliverables.map((item) => (
+          <article>
+            <span>{item.label}</span>
+            <h3>{item.heading}</h3>
+            <p>{item.body}</p>
+          </article>
+        ))}
+      </div>
+      <div class="brand-media-use-map">
+        <h3>{page.delivery.usesHeading}</h3>
+        <ul>
+          {page.delivery.uses.map((item) => (
+            <li>
+              <span>{item.channel}</span>
+              <p>{item.examples}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="brand-media-fit-faq" aria-labelledby="brand-media-fit-heading">
+      <div class="brand-media-fit">
+        <div class="brand-media-fit__visual">
+          <ConceptPicture asset={page.fit.visual} sizes="(max-width: 760px) calc(100vw - 40px), 520px" />
+        </div>
+        <div class="brand-media-fit__copy">
+          <span class="brand-media-eye">{page.fit.eyebrow}</span>
+          <h2 id="brand-media-fit-heading">{page.fit.heading}</h2>
+          <p>{page.fit.intro}</p>
+          <ul>{page.fit.cues.map((cue) => <li>{cue}</li>)}</ul>
+        </div>
+      </div>
+      <div class="brand-media-faq" aria-labelledby="brand-media-faq-heading">
+        <div>
+          <span class="brand-media-eye">{page.faq.eyebrow}</span>
+          <h2 id="brand-media-faq-heading">{page.faq.heading}</h2>
+        </div>
+        <div class="brand-media-faq__list">
+          {page.faq.items.map((item) => (
+            <details>
+              <summary>{item.question}<span aria-hidden="true">+</span></summary>
+              <p>{item.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="book" tabindex="-1" class="brand-media-booking" aria-labelledby="brand-media-booking-heading">
+      <div class="brand-media-booking__copy">
+        <span class="brand-media-eye">{page.booking.eyebrow}</span>
+        <h2 id="brand-media-booking-heading">{page.booking.heading}</h2>
+        <p>{page.booking.body}</p>
+        <span class="brand-media-booking__note">{page.booking.note}</span>
+      </div>
+      <BookingWidget route="/brand-media/" variant="editorial" frameId="rushes-brand-media-growth-call-calendar" />
+    </section>
+
+    <nav class="commercial-route-links" aria-label="Related Rushes Media routes">
+      {innerPageNavigation.map((link) => <a href={link.href}>{link.label}<span aria-hidden="true">→</span></a>)}
+    </nav>
+  </main>
+  <EditorialFooter />
+</BaseLayout>

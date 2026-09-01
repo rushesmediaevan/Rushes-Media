@@ -11,7 +11,6 @@ import MarqueeStrip from '../components/home/MarqueeStrip.astro';
 import ProblemSection from '../components/home/ProblemSection.astro';
 import ProcessSection from '../components/home/ProcessSection.astro';
 import ProofSection from '../components/home/ProofSection.astro';
-import SectionOrnament from '../components/home/SectionOrnament.astro';
 import ServicesSection from '../components/home/ServicesSection.astro';
 import SystemSection from '../components/home/SystemSection.astro';
 import { faqs } from '../data/home';
@@ -41,17 +40,18 @@ const seo = {
   <CustomCursor />
   <FloatingCta />
   <HomepageHeader />
-  <HeroSection />
-  <MarqueeStrip />
-  <ProblemSection />
-  <ServicesSection />
-  <SystemSection />
-  <SectionOrnament />
-  <ProofSection />
-  <AudienceSelector />
-  <ProcessSection />
-  <FaqSection />
-  <BookingSection />
+  <main id="main-content" tabindex="-1">
+    <HeroSection />
+    <MarqueeStrip />
+    <ProblemSection />
+    <ServicesSection />
+    <SystemSection />
+    <AudienceSelector />
+    <ProofSection />
+    <ProcessSection />
+    <FaqSection />
+    <BookingSection />
+  </main>
   <HomepageFooter />
 
   <script>

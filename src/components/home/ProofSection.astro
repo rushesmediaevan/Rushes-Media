@@ -4,13 +4,19 @@ import { proofItems } from '../../data/home';
 
 <!-- ══ PROOF ══════════════════════════════════════════════ -->
 <section id="proof">
-  <div class="proof-inner">
-    {proofItems.map((item, index) => (
-      <div class:list={['proof-cell', 'r', index > 0 && `d${index}`]}>
-        <div class="proof-n">{item.value}{item.suffix && <span>{item.suffix}</span>}</div>
-        <div class="proof-lbl">{item.label}</div>
-        <div class="proof-txt">{item.text}</div>
-      </div>
-    ))}
+  <div class="proof-layout">
+    <div class="proof-head r">
+      <span class="eye">What gets measured</span>
+      <h2>Measure the business priority—not activity for its own sake.</h2>
+      <p>Rushes defines the useful signals for the agreed scope—attention for media, qualified demand for campaigns, decision and action for web, or response and held appointments when follow-up is part of the work. The business owns sales and revenue outcomes.</p>
+    </div>
+    <ul class="proof-inner r d1">
+      {proofItems.map((item, index) => (
+        <li class:list={['proof-cell', 'r', index > 0 && `d${index}`]}>
+          <div class="proof-lbl">{item.label}</div>
+          <div class="proof-txt">{item.text}</div>
+        </li>
+      ))}
+    </ul>
   </div>
 </section>

@@ -63,10 +63,30 @@ const ga4MeasurementId = SITE.ga4MeasurementId;
     {fontUrl && <link rel="preconnect" href="https://fonts.googleapis.com" />}
     {fontUrl && <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />}
     {fontUrl && <link href={fontUrl} rel="stylesheet" />}
+    <style is:global>
+      .rushes-skip-link {
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        z-index: 10000;
+        padding: 11px 16px;
+        transform: translateY(calc(-100% - 24px));
+        border: 2px solid #d5bc86;
+        background: #0c1825;
+        color: #f5f0e6;
+        font: 700 13px/1.2 Inter, system-ui, sans-serif;
+        text-decoration: none;
+        transition: transform .18s ease;
+      }
+      .rushes-skip-link:focus { transform: translateY(0); }
+      .rushes-skip-link::before { content: 'Skip to main content'; }
+      @media (prefers-reduced-motion: reduce) { .rushes-skip-link { transition: none; } }
+    </style>
     <slot name="head" />
     {includeMetaPixel && <script is:inline src="/assets/meta-pixel.js" defer></script>}
   </head>
   <body data-tracking-id={trackingId}>
+    <a class="rushes-skip-link" href="#main-content" aria-label="Skip to main content"></a>
     <slot />
     <slot name="scripts" />
   </body>

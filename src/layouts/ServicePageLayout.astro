@@ -2,6 +2,7 @@
 import BookingWidget from '../components/shared/BookingWidget.astro';
 import EditorialFooter from '../components/shared/EditorialFooter.astro';
 import EditorialHeader from '../components/shared/EditorialHeader.astro';
+import ServiceSignature from '../components/service/ServiceSignature.astro';
 import type { ServicePage } from '../data/inner-pages';
 import { innerPageNavigation, innerPageSeo } from '../data/inner-pages';
 import { HOME_FONT_URL, SHARED_CTA } from '../data/site';
@@ -16,7 +17,7 @@ const seo = innerPageSeo(page);
   <link slot="head" rel="stylesheet" href="/assets/inner-page.css" />
 
   <EditorialHeader current="services" />
-  <main class="commercial-page" data-page-family={page.family} data-service={page.slug} data-signature={page.signature.kind}>
+  <main id="main-content" tabindex="-1" class="commercial-page" data-page-family={page.family} data-service={page.slug} data-signature={page.signature.kind}>
     <header class="service-hero">
       <div class="service-hero-copy">
         <p class="commercial-breadcrumb"><a href="/">Home</a><span>/</span><span>Services</span><span>/</span><b>{page.eyebrow}</b></p>
@@ -28,19 +29,21 @@ const seo = innerPageSeo(page);
           <a class="commercial-button" href="#service-system">See how this service works</a>
         </div>
       </div>
-      <aside class="service-question" aria-label="Commercial question">
-        <span>Commercial question</span>
-        <p>{page.commercialQuestion}</p>
+      <aside class="service-question" aria-label="Business result">
+        <span>The business result</span>
+        <p>{page.outcome.heading}</p>
         <dl>
-          <div><dt>Not measured by</dt><dd>activity alone</dd></div>
-          <div><dt>Measured through</dt><dd>the next real handoff</dd></div>
+          <div><dt>Measured through</dt><dd>{page.outcome.measure}</dd></div>
+          <div><dt>Not mistaken for</dt><dd>{page.outcome.contrast}</dd></div>
         </dl>
       </aside>
     </header>
 
+    <ServiceSignature page={page} />
+
     <section class="commercial-section service-problem" aria-labelledby="service-problem-heading">
       <div class="commercial-section-head">
-        <span class="commercial-eye">Where value leaks</span>
+        <span class="commercial-eye">What the path has to handle</span>
         <h2 id="service-problem-heading">{page.problemHeading}</h2>
         <p>{page.problemIntro}</p>
       </div>
@@ -50,26 +53,6 @@ const seo = innerPageSeo(page);
             <span>{String(index + 1).padStart(2, '0')}</span>
             <h3>{pain.title}</h3>
             <p>{pain.body}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <section id="service-system" class="commercial-section service-signature" aria-labelledby="signature-heading">
-      <div class="commercial-section-head commercial-section-head-split">
-        <div>
-          <span class="commercial-eye">{page.signature.eyebrow}</span>
-          <h2 id="signature-heading">{page.signature.heading}</h2>
-        </div>
-        <p>{page.signature.intro}</p>
-      </div>
-      <div class="service-signature-grid">
-        {page.signature.items.map((item) => (
-          <article class="service-signature-item">
-            <span>{item.label}</span>
-            <h3>{item.title}</h3>
-            <p>{item.body}</p>
-            {item.note && <small>{item.note}</small>}
           </article>
         ))}
       </div>
@@ -95,7 +78,7 @@ const seo = innerPageSeo(page);
     <section class="commercial-section service-ownership" aria-labelledby="ownership-heading">
       <div class="commercial-section-head">
         <span class="commercial-eye">Responsibilities and evidence</span>
-        <h2 id="ownership-heading">The handoff is part of the deliverable.</h2>
+        <h2 id="ownership-heading">{page.ownershipHeading}</h2>
       </div>
       <div class="ownership-grid">
         <article>
@@ -120,7 +103,7 @@ const seo = innerPageSeo(page);
     <section class="commercial-section service-fit" aria-labelledby="service-fit-heading">
       <div class="commercial-section-head">
         <span class="commercial-eye">Qualification</span>
-        <h2 id="service-fit-heading">Fit before scope.</h2>
+        <h2 id="service-fit-heading">{page.fitHeading}</h2>
       </div>
       <div class="commercial-fit-grid">
         <article><span>Good fit</span><ul>{page.goodFit.map((item) => <li>{item}</li>)}</ul></article>
@@ -131,7 +114,7 @@ const seo = innerPageSeo(page);
     <section class="commercial-section service-faq" aria-labelledby="service-faq-heading">
       <div class="commercial-section-head">
         <span class="commercial-eye">Questions before the call</span>
-        <h2 id="service-faq-heading">What this page does—and does not—promise.</h2>
+        <h2 id="service-faq-heading">{page.faqHeading}</h2>
       </div>
       <div class="commercial-faq-list">
         {page.faqs.map((faq) => <details><summary>{faq.question}<span aria-hidden="true">+</span></summary><p>{faq.answer}</p></details>)}
@@ -141,9 +124,9 @@ const seo = innerPageSeo(page);
     <section id="book" tabindex="-1" class="commercial-booking" aria-labelledby="service-booking-heading">
       <div class="commercial-booking-copy">
         <span class="commercial-eye">Growth Call</span>
-        <h2 id="service-booking-heading">Inspect the whole path before buying one piece.</h2>
-        <p>Thirty minutes to look at the work, buyer, handoffs, response reality and clearest next action. No generic deck and no obligation.</p>
-        <ul><li>The work and buyer you actually want</li><li>The handoff currently losing value</li><li>One bounded next step—or an honest no</li></ul>
+        <h2 id="service-booking-heading">{page.bookingClose.heading}</h2>
+        <p>{page.bookingClose.body}</p>
+        <ul>{page.bookingClose.bullets.map((item) => <li>{item}</li>)}</ul>
       </div>
       <BookingWidget route={`/${page.slug}/`} variant="editorial" frameId={`rushes-${page.slug}-growth-call-calendar`} />
     </section>

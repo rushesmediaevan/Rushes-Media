@@ -8,21 +8,19 @@ import {
   industriesHub,
   industriesHubSeo,
   industryPages,
-  type VisualAsset,
 } from '../../data/industry-pages';
 import { HOME_FONT_URL } from '../../data/site';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const seo = industriesHubSeo();
 const pagesByRoute = new Map(industryPages.map((page) => [page.route, page]));
-const jpegSrcset = (asset: VisualAsset) => asset.sources[0].srcset.replaceAll('.avif', '.jpg');
 ---
 
 <BaseLayout seo={seo} fontUrl={HOME_FONT_URL} includeMetaPixel>
   <link slot="head" rel="stylesheet" href="/assets/industry-page.css" />
 
-  <IndustryHeader />
-  <main data-page-family={industriesHub.family}>
+  <IndustryHeader current="page" />
+  <main id="main-content" tabindex="-1" data-page-family={industriesHub.family}>
     <header class="industry-hero industry-hub-hero">
       <div class="industry-hero-copy">
         <IndustryBreadcrumbs current="Industries" includeIndustries={false} />
@@ -46,11 +44,11 @@ const jpegSrcset = (asset: VisualAsset) => asset.sources[0].srcset.replaceAll('.
             <li><span>{String(index + 1).padStart(2, '0')}</span><strong>{model.name}</strong></li>
           ))}
         </ol>
-        <p>No cloned niche pages. Each route reflects the way that customer actually decides.</p>
+        <p>Each market follows the way its customer evaluates, qualifies and commits.</p>
       </aside>
     </header>
 
-    <section id="markets" class="industry-section industry-markets" aria-labelledby="market-heading">
+    <section id="markets" tabindex="-1" class="industry-section industry-markets" aria-labelledby="market-heading">
       <div class="industry-section-head">
         <span class="industry-eye">Choose the buying model</span>
         <h2 id="market-heading">The work determines the path.</h2>
@@ -74,11 +72,11 @@ const jpegSrcset = (asset: VisualAsset) => asset.sources[0].srcset.replaceAll('.
                   <a class="industry-market-card" href={page.route} data-visual-truth={asset.truthClass}>
                     <picture>
                       {asset.sources.map((source) => (
-                        <source srcset={source.srcset} sizes="(max-width: 760px) calc(100vw - 40px), 36vw" type={source.type} />
+                        <source srcset={source.srcset} sizes="(max-width: 760px) calc(100vw - 40px), 36vw" type={source.type} media={source.media} />
                       ))}
                       <img
                         src={asset.fallback.src}
-                        srcset={jpegSrcset(asset)}
+                        srcset={asset.fallback.srcset}
                         sizes="(max-width: 760px) calc(100vw - 40px), 36vw"
                         width={asset.fallback.width}
                         height={asset.fallback.height}
@@ -119,9 +117,9 @@ const jpegSrcset = (asset: VisualAsset) => asset.sources[0].srcset.replaceAll('.
 
     <section class="industry-section industry-adjacent" aria-labelledby="adjacent-heading">
       <div class="industry-section-head">
-        <span class="industry-eye">Adjacent fit by inquiry</span>
-        <h2 id="adjacent-heading">Broader service businesses can fit without a page pretending expertise.</h2>
-        <p>HVAC is the current deep service-and-replacement anchor. These adjacent businesses are evaluated against the same economics, capacity and ownership gate before Rushes recommends a system.</p>
+        <span class="industry-eye">Adjacent operating fit</span>
+        <h2 id="adjacent-heading">Adjacent service businesses are assessed by the same operating fit.</h2>
+        <p>HVAC is the current service-and-replacement anchor. Adjacent trades are assessed by buyer journey, economics, capacity, response ownership and the outcome the business can measure.</p>
       </div>
       <ul>{industriesHub.adjacentFits.map((item) => <li>{item}</li>)}</ul>
     </section>
@@ -140,7 +138,7 @@ const jpegSrcset = (asset: VisualAsset) => asset.sources[0].srcset.replaceAll('.
     <section class="industry-section industry-region industry-hub-region" aria-labelledby="hub-region-heading">
       <div>
         <span class="industry-eye">Regional context</span>
-        <h2 id="hub-region-heading">Close enough to understand the work.</h2>
+        <h2 id="hub-region-heading">{industriesHub.regionHeading}</h2>
         <p>{industriesHub.region}</p>
       </div>
       <div class="industry-context-links">
@@ -161,7 +159,7 @@ const jpegSrcset = (asset: VisualAsset) => asset.sources[0].srcset.replaceAll('.
       </div>
     </section>
 
-    <IndustryBooking route="/industries/" />
+    <IndustryBooking route="/industries/" close={industriesHub.bookingClose} />
   </main>
   <IndustryFooter />
 </BaseLayout>

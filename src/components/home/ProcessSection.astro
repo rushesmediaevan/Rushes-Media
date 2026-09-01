@@ -3,22 +3,24 @@ import { processSteps } from '../../data/home';
 ---
 
 <!-- ══ PROCESS ════════════════════════════════════════════ -->
-<section id="process">
+<section id="process" tabindex="-1">
   <div class="process-inner">
     <div class="process-hd r">
-      <span class="eye">The Process</span>
-      <h2 class="process-h2">Simple to start.<br /><em>Built to compound.</em></h2>
+      <span class="eye">How We Start</span>
+      <h2 class="process-h2">Start with the opportunity the business wants to grow.</h2>
+      <p>Rushes identifies the service, market, or kind of inquiry to prioritize, then recommends the media, campaign, web, or follow-up work that can help.</p>
     </div>
-    <div class="steps">
+    <ol class="steps process-sequence">
       {processSteps.map((step, index) => (
-        <div class:list={['r', `d${index + 1}`]}>
-          <div class="step-rule"></div>
-          <div class="step-n">{step.number}</div>
-          <h3 class="step-title">{step.title}</h3>
-          <p class="step-desc">{step.description}</p>
+        <li class:list={['r', `d${index + 1}`]}>
+          <div class="step-phase">{step.phase}</div>
+          <div>
+            <h3 class="step-title">{step.title}</h3>
+            <p class="step-desc">{step.description}</p>
+          </div>
           <span class="step-badge">{step.badge}</span>
-        </div>
+        </li>
       ))}
-    </div>
+    </ol>
   </div>
 </section>

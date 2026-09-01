@@ -1,26 +1,22 @@
 ---
 import BookingWidget from '../shared/BookingWidget.astro';
+import type { IndustryBookingClose } from '../../data/industry-pages';
 
 interface Props {
   route: string;
-  intro?: string;
+  close: IndustryBookingClose;
 }
 
-const {
-  route,
-  intro = '30 minutes. We’ll inspect the work you want, the path into the calendar, and whether the economics and capacity fit.',
-} = Astro.props;
+const { route, close } = Astro.props;
 ---
 
 <section id="book" tabindex="-1" class="industry-booking" data-booking-section data-industry-route={route}>
   <div class="industry-booking-copy">
     <span class="industry-eye">Growth Call</span>
-    <h2>See whether the full path fits.</h2>
-    <p>{intro}</p>
+    <h2>{close.heading}</h2>
+    <p>{close.body}</p>
     <ul aria-label="What the call covers">
-      <li>The work and buyer you actually want</li>
-      <li>Where the current handoffs deserve inspection</li>
-      <li>The clearest next step—or an honest no</li>
+      {close.bullets.map((item) => <li>{item}</li>)}
     </ul>
   </div>
   <div class="industry-calendar-shell">

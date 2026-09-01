@@ -1,0 +1,26 @@
+---
+import type { ServicePage } from '../../data/inner-pages';
+
+interface Props { page: ServicePage; }
+const { page } = Astro.props;
+---
+
+<section id="service-system" tabindex="-1" class="commercial-section service-signature" aria-labelledby="signature-heading">
+  <div class="commercial-section-head commercial-section-head-split">
+    <div>
+      <span class="commercial-eye">{page.signature.eyebrow}</span>
+      <h2 id="signature-heading">{page.signature.heading}</h2>
+    </div>
+    <p>{page.signature.intro}</p>
+  </div>
+  <div class="service-signature-grid">
+    {page.signature.items.map((item) => (
+      <article class="service-signature-item">
+        <span>{item.label}</span>
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+        {item.note && <small>{item.note}</small>}
+      </article>
+    ))}
+  </div>
+</section>

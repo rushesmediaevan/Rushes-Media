@@ -19,11 +19,13 @@ if (cursor) {
 
 const navigation = document.getElementById('nav');
 if (navigation) {
+  const syncNavigationSurface = () => navigation.classList.toggle('on', window.scrollY > 40);
   window.addEventListener(
     'scroll',
-    () => navigation.classList.toggle('on', window.scrollY > 40),
+    syncNavigationSurface,
     { passive: true },
   );
+  syncNavigationSurface();
 }
 
 const hero = document.getElementById('hero');
@@ -82,7 +84,7 @@ if (mobileMenu && menuButton && closeButton) {
 
 const floatingCta = document.getElementById('fcta');
 const heroButtons = document.querySelector('.hero-btns');
-if (floatingCta && heroButtons) {
+if (floatingCta && heroButtons && 'IntersectionObserver' in window) {
   let heroVisible = true;
   let closeVisible = false;
   const updateFloatingCta = () => floatingCta.classList.toggle('on', !heroVisible && !closeVisible);
@@ -101,37 +103,31 @@ if (floatingCta && heroButtons) {
   document.querySelectorAll('#who, #cta, footer').forEach((element) => closeObserver.observe(element));
 }
 
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    for (const entry of entries) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('show');
-        revealObserver.unobserve(entry.target);
-      }
-    }
-  },
-  { threshold: 0.08 },
-);
-document.querySelectorAll('.r').forEach((element) => revealObserver.observe(element));
-
-const bookingAnchor = document.getElementById('book');
-if (bookingAnchor) {
-  const alignBooking = () => bookingAnchor.scrollIntoView({ block: 'start', behavior: 'auto' });
-  document.querySelectorAll<HTMLAnchorElement>('a[href="#book"]').forEach((anchor) => {
-    anchor.addEventListener('click', () => window.setTimeout(alignBooking, 0));
-  });
-  if (window.location.hash === '#book') {
-    window.addEventListener('load', () => window.setTimeout(alignBooking, 120), { once: true });
+const revealElements = document.querySelectorAll('.r');
+const revealSupported =
+  'IntersectionObserver' in window &&
+  !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (revealSupported && revealElements.length > 0) {
+  try {
+    document.documentElement.classList.add('reveal-enabled');
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+            revealObserver.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.08 },
+    );
+    revealElements.forEach((element) => revealObserver.observe(element));
+  } catch {
+    document.documentElement.classList.remove('reveal-enabled');
   }
 }
 
 document.querySelectorAll<HTMLButtonElement>('.faq-q').forEach((question) => {
-  question.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      question.click();
-    }
-  });
   question.addEventListener('click', () => {
     const item = question.closest('.faq-item');
     if (!item) return;

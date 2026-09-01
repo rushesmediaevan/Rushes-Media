@@ -36,6 +36,30 @@ const INDUSTRY_ASSETS = {
 };
 
 export const INDUSTRY_BROWSER_ASSET_FILES = [...new Set(Object.values(INDUSTRY_ASSETS).flat())];
+
+const revisionDerivativeFiles = (slug) => [
+  ...[800, 1200, 1600].flatMap((width) => ['avif', 'webp'].map(
+    (extension) => `assets/images/revision/${slug}-desktop-${width}.${extension}`,
+  )),
+  ...[480, 800, 1200].flatMap((width) => ['avif', 'webp'].map(
+    (extension) => `assets/images/revision/${slug}-mobile-${width}.${extension}`,
+  )),
+];
+
+const REVISION_ASSETS = {
+  bakery: revisionDerivativeFiles('02-bakery'),
+  restaurant: revisionDerivativeFiles('04-restaurant'),
+  medSpa: revisionDerivativeFiles('05-medspa'),
+  daylitVenue: revisionDerivativeFiles('06-daylit-venue'),
+};
+
+export const REVISION_BROWSER_ASSET_FILES = [
+  ...REVISION_ASSETS.bakery,
+  ...REVISION_ASSETS.restaurant,
+  ...REVISION_ASSETS.medSpa,
+  ...REVISION_ASSETS.daylitVenue,
+];
+
 const publicAssetUrls = (files) => files.map((file) => `/${file}`);
 
 /** @typedef {'generated' | 'compatibility' | 'review-only' | 'redirect' | 'api' | 'auxiliary'} RouteOwner */
@@ -101,9 +125,9 @@ export const SITE_CONTRACT = [
     owner: 'generated',
     indexable: true,
     source: 'src/pages/index.astro',
-    title: 'Rushes Media — booked estimates from the work you already do',
+    title: 'Rushes Media | Exceptional Media, Web & Growth Systems',
     description:
-      'Content, campaigns, a page that converts, and follow-up in minutes. One system for owners who can take more of the right work.',
+      'Rushes helps strong companies express what makes them worth choosing through exceptional media, campaigns, websites, and focused systems built around the priority at hand.',
     canonical: `${SITE_ORIGIN}/`,
     requiredAssets: [
       '/assets/images/hero/hero-bg.jpg',
@@ -111,6 +135,8 @@ export const SITE_CONTRACT = [
       '/assets/video/hero-loop.mp4',
       '/assets/images/logo-icon.png',
       '/assets/images/logo-wordmark.png',
+      ...publicAssetUrls(REVISION_ASSETS.bakery),
+      ...publicAssetUrls(REVISION_ASSETS.medSpa),
     ],
     requiredCtas: [
       '#book',
@@ -130,14 +156,14 @@ export const SITE_CONTRACT = [
       'https://link.msgsndr.com/js/external-tracking.js',
     ],
     sitemap: true,
-    lastmod: '2026-08-29',
+    lastmod: '2026-09-01',
     lifecycleStatus: 'active',
     openGraph: {
       type: 'website',
       siteName: 'Rushes Media',
-      title: 'Rushes Media — booked estimates from the work you already do',
+      title: 'Rushes Media | Exceptional Media, Web & Growth Systems',
       description:
-        'Content, campaigns, a page that converts, and follow-up in minutes. One system for owners who can take more of the right work.',
+        'Rushes helps strong companies express what makes them worth choosing through exceptional media, campaigns, websites, and focused systems built around the priority at hand.',
       url: `${SITE_ORIGIN}/`,
       image: `${SITE_ORIGIN}/assets/images/hero/hero-bg.jpg`,
       imageWidth: 1920,
@@ -145,9 +171,9 @@ export const SITE_CONTRACT = [
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Rushes Media — booked estimates from the work you already do',
+      title: 'Rushes Media | Exceptional Media, Web & Growth Systems',
       description:
-        'Content, campaigns, a page that converts, and follow-up in minutes. One system for owners who can take more of the right work.',
+        'Rushes helps strong companies express what makes them worth choosing through exceptional media, campaigns, websites, and focused systems built around the priority at hand.',
       image: `${SITE_ORIGIN}/assets/images/hero/hero-bg.jpg`,
     },
     jsonLd: {
@@ -158,7 +184,7 @@ export const SITE_CONTRACT = [
           name: 'Rushes Media',
           url: `${SITE_ORIGIN}/`,
           description:
-            'Rushes Media builds content, campaigns, websites, and follow-up systems for owner-operated local businesses — so more qualified estimates land on the calendar.',
+            'Rushes helps strong companies express what makes them worth choosing through exceptional media, campaigns, websites, and focused systems built around the priority at hand.',
           email: 'evan@rushesmedia.com',
           telephone: '(609) 405-9918',
           address: {
@@ -182,7 +208,7 @@ export const SITE_CONTRACT = [
               name: 'What kinds of businesses do you work with?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Our best fit today is owner-led outdoor living and design-build, interior design and residential build, HVAC replacement, and med spa or aesthetic practices. Pools sit inside the broader outdoor-living path rather than as a separate specialty. We’re based in South Jersey and focus first on Philadelphia, the Main Line, Bucks County, and the wider Mid-Atlantic. Adjacent local-service businesses are evaluated by inquiry rather than given a page that pretends expertise.',
+                text: 'Rushes works with strong local and regional companies whose reputation, work, or experience deserves a better public expression. Our deepest current market knowledge is outdoor living and residential design-build, interior design, HVAC replacement, and med spa or aesthetic practices. Adjacent businesses are evaluated by the opportunity, economics, capacity, and operating fit.',
               },
             },
             {
@@ -190,7 +216,7 @@ export const SITE_CONTRACT = [
               name: 'How quickly can we get started?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'A Growth Call is usually within 48 hours of you reaching out. After we agree on fit, we stand up the core system — site or landing page, capture, follow-up, and campaign structure — and start proving booked estimates in the first 30 days.',
+                text: 'Timing depends on scope, access, and the first priority worth advancing. The 30-minute Growth Call identifies that priority; the next step is scoped around the specific media, campaign, web, measurement, or follow-up work required.',
               },
             },
             {
@@ -198,7 +224,7 @@ export const SITE_CONTRACT = [
               name: 'Do I have to be involved in the day-to-day?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'No. You run the business and close the work. We run the media, campaigns, and follow-up. You’ll review creative and stay reachable for estimate calls — that’s the partnership.',
+                text: 'You stay responsible for business facts, approvals, sales, and delivery. Rushes runs the agreed creative or digital scope, and the right owner remains reachable for any buyer, inquiry, or operational handoff included in the work.',
               },
             },
             {
@@ -206,15 +232,15 @@ export const SITE_CONTRACT = [
               name: 'What’s the commitment?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Flat monthly. In the first 30 days live, if we aren’t booking you real estimates, you don’t pay for month two — we prove it before you’re locked in. Exact numbers and any shared upside are set on the Growth Call from your real job values. We don’t guarantee closed jobs; we own the path to the calendar.',
+                text: 'Scope, timing, and pricing follow the first meaningful priority—not a prebuilt package. The Growth Call determines whether a focused project or a longer engagement makes sense. Rushes owns the agreed work and measurement; the business owns sales, fulfillment, and collection.',
               },
             },
             {
               '@type': 'Question',
-              name: 'Do you do content, campaigns, or both?',
+              name: 'Can Rushes handle one capability or connect several?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Both — and they work better together. Content builds trust. Campaigns put that proof in front of ready buyers. Pages and follow-up turn interest into booked estimates. Selling only posts or only spend is how leads fall between vendors.',
+                text: 'Either. Brand Media, campaigns, web, measurement, and follow-up can each be scoped independently. Rushes connects them only when the business priority genuinely benefits from a shared idea, experience, or handoff.',
               },
             },
             {
@@ -222,15 +248,15 @@ export const SITE_CONTRACT = [
               name: 'How do you measure results?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Booked estimates (or booked consults), show rate, cost per booked estimate where spend is live, and speed-to-lead. You get reporting tied to the calendar — not follower counts.',
+                text: 'Measurement follows the agreed objective. That may include attention and engagement for media, qualified demand for campaigns, decision and action for web, or response and held appointments when follow-up is in scope. Sales and revenue remain business-reported outcomes.',
               },
             },
             {
               '@type': 'Question',
-              name: 'Why don’t you call yourselves a “marketing agency”?',
+              name: 'Do we need the full Demand Loop?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Because owners don’t buy “marketing.” They buy more of the right people on the calendar. We build media, campaigns, web, and follow-up as one system — not four separate vendors. You’re hiring the full path, not a media buyer.',
+                text: 'No. The Demand Loop is a map, not a mandatory package. Rushes starts with the strongest opportunity and scopes only the capabilities needed now, while making sure they can connect cleanly if the work expands.',
               },
             },
           ],
@@ -245,21 +271,34 @@ export const SITE_CONTRACT = [
       source: 'demand-loop/index.html',
       title: 'The Demand Loop — Rushes Media',
       description:
-        'Show the work, put it in front of ready buyers, catch them, book the estimate, run it tighter next month. One system. 30-minute Growth Call.',
+        'Connect real work, campaign distribution, focused conversion, lead routing, booking, follow-up and outcome reporting in one accountable acquisition system.',
+      lastmod: '2026-09-01',
     },
     {
       path: '/brand-media/',
       source: 'brand-media/index.html',
-      title: 'The job is the ad — Rushes Media',
+      title: 'Brand Media: Photo, Video & Creative | Rushes Media',
       description:
-        'Reels, stills, and brand work from real jobs — then the campaign, the page, and the follow-up that books the estimate.',
+        'Photo, video, and campaign creative that makes a business easier to notice, understand, and choose.',
+      lastmod: '2026-09-01',
+      extraAssets: [
+        '/assets/brand-media.css',
+        ...publicAssetUrls([
+          ...INDUSTRY_ASSETS.outdoorLivingPool,
+          ...INDUSTRY_ASSETS.interiorDetail,
+          ...INDUSTRY_ASSETS.medSpa.filter((file) => !file.includes('-social-')),
+          ...REVISION_ASSETS.restaurant,
+          ...REVISION_ASSETS.daylitVenue,
+        ]),
+      ],
     },
     {
       path: '/campaigns/',
       source: 'campaigns/index.html',
       title: 'Demand, not boosted posts — Rushes Media',
       description:
-        'Meta and Google campaigns built around a real idea. Spend stays on your card. The calendar moves when the page and follow-up are wired.',
+        'Meta and Google campaigns built around one credible idea, a focused conversion path and measurable qualified opportunities. Ad spend stays in the client-owned account.',
+      lastmod: '2026-09-01',
     },
     {
       path: '/web/',
@@ -267,13 +306,15 @@ export const SITE_CONTRACT = [
       title: 'A site that books — Rushes Media',
       description:
         'Custom sites and landing pages with one job: call, book, or request the estimate. Built for the campaign behind it.',
+      lastmod: '2026-09-01',
     },
     {
       path: '/follow-up/',
       source: 'follow-up/index.html',
-      title: 'Answer in minutes — Rushes Media',
+      title: 'Protect the inquiry — Rushes Media',
       description:
-        'Forms, calls, and DMs into one place. Text back while they’re still holding the phone. Confirmations so the estimate actually shows.',
+        'Connect calls, forms and messages to timely ownership, qualification, booking, confirmation and consent-aware follow-up.',
+      lastmod: '2026-09-01',
     },
   ].map((route) => ({
     ...route,
@@ -285,11 +326,12 @@ export const SITE_CONTRACT = [
       '/assets/inner-page.css',
       '/assets/images/logo-icon.png',
       '/assets/images/logo-wordmark.png',
+      ...(route.extraAssets ?? []),
     ],
     requiredCtas: ['#book', BOOKING_URL],
     requiredScripts: [GA4_LOADER_PREFIX, '/assets/meta-pixel.js'],
     sitemap: true,
-    lastmod: '2026-08-29',
+    lastmod: route.lastmod,
     lifecycleStatus: 'stable',
     openGraph: {
       title: route.title,
@@ -329,7 +371,7 @@ export const SITE_CONTRACT = [
     ],
     requiredScripts: [GA4_LOADER_PREFIX, '/assets/meta-pixel.js'],
     sitemap: true,
-    lastmod: '2026-08-28',
+    lastmod: '2026-09-01',
     lifecycleStatus: 'core-market',
     breadcrumb: [
       { name: 'Home', path: '/' },
@@ -475,7 +517,7 @@ export const SITE_CONTRACT = [
       requiredCtas: ['#book', BOOKING_URL],
       requiredScripts: [GA4_LOADER_PREFIX, '/assets/meta-pixel.js'],
       sitemap: true,
-      lastmod: '2026-08-28',
+      lastmod: '2026-09-01',
       parentRoute: route.parentRoute,
       breadcrumb,
       lifecycleStatus: route.lifecycleStatus,
@@ -775,6 +817,7 @@ export const REVIEW_COMPATIBILITY_FILES = [
 export const PUBLIC_ASSET_FILES = [
   'assets/inner-page.css',
   'assets/industry-page.css',
+  'assets/brand-media.css',
   'assets/meta-pixel.js',
   'assets/images/hero/hero-bg.jpg',
   'assets/images/hero/hero-night-city-poster.jpg',
@@ -782,6 +825,7 @@ export const PUBLIC_ASSET_FILES = [
   'assets/images/logo-icon.png',
   'assets/images/logo-wordmark.png',
   'assets/video/hero-loop.mp4',
+  ...REVISION_BROWSER_ASSET_FILES,
   ...INDUSTRY_BROWSER_ASSET_FILES,
 ];
 

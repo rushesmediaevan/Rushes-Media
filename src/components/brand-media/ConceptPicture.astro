@@ -1,0 +1,46 @@
+---
+import type { VisualAsset } from '../../data/industry-pages';
+
+interface Props {
+  asset: VisualAsset;
+  className?: string;
+  sizes?: string;
+  loading?: 'eager' | 'lazy';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  showCaption?: boolean;
+}
+
+const {
+  asset,
+  className = '',
+  sizes = asset.sizes,
+  loading = 'lazy',
+  fetchpriority = 'auto',
+  showCaption = true,
+} = Astro.props;
+---
+
+<figure
+  class:list={['brand-concept', className]}
+  data-visual-truth={asset.truthClass}
+  data-publication-status={asset.publicationStatus}
+  style={`--brand-media-focal:${asset.focalPoint};--brand-media-mobile-focal:${asset.mobileFocalPoint ?? asset.focalPoint};--brand-media-ratio:${asset.aspectRatio};--brand-media-mobile-ratio:${asset.mobileAspectRatio ?? asset.aspectRatio}`}
+>
+  <picture>
+    {asset.sources.map((source) => (
+      <source srcset={source.srcset} sizes={sizes} type={source.type} media={source.media} />
+    ))}
+    <img
+      src={asset.fallback.src}
+      srcset={asset.fallback.srcset}
+      sizes={sizes}
+      width={asset.fallback.width}
+      height={asset.fallback.height}
+      alt={asset.alt}
+      loading={loading}
+      fetchpriority={fetchpriority}
+      decoding="async"
+    />
+  </picture>
+  {showCaption && <figcaption>{asset.caption}</figcaption>}
+</figure>

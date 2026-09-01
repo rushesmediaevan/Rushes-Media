@@ -1,4 +1,5 @@
 import { industryVisuals, type VisualAsset } from './industry-pages';
+import { revisionAssets } from './revision-assets';
 
 export interface HomeNavItem {
   href: string;
@@ -8,27 +9,27 @@ export interface HomeNavItem {
 }
 
 export interface HomeProofItem {
-  value: string;
-  suffix?: string;
   label: string;
   text: string;
 }
 
 export interface HomeService {
   href: string;
-  number: string;
+  stage: string;
   name: string;
   plainName: string;
   description: string;
   tags: readonly string[];
+  tone: 'ink' | 'paper' | 'gold' | 'navy';
+  visual?: VisualAsset;
 }
 
 export interface HomeAudience {
   href: string;
-  label: string;
-  text: string;
-  buyingModel: 'project' | 'urgent' | 'consultation';
   routeLabel: string;
+  label: string;
+  summary: string;
+  result: string;
   visual: VisualAsset;
 }
 
@@ -47,141 +48,153 @@ export const heroFlow = [
 
 export const marqueeItems = [
   'Brand Media',
+  'Photo & Motion',
   'Creative Campaigns',
-  'Web Design',
-  'Lead Capture',
-  'Speed-to-Lead',
+  'Web Experiences',
+  'Landing Pages',
+  'Measurement',
   'Follow-up',
-  'Booked Estimates',
-  'Organic Content',
+  'Automation',
 ] as const;
 
 export const proofItems: readonly HomeProofItem[] = [
   {
-    value: '01',
-    label: 'More Booked Estimates',
-    text: 'The conversion we inspect is a qualified, held estimate or consult—not a click, impression, or form load.',
+    label: 'Creative signal',
+    text: 'Does the work make the business, offer, or experience easier to notice and understand?',
   },
   {
-    value: '02',
-    label: 'First Responder Wins',
-    text: 'Clear ownership and a fast acknowledgement protect intent while the buyer is still deciding what to do next.',
+    label: 'Qualified demand',
+    text: 'When reach is in scope, are the right people finding the intended next step?',
   },
   {
-    value: '03',
-    label: 'Speed to Lead',
-    text: 'Response time is measured from inquiry to first useful action, then tied to booking and held-call outcomes.',
+    label: 'Digital action',
+    text: 'Can interested buyers understand fit and act without unnecessary friction?',
   },
   {
-    value: '04',
-    label: 'Prove It First',
-    text: 'The first operating cycle establishes what is actually working before the system is expanded.',
+    label: 'Handoff quality',
+    text: 'When inquiry or booking is in scope, is the response timely, owned, and measurable?',
   },
 ];
 
 export const audiences: readonly HomeAudience[] = [
   {
     href: '/outdoor-living/',
+    routeLabel: 'Project-led design-build',
     label: 'Outdoor Living & Design-Build',
-    text: 'Turn finished hardscapes, complete outdoor spaces and custom pools into better-qualified project consultations.',
-    buyingModel: 'project',
-    routeLabel: 'Project-led path',
+    summary:
+      'Show the transformation, qualify the scope, and move the right homeowners toward a project consultation.',
+    result: 'Better-fit project consultations',
     visual: industryVisuals.outdoorLiving,
   },
   {
     href: '/interior-design/',
-    label: 'Interior Design & Residential Build',
-    text: 'Help the right homeowners understand your judgment, process and fit before the first consultation.',
-    buyingModel: 'project',
     routeLabel: 'Considered consultation',
+    label: 'Interior Design & Residential Build',
+    summary:
+      'Make taste, judgment, and process easier to understand before the first consultation.',
+    result: 'Clearer fit before the consultation',
     visual: industryVisuals.interiorDesign,
   },
   {
     href: '/hvac/',
+    routeLabel: 'Urgent and planned demand',
     label: 'HVAC Replacement & Home Comfort',
-    text: 'Separate service from replacement intent and route more of the right changeout opportunities to the calendar.',
-    buyingModel: 'urgent',
-    routeLabel: 'Urgent replacement',
+    summary:
+      'Separate urgent service from planned replacement and respond before the homeowner moves on.',
+    result: 'Faster response to replacement inquiries',
     visual: industryVisuals.hvac,
   },
   {
     href: '/med-spa/',
+    routeLabel: 'Appointment-led service',
     label: 'Med Spa & Aesthetic Practices',
-    text: 'Connect approved treatment positioning, consult capture and follow-up around real provider capacity.',
-    buyingModel: 'consultation',
-    routeLabel: 'Appointment-led path',
-    visual: industryVisuals.medSpa,
+    summary:
+      'Build service-specific trust, guide the right consultation request, and keep follow-up timely.',
+    result: 'Better-qualified consultation requests',
+    visual: revisionAssets.medSpa,
   },
 ] as const;
 
 export const homeServices: readonly HomeService[] = [
   {
     href: '/brand-media/',
-    number: '01',
+    stage: 'Creative expression',
     name: 'Brand Media',
-    plainName: 'Get your brand in front of real customers',
+    plainName: 'Show what makes the business worth choosing.',
     description:
-      'Reels, organic content, photography, and brand work from your real jobs — so the right local buyers see proof before they ever call.',
-    tags: ['Organic Content', 'Reels & Video', 'Photography', 'Brand Identity'],
+      'Photography and video that make the business—its people, products, services, places, and point of view—worth noticing across every channel.',
+    tags: ['Photo & motion', 'Campaign creative', 'Organic content'],
+    tone: 'ink',
+    visual: revisionAssets.bakery,
   },
   {
     href: '/campaigns/',
-    number: '02',
+    stage: 'Focused reach',
     name: 'Creative Campaigns',
-    plainName: 'Campaigns that drive customers, not just clicks',
+    plainName: 'Reach more of the people most likely to need the service.',
     description:
-      'Meta and Google campaigns built around a real creative idea — not a boosted post. We build the creative and structure; ad spend stays on your card.',
-    tags: ['Meta Campaigns', 'Google Campaigns', 'Creative Strategy', 'Offer Design'],
+      'Meta and Google campaigns pair strong creative with a clear message and next step.',
+    tags: ['Meta', 'Google', 'Campaign management'],
+    tone: 'paper',
   },
   {
     href: '/web/',
-    number: '03',
+    stage: 'Digital experience',
     name: 'Web & Landing',
-    plainName: 'A site that turns visitors into buyers',
+    plainName: 'Help interested buyers understand the service and act.',
     description:
-      'Custom sites and landing pages designed to convert — fast on mobile, clear on every device, built so the visitor takes one clear action: call, book, or request an estimate.',
-    tags: ['Custom Sites', 'Landing Pages', 'Local SEO', 'Conversion UX'],
+      'Focused sites and landing pages answer key questions and make calling, booking, or requesting an estimate straightforward.',
+    tags: ['Custom sites', 'Landing pages', 'Conversion UX'],
+    tone: 'gold',
   },
   {
     href: '/follow-up/',
-    number: '04',
+    stage: 'Response & continuity',
     name: 'Lead Capture & Follow-up',
-    plainName: 'Catch every lead, answer fast, never lose one',
+    plainName: 'Turn qualified interest into a timely conversation.',
     description:
-      'Forms, calls, and DMs into one system. Speed-to-lead reply in minutes. SMS and email that keep the conversation alive until the estimate is booked.',
-    tags: ['Speed-to-Lead', 'SMS & Email', 'CRM & Pipeline', 'Booking'],
+      'Calls, forms, and messages receive a useful response, then follow-up through booking and confirmation.',
+    tags: ['Lead capture', 'Speed to lead', 'Booking follow-up'],
+    tone: 'navy',
   },
 ];
 
 export const systemSteps = [
-  { icon: '◈', number: '01', name: 'Brand Media', description: 'Reels, content, and brand work that earn attention', stat: '+', statLabel: 'Trust' },
-  { icon: '◉', number: '02', name: 'Creative Campaigns', description: 'Campaigns with real creative — customers, not just clicks', stat: '$', statLabel: 'Reach' },
-  { icon: '▣', number: '03', name: 'Web & Landing', description: 'A site built so the visitor takes one clear action', stat: '↑', statLabel: 'Convert' },
-  { icon: '◎', number: '04', name: 'Lead Capture', description: 'Every inbound captured and answered in minutes', stat: '<5m', statLabel: 'Reply' },
-  { icon: '⬡', number: '05', name: 'Follow-up', description: 'SMS & email that book the estimate on your calendar', stat: '↻', statLabel: 'Compound' },
+  { stage: 'Attention', title: 'Earn attention.', description: 'Show people what makes the business worth choosing.', owner: 'Brand Media' },
+  { stage: 'Reach', title: 'Reach likely buyers.', description: 'Put the service in front of people who are likely to need it.', owner: 'Creative Campaigns' },
+  { stage: 'Decision', title: 'Make the next step clear.', description: 'Explain the service and make calling, booking, or requesting an estimate simple.', owner: 'Web & Landing' },
+  { stage: 'Response', title: 'Respond while intent is high.', description: 'Give each qualified inquiry a fast, useful response.', owner: 'Lead Capture & Follow-up' },
+  { stage: 'Booking', title: 'Book and confirm.', description: 'Make the estimate or consultation easy to schedule and confirm.', owner: 'Lead Capture & Follow-up' },
+] as const;
+
+export const systemOwners = [
+  { label: 'Brand Media', className: 'media' },
+  { label: 'Creative Campaigns', className: 'campaigns' },
+  { label: 'Web & Landing', className: 'web' },
+  { label: 'Lead Capture & Follow-up', className: 'follow-up' },
 ] as const;
 
 export const processSteps = [
   {
-    number: '01',
-    title: 'Growth Call',
+    phase: 'Focus',
+    title: 'Choose the priority.',
     description:
-      'We look at how work comes in today, what’s working, and where estimates stall — then recommend the clearest next step. Or an honest no.',
-    badge: '~30 minutes',
+      'We agree on the service, market, audience, or business priority that deserves attention first.',
+    badge: 'Clear starting point',
   },
   {
-    number: '02',
-    title: 'System Build',
+    phase: 'Build',
+    title: 'Build around it.',
     description:
-      'We install the pieces that fit — creative, campaigns, site, and follow-up — wired for how your business actually books work.',
-    badge: 'First 30 days',
+      'Rushes builds the specific media, campaign, page, measurement, or follow-up scope the priority requires—without replacing what already works.',
+    badge: 'Focused scope',
   },
   {
-    number: '03',
-    title: 'Launch & Compound',
+    phase: 'Improve',
+    title: 'Learn from the response.',
     description:
-      'We prove booked estimates before you’re locked into month two, then keep tightening what works. Long-term partner, not a project that disappears.',
-    badge: 'Ongoing',
+      'Audience response, buyer actions, and agreed commercial signals show what to keep, change, or expand.',
+    badge: 'Measured refinement',
   },
 ] as const;
 
@@ -189,37 +202,37 @@ export const faqs = [
   {
     question: 'What kinds of businesses do you work with?',
     answer:
-      'Our best fit today is owner-led outdoor living and design-build, interior design and residential build, HVAC replacement, and med spa or aesthetic practices. Pools sit inside the broader outdoor-living path rather than as a separate specialty. We’re based in South Jersey and focus first on Philadelphia, the Main Line, Bucks County, and the wider Mid-Atlantic. Adjacent local-service businesses are evaluated by inquiry rather than given a page that pretends expertise.',
+      'Rushes works with strong local and regional companies whose reputation, work, or experience deserves a better public expression. Our deepest current market knowledge is outdoor living and residential design-build, interior design, HVAC replacement, and med spa or aesthetic practices. Adjacent businesses are evaluated by the opportunity, economics, capacity, and operating fit.',
   },
   {
     question: 'How quickly can we get started?',
     answer:
-      'A Growth Call is usually within 48 hours of you reaching out. After we agree on fit, we stand up the core system — site or landing page, capture, follow-up, and campaign structure — and start proving booked estimates in the first 30 days.',
+      'Timing depends on scope, access, and the first priority worth advancing. The 30-minute Growth Call identifies that priority; the next step is scoped around the specific media, campaign, web, measurement, or follow-up work required.',
   },
   {
     question: 'Do I have to be involved in the day-to-day?',
     answer:
-      'No. You run the business and close the work. We run the media, campaigns, and follow-up. You’ll review creative and stay reachable for estimate calls — that’s the partnership.',
+      'You stay responsible for business facts, approvals, sales, and delivery. Rushes runs the agreed creative or digital scope, and the right owner remains reachable for any buyer, inquiry, or operational handoff included in the work.',
   },
   {
     question: 'What’s the commitment?',
     answer:
-      'Flat monthly. In the first 30 days live, if we aren’t booking you real estimates, you don’t pay for month two — we prove it before you’re locked in. Exact numbers and any shared upside are set on the Growth Call from your real job values. We don’t guarantee closed jobs; we own the path to the calendar.',
+      'Scope, timing, and pricing follow the first meaningful priority—not a prebuilt package. The Growth Call determines whether a focused project or a longer engagement makes sense. Rushes owns the agreed work and measurement; the business owns sales, fulfillment, and collection.',
   },
   {
-    question: 'Do you do content, campaigns, or both?',
+    question: 'Can Rushes handle one capability or connect several?',
     answer:
-      'Both — and they work better together. Content builds trust. Campaigns put that proof in front of ready buyers. Pages and follow-up turn interest into booked estimates. Selling only posts or only spend is how leads fall between vendors.',
+      'Either. Brand Media, campaigns, web, measurement, and follow-up can each be scoped independently. Rushes connects them only when the business priority genuinely benefits from a shared idea, experience, or handoff.',
   },
   {
     question: 'How do you measure results?',
     answer:
-      'Booked estimates (or booked consults), show rate, cost per booked estimate where spend is live, and speed-to-lead. You get reporting tied to the calendar — not follower counts.',
+      'Measurement follows the agreed objective. That may include attention and engagement for media, qualified demand for campaigns, decision and action for web, or response and held appointments when follow-up is in scope. Sales and revenue remain business-reported outcomes.',
   },
   {
-    question: 'Why don’t you call yourselves a “marketing agency”?',
+    question: 'Do we need the full Demand Loop?',
     answer:
-      'Because owners don’t buy “marketing.” They buy more of the right people on the calendar. We build media, campaigns, web, and follow-up as one system — not four separate vendors. You’re hiring the full path, not a media buyer.',
+      'No. The Demand Loop is a map, not a mandatory package. Rushes starts with the strongest opportunity and scopes only the capabilities needed now, while making sure they can connect cleanly if the work expands.',
   },
 ] as const;
 

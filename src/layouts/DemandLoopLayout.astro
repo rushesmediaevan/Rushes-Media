@@ -16,7 +16,7 @@ const seo = innerPageSeo(page);
   <link slot="head" rel="stylesheet" href="/assets/inner-page.css" />
 
   <EditorialHeader current="demand-loop" />
-  <main class="commercial-page demand-loop-page" data-page-family={page.family}>
+  <main id="main-content" tabindex="-1" class="commercial-page demand-loop-page" data-page-family={page.family}>
     <header class="loop-hero">
       <div class="loop-hero-copy">
         <p class="commercial-breadcrumb"><a href="/">Home</a><span>/</span><b>Demand Loop</b></p>
@@ -57,16 +57,25 @@ const seo = innerPageSeo(page);
       </div>
     </section>
 
-    <section id="loop-stages" class="loop-stages" aria-labelledby="loop-stages-heading">
+    <section id="loop-stages" tabindex="-1" class="loop-stages" aria-labelledby="loop-stages-heading">
       <div class="commercial-section-head loop-stages-head">
         <span class="commercial-eye">The complete operating map</span>
         <h2 id="loop-stages-heading">Nine handoffs. No mystery middle.</h2>
-        <p>Each stage has an input, an output and named ownership. The failure state is shown because that is where attractive diagrams usually stop being useful.</p>
+        <p>Each stage names its input, output, owner and next action—including what happens when the handoff breaks.</p>
       </div>
       <ol class="loop-stage-list">
         {page.steps.map((step, index) => (
-          <li id={`loop-stage-${index + 1}`} class="loop-stage">
-            <header>
+          <li
+            class="loop-stage"
+            data-loop-phase={index < 3 ? 'I' : index < 7 ? 'II' : 'III'}
+          >
+            {(index === 0 || index === 3 || index === 7) && (
+              <div class="loop-stage-phase">
+                <span>Phase {index < 3 ? 'I' : index < 7 ? 'II' : 'III'}</span>
+                <b>{index < 3 ? 'Earn attention' : index < 7 ? 'Convert intent' : 'Recover & learn'}</b>
+              </div>
+            )}
+            <header id={`loop-stage-${index + 1}`} tabindex="-1">
               <span>{String(index + 1).padStart(2, '0')}</span>
               <div><h3>{step.name}</h3><p>{step.purpose}</p></div>
               {step.tool && <small>{step.tool}</small>}
@@ -79,7 +88,7 @@ const seo = innerPageSeo(page);
               <div><span>Rushes owns</span><p>{step.rushes}</p></div>
               <div><span>Owner owns</span><p>{step.owner}</p></div>
             </div>
-            <aside><span>Failure point</span><p>{step.failure}</p></aside>
+            <aside><span>Control point</span><p>{step.failure}</p></aside>
           </li>
         ))}
       </ol>
@@ -87,7 +96,7 @@ const seo = innerPageSeo(page);
 
     <section class="commercial-section loop-responsibilities" aria-labelledby="loop-responsibilities-heading">
       <div class="commercial-section-head commercial-section-head-split">
-        <div><span class="commercial-eye">Operating agreement</span><h2 id="loop-responsibilities-heading">Two owners. One visible handoff.</h2></div>
+        <div><span class="commercial-eye">Operating agreement</span><h2 id="loop-responsibilities-heading">Two teams. One accountable handoff.</h2></div>
         <p>The system works only when production responsibilities and business responsibilities remain explicit.</p>
       </div>
       <div class="loop-responsibility-grid">
@@ -98,8 +107,8 @@ const seo = innerPageSeo(page);
 
     <section class="commercial-section loop-rules" aria-labelledby="loop-rules-heading">
       <div class="commercial-section-head">
-        <span class="commercial-eye">Failure controls</span>
-        <h2 id="loop-rules-heading">Four rules keep the Loop honest.</h2>
+        <span class="commercial-eye">Operating controls</span>
+        <h2 id="loop-rules-heading">Four controls keep the Loop accountable.</h2>
       </div>
       <div class="loop-rule-grid">
         {page.handoffRules.map((rule, index) => <article><span>{String(index + 1).padStart(2, '0')}</span><h3>{rule.title}</h3><p>{rule.body}</p></article>)}
@@ -131,8 +140,8 @@ const seo = innerPageSeo(page);
       <div class="commercial-booking-copy">
         <span class="commercial-eye">Growth Call</span>
         <h2 id="loop-booking-heading">Find the handoff worth fixing first.</h2>
-        <p>Thirty minutes to inspect the full path, identify the most valuable failure and decide whether a bounded next step fits.</p>
-        <ul><li>The work and buyer worth pursuing</li><li>Response and fulfillment reality</li><li>One next move—or an honest no</li></ul>
+        <p>Thirty minutes to map the path from proof to booked opportunity, find the first high-value break and decide the next practical move.</p>
+        <ul><li>The work and buyer worth pursuing</li><li>The handoff with the greatest commercial cost</li><li>One practical next move—or a clear no</li></ul>
       </div>
       <BookingWidget route="/demand-loop/" variant="editorial" frameId="rushes-demand-loop-growth-call-calendar" />
     </section>

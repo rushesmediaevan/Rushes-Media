@@ -16,6 +16,7 @@ import {
   META_PIXEL_ID,
   PUBLIC_ASSET_FILES,
   REDIRECT_ROUTES,
+  REVISION_BROWSER_ASSET_FILES,
   REVIEW_ASSET_FILES,
   REVIEW_ONLY_ROUTES,
   SITE_CONTRACT,
@@ -36,8 +37,14 @@ for (const [relativeFile, expectedHash] of Object.entries(homepageLock.protected
   assert.equal(
     sourceHash,
     expectedHash,
-    `Approved homepage lock from ${homepageLock.baseCommit} drifted: ${relativeFile}`,
+    `Approved night-flight lock from ${homepageLock.baseCommit} drifted: ${relativeFile}`,
   );
+}
+for (const [relativeFile, expectedHash] of Object.entries(homepageLock.approvedRevisionFiles)) {
+  const sourceHash = createHash('sha256')
+    .update(await readFile(path.join(projectRoot, relativeFile)))
+    .digest('hex');
+  assert.equal(sourceHash, expectedHash, `Approved website-revision source drifted: ${relativeFile}`);
 }
 const protectedCssSource = await readFile(
   path.join(projectRoot, homepageLock.homepageCssProtectedPrefix.path),
@@ -143,11 +150,90 @@ function visibleText(html) {
     .trim();
 }
 
+function assertOrdered(html, markers, label) {
+  let previousIndex = -1;
+  for (const marker of markers) {
+    const markerIndex = html.indexOf(marker);
+    assert.ok(markerIndex >= 0, `${label} is missing ordered marker: ${marker}`);
+    assert.ok(markerIndex > previousIndex, `${label} section order drifted at: ${marker}`);
+    previousIndex = markerIndex;
+  }
+}
+
+function assertRevisionPicture(html, assetId) {
+  const pictures = [...html.matchAll(/<picture\b[^>]*>[\s\S]*?<\/picture>/gi)].map((match) => match[0]);
+  const picture = pictures.find((candidate) => candidate.includes(`/assets/images/revision/${assetId}-`));
+  assert.ok(picture, `Missing art-directed picture for ${assetId}.`);
+
+  const imageSources = tags(picture, 'source');
+  for (const [crop, media, widths] of [
+    ['mobile', '(max-width: 760px)', [480, 800, 1200]],
+    ['desktop', '(min-width: 761px)', [800, 1200, 1600]],
+  ]) {
+    for (const type of ['image/avif', 'image/webp']) {
+      const extension = type.split('/')[1];
+      const source = imageSources.find((entry) => entry.type === type && entry.media === media);
+      assert.ok(source, `${assetId} is missing its ${crop} ${type} source.`);
+      for (const width of widths) {
+        assert.ok(
+          source.srcset?.includes(`${assetId}-${crop}-${width}.${extension} ${width}w`),
+          `${assetId} ${crop} ${type} is missing ${width}w.`,
+        );
+      }
+    }
+  }
+
+  const fallback = tags(picture, 'img')[0];
+  assert.equal(fallback?.src, `/assets/images/revision/${assetId}-mobile-1200.webp`);
+  assert.equal(fallback?.width, '1200');
+  assert.equal(fallback?.height, '1500');
+  assert.ok(fallback?.alt, `${assetId} fallback lacks descriptive alt text.`);
+}
+
+function assertBookingRuntime(html, routePath) {
+  for (const marker of [
+    'data-booking-direct',
+    'Request a time by email',
+    'data-booking-status',
+    'data-booking-state="loading"',
+    'data-booking-loading',
+    'data-booking-fallback',
+    "showUnavailable('unavailable'",
+    '/api/health',
+    'AbortController',
+    'ghlConfigured',
+    'event.source !== frame.contentWindow',
+    'event.origin !== destination.origin',
+    '[iFrameResizerChild]Ready',
+    '[iFrameSizer]',
+  ]) {
+    assert.ok(html.includes(marker), `${routePath} booking runtime is missing: ${marker}`);
+  }
+  assert.ok(
+    html.includes('mailto:evan@rushesmedia.com?subject=30-minute%20Growth%20Call%20request'),
+    `${routePath} accessible booking fallback destination drifted.`,
+  );
+  assert.ok(
+    !html.includes('Calendar loaded. Choose a time'),
+    `${routePath} must not use iframe load alone as a ready signal.`,
+  );
+}
+
 function localScriptSources(html) {
   return tags(html, 'script')
     .map((attributes) => attributes.src)
     .filter(Boolean)
     .filter((source) => new URL(source, 'https://rushes.local/').origin === 'https://rushes.local');
+}
+
+async function htmlOrLocalScriptContains(html, marker) {
+  if (html.includes(marker)) return true;
+  for (const source of localScriptSources(html)) {
+    const pathname = new URL(source, 'https://rushes.local/').pathname.replace(/^\/+/, '');
+    const script = await readFile(path.join(distRoot, pathname), 'utf8');
+    if (script.includes(marker)) return true;
+  }
+  return false;
 }
 
 async function firstPartyScriptBytes(html) {
@@ -189,6 +275,31 @@ const publicHtmlRoutes = SITE_CONTRACT.filter((route) =>
 );
 assert.equal(publicHtmlRoutes.length, 18, 'Exactly 18 HTML routes belong in the public release.');
 
+assert.equal(REVISION_BROWSER_ASSET_FILES.length, 48, 'The revision derivative set must contain 48 files.');
+assert.equal(
+  new Set(REVISION_BROWSER_ASSET_FILES).size,
+  48,
+  'The revision derivative allowlist contains a duplicate.',
+);
+assert.ok(
+  PUBLIC_ASSET_FILES.every((file) => !file.startsWith('assets/images/home/')),
+  'Superseded homepage derivatives remain public.',
+);
+for (const [routePath, assetIds] of [
+  ['/', ['02-bakery', '05-medspa']],
+  ['/brand-media/', ['04-restaurant', '06-daylit-venue']],
+]) {
+  const route = SITE_CONTRACT.find((entry) => entry.path === routePath);
+  const revisionAssets = (route?.requiredAssets ?? []).filter((file) =>
+    file.startsWith('/assets/images/revision/'),
+  );
+  assert.equal(revisionAssets.length, 24, `${routePath} must own exactly 24 revision derivatives.`);
+  assert.ok(
+    revisionAssets.every((file) => assetIds.some((assetId) => file.includes(`/${assetId}-`))),
+    `${routePath} owns a revision image assigned to another route.`,
+  );
+}
+
 for (const route of publicHtmlRoutes) {
   const html = await readFile(pageFile(route.path), 'utf8');
   assert.ok(
@@ -216,7 +327,10 @@ for (const route of publicHtmlRoutes) {
     );
   }
   for (const script of route.requiredScripts || []) {
-    assert.ok(html.includes(script), `${route.path} is missing contracted script ${script}.`);
+    assert.ok(
+      await htmlOrLocalScriptContains(html, script),
+      `${route.path} is missing contracted script ${script}.`,
+    );
   }
 }
 
@@ -265,7 +379,7 @@ for (const route of generatedRoutes) {
     assert.ok((await stat(path.join(distRoot, asset.slice(1)))).isFile(), `${asset} was not built.`);
   }
   for (const script of route.requiredScripts || []) {
-    assert.ok(html.includes(script), `${route.path} is missing script ${script}.`);
+    assert.ok(await htmlOrLocalScriptContains(html, script), `${route.path} is missing script ${script}.`);
   }
   if (route.jsonLd) {
     const documents = jsonLdDocuments(html);
@@ -294,7 +408,7 @@ assert.deepEqual(JSON.parse(homepageSchemaText), SITE_CONTRACT[0].jsonLd);
 for (const approvedHomepageMarker of [
   'Media<br',
   '<em>done right.</em>',
-  'We make the content, campaigns, and brand work that get you noticed',
+  'Rushes translates real reputation, expertise, and value into exceptional media and digital experiences',
   'Book a Growth Call',
   'Our Services',
   '>Services</a>',
@@ -308,18 +422,48 @@ for (const approvedHomepageMarker of [
   );
 }
 for (const proofLabel of [
-  'More Booked Estimates',
-  'First Responder Wins',
-  'Speed to Lead',
-  'Prove It First',
+  'Creative signal',
+  'Qualified demand',
+  'Digital action',
+  'Handoff quality',
 ]) {
   assert.ok(homepageHtml.includes(proofLabel), `Homepage proof label is missing: ${proofLabel}`);
 }
+for (const retiredHomepageClaim of [
+  'booked estimates from the work you already do',
+  'One system for owners ready to take more of the right work',
+  'More visibility does not help when the website creates doubt',
+  'Why connect the full path instead of hiring separate vendors?',
+]) {
+  assert.ok(!homepageHtml.includes(retiredHomepageClaim), `Homepage retained retired positioning: ${retiredHomepageClaim}`);
+}
+assertOrdered(homepageHtml, [
+  'id="hero"',
+  'class="marquee-wrap"',
+  'id="problem"',
+  'id="services"',
+  'id="system"',
+  'id="who"',
+  'id="proof"',
+  'id="process"',
+  'id="faq"',
+  'id="book"',
+], 'Homepage');
+assert.ok(homepageHtml.includes('href="/" class="logo"'), 'Homepage logo must return to the site root.');
+assert.equal(
+  (homepageHtml.match(/class="home-concept-disclosure"/g) || []).length,
+  2,
+  'Homepage must disclose each image group once.',
+);
+assertRevisionPicture(homepageHtml, '02-bakery');
+assertRevisionPicture(homepageHtml, '05-medspa');
+assert.ok(!homepageHtml.includes('/assets/images/revision/04-restaurant-'));
+assert.ok(!homepageHtml.includes('/assets/images/revision/06-daylit-venue-'));
 for (const utmKey of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
   assert.ok(homepageHtml.includes(utmKey), `Homepage attribution is missing ${utmKey}.`);
 }
 assert.ok(homepageHtml.includes('slice(0,120)'), 'Homepage attribution must truncate at 120 characters.');
-assert.ok(homepageHtml.includes('~30 minutes'), 'Homepage Growth Call duration drifted from 30 minutes.');
+assert.ok(homepageHtml.includes('30-minute Growth Call'), 'Homepage Growth Call duration drifted from 30 minutes.');
 assert.ok(homepageHtml.includes('Best fit today'), 'Homepage lost the truthful industry-fit framing.');
 assert.ok(homepageHtml.includes('Outdoor Living &amp; Design-Build'));
 assert.ok(homepageHtml.includes('Interior Design &amp; Residential Build'));
@@ -329,7 +473,10 @@ assert.ok(homepageHtml.includes('href="/industries/"'));
 assert.ok(!homepageHtml.includes('href="/hardscape/"'), 'Retired hardscape URL leaked into homepage links.');
 assert.ok(!homepageHtml.includes('href="/pools/"'), 'Retired pools URL leaked into homepage links.');
 assert.ok(homepageHtml.includes(GHL_TRACKING_ID), 'Homepage GHL tracking ID drifted.');
-assert.ok(homepageHtml.includes('https://link.msgsndr.com/js/external-tracking.js'));
+assert.ok(
+  await htmlOrLocalScriptContains(homepageHtml, 'https://link.msgsndr.com/js/external-tracking.js'),
+  'Homepage lost its deferred GHL tracking loader.',
+);
 assert.ok(
   !homepageHtml.includes('https://link.msgsndr.com/js/form_embed.js'),
   'The GHL resize runtime must not hide the owned booking widget iframe.',
@@ -357,8 +504,8 @@ assert.ok(
   'Homepage hero video cache key does not match the built media bytes.',
 );
 assert.ok(
-  homepageHtml.includes('id="book" class="booking-anchor"'),
-  'Homepage booking anchor must remain separate from the full-height calendar card.',
+  homepageHtml.includes('id="book" tabindex="-1" class="cta-book"'),
+  'Homepage booking section must remain a focusable anchor around the full calendar card.',
 );
 assert.ok(
   homepageHtml.includes('id="rushes-growth-call-calendar"'),
@@ -366,37 +513,68 @@ assert.ok(
 );
 for (const resilientBookingMarker of [
   'data-booking-status',
-  'Opening the secure 30-minute calendar',
+  'Loading available times',
   'data-booking-direct',
-  'Open the calendar directly',
+  'Open calendar in a new tab',
   'data-booking-state="loading"',
   'data-booking-loading',
   'data-booking-fallback',
   'data-booking-src',
-  'Calendar frame opened. Confirming availability',
-  'The embedded calendar did not finish loading',
+  'Available times are loading',
+  'The calendar did not load here',
   "showUnavailable('unavailable'",
   'getBoundingClientRect',
   'data-initial-iframe-hidden',
-  "mode: 'no-cors'",
-  "credentials: 'omit'",
+  'embedReadySignal',
+  '[iFrameSizer]',
+  'event.origin !== destination.origin',
 ]) {
   assert.ok(homepageHtml.includes(resilientBookingMarker), `Homepage booking fail-safe is missing: ${resilientBookingMarker}`);
 }
+assertBookingRuntime(homepageHtml, '/');
 assert.ok(!homepageHtml.includes('Calendar loaded. Choose a time'), 'Iframe load alone must not claim that the third-party calendar hydrated.');
 assert.ok(homepageHtml.includes('class="hero-media-toggle"'));
 assert.ok(homepageHtml.includes('aria-controls="hero-background-video"'));
 assert.ok(!/<video[^>]+autoplay/i.test(homepageHtml), 'Hero video must not autoplay before preference detection.');
 assert.ok(!homepageHtml.includes('astro-island'), 'Homepage emitted an Astro island.');
-assert.ok(homepageHtml.includes('motion-opt-in'), 'Reduced-motion playback opt-in is missing.');
+assert.ok(
+  await htmlOrLocalScriptContains(homepageHtml, 'motion-opt-in'),
+  'Reduced-motion playback opt-in is missing.',
+);
 const metaPixel = await readFile(path.join(distRoot, 'assets/meta-pixel.js'), 'utf8');
 assert.ok(metaPixel.includes(META_PIXEL_ID), 'Meta Pixel ID drifted.');
 assert.ok(metaPixel.includes("'localhost'"), 'Meta Pixel localhost suppression is missing.');
 assert.ok(metaPixel.includes("'[::1]'"), 'Meta Pixel IPv6 localhost suppression is missing.');
 
-assert.deepEqual(
-  localScriptSources(homepageHtml),
-  ['/assets/meta-pixel.js'],
+const homepageScriptSource = await readFile(path.join(projectRoot, 'src/scripts/home.ts'), 'utf8');
+const homepageStyleSource = await readFile(path.join(projectRoot, 'src/styles/home.css'), 'utf8');
+for (const revealMarker of [
+  "'IntersectionObserver' in window",
+  "matchMedia('(prefers-reduced-motion: reduce)').matches",
+  "classList.add('reveal-enabled')",
+  "classList.remove('reveal-enabled')",
+  'revealObserver.unobserve(entry.target)',
+]) {
+  assert.ok(homepageScriptSource.includes(revealMarker), `Homepage reveal fallback lost: ${revealMarker}`);
+}
+assert.ok(
+  homepageStyleSource.includes('.r { opacity: 1; transform: none; }') &&
+    homepageStyleSource.includes('.reveal-enabled .r {'),
+  'Homepage reveal content must remain visible until progressive enhancement succeeds.',
+);
+
+const homepageLocalScripts = localScriptSources(homepageHtml);
+assert.ok(homepageLocalScripts.includes('/assets/meta-pixel.js'));
+const homepageInlineModules = [...homepageHtml.matchAll(/<script\b[^>]*type="module"[^>]*>([\s\S]*?)<\/script>/gi)];
+const homepageExternalModules = homepageLocalScripts.filter((source) => /^\/_astro\/.*\.js$/.test(source));
+assert.equal(
+  homepageInlineModules.length + homepageExternalModules.length,
+  1,
+  'Homepage must emit exactly one owned interaction bundle.',
+);
+assert.equal(
+  homepageLocalScripts.length,
+  1 + homepageExternalModules.length,
   'Homepage emitted an unapproved local browser script.',
 );
 const builtFirstPartyBytes = await firstPartyScriptBytes(homepageHtml);
@@ -413,12 +591,7 @@ for (const route of SITE_CONTRACT.filter(
   assert.ok(!/<script[^>]+type="module"/i.test(html), `${route.path} emitted client module JS.`);
   assert.ok(!/_astro\/[^"']+\.js/.test(html), `${route.path} emitted Astro runtime JS.`);
   assert.ok(html.includes(`data-page-family=`), `${route.path} lost its semantic family discriminator.`);
-      assert.ok(html.includes('data-booking-direct'), `${route.path} lost the direct booking fallback.`);
-      assert.ok(html.includes('Request a time by email'), `${route.path} lost the owned accessible booking fallback.`);
-      assert.ok(
-        html.includes('mailto:evan@rushesmedia.com?subject=30-minute%20Growth%20Call%20request'),
-        `${route.path} accessible booking fallback destination drifted.`,
-      );
+  assertBookingRuntime(html, route.path);
   assert.ok(html.includes('data-booking-status'), `${route.path} lost the booking loading status.`);
   assert.ok(html.includes('data-booking-state="loading"'), `${route.path} lost the booking loading state.`);
   assert.ok(html.includes('data-booking-loading'), `${route.path} lost the designed booking loading plate.`);
@@ -426,6 +599,182 @@ for (const route of SITE_CONTRACT.filter(
   assert.ok(html.includes("showUnavailable('unavailable'"), `${route.path} lost the unavailable-frame state.`);
   assert.ok(html.includes('data-booking-click-ready'), `${route.path} lost delegated Growth Call click tracking.`);
   assert.ok(html.includes('a[href="#book"]'), `${route.path} no longer tracks every in-page Growth Call control.`);
+}
+
+const mobileNavSource = await readFile(
+  path.join(projectRoot, 'src/components/shared/MobileNavDialog.astro'),
+  'utf8',
+);
+for (const marker of [
+  'showModal()',
+  "event.key !== 'Tab'",
+  'if (restoreFocus) trigger.focus()',
+  "dialog.addEventListener('cancel'",
+  "dialog.addEventListener('close'",
+  "matchMedia('(min-width: 761px)')",
+  '<style>.shared-mobile-nav__trigger { display: none !important; }</style>',
+  '.shared-mobile-nav__noscript {\n      display: block;',
+]) {
+  assert.ok(mobileNavSource.includes(marker), `Shared mobile navigation lost: ${marker}`);
+}
+
+function assertBuiltMobileNav(html, id, routePath) {
+  assert.ok(
+    html.includes(`aria-haspopup="dialog" aria-controls="${id}" aria-expanded="false"`),
+    `${routePath} mobile navigation trigger semantics drifted.`,
+  );
+  assert.ok(html.includes(`<dialog id="${id}"`), `${routePath} mobile navigation dialog is missing.`);
+  assert.ok(html.includes('data-mobile-nav-close'), `${routePath} mobile navigation close control is missing.`);
+  assert.ok(html.includes('<noscript>'), `${routePath} mobile navigation no-script fallback is missing.`);
+}
+
+for (const routePath of ['/brand-media/', '/campaigns/', '/web/', '/follow-up/']) {
+  const html = await readFile(pageFile(routePath), 'utf8');
+  assertBuiltMobileNav(html, 'editorial-mobile-navigation', routePath);
+  assert.ok(
+    tags(html, 'a').some((link) => link.href === '/#services' && link['aria-current'] === 'location'),
+    `${routePath} Services navigation must point home and expose section-current state.`,
+  );
+}
+{
+  const html = await readFile(pageFile('/demand-loop/'), 'utf8');
+  assertBuiltMobileNav(html, 'editorial-mobile-navigation', '/demand-loop/');
+  assert.ok(
+    html.includes('<header id="loop-stage-4" tabindex="-1">'),
+    '/demand-loop/ stage anchors must transfer keyboard focus to their destination cards.',
+  );
+  assert.ok(
+    tags(html, 'a').some((link) => link.href === '/demand-loop/' && link['aria-current'] === 'page'),
+    '/demand-loop/ must expose exact page-current state.',
+  );
+}
+for (const routePath of ['/industries/', '/outdoor-living/', '/interior-design/', '/hvac/', '/med-spa/']) {
+  const html = await readFile(pageFile(routePath), 'utf8');
+  assertBuiltMobileNav(html, 'industry-mobile-navigation', routePath);
+  const expectedCurrent = routePath === '/industries/' ? 'page' : 'location';
+  assert.ok(
+    tags(html, 'a').some((link) => link.href === '/industries/' && link['aria-current'] === expectedCurrent),
+    `${routePath} Industries current-state semantics drifted.`,
+  );
+  for (const href of ['/#services', '/industries/', '/demand-loop/', '#book']) {
+    assert.ok(tags(html, 'a').some((link) => link.href === href), `${routePath} mobile navigation lost ${href}.`);
+  }
+}
+
+const brandMediaHtml = await readFile(pageFile('/brand-media/'), 'utf8');
+for (const marker of [
+  'data-brand-media-page',
+  '/assets/brand-media.css',
+  'Make what sets you apart visible.',
+  'Brand Media makes the value visible. It can stand alone—or strengthen every channel around it.',
+  'Show what makes the choice worth making.',
+  'From creative direction to ready-to-use assets.',
+  'Start with what people need to see.',
+  'Bring the offer that deserves a clearer story.',
+  'Original Rushes concept visualizations',
+  'data-visual-truth="labeled-concept"',
+]) {
+  assert.ok(brandMediaHtml.includes(marker), `/brand-media/ is missing its dedicated marker: ${marker}`);
+}
+assert.ok(!brandMediaHtml.includes('Brand Media earns attention.'), '/brand-media/ retained its superseded distinction heading.');
+assertOrdered(brandMediaHtml, [
+  'class="brand-media-hero"',
+  'class="brand-media-distinction"',
+  'class="brand-media-visual-story"',
+  'class="brand-media-delivery"',
+  'class="brand-media-fit-faq"',
+  'id="book"',
+], '/brand-media/');
+assert.ok(
+  brandMediaHtml.includes('brand-media-story--wide brand-media-story--text'),
+  '/brand-media/ expertise story must remain an intentional editorial text panel.',
+);
+assert.ok(brandMediaHtml.includes('/assets/images/industries/interior-design-detail-1440.jpg'));
+assert.ok(brandMediaHtml.includes('/assets/images/industries/med-spa-hero-960.jpg'));
+assert.ok(brandMediaHtml.includes('/assets/images/industries/outdoor-living-pool-1920.jpg'));
+assertRevisionPicture(brandMediaHtml, '04-restaurant');
+assertRevisionPicture(brandMediaHtml, '06-daylit-venue');
+assert.ok(!brandMediaHtml.includes('/assets/images/revision/02-bakery-'));
+assert.ok(!brandMediaHtml.includes('/assets/images/revision/05-medspa-'));
+assert.ok(!brandMediaHtml.includes('/assets/work/'), '/brand-media/ leaked review-only work material.');
+assert.ok(!brandMediaHtml.includes('/assets/proof/'), '/brand-media/ leaked review-only proof material.');
+assert.ok(!brandMediaHtml.includes('data-review-only-asset'), '/brand-media/ leaked private review markup.');
+for (const source of tags(brandMediaHtml, 'source').filter((entry) => entry.type?.startsWith('image/'))) {
+  assert.ok(source.srcset?.includes('w'), '/brand-media/ emitted an image source without width descriptors.');
+  assert.ok(source.sizes, '/brand-media/ emitted an image source without sizes.');
+}
+const brandMediaConceptImages = tags(brandMediaHtml, 'img').filter(
+  (entry) =>
+    entry.src?.includes('/assets/images/industries/') ||
+    entry.src?.includes('/assets/images/revision/'),
+);
+assert.equal(
+  new Set(brandMediaConceptImages.map((image) => image.src)).size,
+  brandMediaConceptImages.length,
+  '/brand-media/ reused a concept image instead of assigning each visual one deliberate use.',
+);
+for (const image of brandMediaConceptImages) {
+  assert.ok(Number(image.width) > 0 && Number(image.height) > 0, '/brand-media/ image lacks measured dimensions.');
+  assert.ok(image.alt, '/brand-media/ concept image lacks descriptive alt text.');
+}
+
+const homepageImageSources = tags(homepageHtml, 'img').map((image) => image.src).filter(Boolean);
+const brandMediaImageSources = tags(brandMediaHtml, 'img').map((image) => image.src).filter(Boolean);
+for (const [routePath, assetId] of [
+  ['/', '02-bakery'],
+  ['/', '05-medspa'],
+  ['/brand-media/', '04-restaurant'],
+  ['/brand-media/', '06-daylit-venue'],
+]) {
+  const expected = `/assets/images/revision/${assetId}-mobile-1200.webp`;
+  const expectedRouteSources = routePath === '/' ? homepageImageSources : brandMediaImageSources;
+  const otherRouteSources = routePath === '/' ? brandMediaImageSources : homepageImageSources;
+  assert.equal(expectedRouteSources.filter((source) => source === expected).length, 1, `${expected} needs one prominent slot.`);
+  assert.ok(!otherRouteSources.includes(expected), `${expected} was reused across prominent routes.`);
+}
+
+for (const [routePath, signature] of [
+  ['/campaigns/', 'campaign-matrix'],
+  ['/web/', 'page-anatomy'],
+  ['/follow-up/', 'response-rail'],
+]) {
+  const html = await readFile(pageFile(routePath), 'utf8');
+  assert.ok(html.includes(`data-signature="${signature}"`), `${routePath} signature drifted.`);
+  for (const marker of ['The business result', 'Measured through', 'Not mistaken for']) {
+    assert.ok(html.includes(marker), `${routePath} outcome frame is missing: ${marker}`);
+  }
+  assertOrdered(html, [
+    'class="service-hero"',
+    'id="service-system"',
+    'class="commercial-section service-problem"',
+    'class="commercial-section service-process"',
+    'class="commercial-section service-ownership"',
+    'class="commercial-section service-fit"',
+    'class="commercial-section service-faq"',
+    'id="book"',
+  ], routePath);
+}
+
+const campaignsHtml = await readFile(pageFile('/campaigns/'), 'utf8');
+for (const marker of [
+  'Every ad needs an accountable path after the click.',
+  'Paid media magnifies whatever happens after the click.',
+  'scopes only what the objective requires',
+  'Copy approval is not launch approval.',
+  'Find the campaign worth funding.',
+]) {
+  assert.ok(campaignsHtml.includes(marker), `/campaigns/ is missing strategic marker: ${marker}`);
+}
+
+const webHtml = await readFile(pageFile('/web/'), 'utf8');
+for (const marker of [
+  'Make the value clear. <em>Make the next step easy.</em>',
+  'Build a fast, distinctive digital experience that communicates the offer',
+  'Five decisions, in the order a buyer needs them.',
+  'Build the decision path before decorating the page.',
+  'whether to rebuild, focus or keep the current site.',
+]) {
+  assert.ok(webHtml.includes(marker), `/web/ is missing strategic marker: ${marker}`);
 }
 
 const industryMarkers = new Map([
@@ -468,6 +817,25 @@ for (const [routePath, markers] of industryMarkers) {
       html.includes('no patient'),
     `${routePath} lost its visible concept disclosure.`,
   );
+  if (routePath !== '/industries/') {
+    assert.ok(html.includes('What the path has to handle'), `${routePath} lost the shared path-requirements label.`);
+    assert.ok(
+      html.includes('The Growth Call is designed to establish fit before any scope is recommended.'),
+      `${routePath} lost the fit-before-scope boundary.`,
+    );
+    assertOrdered(html, [
+      'class="industry-hero"',
+      'id="system"',
+      'class="industry-section industry-use-cases"',
+      'class="industry-section industry-pains"',
+      'class="industry-section industry-proof"',
+      'class="industry-section industry-fit"',
+      'class="industry-section industry-region"',
+      'class="industry-related"',
+      'class="industry-section industry-faq"',
+      'id="book"',
+    ], routePath);
+  }
   for (const source of tags(html, 'source').filter((entry) => entry.type?.startsWith('image/'))) {
     assert.ok(source.srcset?.includes('w'), `${routePath} emitted an image source without width descriptors.`);
     assert.ok(source.sizes, `${routePath} emitted an image source without sizes.`);
@@ -478,6 +846,25 @@ for (const [routePath, markers] of industryMarkers) {
   }
 }
 assert.equal(new Set(industryTexts).size, industryTexts.length, 'Industry pages emitted repeated boilerplate documents.');
+
+const industriesHubHtml = await readFile(pageFile('/industries/'), 'utf8');
+for (const marker of [
+  'not every engagement needs every capability',
+  'Can I hire only one piece?',
+  'Best fit is operational, not cosmetic.',
+]) {
+  assert.ok(industriesHubHtml.includes(marker), `/industries/ is missing modular-fit marker: ${marker}`);
+}
+assertOrdered(industriesHubHtml, [
+  'class="industry-hero industry-hub-hero"',
+  'id="markets"',
+  'class="industry-section industry-system"',
+  'class="industry-section industry-adjacent"',
+  'class="industry-section industry-fit"',
+  'class="industry-section industry-region industry-hub-region"',
+  'class="industry-section industry-faq"',
+  'id="book"',
+], '/industries/');
 
 const sitemap = await readFile(path.join(distRoot, 'sitemap.xml'), 'utf8');
 const sitemapLocations = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
@@ -515,6 +902,26 @@ assert.ok(!sitemap.includes('/pools/'), 'Retired /pools/ must remain outside the
 assert.ok(!sitemap.includes('<priority>'), 'Sitemap must not emit meaningless priority values.');
 assert.ok(!sitemap.includes('<changefreq>'), 'Sitemap must not emit meaningless changefreq values.');
 const sitemapLastmods = [...sitemap.matchAll(/<lastmod>(.*?)<\/lastmod>/g)].map((match) => match[1]);
+const expectedLastmods = new Map([
+  ['/', '2026-09-01'],
+  ['/demand-loop/', '2026-09-01'],
+  ['/brand-media/', '2026-09-01'],
+  ['/campaigns/', '2026-09-01'],
+  ['/web/', '2026-09-01'],
+  ['/follow-up/', '2026-09-01'],
+  ['/industries/', '2026-09-01'],
+  ['/outdoor-living/', '2026-09-01'],
+  ['/interior-design/', '2026-09-01'],
+  ['/hvac/', '2026-09-01'],
+  ['/med-spa/', '2026-09-01'],
+  ['/privacy/', '2026-08-13'],
+  ['/terms/', '2026-08-13'],
+]);
+assert.deepEqual(
+  new Map(INDEXABLE_ROUTES.map((route) => [route.path, route.lastmod])),
+  expectedLastmods,
+  'Route lastmods drifted from the independently reviewed revision dates.',
+);
 assert.deepEqual(
   sitemapLastmods,
   INDEXABLE_ROUTES.map((route) => route.lastmod).filter(Boolean),
@@ -716,6 +1123,31 @@ for (const rejectedPhrase of ['Two or more under 5', 'leads are leaking somewher
   );
 }
 assert.ok(!/\{\{COPY_[A-Z0-9_]+\}\}/.test(playbookHtml), '/playbook/ contains unresolved copy markers.');
+const marketingConsentControl = tags(playbookHtml, 'input').find(
+  (input) => input.name === 'marketingConsent',
+);
+assert.equal(marketingConsentControl?.type, 'checkbox');
+assert.equal(marketingConsentControl?.value, 'true');
+assert.equal(marketingConsentControl?.required, undefined, 'Playbook marketing consent must remain optional.');
+assert.equal(marketingConsentControl?.checked, undefined, 'Playbook marketing consent must start unchecked.');
+assert.ok(
+  playbookHtml.includes('Send me occasional Rushes follow-up and marketing emails related to this scorecard. This is optional, and I can unsubscribe at any time.'),
+  '/playbook/ consent disclosure drifted.',
+);
+assert.ok(
+  playbookHtml.includes("marketingConsent: formData.get('marketingConsent') === 'true'"),
+  '/playbook/ must serialize consent as an explicit boolean.',
+);
+
+const playbookCaptureSource = await readFile(path.join(projectRoot, 'lib/playbook-capture.js'), 'utf8');
+assert.ok(playbookCaptureSource.includes('function normalizeMarketingConsent(value)'));
+assert.ok(playbookCaptureSource.includes('return value === true;'));
+assert.ok(playbookCaptureSource.includes('if (nurtureWorkflow) {'));
+assert.ok(
+  playbookCaptureSource.indexOf('await sendDayZeroEmail(contactId, input.firstName)') <
+    playbookCaptureSource.indexOf('const nurtureWorkflow = nurtureWorkflowFor(input)'),
+  'Scorecard delivery must not depend on optional nurture consent.',
+);
 
 const playbookThanksHtml = await readFile(path.join(distRoot, 'playbook-thanks/index.html'), 'utf8');
 const playbookThanksText = visibleText(playbookThanksHtml);
@@ -753,6 +1185,12 @@ for (const rejectedPhrase of ['pitch dump', '60 seconds from Evan', 'Video landi
   assert.ok(!callText.includes(rejectedPhrase), `/call/ retained unfinished or founder-centric copy: ${rejectedPhrase}`);
 }
 assert.ok(!/\{\{COPY_[A-Z0-9_]+\}\}/.test(callHtml), '/call/ contains unresolved copy markers.');
+const callBookingLinks = [...callHtml.matchAll(/<a\b[^>]*href="\/#book"[^>]*>([\s\S]*?)<\/a>/gi)];
+assert.ok(callBookingLinks.length > 0, '/call/ lost its booking-options destination.');
+for (const link of callBookingLinks) {
+  assert.ok(visibleText(link[1]).includes('Open booking options'), '/call/ mislabels its homepage booking destination.');
+}
+assert.ok(!callText.includes('Open the 30-minute calendar'), '/call/ must not claim /#book opens the calendar directly.');
 
 const stagedFiles = await walkFiles(publicRoot);
 assert.deepEqual(

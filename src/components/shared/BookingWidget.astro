@@ -84,7 +84,8 @@ const {
   (() => {
     const localHosts = ['localhost', '127.0.0.1', '[::1]'];
     const host = location.hostname.toLowerCase();
-    const suppressAnalytics = localHosts.includes(host) || host.endsWith('.test');
+    const isLocalHost = localHosts.includes(host) || host.endsWith('.test');
+    const suppressAnalytics = isLocalHost;
     const keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
 
     const emit = (name, parameters) => {
@@ -124,7 +125,7 @@ const {
       };
       let frameResponded = false;
       let frameVisible = false;
-      let connectionAvailable = false;
+      let embedReadySignal = false;
       let targetNavigationStarted = false;
       let monitorStarted = false;
       let settled = false;
@@ -137,11 +138,20 @@ const {
       };
 
       const maybeReady = () => {
-        if (settled || !frameResponded || !frameVisible || !connectionAvailable) return;
+        if (settled || !frameResponded || !frameVisible || !embedReadySignal) return;
         settled = true;
         if (timeoutId) window.clearTimeout(timeoutId);
         setState('ready', bookingCopy.ready);
       };
+
+      window.addEventListener('message', (event) => {
+        if (settled || event.source !== frame.contentWindow || event.origin !== destination.origin) return;
+        if (typeof event.data !== 'string') return;
+        const isEmbedSignal = event.data === '[iFrameResizerChild]Ready' || event.data.startsWith('[iFrameSizer]');
+        if (!isEmbedSignal) return;
+        embedReadySignal = true;
+        confirmFrameVisibility();
+      });
 
       const showUnavailable = (state, message) => {
         if (settled) return;
@@ -173,23 +183,48 @@ const {
           if (settled) return;
           showUnavailable('delayed', bookingCopy.delayed);
         }, 8000);
+      };
 
-        fetch(target, {
-          method: 'GET',
-          mode: 'no-cors',
-          cache: 'no-store',
-          credentials: 'omit',
-          referrerPolicy: 'no-referrer',
-        })
-          .then(() => {
-            if (settled) return;
-            connectionAvailable = true;
-            maybeReady();
-          })
-          .catch(() => {
-            if (settled) return;
-            showUnavailable('unavailable', bookingCopy.unavailable);
+      const startEmbed = () => {
+        if (settled || targetNavigationStarted) return;
+        if ('IntersectionObserver' in window) {
+          const loadObserver = new IntersectionObserver((entries) => {
+            if (!entries.some((entry) => entry.isIntersecting)) return;
+            startMonitor();
+            loadObserver.disconnect();
+          }, { rootMargin: '700px 0px' });
+          loadObserver.observe(widget);
+        } else {
+          startMonitor();
+        }
+        targetNavigationStarted = true;
+        frame.setAttribute('src', target);
+      };
+
+      const startForEnvironment = async () => {
+        if (!isLocalHost) {
+          startEmbed();
+          return;
+        }
+        const controller = new AbortController();
+        const healthTimeout = window.setTimeout(() => controller.abort(), 1500);
+        try {
+          const response = await fetch('/api/health', {
+            headers: { Accept: 'application/json' },
+            cache: 'no-store',
+            signal: controller.signal,
           });
+          const health = await response.json();
+          if (!response.ok || health?.ok !== true || health?.ghlConfigured !== true) {
+            showUnavailable('unavailable', bookingCopy.unavailable);
+            return;
+          }
+          startEmbed();
+        } catch {
+          showUnavailable('unavailable', bookingCopy.unavailable);
+        } finally {
+          window.clearTimeout(healthTimeout);
+        }
       };
 
       frame.addEventListener('load', () => {
@@ -197,9 +232,7 @@ const {
         if (!targetNavigationStarted) return;
         try {
           if (!frame.contentWindow || frame.contentWindow.location.href === 'about:blank') return;
-        } catch {
-          // A cross-origin location is expected after the Growth Call calendar opens.
-        }
+        } catch {}
         frameResponded = true;
         setState('frame-loaded', bookingCopy.frameOpened);
         startMonitor();
@@ -218,19 +251,7 @@ const {
         showUnavailable('unavailable', bookingCopy.unavailable);
       });
 
-      if ('IntersectionObserver' in window) {
-        const loadObserver = new IntersectionObserver((entries) => {
-          if (!entries.some((entry) => entry.isIntersecting)) return;
-          startMonitor();
-          loadObserver.disconnect();
-        }, { rootMargin: '700px 0px' });
-        loadObserver.observe(widget);
-      } else {
-        startMonitor();
-      }
-
-      targetNavigationStarted = true;
-      frame.setAttribute('src', target);
+      void startForEnvironment();
 
       if (document.documentElement.getAttribute('data-booking-click-ready') !== 'true') {
         document.documentElement.setAttribute('data-booking-click-ready', 'true');
@@ -326,8 +347,9 @@ const {
   }
   .booking-widget__direct:hover { border-color: #1a2a3f; background: #1a2a3f; color: #f5f0e6; }
   .booking-widget__direct:focus-visible {
-    outline: 3px solid #b89860;
+    outline: 3px solid #0c1825;
     outline-offset: 3px;
+    box-shadow: 0 0 0 6px #f5f0e6;
   }
   .booking-widget__actions {
     display: flex;
@@ -349,8 +371,9 @@ const {
   }
   .booking-widget__request:hover { color: #1a2a3f; }
   .booking-widget__request:focus-visible {
-    outline: 3px solid #b89860;
+    outline: 3px solid #0c1825;
     outline-offset: 3px;
+    box-shadow: 0 0 0 6px #f5f0e6;
   }
   .booking-widget__frame {
     position: relative;
@@ -384,7 +407,7 @@ const {
   .booking-widget__plate-title,
   .booking-widget__plate-copy { margin: 0; }
   .booking-widget__plate-kicker {
-    color: #8a6b39;
+    color: #765a2c;
     font-family: Inter, system-ui, sans-serif;
     font-size: 10px;
     font-weight: 700;
