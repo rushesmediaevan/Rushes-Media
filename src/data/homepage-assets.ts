@@ -7,9 +7,7 @@ interface HomepageAssetInput {
   id:
     | 'campaigns-submerged'
     | 'brand-media-riverside-mill'
-    | 'web-law-office'
-    | 'outdoor-dusk-fire'
-    | 'medspa-lounge';
+    | 'web-law-office';
   assetPack: string;
   masterPath: string;
   masterWidth: number;
@@ -116,31 +114,6 @@ export const homepageAssets = {
     mobileCropSha256: 'ebee090f6a3881148914444f90cc5c4cb02922b7923510d987d3e9b4fcff565f',
     alt: 'Dark conference room overlooking a city skyline at blue hour.',
     caption: disclosure('office'),
-  }),
-  outdoorDuskFire: homepageAsset({
-    id: 'outdoor-dusk-fire',
-    assetPack: 'rushes-content/creative-engine-packs/2026-07-13',
-    masterPath: 'rushes-content/creative-engine-packs/2026-07-13/renders/hardscape/dusk-fire-feature.png',
-    masterWidth: 2560,
-    masterHeight: 1664,
-    masterSha256: '0b174a52123e3866e7a7861a8b58b02503d7bc00b655944842582e89e41df9e9',
-    desktopCropSha256: '456fd14ed0d42df08fead447d3a2fbead7d3f1e65107a8f66113e62e999d0b42',
-    mobileCropSha256: 'cfe3bf0d850aa2985db87f67b0b85aa24875010de4c00847b19067d7d078d8c3',
-    alt: 'Stone fire feature, low table, outdoor kitchen, and lounge chairs at dusk.',
-    caption: disclosure('outdoor-living'),
-  }),
-  medSpaLounge: homepageAsset({
-    id: 'medspa-lounge',
-    assetPack: '_archive/pointers-2026-07/sprints/higgsfield-sprint-2026-05-29',
-    masterPath:
-      '_archive/pointers-2026-07/sprints/higgsfield-sprint-2026-05-29/_outputs/video/_montage/seg3_12.5s.png',
-    masterWidth: 1920,
-    masterHeight: 1080,
-    masterSha256: '50f82aa8adb91b8466e61755c0f0387d22d8d8584436d1a0dafd82763bca4aa1',
-    desktopCropSha256: 'bfe2cd0de45373f2313a709acdce5bd803053049a17dd2212d65f6eb522c8537',
-    mobileCropSha256: 'c8892927120f2e43988dc71bc80956e60389c306135ec658540e8ffe8b3f7763',
-    alt: 'Quiet treatment lounge with pale recliners, natural wood, soft daylight, and a low water feature.',
-    caption: disclosure('aesthetic-practice lounge'),
   }),
 } as const;
 

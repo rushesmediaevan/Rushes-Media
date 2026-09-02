@@ -2,7 +2,7 @@
   "baseCommit": "e2b0d88eae1512b9db2348a2b958fba1b45dbaaf",
   "protectedFiles": {
     "src/scripts/hero-media.mjs": "c9c6d49b949aed75c5514a4bbd05c58827edae8753ba637102e7885a7cc67c91",
-    "assets/video/hero-loop.mp4": "904b53e7b2ff3201823ad5e1a423ece91a96de479e7c36f34319917a0dbf68a8",
+    "assets/video/hero-loop.mp4": "2a946a7897b9b9ddc84acdf613a9716668903bd8594190dc73900a657ae0bcbe",
     "assets/images/hero/hero-night-city-video-poster-665c792f.jpg": "665c792f1d5be7901feed1d97a80a44dbb52ffc6326e28490dc48f31c6a5af02"
   },
   "approvedRevisionFiles": {

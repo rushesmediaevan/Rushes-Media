@@ -8,9 +8,18 @@ declare global {
 
 const cursor = document.getElementById('cur');
 if (cursor) {
+  let cursorFrame = 0;
+  let cursorX = 0;
+  let cursorY = 0;
   document.addEventListener('mousemove', (event) => {
-    cursor.style.transform = `translate(${event.clientX}px, ${event.clientY}px) translate(-50%, -50%)`;
-  });
+    cursorX = event.clientX;
+    cursorY = event.clientY;
+    if (cursorFrame) return;
+    cursorFrame = window.requestAnimationFrame(() => {
+      cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
+      cursorFrame = 0;
+    });
+  }, { passive: true });
   document.querySelectorAll('a,button,.svc-row,.faq-q').forEach((element) => {
     element.addEventListener('mouseenter', () => cursor.classList.add('big'));
     element.addEventListener('mouseleave', () => cursor.classList.remove('big'));

@@ -51,6 +51,7 @@ const REVISION_ASSETS = {
   restaurant: revisionDerivativeFiles('04-restaurant'),
   medSpa: revisionDerivativeFiles('05-medspa'),
   daylitVenue: revisionDerivativeFiles('06-daylit-venue'),
+  coastalTerrace: revisionDerivativeFiles('07-coastal-terrace'),
 };
 
 export const REVISION_BROWSER_ASSET_FILES = [
@@ -58,6 +59,7 @@ export const REVISION_BROWSER_ASSET_FILES = [
   ...REVISION_ASSETS.restaurant,
   ...REVISION_ASSETS.medSpa,
   ...REVISION_ASSETS.daylitVenue,
+  ...REVISION_ASSETS.coastalTerrace,
 ];
 
 const homepageDerivativeFiles = (slug) => [
@@ -73,8 +75,6 @@ const HOMEPAGE_ASSETS = {
   brandMediaRiversideMill: homepageDerivativeFiles('brand-media-riverside-mill'),
   campaignsSubmerged: homepageDerivativeFiles('campaigns-submerged'),
   webLawOffice: homepageDerivativeFiles('web-law-office'),
-  outdoorDuskFire: homepageDerivativeFiles('outdoor-dusk-fire'),
-  medSpaLounge: homepageDerivativeFiles('medspa-lounge'),
 };
 
 export const HOMEPAGE_BROWSER_ASSET_FILES = Object.values(HOMEPAGE_ASSETS).flat();
@@ -155,6 +155,8 @@ export const SITE_CONTRACT = [
       '/assets/images/logo-icon.png',
       '/assets/images/logo-wordmark.png',
       ...publicAssetUrls(HOMEPAGE_BROWSER_ASSET_FILES),
+      ...publicAssetUrls(INDUSTRY_ASSETS.outdoorLiving.filter((file) => !file.includes('-social-'))),
+      ...publicAssetUrls(REVISION_ASSETS.medSpa),
     ],
     requiredCtas: [
       '#book',
@@ -303,10 +305,10 @@ export const SITE_CONTRACT = [
         '/assets/brand-media.css',
         ...publicAssetUrls([
           ...INDUSTRY_ASSETS.outdoorLivingPool,
-          ...INDUSTRY_ASSETS.interiorDetail,
           ...INDUSTRY_ASSETS.medSpa.filter((file) => !file.includes('-social-')),
           ...REVISION_ASSETS.restaurant,
           ...REVISION_ASSETS.daylitVenue,
+          ...REVISION_ASSETS.coastalTerrace,
         ]),
       ],
     },

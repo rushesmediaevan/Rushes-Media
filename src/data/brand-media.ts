@@ -31,7 +31,6 @@ export interface BrandMediaPage {
     heading: string;
     support: string;
     audience: string;
-    disclosure: string;
     secondaryLabel: string;
     secondaryTarget: string;
     visual: VisualAsset;
@@ -49,7 +48,6 @@ export interface BrandMediaPage {
     heading: string;
     intro: string;
     items: readonly BrandMediaVisualStory[];
-    disclosure: string;
   };
   delivery: {
     eyebrow: string;
@@ -92,11 +90,9 @@ export const brandMediaPage: BrandMediaPage = {
     support:
       'Rushes plans and produces photo, video, and campaign creative that shows people what your business offers, why it matters, and what makes it worth choosing.',
     audience: 'For businesses with more value to show than their current media communicates.',
-    disclosure:
-      'Original Rushes concept visualizations—art-direction examples, not completed client work or results.',
     secondaryLabel: 'See why Brand Media matters',
     secondaryTarget: '#what-media-does',
-    visual: industryVisuals.interiorDetail,
+    visual: revisionAssets.coastalTerrace,
     insetVisual: industryVisuals.medSpa,
   },
   distinction: {
@@ -150,8 +146,6 @@ export const brandMediaPage: BrandMediaPage = {
         treatment: 'portrait',
       },
     ],
-    disclosure:
-      'Original Rushes concept visualizations created for art direction. They are not completed client work or results.',
   },
   delivery: {
     eyebrow: 'What you receive',

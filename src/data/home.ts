@@ -1,5 +1,6 @@
 import { industryVisuals, type VisualAsset } from './industry-pages';
 import { homepageAssets } from './homepage-assets';
+import { revisionAssets } from './revision-assets';
 
 export interface HomeNavItem {
   href: string;
@@ -60,7 +61,7 @@ export const audiences: readonly HomeAudience[] = [
     summary:
       'Show the transformation, qualify the scope, and move the right homeowners toward a project consultation.',
     result: 'Better-fit project consultations',
-    visual: homepageAssets.outdoorDuskFire,
+    visual: industryVisuals.outdoorLiving,
   },
   {
     href: '/interior-design/',
@@ -87,7 +88,7 @@ export const audiences: readonly HomeAudience[] = [
     summary:
       'Build service-specific trust, guide the right consultation request, and keep follow-up timely.',
     result: 'Better-qualified consultation requests',
-    visual: homepageAssets.medSpaLounge,
+    visual: revisionAssets.medSpa,
   },
 ] as const;
 

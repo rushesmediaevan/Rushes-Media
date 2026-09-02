@@ -279,16 +279,16 @@ const publicHtmlRoutes = SITE_CONTRACT.filter((route) =>
 );
 assert.equal(publicHtmlRoutes.length, 18, 'Exactly 18 HTML routes belong in the public release.');
 
-assert.equal(REVISION_BROWSER_ASSET_FILES.length, 48, 'The revision derivative set must contain 48 files.');
+assert.equal(REVISION_BROWSER_ASSET_FILES.length, 60, 'The revision derivative set must contain 60 files.');
 assert.equal(
   new Set(REVISION_BROWSER_ASSET_FILES).size,
-  48,
+  60,
   'The revision derivative allowlist contains a duplicate.',
 );
-assert.equal(HOMEPAGE_BROWSER_ASSET_FILES.length, 60, 'The homepage derivative set must contain 60 files.');
+assert.equal(HOMEPAGE_BROWSER_ASSET_FILES.length, 36, 'The homepage derivative set must contain 36 files.');
 assert.equal(
   new Set(HOMEPAGE_BROWSER_ASSET_FILES).size,
-  60,
+  36,
   'The homepage derivative allowlist contains a duplicate.',
 );
 assert.ok(
@@ -296,8 +296,8 @@ assert.ok(
   'Superseded homepage derivatives remain public.',
 );
 for (const [routePath, assetIds, expectedCount] of [
-  ['/', [], 0],
-  ['/brand-media/', ['04-restaurant', '06-daylit-venue'], 24],
+  ['/', ['05-medspa'], 12],
+  ['/brand-media/', ['04-restaurant', '06-daylit-venue', '07-coastal-terrace'], 36],
 ]) {
   const route = SITE_CONTRACT.find((entry) => entry.path === routePath);
   const revisionAssets = (route?.requiredAssets ?? []).filter((file) =>
@@ -313,14 +313,12 @@ const homepageRoute = SITE_CONTRACT.find((entry) => entry.path === '/');
 const homepageAssets = (homepageRoute?.requiredAssets ?? []).filter((file) =>
   file.startsWith('/assets/images/homepage/'),
 );
-assert.equal(homepageAssets.length, 60, 'Homepage must own exactly 60 art-directed derivatives.');
+assert.equal(homepageAssets.length, 36, 'Homepage must own exactly 36 art-directed derivatives.');
 assert.ok(
   homepageAssets.every((file) => [
     'brand-media-riverside-mill',
     'campaigns-submerged',
     'web-law-office',
-    'outdoor-dusk-fire',
-    'medspa-lounge',
   ].some((assetId) => file.includes(`/${assetId}-`))),
   'Homepage owns an image outside the selected review set.',
 );
@@ -477,16 +475,18 @@ for (const assetId of [
   'brand-media-riverside-mill',
   'campaigns-submerged',
   'web-law-office',
-  'outdoor-dusk-fire',
-  'medspa-lounge',
 ]) {
   assertHomepagePicture(homepageHtml, assetId);
 }
+assertRevisionPicture(homepageHtml, '05-medspa');
+assert.ok(homepageHtml.includes('/assets/images/industries/outdoor-living-hero-1920.jpg'));
+assert.ok(!homepageHtml.includes('/assets/images/homepage/outdoor-dusk-fire-'));
+assert.ok(!homepageHtml.includes('/assets/images/homepage/medspa-lounge-'));
 assert.ok(!homepageHtml.includes('brand-media-bakery'), 'Rejected Brand Media bakery image remained on the homepage.');
 assert.ok(!homepageHtml.includes('/assets/images/revision/02-bakery-'));
 assert.ok(!homepageHtml.includes('/assets/images/revision/04-restaurant-'));
-assert.ok(!homepageHtml.includes('/assets/images/revision/05-medspa-'));
 assert.ok(!homepageHtml.includes('/assets/images/revision/06-daylit-venue-'));
+assert.ok(!homepageHtml.includes('/assets/images/revision/07-coastal-terrace-'));
 assert.ok(homepageHtml.includes('The Demand Loop'));
 assert.ok(
   homepageHtml.includes('Brand Media earns attention. Creative Campaigns extend the reach.'),
@@ -720,12 +720,12 @@ for (const marker of [
   'From creative direction to ready-to-use assets.',
   'Start with what people need to see.',
   'Bring the offer that deserves a clearer story.',
-  'Original Rushes concept visualizations',
   'data-visual-truth="labeled-concept"',
 ]) {
   assert.ok(brandMediaHtml.includes(marker), `/brand-media/ is missing its dedicated marker: ${marker}`);
 }
 assert.ok(!brandMediaHtml.includes('Brand Media earns attention.'), '/brand-media/ retained its superseded distinction heading.');
+assert.ok(!brandMediaHtml.includes('role="note"'), '/brand-media/ retained a redundant image-note block.');
 assertOrdered(brandMediaHtml, [
   'class="brand-media-hero"',
   'class="brand-media-distinction"',
@@ -738,11 +738,12 @@ assert.ok(
   brandMediaHtml.includes('brand-media-story--wide brand-media-story--text'),
   '/brand-media/ expertise story must remain an intentional editorial text panel.',
 );
-assert.ok(brandMediaHtml.includes('/assets/images/industries/interior-design-detail-1440.jpg'));
+assert.ok(!brandMediaHtml.includes('/assets/images/industries/interior-design-detail-1440.jpg'));
 assert.ok(brandMediaHtml.includes('/assets/images/industries/med-spa-hero-960.jpg'));
 assert.ok(brandMediaHtml.includes('/assets/images/industries/outdoor-living-pool-1920.jpg'));
 assertRevisionPicture(brandMediaHtml, '04-restaurant');
 assertRevisionPicture(brandMediaHtml, '06-daylit-venue');
+assertRevisionPicture(brandMediaHtml, '07-coastal-terrace');
 assert.ok(!brandMediaHtml.includes('/assets/images/revision/02-bakery-'));
 assert.ok(!brandMediaHtml.includes('/assets/images/revision/05-medspa-'));
 assert.ok(!brandMediaHtml.includes('/assets/work/'), '/brand-media/ leaked review-only work material.');
@@ -773,10 +774,10 @@ for (const [routePath, folder, assetId] of [
   ['/', 'homepage', 'brand-media-riverside-mill'],
   ['/', 'homepage', 'campaigns-submerged'],
   ['/', 'homepage', 'web-law-office'],
-  ['/', 'homepage', 'outdoor-dusk-fire'],
-  ['/', 'homepage', 'medspa-lounge'],
+  ['/', 'revision', '05-medspa'],
   ['/brand-media/', 'revision', '04-restaurant'],
   ['/brand-media/', 'revision', '06-daylit-venue'],
+  ['/brand-media/', 'revision', '07-coastal-terrace'],
 ]) {
   const expected = `/assets/images/${folder}/${assetId}-mobile-1200.webp`;
   const expectedRouteSources = routePath === '/' ? homepageImageSources : brandMediaImageSources;
@@ -787,7 +788,7 @@ for (const [routePath, folder, assetId] of [
 const homepageConceptImages = tags(homepageHtml, 'img').filter(
   (entry) => entry.src?.includes('/assets/images/homepage/'),
 );
-assert.equal(homepageConceptImages.length, 5, 'Homepage must render five selected concept images.');
+assert.equal(homepageConceptImages.length, 3, 'Homepage must render three dedicated concept images.');
 assert.equal(
   new Set(homepageConceptImages.map((image) => image.src)).size,
   homepageConceptImages.length,

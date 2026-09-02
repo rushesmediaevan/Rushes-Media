@@ -1,13 +1,15 @@
 import type { VisualAsset } from './industry-pages';
 
-const ASSET_PACK =
+const DEFAULT_ASSET_PACK =
   'rushes-content/website-revision-asset-pack-2026-08-31';
 const MOBILE_MEDIA = '(max-width: 760px)';
 const DESKTOP_MEDIA = '(min-width: 761px)';
 
 interface RevisionAssetInput {
-  id: '02-bakery' | '04-restaurant' | '05-medspa' | '06-daylit-venue';
+  id: '02-bakery' | '04-restaurant' | '05-medspa' | '06-daylit-venue' | '07-coastal-terrace';
+  assetPack?: string;
   masterFile: string;
+  masterPath?: string;
   masterWidth: number;
   masterHeight: number;
   masterSha256: string;
@@ -15,6 +17,8 @@ interface RevisionAssetInput {
   desktopSha256: string;
   mobileFile: string;
   mobileSha256: string;
+  desktopCropPath?: string;
+  mobileCropPath?: string;
   desktopAspectRatio: '16 / 9' | '4 / 5';
   desktopWidth: number;
   desktopHeight: number;
@@ -32,12 +36,14 @@ function srcset(id: RevisionAssetInput['id'], crop: 'desktop' | 'mobile', type: 
 }
 
 function revisionAsset(input: RevisionAssetInput): VisualAsset {
+  const assetPack = input.assetPack ?? DEFAULT_ASSET_PACK;
+  const masterPath = input.masterPath ?? `${assetPack}/masters/${input.masterFile}`;
   const mobileWebp = srcset(input.id, 'mobile', 'webp');
   return {
     id: `revision-${input.id}-2026-08-31`,
     truthClass: 'labeled-concept',
     publicationStatus: 'approved',
-    sourceMaster: `${ASSET_PACK}/masters/${input.masterFile}`,
+    sourceMaster: masterPath,
     sourceWidth: input.masterWidth,
     sourceHeight: input.masterHeight,
     sha256: input.masterSha256,
@@ -62,12 +68,12 @@ function revisionAsset(input: RevisionAssetInput): VisualAsset {
     aspectRatio: input.desktopAspectRatio,
     mobileAspectRatio: '4 / 5',
     inputProvenance: {
-      assetPack: ASSET_PACK,
-      masterPath: `${ASSET_PACK}/masters/${input.masterFile}`,
+      assetPack,
+      masterPath,
       masterSha256: input.masterSha256,
-      desktopCropPath: `${ASSET_PACK}/web/${input.desktopFile}`,
+      desktopCropPath: input.desktopCropPath ?? `${assetPack}/web/${input.desktopFile}`,
       desktopCropSha256: input.desktopSha256,
-      mobileCropPath: `${ASSET_PACK}/web/${input.mobileFile}`,
+      mobileCropPath: input.mobileCropPath ?? `${assetPack}/web/${input.mobileFile}`,
       mobileCropSha256: input.mobileSha256,
     },
   };
@@ -140,6 +146,28 @@ export const revisionAssets = {
     desktopHeight: 2000,
     alt: 'Daylit timber-framed venue with long worktables, indoor trees, and a garden view.',
     caption: disclosure('daylit venue'),
+  }),
+  coastalTerrace: revisionAsset({
+    id: '07-coastal-terrace',
+    assetPack: 'CREATIVE - OPEN THIS/4 - GENERATED IMAGE LIBRARY/Rushes Social and Brand',
+    masterFile: 'assets - generated - 06-hospitality.png',
+    masterPath: 'CREATIVE - OPEN THIS/4 - GENERATED IMAGE LIBRARY/Rushes Social and Brand/assets - generated - 06-hospitality.png',
+    masterWidth: 1856,
+    masterHeight: 2304,
+    masterSha256: 'b4465bdda906d85d282cc26538f580c963478f8e03a8f6d49bc110bb3c4dec7d',
+    desktopFile: '07-coastal-terrace-desktop-1600.webp',
+    desktopSha256: 'df61030b0f08c74d19e8bf733fd25cd6154b3edac5325320f4ce23e602ff17db',
+    mobileFile: '07-coastal-terrace-mobile-1200.webp',
+    mobileSha256: 'e42010c523cd709ef70a2d332a7f74f2e233e3af40ef6f9e5caf55ec4d7a12e0',
+    desktopCropPath: 'website/assets/images/revision/07-coastal-terrace-desktop-1600.webp',
+    mobileCropPath: 'website/assets/images/revision/07-coastal-terrace-mobile-1200.webp',
+    desktopAspectRatio: '4 / 5',
+    desktopWidth: 1600,
+    desktopHeight: 2000,
+    alt: 'Sunlit coastal terrace with blue shutters, bougainvillea, a canvas chair, and an open view across the water.',
+    caption: disclosure('coastal hospitality'),
+    focalPoint: 'center 52%',
+    mobileFocalPoint: 'center 52%',
   }),
 } as const;
 

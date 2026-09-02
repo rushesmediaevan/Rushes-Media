@@ -54,6 +54,18 @@
     "06-daylit-venue-mobile-800.avif": [800, 1000, 69282, "ec1628647f4795f9e7b46c3fdbe2aaea9d9e935d694676c8c7313fc8e5332965"],
     "06-daylit-venue-mobile-800.webp": [800, 1000, 138304, "96600403f1e64188f5334198be22f96e2ad880558ebcf64be370024cafeb10c0"],
     "06-daylit-venue-mobile-1200.avif": [1200, 1500, 177712, "6c5d93398e0623c6a73285d4d8863e1ea7ca7cd1be2455019b0eed1c504141ba"],
-    "06-daylit-venue-mobile-1200.webp": [1200, 1500, 371948, "2b06407371044d25caca88e232b3ae890821cdc9297aae1423b7d10a4d6208c1"]
+    "06-daylit-venue-mobile-1200.webp": [1200, 1500, 371948, "2b06407371044d25caca88e232b3ae890821cdc9297aae1423b7d10a4d6208c1"],
+    "07-coastal-terrace-desktop-800.avif": [800, 1000, 51336, "775ce87a76c6041a0cb7b8956d34c1d270a370ef599670402e515a35e8d77736"],
+    "07-coastal-terrace-desktop-800.webp": [800, 1000, 95646, "085953e90482e963befab3cb7d63b6f2efea3e13f8a697cef33f70435ed3063f"],
+    "07-coastal-terrace-desktop-1200.avif": [1200, 1500, 107879, "9bc4806592769412b78211802d8a9fe0a591b2c0bf2cf88b2926ff5faa00291a"],
+    "07-coastal-terrace-desktop-1200.webp": [1200, 1500, 198866, "e42010c523cd709ef70a2d332a7f74f2e233e3af40ef6f9e5caf55ec4d7a12e0"],
+    "07-coastal-terrace-desktop-1600.avif": [1600, 2000, 183546, "3926e5a1dfdd7a48f60a87fbbb6302f9cb792acbfab49eb06a17cd1a250e4fd5"],
+    "07-coastal-terrace-desktop-1600.webp": [1600, 2000, 335730, "df61030b0f08c74d19e8bf733fd25cd6154b3edac5325320f4ce23e602ff17db"],
+    "07-coastal-terrace-mobile-480.avif": [480, 600, 22062, "8b10b9bca71b9de12f1f72e3a383e23e0e9c0614dd87b299b104aa10a4203022"],
+    "07-coastal-terrace-mobile-480.webp": [480, 600, 40478, "67e62eabd9fd903cb07ea89a7ce27b248fe770ccebdb9c3df5b7077fa8abbf46"],
+    "07-coastal-terrace-mobile-800.avif": [800, 1000, 51336, "775ce87a76c6041a0cb7b8956d34c1d270a370ef599670402e515a35e8d77736"],
+    "07-coastal-terrace-mobile-800.webp": [800, 1000, 95646, "085953e90482e963befab3cb7d63b6f2efea3e13f8a697cef33f70435ed3063f"],
+    "07-coastal-terrace-mobile-1200.avif": [1200, 1500, 107879, "9bc4806592769412b78211802d8a9fe0a591b2c0bf2cf88b2926ff5faa00291a"],
+    "07-coastal-terrace-mobile-1200.webp": [1200, 1500, 198866, "e42010c523cd709ef70a2d332a7f74f2e233e3af40ef6f9e5caf55ec4d7a12e0"]
   }
 }
