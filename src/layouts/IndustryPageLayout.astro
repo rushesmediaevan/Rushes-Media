@@ -109,7 +109,7 @@ const proofAsset = page.proof.asset &&
 
     <section id="system" tabindex="-1" class="industry-section industry-system" aria-labelledby="system-heading">
       <div class="industry-section-head">
-        <span class="industry-eye">The niche-specific system</span>
+        <span class="industry-eye">The Demand Loop for this market</span>
         <h2 id="system-heading">{page.systemHeading}</h2>
         <p>{page.systemIntro}</p>
       </div>
@@ -141,38 +141,11 @@ const proofAsset = page.proof.asset &&
       </div>
     </section>
 
-    <section class="industry-section industry-pains" aria-labelledby="pain-heading">
-      <div class="industry-section-head">
-        <span class="industry-eye">What the path has to handle</span>
-        <h2 id="pain-heading">{page.painHeading}</h2>
-        <p>{page.painIntro}</p>
-      </div>
-      <div class="industry-pain-grid">
-        {page.pains.map((pain, index) => (
-          <article>
-            <span>{String(index + 1).padStart(2, '0')}</span>
-            <h3>{pain.title}</h3>
-            <p>{pain.body}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-
     <section class="industry-section industry-proof" data-proof-status={page.proof.status} aria-labelledby="proof-heading">
       <div class="industry-proof-copy">
         <span class="industry-proof-label">{page.proof.label}</span>
         <h2 id="proof-heading">{page.proof.heading}</h2>
         <p>{page.proof.body}</p>
-        <dl>
-          <div>
-            <dt>Demonstrates</dt>
-            <dd>Strategy, system design and how one commercial idea can travel across the buyer path.</dd>
-          </div>
-          <div>
-            <dt>Evidence boundary</dt>
-            <dd>Client work, campaign performance, booked-job volume, revenue or a guaranteed outcome.</dd>
-          </div>
-        </dl>
       </div>
       {proofAsset && (
         <figure
@@ -199,36 +172,6 @@ const proofAsset = page.proof.asset &&
           <figcaption>{proofAsset.caption}{proofAsset.publicationStatus === 'held' ? ' · private local review' : ''}</figcaption>
         </figure>
       )}
-    </section>
-
-    <section class="industry-section industry-fit" aria-labelledby="fit-heading">
-      <div class="industry-section-head">
-        <span class="industry-eye">Qualification</span>
-        <h2 id="fit-heading">{page.fitHeading}</h2>
-        <p>The Growth Call is designed to establish fit before any scope is recommended.</p>
-      </div>
-      <div class="industry-fit-grid">
-        <article>
-          <span class="industry-fit-label">Good fit</span>
-          <ul>{page.goodFit.map((item) => <li>{item}</li>)}</ul>
-        </article>
-        <article>
-          <span class="industry-fit-label">Poor fit</span>
-          <ul>{page.poorFit.map((item) => <li>{item}</li>)}</ul>
-        </article>
-      </div>
-    </section>
-
-    <section class="industry-section industry-region" aria-labelledby="region-heading">
-      <div>
-        <span class="industry-eye">Regional context</span>
-        <h2 id="region-heading">{page.regionHeading}</h2>
-        <p>{page.region}</p>
-      </div>
-      <div class="industry-context-links" aria-label="Related services">
-        <span>Build the connected path</span>
-        {page.contextualLinks.map((link) => <a href={link.href}>{link.label}<span aria-hidden="true">→</span></a>)}
-      </div>
     </section>
 
     <a class="industry-related" href={page.relatedRoute.href}>

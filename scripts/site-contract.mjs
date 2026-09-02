@@ -144,9 +144,9 @@ export const SITE_CONTRACT = [
     owner: 'generated',
     indexable: true,
     source: 'src/pages/index.astro',
-    title: 'Rushes Media | Exceptional Media, Web & Growth Systems',
+    title: 'Rushes Media | Media, Web, AI & Growth Systems',
     description:
-      'Rushes helps strong companies express what makes them worth choosing through exceptional media, campaigns, websites, and focused systems built around the priority at hand.',
+      'Rushes helps businesses grow through exceptional media, creative campaigns, web experiences, practical AI consulting, and business systems.',
     canonical: `${SITE_ORIGIN}/`,
     requiredAssets: [
       '/assets/images/hero/hero-bg.jpg',
@@ -174,14 +174,14 @@ export const SITE_CONTRACT = [
       'https://link.msgsndr.com/js/external-tracking.js',
     ],
     sitemap: true,
-    lastmod: '2026-09-01',
+    lastmod: '2026-09-02',
     lifecycleStatus: 'active',
     openGraph: {
       type: 'website',
       siteName: 'Rushes Media',
-      title: 'Rushes Media | Exceptional Media, Web & Growth Systems',
+      title: 'Rushes Media | Media, Web, AI & Growth Systems',
       description:
-        'Rushes helps strong companies express what makes them worth choosing through exceptional media, campaigns, websites, and focused systems built around the priority at hand.',
+        'Rushes helps businesses grow through exceptional media, creative campaigns, web experiences, practical AI consulting, and business systems.',
       url: `${SITE_ORIGIN}/`,
       image: `${SITE_ORIGIN}/assets/images/hero/hero-bg.jpg`,
       imageWidth: 1920,
@@ -189,9 +189,9 @@ export const SITE_CONTRACT = [
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Rushes Media | Exceptional Media, Web & Growth Systems',
+      title: 'Rushes Media | Media, Web, AI & Growth Systems',
       description:
-        'Rushes helps strong companies express what makes them worth choosing through exceptional media, campaigns, websites, and focused systems built around the priority at hand.',
+        'Rushes helps businesses grow through exceptional media, creative campaigns, web experiences, practical AI consulting, and business systems.',
       image: `${SITE_ORIGIN}/assets/images/hero/hero-bg.jpg`,
     },
     jsonLd: {
@@ -202,7 +202,7 @@ export const SITE_CONTRACT = [
           name: 'Rushes Media',
           url: `${SITE_ORIGIN}/`,
           description:
-            'Rushes helps strong companies express what makes them worth choosing through exceptional media, campaigns, websites, and focused systems built around the priority at hand.',
+            'Rushes helps businesses grow through exceptional media, creative campaigns, web experiences, practical AI consulting, and business systems.',
           email: 'evan@rushesmedia.com',
           telephone: '(609) 405-9918',
           address: {
@@ -226,7 +226,7 @@ export const SITE_CONTRACT = [
               name: 'What kinds of businesses do you work with?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Rushes works with strong local and regional companies whose reputation, work, or experience deserves a better public expression. Our deepest current market knowledge is outdoor living and residential design-build, interior design, HVAC replacement, and med spa or aesthetic practices. Adjacent businesses are evaluated by the opportunity, economics, capacity, and operating fit.',
+                text: 'Rushes works across industries. The best starting point is a business ready to invest in growth, stronger creative, a better customer experience, or systems that save time. The industry examples on this site show how the approach changes by business; they are not the full list of companies we can help.',
               },
             },
             {
@@ -234,7 +234,7 @@ export const SITE_CONTRACT = [
               name: 'How quickly can we get started?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Timing depends on scope, access, and the first priority worth advancing. The 30-minute Growth Call identifies that priority; the next step is scoped around the specific media, campaign, web, measurement, or follow-up work required.',
+                text: 'Timing depends on the priority, access, and the work involved. The 30-minute Growth Call identifies the best place to start and the next practical step.',
               },
             },
             {
@@ -242,7 +242,7 @@ export const SITE_CONTRACT = [
               name: 'Do I have to be involved in the day-to-day?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'You stay responsible for business facts, approvals, sales, and delivery. Rushes runs the agreed creative or digital scope, and the right owner remains reachable for any buyer, inquiry, or operational handoff included in the work.',
+                text: 'You provide the business context and approvals. Rushes handles the creative or digital work and keeps the right people involved when buyer questions or business decisions need an answer.',
               },
             },
             {
@@ -250,7 +250,7 @@ export const SITE_CONTRACT = [
               name: 'What’s the commitment?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Scope, timing, and pricing follow the first meaningful priority—not a prebuilt package. The Growth Call determines whether a focused project or a longer engagement makes sense. Rushes owns the agreed work and measurement; the business owns sales, fulfillment, and collection.',
+                text: 'Engagements are built around the first meaningful priority, not a prebuilt package. The Growth Call establishes fit, timing, and whether a focused project or an ongoing engagement makes sense.',
               },
             },
             {
@@ -258,7 +258,7 @@ export const SITE_CONTRACT = [
               name: 'Can Rushes handle one capability or connect several?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Either. Brand Media, campaigns, web, measurement, and follow-up can each be scoped independently. Rushes connects them only when the business priority genuinely benefits from a shared idea, experience, or handoff.',
+                text: 'Yes. Brand Media, campaigns, web, and AI or business systems can each stand alone. When several are useful, the Demand Loop connects them around one goal and one clear path from attention to action.',
               },
             },
             {
@@ -266,7 +266,7 @@ export const SITE_CONTRACT = [
               name: 'How do you measure results?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Measurement follows the agreed objective. That may include attention and engagement for media, qualified demand for campaigns, decision and action for web, or response and held appointments when follow-up is in scope. Sales and revenue remain business-reported outcomes.',
+                text: 'We choose a small set of signals that match the goal. Depending on the work, that may be audience response, qualified inquiries, booked conversations, or action on a page.',
               },
             },
             {
@@ -274,7 +274,7 @@ export const SITE_CONTRACT = [
               name: 'Do we need the full Demand Loop?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'No. The Demand Loop is a map, not a mandatory package. Rushes starts with the strongest opportunity and scopes only the capabilities needed now, while making sure they can connect cleanly if the work expands.',
+                text: 'No. The Demand Loop is Rushes’ connected system, not a mandatory package. Start with the capability that matters now, then connect more of the path only when it creates useful leverage.',
               },
             },
           ],
@@ -287,10 +287,10 @@ export const SITE_CONTRACT = [
     {
       path: '/demand-loop/',
       source: 'demand-loop/index.html',
-      title: 'The Demand Loop — Rushes Media',
+      title: 'The Demand Loop | Rushes Media',
       description:
-        'Connect real work, campaign distribution, focused conversion, lead routing, booking, follow-up and outcome reporting in one accountable acquisition system.',
-      lastmod: '2026-09-01',
+        'The Rushes system connecting Brand Media, campaigns, web, AI-supported business systems, lead capture, and follow-up around one clear path from attention to action.',
+      lastmod: '2026-09-02',
     },
     {
       path: '/brand-media/',
@@ -298,7 +298,7 @@ export const SITE_CONTRACT = [
       title: 'Brand Media: Photo, Video & Creative | Rushes Media',
       description:
         'Photo, video, and campaign creative that makes a business easier to notice, understand, and choose.',
-      lastmod: '2026-09-01',
+      lastmod: '2026-09-02',
       extraAssets: [
         '/assets/brand-media.css',
         ...publicAssetUrls([
@@ -316,7 +316,7 @@ export const SITE_CONTRACT = [
       title: 'Demand, not boosted posts — Rushes Media',
       description:
         'Meta and Google campaigns built around one credible idea, a focused conversion path and measurable qualified opportunities. Ad spend stays in the client-owned account.',
-      lastmod: '2026-09-01',
+      lastmod: '2026-09-02',
     },
     {
       path: '/web/',
@@ -324,15 +324,15 @@ export const SITE_CONTRACT = [
       title: 'A site that books — Rushes Media',
       description:
         'Custom sites and landing pages with one job: call, book, or request the estimate. Built for the campaign behind it.',
-      lastmod: '2026-09-01',
+      lastmod: '2026-09-02',
     },
     {
       path: '/follow-up/',
       source: 'follow-up/index.html',
-      title: 'Protect the inquiry — Rushes Media',
+      title: 'AI Consulting & Business Systems | Rushes Media',
       description:
-        'Connect calls, forms and messages to timely ownership, qualification, booking, confirmation and consent-aware follow-up.',
-      lastmod: '2026-09-01',
+        'Practical AI consulting, workflow automation, lead capture, and follow-up systems that save time and make the business easier to run.',
+      lastmod: '2026-09-02',
     },
   ].map((route) => ({
     ...route,
@@ -363,9 +363,9 @@ export const SITE_CONTRACT = [
     owner: 'generated',
     indexable: true,
     source: 'src/pages/industries/index.astro',
-    title: 'Marketing Systems by Industry | Rushes Media',
+    title: 'Industry Examples | Rushes Media',
     description:
-      'Explore connected media, campaign, conversion and follow-up systems for outdoor living, interior design, HVAC replacement and aesthetic practices.',
+      'See how Rushes adapts media, campaigns, web, AI, and business systems to different industries, customer journeys, and growth opportunities.',
     canonical: `${SITE_ORIGIN}/industries/`,
     requiredAssets: [
       '/assets/industry-page.css',
@@ -389,16 +389,16 @@ export const SITE_CONTRACT = [
     ],
     requiredScripts: [GA4_LOADER_PREFIX, '/assets/meta-pixel.js'],
     sitemap: true,
-    lastmod: '2026-09-01',
+    lastmod: '2026-09-02',
     lifecycleStatus: 'core-market',
     breadcrumb: [
       { name: 'Home', path: '/' },
       { name: 'Industries', path: '/industries/' },
     ],
     openGraph: {
-      title: 'Marketing Systems by Industry | Rushes Media',
+      title: 'Industry Examples | Rushes Media',
       description:
-        'Explore connected media, campaign, conversion and follow-up systems for outdoor living, interior design, HVAC replacement and aesthetic practices.',
+        'See how Rushes adapts media, campaigns, web, AI, and business systems to different industries, customer journeys, and growth opportunities.',
       url: `${SITE_ORIGIN}/industries/`,
       image: `${SITE_ORIGIN}/assets/images/industries/industries-hub-social-1200x630.jpg`,
       imageWidth: 1200,
@@ -406,15 +406,15 @@ export const SITE_CONTRACT = [
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Marketing Systems by Industry | Rushes Media',
+      title: 'Industry Examples | Rushes Media',
       description:
-        'Explore connected media, campaign, conversion and follow-up systems for outdoor living, interior design, HVAC replacement and aesthetic practices.',
+        'See how Rushes adapts media, campaigns, web, AI, and business systems to different industries, customer journeys, and growth opportunities.',
       image: `${SITE_ORIGIN}/assets/images/industries/industries-hub-social-1200x630.jpg`,
     },
     jsonLd: routeSchema(
       '/industries/',
-      'Marketing Systems by Industry | Rushes Media',
-      'Explore connected media, campaign, conversion and follow-up systems for outdoor living, interior design, HVAC replacement and aesthetic practices.',
+      'Industry Examples | Rushes Media',
+      'See how Rushes adapts media, campaigns, web, AI, and business systems to different industries, customer journeys, and growth opportunities.',
       [
         { name: 'Home', path: '/' },
         { name: 'Industries', path: '/industries/' },
@@ -535,7 +535,7 @@ export const SITE_CONTRACT = [
       requiredCtas: ['#book', BOOKING_URL],
       requiredScripts: [GA4_LOADER_PREFIX, '/assets/meta-pixel.js'],
       sitemap: true,
-      lastmod: '2026-09-01',
+      lastmod: '2026-09-02',
       parentRoute: route.parentRoute,
       breadcrumb,
       lifecycleStatus: route.lifecycleStatus,

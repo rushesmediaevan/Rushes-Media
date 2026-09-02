@@ -357,7 +357,18 @@ img { display: block; max-width: 100%; }
 .loop-stage header > span { padding-top: 10px; color: var(--gold); }
 .loop-stage header h3 { margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(35px, 4.5vw, 62px); font-weight: 400; line-height: .98; }
 .loop-stage header p { max-width: 720px; margin: 14px 0 0; color: var(--text-dark); }
-.loop-stage header small { justify-self: end; padding: 10px 12px; border: 1px solid rgba(184, 152, 96, .38); color: var(--gold-light); line-height: 1.5; text-align: right; }
+.loop-stage header small { display: block; margin-bottom: 12px; color: var(--gold); line-height: 1.5; }
+.loop-stage header > b {
+  justify-self: end;
+  padding: 10px 12px;
+  border: 1px solid rgba(184, 152, 96, .38);
+  color: var(--gold-light);
+  font-size: 10px;
+  letter-spacing: .12em;
+  line-height: 1.5;
+  text-align: right;
+  text-transform: uppercase;
+}
 .loop-stage-flow, .loop-stage-owners { display: grid; grid-template-columns: 1fr 1fr; margin: 38px 0 0 98px; border-top: 1px solid var(--line-dark); border-left: 1px solid var(--line-dark); }
 .loop-stage-flow > div, .loop-stage-owners > div { padding: 22px; border-right: 1px solid var(--line-dark); border-bottom: 1px solid var(--line-dark); }
 .loop-stage-flow span, .loop-stage-owners span { color: var(--gold); }
@@ -446,7 +457,7 @@ img { display: block; max-width: 100%; }
   .loop-hero-map a { min-height: 64px; }
   .loop-stage header { grid-template-columns: 48px 1fr; }
   .loop-stage-phase { grid-template-columns: 1fr; gap: 8px; }
-  .loop-stage header small { grid-column: 2; justify-self: start; text-align: left; }
+  .loop-stage header > b { grid-column: 2; justify-self: start; text-align: left; }
   .loop-stage-flow, .loop-stage-owners { grid-template-columns: 1fr; margin-left: 0; }
   .loop-stage aside { margin-left: 0; }
   .loop-stage aside p { display: block; margin: 10px 0 0; }

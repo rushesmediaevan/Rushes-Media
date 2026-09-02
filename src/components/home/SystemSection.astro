@@ -6,11 +6,11 @@ import { systemSteps } from '../../data/home';
 <section id="system" tabindex="-1">
   <div class="system-inner">
     <div class="system-hd r">
-      <span class="eye">How It Connects</span>
-      <h2 class="system-h2">Make a strong business easier to see—and easier to choose.</h2>
-      <p class="system-sub">Brand Media earns attention by making the value visible. Creative Campaigns carry the strongest idea to more of the right people. Web makes the offer easier to understand and act on. When inquiry or booking is part of the work, Lead Capture and Follow-up protect genuine interest through the next conversation.</p>
+      <span class="eye">The Demand Loop</span>
+      <h2 class="system-h2">Build more demand. Make the business easier to run.</h2>
+      <p class="system-sub">The Demand Loop connects the work around growth. Brand Media earns attention. Creative Campaigns extend the reach. Web helps the right buyer understand and act. AI, business systems, and follow-up reduce friction, speed up response, and keep opportunities moving.</p>
     </div>
-    <ol class="system-flow r d1" aria-label="Five moments from visibility to qualified opportunity">
+    <ol class="system-flow r d1" aria-label="The Demand Loop: five moments from visibility to qualified opportunity">
       {systemSteps.map((step, index) => (
         <li class="sys-step">
           <span class="sys-node" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
@@ -25,6 +25,9 @@ import { systemSteps } from '../../data/home';
         </li>
       ))}
     </ol>
-    <p class="system-close">Start with the business priority. Connect only what strengthens the path from visibility to qualified opportunity—and, ultimately, customers and revenue.</p>
+    <div class="system-end">
+      <p class="system-close">Use one capability or connect the full path. The goal is more visibility, more qualified opportunities, a clearer path to revenue, and less time lost to disconnected work.</p>
+      <a class="system-link" href="/demand-loop/">Explore the complete Demand Loop <span aria-hidden="true">→</span></a>
+    </div>
   </div>
 </section>

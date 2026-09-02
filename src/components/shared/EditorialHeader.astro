@@ -5,9 +5,9 @@ import MobileNavDialog from './MobileNavDialog.astro';
 interface Props { current?: string; }
 const { current = '' } = Astro.props;
 const links = [
-  { href: '/demand-loop/', label: 'Demand Loop', key: 'demand-loop' },
   { href: '/#services', label: 'Services', key: 'services' },
   { href: '/industries/', label: 'Industries', key: 'industries' },
+  { href: '/demand-loop/', label: 'Demand Loop', key: 'demand-loop' },
 ] as const;
 const currentState = (key: string): 'page' | 'location' | undefined =>
   current === key ? (key === 'services' ? 'location' : 'page') : undefined;

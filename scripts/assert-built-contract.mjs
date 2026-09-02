@@ -437,7 +437,7 @@ for (const approvedHomepageMarker of [
   'Book a Growth Call',
   'Our Services',
   '>Services</a>',
-  '>System</a>',
+  '>Demand Loop</a>',
   '>Process</a>',
   '>FAQ</a>',
 ]) {
@@ -445,14 +445,6 @@ for (const approvedHomepageMarker of [
     homepageHtml.includes(approvedHomepageMarker),
     `Approved homepage marker drifted: ${approvedHomepageMarker}`,
   );
-}
-for (const proofLabel of [
-  'Creative signal',
-  'Qualified demand',
-  'Digital action',
-  'Handoff quality',
-]) {
-  assert.ok(homepageHtml.includes(proofLabel), `Homepage proof label is missing: ${proofLabel}`);
 }
 for (const retiredHomepageClaim of [
   'booked estimates from the work you already do',
@@ -469,7 +461,6 @@ assertOrdered(homepageHtml, [
   'id="services"',
   'id="system"',
   'id="who"',
-  'id="proof"',
   'id="process"',
   'id="faq"',
   'id="book"',
@@ -477,9 +468,11 @@ assertOrdered(homepageHtml, [
 assert.ok(homepageHtml.includes('href="/" class="logo"'), 'Homepage logo must return to the site root.');
 assert.equal(
   (homepageHtml.match(/class="home-concept-disclosure"/g) || []).length,
-  2,
-  'Homepage must disclose each image group once.',
+  0,
+  'Homepage retained a redundant image-note block.',
 );
+assert.ok(!homepageHtml.includes('What gets measured'), 'Homepage retained the removed measurement section.');
+assert.ok(!homepageHtml.includes('Image note:'), 'Homepage retained a redundant image note.');
 for (const assetId of [
   'brand-media-riverside-mill',
   'campaigns-submerged',
@@ -494,9 +487,9 @@ assert.ok(!homepageHtml.includes('/assets/images/revision/02-bakery-'));
 assert.ok(!homepageHtml.includes('/assets/images/revision/04-restaurant-'));
 assert.ok(!homepageHtml.includes('/assets/images/revision/05-medspa-'));
 assert.ok(!homepageHtml.includes('/assets/images/revision/06-daylit-venue-'));
-assert.ok(homepageHtml.includes('How It Connects'));
+assert.ok(homepageHtml.includes('The Demand Loop'));
 assert.ok(
-  homepageHtml.includes('Brand Media earns attention by making the value visible'),
+  homepageHtml.includes('Brand Media earns attention. Creative Campaigns extend the reach.'),
   'Homepage connection copy lost its tangible cause-and-effect sequence.',
 );
 for (const phrase of ['Earn attention.', 'Extend the right reach.', 'Make the value clear.', 'Protect the handoff.', 'Keep opportunity moving.']) {
@@ -510,7 +503,11 @@ for (const utmKey of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']
 }
 assert.ok(homepageHtml.includes('slice(0,120)'), 'Homepage attribution must truncate at 120 characters.');
 assert.ok(homepageHtml.includes('30-minute Growth Call'), 'Homepage Growth Call duration drifted from 30 minutes.');
-assert.ok(homepageHtml.includes('Best fit today'), 'Homepage lost the truthful industry-fit framing.');
+assert.ok(homepageHtml.includes('Industry examples'), 'Homepage lost the cross-industry framing.');
+assert.ok(
+  homepageHtml.includes('Rushes works across industries.'),
+  'Homepage must make clear that the examples do not limit who Rushes can help.',
+);
 assert.ok(homepageHtml.includes('Outdoor Living &amp; Design-Build'));
 assert.ok(homepageHtml.includes('Interior Design &amp; Residential Build'));
 assert.ok(homepageHtml.includes('HVAC Replacement &amp; Home Comfort'));
@@ -693,6 +690,12 @@ for (const routePath of ['/brand-media/', '/campaigns/', '/web/', '/follow-up/']
     tags(html, 'a').some((link) => link.href === '/demand-loop/' && link['aria-current'] === 'page'),
     '/demand-loop/ must expose exact page-current state.',
   );
+  for (const marker of ['Five connected moments', 'Brand Media', 'Creative Campaigns', 'Web &amp; Landing', 'AI &amp; Business Systems']) {
+    assert.ok(html.includes(marker), `/demand-loop/ is missing its simplified system marker: ${marker}`);
+  }
+  for (const removedMarker of ['Nine handoffs', 'Rushes owns', 'Owner owns', 'Operating agreement', 'Control point']) {
+    assert.ok(!html.includes(removedMarker), `/demand-loop/ retained internal operating copy: ${removedMarker}`);
+  }
 }
 for (const routePath of ['/industries/', '/outdoor-living/', '/interior-design/', '/hvac/', '/med-spa/']) {
   const html = await readFile(pageFile(routePath), 'utf8');
@@ -802,16 +805,16 @@ for (const [routePath, signature] of [
 ]) {
   const html = await readFile(pageFile(routePath), 'utf8');
   assert.ok(html.includes(`data-signature="${signature}"`), `${routePath} signature drifted.`);
-  for (const marker of ['The business result', 'Measured through', 'Not mistaken for']) {
+  for (const marker of ['What this service does']) {
     assert.ok(html.includes(marker), `${routePath} outcome frame is missing: ${marker}`);
+  }
+  for (const removedMarker of ['Measured through', 'Not mistaken for', 'service-ownership', 'service-fit']) {
+    assert.ok(!html.includes(removedMarker), `${routePath} retained the removed section: ${removedMarker}`);
   }
   assertOrdered(html, [
     'class="service-hero"',
     'id="service-system"',
-    'class="commercial-section service-problem"',
     'class="commercial-section service-process"',
-    'class="commercial-section service-ownership"',
-    'class="commercial-section service-fit"',
     'class="commercial-section service-faq"',
     'id="book"',
   ], routePath);
@@ -820,8 +823,6 @@ for (const [routePath, signature] of [
 const campaignsHtml = await readFile(pageFile('/campaigns/'), 'utf8');
 for (const marker of [
   'Every ad needs an accountable path after the click.',
-  'Paid media magnifies whatever happens after the click.',
-  'scopes only what the objective requires',
   'Copy approval is not launch approval.',
   'Find the campaign worth funding.',
 ]) {
@@ -840,10 +841,10 @@ for (const marker of [
 }
 
 const industryMarkers = new Map([
-  ['/industries/', ['Three buying models', 'Choose the buying model', 'Shared commercial discipline']],
+  ['/industries/', ['Four industry examples', 'See how the approach changes by business.', 'The Demand Loop changes with the business.']],
   ['/outdoor-living/', ['The outdoor-living project path', 'One outdoor-living system. Distinct project lanes.', 'Do hardscape, landscape design-build and pool projects need separate campaigns?']],
   ['/interior-design/', ['The residential design-project path', 'A stronger path for the residential work worth protecting.', 'Will marketing make the brand feel generic?']],
-  ['/hvac/', ['The replacement-opportunity path', 'Built around replacement value—not just more phone volume.', 'Does this replace our dispatcher or office team?']],
+  ['/hvac/', ['The replacement-opportunity path', 'Built around replacement value, not just more phone volume.', 'Does this replace our dispatcher or office team?']],
   ['/med-spa/', ['The aesthetic-consult path', 'Built around approved priorities and available provider capacity.', 'Does Rushes write medical or treatment claims?']],
 ]);
 const industryTexts = [];
@@ -852,7 +853,7 @@ for (const [routePath, markers] of industryMarkers) {
   assert.ok(route, `Missing industry contract route ${routePath}.`);
   const html = await readFile(pageFile(routePath), 'utf8');
   const text = visibleText(html);
-  assert.ok(text.length > 2500, `${routePath} is still too thin to be a substantial industry page.`);
+  assert.ok(text.length > 1500, `${routePath} is still too thin to explain the market clearly.`);
   industryTexts.push(text);
   for (const marker of markers) {
     assert.ok(html.includes(marker), `${routePath} is missing its distinct content marker: ${marker}`);
@@ -880,19 +881,15 @@ for (const [routePath, markers] of industryMarkers) {
     `${routePath} lost its visible concept disclosure.`,
   );
   if (routePath !== '/industries/') {
-    assert.ok(html.includes('What the path has to handle'), `${routePath} lost the shared path-requirements label.`);
-    assert.ok(
-      html.includes('The Growth Call is designed to establish fit before any scope is recommended.'),
-      `${routePath} lost the fit-before-scope boundary.`,
-    );
+    assert.ok(html.includes('The Demand Loop for this market'), `${routePath} lost its Demand Loop connection.`);
+    for (const removedSection of ['industry-pains', 'industry-fit', 'industry-region']) {
+      assert.ok(!html.includes(removedSection), `${routePath} retained the removed section: ${removedSection}`);
+    }
     assertOrdered(html, [
       'class="industry-hero"',
       'id="system"',
       'class="industry-section industry-use-cases"',
-      'class="industry-section industry-pains"',
       'class="industry-section industry-proof"',
-      'class="industry-section industry-fit"',
-      'class="industry-section industry-region"',
       'class="industry-related"',
       'class="industry-section industry-faq"',
       'id="book"',
@@ -911,19 +908,17 @@ assert.equal(new Set(industryTexts).size, industryTexts.length, 'Industry pages 
 
 const industriesHubHtml = await readFile(pageFile('/industries/'), 'utf8');
 for (const marker of [
-  'not every engagement needs every capability',
+  'These are a few industries where Rushes has relevant experience, not a limit on who we work with.',
+  'Do you work with businesses outside these industries?',
   'Can I hire only one piece?',
-  'Best fit is operational, not cosmetic.',
+  'The Demand Loop changes with the business.',
 ]) {
   assert.ok(industriesHubHtml.includes(marker), `/industries/ is missing modular-fit marker: ${marker}`);
 }
 assertOrdered(industriesHubHtml, [
   'class="industry-hero industry-hub-hero"',
   'id="markets"',
-  'class="industry-section industry-system"',
-  'class="industry-section industry-adjacent"',
-  'class="industry-section industry-fit"',
-  'class="industry-section industry-region industry-hub-region"',
+  'class="industry-section industry-hub-loop"',
   'class="industry-section industry-faq"',
   'id="book"',
 ], '/industries/');
@@ -965,17 +960,17 @@ assert.ok(!sitemap.includes('<priority>'), 'Sitemap must not emit meaningless pr
 assert.ok(!sitemap.includes('<changefreq>'), 'Sitemap must not emit meaningless changefreq values.');
 const sitemapLastmods = [...sitemap.matchAll(/<lastmod>(.*?)<\/lastmod>/g)].map((match) => match[1]);
 const expectedLastmods = new Map([
-  ['/', '2026-09-01'],
-  ['/demand-loop/', '2026-09-01'],
-  ['/brand-media/', '2026-09-01'],
-  ['/campaigns/', '2026-09-01'],
-  ['/web/', '2026-09-01'],
-  ['/follow-up/', '2026-09-01'],
-  ['/industries/', '2026-09-01'],
-  ['/outdoor-living/', '2026-09-01'],
-  ['/interior-design/', '2026-09-01'],
-  ['/hvac/', '2026-09-01'],
-  ['/med-spa/', '2026-09-01'],
+  ['/', '2026-09-02'],
+  ['/demand-loop/', '2026-09-02'],
+  ['/brand-media/', '2026-09-02'],
+  ['/campaigns/', '2026-09-02'],
+  ['/web/', '2026-09-02'],
+  ['/follow-up/', '2026-09-02'],
+  ['/industries/', '2026-09-02'],
+  ['/outdoor-living/', '2026-09-02'],
+  ['/interior-design/', '2026-09-02'],
+  ['/hvac/', '2026-09-02'],
+  ['/med-spa/', '2026-09-02'],
   ['/privacy/', '2026-08-13'],
   ['/terms/', '2026-08-13'],
 ]);

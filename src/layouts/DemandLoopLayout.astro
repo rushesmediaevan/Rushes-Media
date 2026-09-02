@@ -25,7 +25,7 @@ const seo = innerPageSeo(page);
         <p class="service-lede">{page.lede}</p>
         <p class="loop-thesis">{page.thesis}</p>
         <div class="service-actions">
-          <a class="commercial-button commercial-button-primary" href="#loop-stages">See all nine handoffs <span aria-hidden="true">↓</span></a>
+          <a class="commercial-button commercial-button-primary" href="#loop-stages">See how it connects <span aria-hidden="true">↓</span></a>
           <a class="commercial-button" href="#book" data-growth-call-click data-link-location="hero">{SHARED_CTA.label}</a>
         </div>
       </div>
@@ -34,102 +34,51 @@ const seo = innerPageSeo(page);
           <li>
             <a href={`#loop-stage-${index + 1}`}>
               <span>{String(index + 1).padStart(2, '0')}</span>
-              <b>{step.name}</b>
+              <b>{step.stage}</b>
             </a>
           </li>
         ))}
       </ol>
     </header>
 
-    <section class="loop-phases" aria-labelledby="loop-phases-heading">
-      <div class="commercial-section-head">
-        <span class="commercial-eye">Three operating phases</span>
-        <h2 id="loop-phases-heading">Attention is only the beginning.</h2>
-      </div>
-      <div class="loop-phase-grid">
-        {page.phases.map((phase) => (
-          <article>
-            <span>{phase.number} / {phase.range}</span>
-            <h3>{phase.label}</h3>
-            <p>{phase.objective}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-
     <section id="loop-stages" tabindex="-1" class="loop-stages" aria-labelledby="loop-stages-heading">
       <div class="commercial-section-head loop-stages-head">
-        <span class="commercial-eye">The complete operating map</span>
-        <h2 id="loop-stages-heading">Nine handoffs. No mystery middle.</h2>
-        <p>Each stage names its input, output, owner and next action—including what happens when the handoff breaks.</p>
+        <span class="commercial-eye">Five connected moments</span>
+        <h2 id="loop-stages-heading">From attention to action, without the usual gaps.</h2>
+        <p>Each capability has a clear role. Use only what the business needs, or connect the full path.</p>
       </div>
       <ol class="loop-stage-list">
         {page.steps.map((step, index) => (
-          <li
-            class="loop-stage"
-            data-loop-phase={index < 3 ? 'I' : index < 7 ? 'II' : 'III'}
-          >
-            {(index === 0 || index === 3 || index === 7) && (
-              <div class="loop-stage-phase">
-                <span>Phase {index < 3 ? 'I' : index < 7 ? 'II' : 'III'}</span>
-                <b>{index < 3 ? 'Earn attention' : index < 7 ? 'Convert intent' : 'Recover & learn'}</b>
-              </div>
-            )}
+          <li class="loop-stage">
             <header id={`loop-stage-${index + 1}`} tabindex="-1">
               <span>{String(index + 1).padStart(2, '0')}</span>
-              <div><h3>{step.name}</h3><p>{step.purpose}</p></div>
-              {step.tool && <small>{step.tool}</small>}
+              <div>
+                <small>{step.stage}</small>
+                <h3>{step.name}</h3>
+                <p>{step.purpose}</p>
+              </div>
+              <b>{step.capability}</b>
             </header>
-            <div class="loop-stage-flow">
-              <div><span>Input</span><p>{step.input}</p></div>
-              <div><span>Output</span><p>{step.output}</p></div>
-            </div>
-            <div class="loop-stage-owners">
-              <div><span>Rushes owns</span><p>{step.rushes}</p></div>
-              <div><span>Owner owns</span><p>{step.owner}</p></div>
-            </div>
-            <aside><span>Control point</span><p>{step.failure}</p></aside>
           </li>
         ))}
       </ol>
     </section>
 
-    <section class="commercial-section loop-responsibilities" aria-labelledby="loop-responsibilities-heading">
-      <div class="commercial-section-head commercial-section-head-split">
-        <div><span class="commercial-eye">Operating agreement</span><h2 id="loop-responsibilities-heading">Two teams. One accountable handoff.</h2></div>
-        <p>The system works only when production responsibilities and business responsibilities remain explicit.</p>
-      </div>
-      <div class="loop-responsibility-grid">
-        <article><span>Owner brings</span><ol>{page.ownerInputs.map((item, index) => <li><b>{String(index + 1).padStart(2, '0')}</b>{item}</li>)}</ol></article>
-        <article><span>Rushes brings</span><ol>{page.rushesInputs.map((item, index) => <li><b>{String(index + 1).padStart(2, '0')}</b>{item}</li>)}</ol></article>
-      </div>
-    </section>
-
-    <section class="commercial-section loop-rules" aria-labelledby="loop-rules-heading">
-      <div class="commercial-section-head">
-        <span class="commercial-eye">Operating controls</span>
-        <h2 id="loop-rules-heading">Four controls keep the Loop accountable.</h2>
-      </div>
-      <div class="loop-rule-grid">
-        {page.handoffRules.map((rule, index) => <article><span>{String(index + 1).padStart(2, '0')}</span><h3>{rule.title}</h3><p>{rule.body}</p></article>)}
-      </div>
-    </section>
-
     <section class="commercial-section service-fit loop-fit" aria-labelledby="loop-fit-heading">
       <div class="commercial-section-head">
-        <span class="commercial-eye">Qualification</span>
-        <h2 id="loop-fit-heading">The Loop is not for every operator.</h2>
+        <span class="commercial-eye">Where it fits</span>
+        <h2 id="loop-fit-heading">When the full Demand Loop is useful.</h2>
       </div>
       <div class="commercial-fit-grid">
-        <article><span>Good fit</span><ul>{page.goodFit.map((item) => <li>{item}</li>)}</ul></article>
-        <article><span>Poor fit</span><ul>{page.poorFit.map((item) => <li>{item}</li>)}</ul></article>
+        <article><span>Connect the system when</span><ul>{page.goodFit.map((item) => <li>{item}</li>)}</ul></article>
+        <article><span>Start smaller when</span><ul>{page.poorFit.map((item) => <li>{item}</li>)}</ul></article>
       </div>
     </section>
 
     <section class="commercial-section service-faq" aria-labelledby="loop-faq-heading">
       <div class="commercial-section-head">
-        <span class="commercial-eye">Questions owners ask</span>
-        <h2 id="loop-faq-heading">Before installing the system.</h2>
+        <span class="commercial-eye">Questions</span>
+        <h2 id="loop-faq-heading">What to know before we connect the path.</h2>
       </div>
       <div class="commercial-faq-list">
         {page.faqs.map((faq) => <details><summary>{faq.question}<span aria-hidden="true">+</span></summary><p>{faq.answer}</p></details>)}
@@ -139,9 +88,9 @@ const seo = innerPageSeo(page);
     <section id="book" tabindex="-1" class="commercial-booking loop-booking" aria-labelledby="loop-booking-heading">
       <div class="commercial-booking-copy">
         <span class="commercial-eye">Growth Call</span>
-        <h2 id="loop-booking-heading">Find the handoff worth fixing first.</h2>
-        <p>Thirty minutes to map the path from proof to booked opportunity, find the first high-value break and decide the next practical move.</p>
-        <ul><li>The work and buyer worth pursuing</li><li>The handoff with the greatest commercial cost</li><li>One practical next move—or a clear no</li></ul>
+        <h2 id="loop-booking-heading">Find the strongest place to start.</h2>
+        <p>In 30 minutes, we’ll look at what already works, the priority that matters now, and whether one service or a connected path would create the most value.</p>
+        <ul><li>The opportunity that matters now</li><li>What is already working</li><li>The clearest practical next move</li></ul>
       </div>
       <BookingWidget route="/demand-loop/" variant="editorial" frameId="rushes-demand-loop-growth-call-calendar" />
     </section>

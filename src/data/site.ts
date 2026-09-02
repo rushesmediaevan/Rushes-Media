@@ -144,16 +144,16 @@ export const BOOKING_COPY = {
 } as const;
 
 export const homepageSeo: PageSeo = {
-  title: 'Rushes Media | Exceptional Media, Web & Growth Systems',
+  title: 'Rushes Media | Media, Web, AI & Growth Systems',
   description:
-    'Rushes helps strong companies express what makes them worth choosing through exceptional media, campaigns, websites, and focused systems built around the priority at hand.',
+    'Rushes helps businesses grow through exceptional media, creative campaigns, web experiences, practical AI consulting, and business systems.',
   canonical: `${SITE.origin}/`,
   openGraph: {
     type: 'website',
     siteName: SITE.name,
-    title: 'Rushes Media | Exceptional Media, Web & Growth Systems',
+    title: 'Rushes Media | Media, Web, AI & Growth Systems',
     description:
-      'Rushes helps strong companies express what makes them worth choosing through exceptional media, campaigns, websites, and focused systems built around the priority at hand.',
+      'Rushes helps businesses grow through exceptional media, creative campaigns, web experiences, practical AI consulting, and business systems.',
     url: `${SITE.origin}/`,
     image: `${SITE.origin}/assets/images/hero/hero-bg.jpg`,
     imageWidth: 1920,
@@ -161,9 +161,9 @@ export const homepageSeo: PageSeo = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Rushes Media | Exceptional Media, Web & Growth Systems',
+    title: 'Rushes Media | Media, Web, AI & Growth Systems',
     description:
-      'Rushes helps strong companies express what makes them worth choosing through exceptional media, campaigns, websites, and focused systems built around the priority at hand.',
+      'Rushes helps businesses grow through exceptional media, creative campaigns, web experiences, practical AI consulting, and business systems.',
     image: `${SITE.origin}/assets/images/hero/hero-bg.jpg`,
   },
   jsonLd: {
@@ -172,7 +172,7 @@ export const homepageSeo: PageSeo = {
     name: SITE.name,
     url: `${SITE.origin}/`,
     description:
-      'Rushes helps strong companies express what makes them worth choosing through exceptional media, campaigns, websites, and focused systems built around the priority at hand.',
+      'Rushes helps businesses grow through exceptional media, creative campaigns, web experiences, practical AI consulting, and business systems.',
     email: SITE.email,
     telephone: SITE.phoneDisplay,
     address: {

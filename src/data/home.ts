@@ -8,11 +8,6 @@ export interface HomeNavItem {
   mobileSubtitle: string;
 }
 
-export interface HomeProofItem {
-  label: string;
-  text: string;
-}
-
 export interface HomeService {
   href: string;
   stage: string;
@@ -35,7 +30,7 @@ export interface HomeAudience {
 
 export const primaryNavigation: readonly HomeNavItem[] = [
   { href: '#services', label: 'Services', number: '01', mobileSubtitle: 'What we build' },
-  { href: '#system', label: 'System', number: '02', mobileSubtitle: 'How it connects' },
+  { href: '#system', label: 'Demand Loop', number: '02', mobileSubtitle: 'How the services connect' },
   { href: '#process', label: 'Process', number: '03', mobileSubtitle: 'Simple to start' },
   { href: '#faq', label: 'FAQ', number: '04', mobileSubtitle: 'What you need to know' },
 ];
@@ -52,29 +47,10 @@ export const marqueeItems = [
   'Creative Campaigns',
   'Web Experiences',
   'Landing Pages',
-  'Measurement',
+  'AI Consulting',
+  'Business Systems',
   'Follow-up',
-  'Automation',
 ] as const;
-
-export const proofItems: readonly HomeProofItem[] = [
-  {
-    label: 'Creative signal',
-    text: 'Does the work make the business, offer, or experience easier to notice and understand?',
-  },
-  {
-    label: 'Qualified demand',
-    text: 'When reach is in scope, are the right people finding the intended next step?',
-  },
-  {
-    label: 'Digital action',
-    text: 'Can interested buyers understand fit and act without unnecessary friction?',
-  },
-  {
-    label: 'Handoff quality',
-    text: 'When inquiry or booking is in scope, is the response timely, owned, and measurable?',
-  },
-];
 
 export const audiences: readonly HomeAudience[] = [
   {
@@ -122,7 +98,7 @@ export const homeServices: readonly HomeService[] = [
     name: 'Brand Media',
     plainName: 'Show what makes the business worth choosing.',
     description:
-      'Photography and video that make the business—its people, products, services, places, and point of view—worth noticing across every channel.',
+      'Photography and video that make the business, its people, products, services, places, and point of view worth noticing across every channel.',
     tags: ['Photo & motion', 'Campaign creative', 'Organic content'],
     tone: 'ink',
     visual: homepageAssets.brandMediaRiversideMill,
@@ -151,12 +127,12 @@ export const homeServices: readonly HomeService[] = [
   },
   {
     href: '/follow-up/',
-    stage: 'Response & continuity',
-    name: 'Lead Capture & Follow-up',
-    plainName: 'Turn qualified interest into a timely conversation.',
+    stage: 'Time & leverage',
+    name: 'AI & Business Systems',
+    plainName: 'Save time and make the business easier to run.',
     description:
-      'Calls, forms, and messages receive a useful response, then follow-up through booking and confirmation.',
-    tags: ['Lead capture', 'Speed to lead', 'Booking follow-up'],
+      'Practical AI consulting, workflow automation, lead capture, and follow-up reduce repetitive work, strengthen handoffs, and keep opportunities moving.',
+    tags: ['AI consulting', 'Workflow automation', 'Lead capture & follow-up'],
     tone: 'navy',
   },
 ];
@@ -182,15 +158,15 @@ export const systemSteps = [
   },
   {
     stage: 'Response',
-    owner: 'Lead Capture',
+    owner: 'AI & Business Systems',
     title: 'Protect the handoff.',
-    description: 'Route qualified inquiries to a timely, useful response while intent is high.',
+    description: 'Route inquiries, preserve context, and make the next useful action clear while intent is high.',
   },
   {
     stage: 'Continuity',
-    owner: 'Follow-up',
+    owner: 'AI & Business Systems',
     title: 'Keep opportunity moving.',
-    description: 'Make the agreed next step easier to complete and harder to lose.',
+    description: 'Use practical automation and follow-up to save time and make the next step harder to lose.',
   },
 ] as const;
 
@@ -206,14 +182,14 @@ export const processSteps = [
     phase: 'Build',
     title: 'Build around it.',
     description:
-      'Rushes builds the specific media, campaign, page, measurement, or follow-up scope the priority requires—without replacing what already works.',
+      'Rushes builds the specific media, campaign, web, AI, or business-system work the priority requires without replacing what already works.',
     badge: 'Focused scope',
   },
   {
     phase: 'Improve',
     title: 'Learn from the response.',
     description:
-      'Audience response, buyer actions, and agreed commercial signals show what to keep, change, or expand.',
+      'Audience response and buyer actions show what to keep, change, or expand.',
     badge: 'Measured refinement',
   },
 ] as const;
@@ -222,43 +198,43 @@ export const faqs = [
   {
     question: 'What kinds of businesses do you work with?',
     answer:
-      'Rushes works with strong local and regional companies whose reputation, work, or experience deserves a better public expression. Our deepest current market knowledge is outdoor living and residential design-build, interior design, HVAC replacement, and med spa or aesthetic practices. Adjacent businesses are evaluated by the opportunity, economics, capacity, and operating fit.',
+      'Rushes works across industries. The best starting point is a business ready to invest in growth, stronger creative, a better customer experience, or systems that save time. The industry examples on this site show how the approach changes by business; they are not the full list of companies we can help.',
   },
   {
     question: 'How quickly can we get started?',
     answer:
-      'Timing depends on scope, access, and the first priority worth advancing. The 30-minute Growth Call identifies that priority; the next step is scoped around the specific media, campaign, web, measurement, or follow-up work required.',
+      'Timing depends on the priority, access, and the work involved. The 30-minute Growth Call identifies the best place to start and the next practical step.',
   },
   {
     question: 'Do I have to be involved in the day-to-day?',
     answer:
-      'You stay responsible for business facts, approvals, sales, and delivery. Rushes runs the agreed creative or digital scope, and the right owner remains reachable for any buyer, inquiry, or operational handoff included in the work.',
+      'You provide the business context and approvals. Rushes handles the creative or digital work and keeps the right people involved when buyer questions or business decisions need an answer.',
   },
   {
     question: 'What’s the commitment?',
     answer:
-      'Scope, timing, and pricing follow the first meaningful priority—not a prebuilt package. The Growth Call determines whether a focused project or a longer engagement makes sense. Rushes owns the agreed work and measurement; the business owns sales, fulfillment, and collection.',
+      'Engagements are built around the first meaningful priority, not a prebuilt package. The Growth Call establishes fit, timing, and whether a focused project or an ongoing engagement makes sense.',
   },
   {
     question: 'Can Rushes handle one capability or connect several?',
     answer:
-      'Either. Brand Media, campaigns, web, measurement, and follow-up can each be scoped independently. Rushes connects them only when the business priority genuinely benefits from a shared idea, experience, or handoff.',
+      'Yes. Brand Media, campaigns, web, and AI or business systems can each stand alone. When several are useful, the Demand Loop connects them around one goal and one clear path from attention to action.',
   },
   {
     question: 'How do you measure results?',
     answer:
-      'Measurement follows the agreed objective. That may include attention and engagement for media, qualified demand for campaigns, decision and action for web, or response and held appointments when follow-up is in scope. Sales and revenue remain business-reported outcomes.',
+      'We choose a small set of signals that match the goal. Depending on the work, that may be audience response, qualified inquiries, booked conversations, or action on a page.',
   },
   {
     question: 'Do we need the full Demand Loop?',
     answer:
-      'No. The Demand Loop is a map, not a mandatory package. Rushes starts with the strongest opportunity and scopes only the capabilities needed now, while making sure they can connect cleanly if the work expands.',
+      'No. The Demand Loop is Rushes’ connected system, not a mandatory package. Start with the capability that matters now, then connect more of the path only when it creates useful leverage.',
   },
 ] as const;
 
 export const footerLinks = [
   { href: '#services', label: 'Services' },
   { href: '/demand-loop/', label: 'Demand Loop' },
-  { href: '/industries/', label: 'Best-fit industries' },
+  { href: '/industries/', label: 'Industry examples' },
   { href: '#book', label: 'Book a Growth Call' },
 ] as const;
