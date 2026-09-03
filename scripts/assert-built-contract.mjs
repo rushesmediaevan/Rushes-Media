@@ -929,6 +929,12 @@ for (const utmKey of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']
 }
 assert.ok(funnelScript.includes('slice(0,120)'), '/funnel/ attribution must truncate at 120 characters.');
 
+const llms = await readFile(path.join(distRoot, 'llms.txt'), 'utf8');
+for (const marker of ['# Rushes Media', '/brand-media/', '/demand-loop/', '/#book', 'not client work']) {
+  assert.ok(llms.includes(marker), `/llms.txt is missing ${marker}`);
+}
+assert.ok(!/\$\d/.test(llms), '/llms.txt must not carry prices.');
+
 const robots = await readFile(path.join(distRoot, 'robots.txt'), 'utf8');
 assert.equal(
   robots,

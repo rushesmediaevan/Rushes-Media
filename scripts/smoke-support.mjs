@@ -141,6 +141,7 @@ async function assertAssets(origin, includeReviewRoutes) {
         )
       : []),
     '/robots.txt',
+    '/llms.txt',
     '/sitemap.xml',
   ];
   for (const assetPath of new Set(assetPaths)) {

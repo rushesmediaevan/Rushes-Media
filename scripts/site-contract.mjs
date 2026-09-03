@@ -632,6 +632,14 @@ export const SITE_CONTRACT = [
     compatibilityDisposition: 'Astro-generated crawler policy endpoint',
   },
   {
+    path: '/llms.txt',
+    owner: 'auxiliary',
+    indexable: false,
+    source: 'src/pages/llms.txt.ts',
+    sitemap: false,
+    compatibilityDisposition: 'Astro-generated plain-text orientation for AI crawlers (GEO readiness, 2026-09-03)',
+  },
+  {
     path: '/sitemap.xml',
     owner: 'auxiliary',
     indexable: false,
