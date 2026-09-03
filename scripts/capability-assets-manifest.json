@@ -1,0 +1,379 @@
+{
+  "version": 1,
+  "encoding": {
+    "avif": {
+      "quality": 55,
+      "effort": 7,
+      "chromaSubsampling": "4:2:0",
+      "bitdepth": 10
+    },
+    "webp": {
+      "quality": 82,
+      "effort": 6,
+      "smartSubsample": true
+    },
+    "resizeKernel": "lanczos3"
+  },
+  "assets": {
+    "coastal-street-desktop-1200.avif": [
+      1200,
+      675,
+      100164,
+      "948e4b7cbf674aeed5cca5e0339a3f4c6a06cd94293e7c58f6000aab255ce86b"
+    ],
+    "coastal-street-desktop-1200.webp": [
+      1200,
+      675,
+      209230,
+      "5b7dd2734d31a205fd62e4ade9e4771466b0171f7348ba4cd41e9003fe07bede"
+    ],
+    "coastal-street-desktop-1600.avif": [
+      1600,
+      900,
+      168066,
+      "6c8559b7579181bc8491b71f6a685922f27b5878f6653aad350904883aa0c68c"
+    ],
+    "coastal-street-desktop-1600.webp": [
+      1600,
+      900,
+      346878,
+      "86856f3d4aac60ca1c08d674402c78a8cb5a662eb7a12cf1048a60fcec7cc155"
+    ],
+    "coastal-street-desktop-800.avif": [
+      800,
+      450,
+      44973,
+      "14a2c901b14f153ee4f5740fd383de12ffb0fea4b2333e3540ea21115b8a4eee"
+    ],
+    "coastal-street-desktop-800.webp": [
+      800,
+      450,
+      96688,
+      "4e23beffc53bf9f2b3cecf7e128766ab00441cfd21d5373b9a5ff184db83e0bd"
+    ],
+    "coastal-street-mobile-1200.avif": [
+      1200,
+      1500,
+      187380,
+      "218fb4867cfff7dd38d29ef3a4a9f837b55206c18e1d43d478b762be09b1692c"
+    ],
+    "coastal-street-mobile-1200.webp": [
+      1200,
+      1500,
+      382536,
+      "d252fba12648631b66c9756e3ab2febb509ba24e7c136e18384de28905611e6c"
+    ],
+    "coastal-street-mobile-480.avif": [
+      480,
+      600,
+      36483,
+      "60c64c224a8c367b972be55789d7be9afbfa5be1f2741da0b001631fe0db16bd"
+    ],
+    "coastal-street-mobile-480.webp": [
+      480,
+      600,
+      80168,
+      "feafb007db513aacf92fe24f21ab4277670a9bded3c8141b706571433de583a0"
+    ],
+    "coastal-street-mobile-800.avif": [
+      800,
+      1000,
+      94814,
+      "597365941e4849bd0fe18431d0bdbbfd03a13b312003d69d47141a08ef5260b1"
+    ],
+    "coastal-street-mobile-800.webp": [
+      800,
+      1000,
+      200208,
+      "cc875150296e90103762134df8d881e8a9fe44723ccef54e4960db4bd51bfdab"
+    ],
+    "daylit-studio-desktop-1200.avif": [
+      1200,
+      1500,
+      66075,
+      "691bd4dac708511ce5bbe53122ba6b16b41dab3ea709b74637759a7ad3d7adf8"
+    ],
+    "daylit-studio-desktop-1200.webp": [
+      1200,
+      1500,
+      118326,
+      "52bf973f1db63644ee34b89f790bafd654451d57d7fb1a13c370026db0fd90b8"
+    ],
+    "daylit-studio-desktop-1600.avif": [
+      1600,
+      2000,
+      95930,
+      "014ecf65878e2730df9aaddcb61168bb314f47776f34037fe9a1e84d0e66a9c6"
+    ],
+    "daylit-studio-desktop-1600.webp": [
+      1600,
+      2000,
+      165574,
+      "dc4351e9ba51157b3f5a7a209ef29e49f5cc9329fabb32db2525ddb7a9345ebb"
+    ],
+    "daylit-studio-desktop-800.avif": [
+      800,
+      1000,
+      37916,
+      "0d75717b1ba682d045837e092e9684864b667f2ea233c797a34233c336989e62"
+    ],
+    "daylit-studio-desktop-800.webp": [
+      800,
+      1000,
+      69140,
+      "31bec33a8ed75dc1a0f3422b0a29b4ef0469db5f43a3cc07dbeadaafe65019b9"
+    ],
+    "daylit-studio-mobile-1200.avif": [
+      1200,
+      1500,
+      66075,
+      "691bd4dac708511ce5bbe53122ba6b16b41dab3ea709b74637759a7ad3d7adf8"
+    ],
+    "daylit-studio-mobile-1200.webp": [
+      1200,
+      1500,
+      118326,
+      "52bf973f1db63644ee34b89f790bafd654451d57d7fb1a13c370026db0fd90b8"
+    ],
+    "daylit-studio-mobile-480.avif": [
+      480,
+      600,
+      17696,
+      "bcc397fbb06a533cd0b7c28ff590d916f6db48cb327c55c7d879764ec88a51cf"
+    ],
+    "daylit-studio-mobile-480.webp": [
+      480,
+      600,
+      32392,
+      "fc0140e54b8b785919a596be7a331aca8cea0bb7a9a1bbe83dc5444b20724b37"
+    ],
+    "daylit-studio-mobile-800.avif": [
+      800,
+      1000,
+      37916,
+      "0d75717b1ba682d045837e092e9684864b667f2ea233c797a34233c336989e62"
+    ],
+    "daylit-studio-mobile-800.webp": [
+      800,
+      1000,
+      69140,
+      "31bec33a8ed75dc1a0f3422b0a29b4ef0469db5f43a3cc07dbeadaafe65019b9"
+    ],
+    "manor-terrace-desktop-800.avif": [
+      800,
+      1000,
+      94367,
+      "58f4b164b52e680205e04255732aa8ead1d7b65d0939d841e3835b645f0c49ce"
+    ],
+    "manor-terrace-desktop-800.webp": [
+      800,
+      1000,
+      184500,
+      "5f9453936c1d08d9d9c7f47c64f890a99030d2caf37654bd4c6fdab8bff4062a"
+    ],
+    "manor-terrace-mobile-480.avif": [
+      480,
+      600,
+      38829,
+      "b65a6dfa6c48b59ec58676893e165f725e88c466a7436d52d74f601925771ef0"
+    ],
+    "manor-terrace-mobile-480.webp": [
+      480,
+      600,
+      75314,
+      "918a5c22157532d323b043e2c2832eef2de0d115ef4141ae6d6d59e7e57fb84a"
+    ],
+    "manor-terrace-mobile-800.avif": [
+      800,
+      1000,
+      94367,
+      "58f4b164b52e680205e04255732aa8ead1d7b65d0939d841e3835b645f0c49ce"
+    ],
+    "manor-terrace-mobile-800.webp": [
+      800,
+      1000,
+      184500,
+      "5f9453936c1d08d9d9c7f47c64f890a99030d2caf37654bd4c6fdab8bff4062a"
+    ],
+    "marble-kitchen-desktop-1200.avif": [
+      1200,
+      1500,
+      59913,
+      "a6b00892e2c4d1ffd75ce14a62263048d3b344d4792d71bccaf52945708f1901"
+    ],
+    "marble-kitchen-desktop-1200.webp": [
+      1200,
+      1500,
+      102184,
+      "55101ecab2e409e6dbdf53a9d8474ec40dde18ea89c538fbe2a7c7a21c6acb7a"
+    ],
+    "marble-kitchen-desktop-1600.avif": [
+      1600,
+      2000,
+      93822,
+      "a346618b1641b8b23891f64208f32980f89643fd5a247b06866cc249718048c7"
+    ],
+    "marble-kitchen-desktop-1600.webp": [
+      1600,
+      2000,
+      157232,
+      "a3b92cfc3bfe288ff0319ad035f7a9b840234910a148ae39beeb2b1c0a9e963c"
+    ],
+    "marble-kitchen-desktop-800.avif": [
+      800,
+      1000,
+      31109,
+      "8a17639e753aaea49e11ed0a768ddac0025bb21d5d60bf64fd4a6a3a4d9172e5"
+    ],
+    "marble-kitchen-desktop-800.webp": [
+      800,
+      1000,
+      53278,
+      "514632fe42cba1eb16f9af893130b14acc914d3b4192f2fa191024c5925dc78a"
+    ],
+    "marble-kitchen-mobile-1200.avif": [
+      1200,
+      1500,
+      59913,
+      "a6b00892e2c4d1ffd75ce14a62263048d3b344d4792d71bccaf52945708f1901"
+    ],
+    "marble-kitchen-mobile-1200.webp": [
+      1200,
+      1500,
+      102184,
+      "55101ecab2e409e6dbdf53a9d8474ec40dde18ea89c538fbe2a7c7a21c6acb7a"
+    ],
+    "marble-kitchen-mobile-480.avif": [
+      480,
+      600,
+      13549,
+      "f6f13eda941421efef426079f7a43cb969e479c1a23f66abb59fb959ed18e529"
+    ],
+    "marble-kitchen-mobile-480.webp": [
+      480,
+      600,
+      24006,
+      "f9a199bfa9dcb876c24c732d458fabaaa37ab68936b5bb30666a4904dc1ce0de"
+    ],
+    "marble-kitchen-mobile-800.avif": [
+      800,
+      1000,
+      31109,
+      "8a17639e753aaea49e11ed0a768ddac0025bb21d5d60bf64fd4a6a3a4d9172e5"
+    ],
+    "marble-kitchen-mobile-800.webp": [
+      800,
+      1000,
+      53278,
+      "514632fe42cba1eb16f9af893130b14acc914d3b4192f2fa191024c5925dc78a"
+    ],
+    "phone-counter-night-desktop-800.avif": [
+      800,
+      1000,
+      31040,
+      "41662f109295300934602ff6dae85920a61435ff737569bd1b82c29efef025d8"
+    ],
+    "phone-counter-night-desktop-800.webp": [
+      800,
+      1000,
+      57580,
+      "ab6895982111b9f46bec4fcf9f4d8c8f0b09d3992c372f72525fb3c86aeee292"
+    ],
+    "phone-counter-night-mobile-480.avif": [
+      480,
+      600,
+      12565,
+      "f3ce1c97b04af7d3dc7a977141365dc7fad184d4352f6346c436248c7f4a72c6"
+    ],
+    "phone-counter-night-mobile-480.webp": [
+      480,
+      600,
+      20316,
+      "3242b66cd97c1ae8f3461586746666ce1c781eccf89b53afdd74170ad34cfd52"
+    ],
+    "phone-counter-night-mobile-800.avif": [
+      800,
+      1000,
+      31040,
+      "41662f109295300934602ff6dae85920a61435ff737569bd1b82c29efef025d8"
+    ],
+    "phone-counter-night-mobile-800.webp": [
+      800,
+      1000,
+      57580,
+      "ab6895982111b9f46bec4fcf9f4d8c8f0b09d3992c372f72525fb3c86aeee292"
+    ],
+    "porch-dusk-doorbell-desktop-800.avif": [
+      800,
+      1000,
+      65950,
+      "1a74b097b96740a4fc3f0f3054b3ae61965449e954b7253b2f4e06c975148e55"
+    ],
+    "porch-dusk-doorbell-desktop-800.webp": [
+      800,
+      1000,
+      141656,
+      "c747d9d73b995b402104a8402c02b966a3eff14a29557dccdff20b00b470e0e6"
+    ],
+    "porch-dusk-doorbell-mobile-480.avif": [
+      480,
+      600,
+      20705,
+      "bd6588fe1a6f4dc1fa2a6786f46b6e3b8a9ccb9d472b44970bb4af3b1a61aa36"
+    ],
+    "porch-dusk-doorbell-mobile-480.webp": [
+      480,
+      600,
+      42474,
+      "c6a0bf2b1ea088cbf92aeb4f8f4e8a605c07bcc0b7020e33f21da4ff62f492fd"
+    ],
+    "porch-dusk-doorbell-mobile-800.avif": [
+      800,
+      1000,
+      65950,
+      "1a74b097b96740a4fc3f0f3054b3ae61965449e954b7253b2f4e06c975148e55"
+    ],
+    "porch-dusk-doorbell-mobile-800.webp": [
+      800,
+      1000,
+      141656,
+      "c747d9d73b995b402104a8402c02b966a3eff14a29557dccdff20b00b470e0e6"
+    ],
+    "two-trucks-dawn-desktop-800.avif": [
+      800,
+      1000,
+      59924,
+      "86bb69973121a91c0304ca68c82e3195fd0bb2f83d7b3e2e063c930342f6aba9"
+    ],
+    "two-trucks-dawn-desktop-800.webp": [
+      800,
+      1000,
+      120110,
+      "37cba75b66ac956a175ae506b012b8d8cea26c1341a0d596673ad54b89863a86"
+    ],
+    "two-trucks-dawn-mobile-480.avif": [
+      480,
+      600,
+      23101,
+      "40dac15e47a96a16054da8c6b58f482221c5c1b6d12fa5bad03d376d949237e9"
+    ],
+    "two-trucks-dawn-mobile-480.webp": [
+      480,
+      600,
+      45208,
+      "1774d649c4a29d6457b1caaa2f31a4defb8d9251a1e173ad9f89c787e683439f"
+    ],
+    "two-trucks-dawn-mobile-800.avif": [
+      800,
+      1000,
+      59924,
+      "86bb69973121a91c0304ca68c82e3195fd0bb2f83d7b3e2e063c930342f6aba9"
+    ],
+    "two-trucks-dawn-mobile-800.webp": [
+      800,
+      1000,
+      120110,
+      "37cba75b66ac956a175ae506b012b8d8cea26c1341a0d596673ad54b89863a86"
+    ]
+  }
+}

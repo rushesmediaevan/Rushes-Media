@@ -1,0 +1,58 @@
+---
+import type { WebBody } from '../../data/capability-pages';
+import ConceptPicture from '../brand-media/ConceptPicture.astro';
+import Lead from './Lead.astro';
+import Pair from './Pair.astro';
+
+interface Props { body: WebBody; }
+const { body } = Astro.props;
+const { ladder, pains, process } = body;
+---
+
+<section id="what-this-is" tabindex="-1" class="cap-section cap-ladder-section" aria-labelledby="ladder-heading">
+  <Lead lead={ladder} id="ladder-heading" />
+  <ol id="decision-ladder" class="cap-ladder">
+    {ladder.rungs.map((rung) => (
+      <li>
+        <span class="brand-media-eye">{rung.label}</span>
+        <h3>{rung.title}</h3>
+        <p>{rung.body}</p>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<section id="pains" class="cap-band cap-band--navy" aria-labelledby="pains-heading">
+  <div class="cap-section">
+    <Lead lead={pains} id="pains-heading" wide />
+    <div class="cap-pains">
+      {pains.items.map((pain, index) => (
+        <article>
+          <span class="cap-num">{String(index + 1).padStart(2, '0')}</span>
+          <h3>{pain.title}</h3>
+          <p>{pain.body}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section id="process" class="cap-section cap-process" aria-labelledby="process-heading">
+  <Lead lead={process} id="process-heading" />
+  <div class="cap-process__grid">
+    <ConceptPicture asset={process.asset} className="cap-process__visual" sizes={process.asset.sizes} showCaption={false} />
+    <ol class="cap-steps">
+      {process.steps.map((step, index) => (
+        <li>
+          <span class="cap-num">{String(index + 1).padStart(2, '0')}</span>
+          <div>
+            <h3>{step.name}</h3>
+            <p>{step.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<Pair pair={body.pair} />

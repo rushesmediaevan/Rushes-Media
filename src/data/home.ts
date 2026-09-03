@@ -1,4 +1,4 @@
-import { industryVisuals, type VisualAsset } from './industry-pages';
+import { industryVisuals, type VisualAsset } from './visual-assets';
 import { homepageAssets } from './homepage-assets';
 import { homePrimaryNav } from './navigation';
 import { revisionAssets } from './revision-assets';
@@ -22,11 +22,10 @@ export interface HomeService {
 }
 
 export interface HomeAudience {
-  href: string;
   routeLabel: string;
   label: string;
   summary: string;
-  result: string;
+  firstMove: string;
   visual: VisualAsset;
 }
 
@@ -56,39 +55,35 @@ export const marqueeItems = [
 
 export const audiences: readonly HomeAudience[] = [
   {
-    href: '/outdoor-living/',
     routeLabel: 'Project-led design-build',
     label: 'Outdoor Living & Design-Build',
     summary:
       'Show the transformation, qualify the scope, and move the right homeowners toward a project consultation.',
-    result: 'Better-fit project consultations',
+    firstMove: 'Turn completed projects into buyer-ready media.',
     visual: industryVisuals.outdoorLiving,
   },
   {
-    href: '/interior-design/',
     routeLabel: 'Considered consultation',
     label: 'Interior Design & Residential Build',
     summary:
       'Make taste, judgment, and process easier to understand before the first consultation.',
-    result: 'Clearer fit before the consultation',
+    firstMove: 'Build a project-aware consultation page.',
     visual: industryVisuals.interiorDesign,
   },
   {
-    href: '/hvac/',
     routeLabel: 'Urgent and planned demand',
     label: 'HVAC Replacement & Home Comfort',
     summary:
       'Separate urgent service from planned replacement and respond before the homeowner moves on.',
-    result: 'Faster response to replacement inquiries',
+    firstMove: 'Protect the call, estimate, and confirmation handoffs.',
     visual: industryVisuals.hvac,
   },
   {
-    href: '/med-spa/',
     routeLabel: 'Appointment-led service',
     label: 'Med Spa & Aesthetic Practices',
     summary:
       'Build service-specific trust, guide the right consultation request, and keep follow-up timely.',
-    result: 'Better-qualified consultation requests',
+    firstMove: 'Build a campaign around one approved growth priority.',
     visual: revisionAssets.medSpa,
   },
 ] as const;
@@ -229,7 +224,7 @@ export const faqs = [
   {
     question: 'What kinds of businesses do you work with?',
     answer:
-      'Rushes works across industries. The best starting point is a business ready to invest in growth, stronger creative, a better customer experience, or systems that save time. The industry examples on this site show how the approach changes by business; they are not the full list of companies we can help.',
+      'Rushes works across industries. The best starting point is a business ready to invest in growth, stronger creative, a better customer experience, or systems that save time. The examples on this site show how the approach changes by business; they are not the full list of companies we can help.',
   },
   {
     question: 'How quickly can we get started?',
@@ -267,6 +262,5 @@ export const footerLinks = [
   { href: '#services', label: 'Services' },
   { href: '/demand-loop/', label: 'Demand Loop' },
   { href: '#examples', label: 'Examples' },
-  { href: '/industries/', label: 'Industry examples' },
   { href: '#book', label: 'Book a Growth Call' },
 ] as const;

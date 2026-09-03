@@ -1,24 +1,19 @@
 ---
 import { capabilityPages, type CapabilityPage } from '../../data/capability-pages';
-import type { IndustryPage } from '../../data/industry-pages';
-import { industryPages } from '../../data/industry-pages';
-import IndustryPageLayout from '../../layouts/IndustryPageLayout.astro';
 import CapabilityLayout from '../../layouts/CapabilityLayout.astro';
 
 export function getStaticPaths() {
-  return [...capabilityPages, ...industryPages].map((page) => ({
+  return capabilityPages.map((page) => ({
     params: { slug: page.slug },
     props: { page },
   }));
 }
 
 interface Props {
-  page: CapabilityPage | IndustryPage;
+  page: CapabilityPage;
 }
 
 const { page } = Astro.props;
 ---
 
-{page.family === 'industry'
-  ? <IndustryPageLayout page={page} />
-  : <CapabilityLayout page={page} />}
+<CapabilityLayout page={page} />

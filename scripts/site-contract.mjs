@@ -26,13 +26,11 @@ const industryDerivativeFiles = (slug, widths, social = false) => [
 ];
 
 const INDUSTRY_ASSETS = {
-  outdoorLiving: industryDerivativeFiles('outdoor-living-hero', [640, 960, 1440, 1920], true),
+  outdoorLiving: industryDerivativeFiles('outdoor-living-hero', [640, 960, 1440, 1920]),
   outdoorLivingPool: industryDerivativeFiles('outdoor-living-pool', [640, 960, 1440, 1920]),
-  interiorDesign: industryDerivativeFiles('interior-design-hero', [640, 960, 1440, 1920], true),
-  interiorDetail: industryDerivativeFiles('interior-design-detail', [640, 960, 1440]),
-  hvac: industryDerivativeFiles('hvac-hero', [640, 960, 1440, 1920], true),
-  medSpa: industryDerivativeFiles('med-spa-hero', [640, 960], true),
-  hubSocial: ['assets/images/industries/industries-hub-social-1200x630.jpg'],
+  interiorDesign: industryDerivativeFiles('interior-design-hero', [640, 960, 1440, 1920]),
+  hvac: industryDerivativeFiles('hvac-hero', [640, 960, 1440, 1920]),
+  medSpa: industryDerivativeFiles('med-spa-hero', [640, 960]),
 };
 
 export const INDUSTRY_BROWSER_ASSET_FILES = [...new Set(Object.values(INDUSTRY_ASSETS).flat())];
@@ -79,6 +77,30 @@ const HOMEPAGE_ASSETS = {
 
 export const HOMEPAGE_BROWSER_ASSET_FILES = Object.values(HOMEPAGE_ASSETS).flat();
 
+// Capability-page imagery (2026-09-03). Widths mirror src/data/capability-assets.ts;
+// small masters (≤1072 px) are capped at 800 so nothing is upscaled.
+const capabilityDerivativeFiles = (slug, desktopWidths, mobileWidths) => [
+  ...desktopWidths.flatMap((width) => ['avif', 'webp'].map(
+    (extension) => `assets/images/capability/${slug}-desktop-${width}.${extension}`,
+  )),
+  ...mobileWidths.flatMap((width) => ['avif', 'webp'].map(
+    (extension) => `assets/images/capability/${slug}-mobile-${width}.${extension}`,
+  )),
+];
+const FULL_WIDTHS = [[800, 1200, 1600], [480, 800, 1200]];
+const SMALL_WIDTHS = [[800], [480, 800]];
+const CAPABILITY_ASSETS = {
+  manorTerrace: capabilityDerivativeFiles('manor-terrace', ...SMALL_WIDTHS),
+  marbleKitchen: capabilityDerivativeFiles('marble-kitchen', ...FULL_WIDTHS),
+  coastalStreet: capabilityDerivativeFiles('coastal-street', ...FULL_WIDTHS),
+  daylitStudio: capabilityDerivativeFiles('daylit-studio', ...FULL_WIDTHS),
+  phoneCounterNight: capabilityDerivativeFiles('phone-counter-night', ...SMALL_WIDTHS),
+  porchDuskDoorbell: capabilityDerivativeFiles('porch-dusk-doorbell', ...SMALL_WIDTHS),
+  twoTrucksDawn: capabilityDerivativeFiles('two-trucks-dawn', ...SMALL_WIDTHS),
+};
+
+export const CAPABILITY_BROWSER_ASSET_FILES = Object.values(CAPABILITY_ASSETS).flat();
+
 const publicAssetUrls = (files) => files.map((file) => `/${file}`);
 
 /** @typedef {'generated' | 'compatibility' | 'review-only' | 'redirect' | 'api' | 'auxiliary'} RouteOwner */
@@ -111,32 +133,6 @@ const publicAssetUrls = (files) => files.map((file) => `/${file}`);
  * @property {string=} contentTextHash
  */
 
-function routeSchema(path, title, description, breadcrumb, image) {
-  const canonical = `${SITE_ORIGIN}${path}`;
-  return {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'WebPage',
-        '@id': canonical,
-        url: canonical,
-        name: title,
-        description,
-        ...(image ? { image } : {}),
-      },
-      {
-        '@type': 'BreadcrumbList',
-        itemListElement: breadcrumb.map((item, index) => ({
-          '@type': 'ListItem',
-          position: index + 1,
-          name: item.name,
-          item: `${SITE_ORIGIN}${item.path}`,
-        })),
-      },
-    ],
-  };
-}
-
 /** @type {SiteContractEntry[]} */
 export const SITE_CONTRACT = [
   {
@@ -158,9 +154,9 @@ export const SITE_CONTRACT = [
         ...HOMEPAGE_ASSETS.brandMediaRiversideMill,
         ...HOMEPAGE_ASSETS.campaignsSubmerged,
       ]),
-      ...publicAssetUrls(INDUSTRY_ASSETS.outdoorLiving.filter((file) => !file.includes('-social-'))),
-      ...publicAssetUrls(INDUSTRY_ASSETS.interiorDesign.filter((file) => !file.includes('-social-'))),
-      ...publicAssetUrls(INDUSTRY_ASSETS.hvac.filter((file) => !file.includes('-social-'))),
+      ...publicAssetUrls(INDUSTRY_ASSETS.outdoorLiving),
+      ...publicAssetUrls(INDUSTRY_ASSETS.interiorDesign),
+      ...publicAssetUrls(INDUSTRY_ASSETS.hvac),
       ...publicAssetUrls(REVISION_ASSETS.medSpa),
       ...publicAssetUrls(REVISION_ASSETS.bakery),
       ...publicAssetUrls(REVISION_ASSETS.restaurant),
@@ -172,11 +168,6 @@ export const SITE_CONTRACT = [
       '/campaigns/',
       '/web/',
       '/follow-up/',
-      '/industries/',
-      '/outdoor-living/',
-      '/interior-design/',
-      '/hvac/',
-      '/med-spa/',
     ],
     requiredScripts: [
       GA4_LOADER_PREFIX,
@@ -184,7 +175,7 @@ export const SITE_CONTRACT = [
       'https://link.msgsndr.com/js/external-tracking.js',
     ],
     sitemap: true,
-    lastmod: '2026-09-02',
+    lastmod: '2026-09-03',
     lifecycleStatus: 'active',
     openGraph: {
       type: 'website',
@@ -236,7 +227,7 @@ export const SITE_CONTRACT = [
               name: 'What kinds of businesses do you work with?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Rushes works across industries. The best starting point is a business ready to invest in growth, stronger creative, a better customer experience, or systems that save time. The industry examples on this site show how the approach changes by business; they are not the full list of companies we can help.',
+                text: 'Rushes works across industries. The best starting point is a business ready to invest in growth, stronger creative, a better customer experience, or systems that save time. The examples on this site show how the approach changes by business; they are not the full list of companies we can help.',
               },
             },
             {
@@ -300,12 +291,18 @@ export const SITE_CONTRACT = [
       title: 'The Demand Loop | Rushes Media',
       description:
         'The Rushes system connecting Brand Media, campaigns, web, AI-supported business systems, lead capture, and follow-up around one clear path from attention to action.',
-      lastmod: '2026-09-02',
+      lastmod: '2026-09-03',
       extraAssets: [
         '/assets/brand-media.css',
+        '/assets/capability-pages.css',
         ...publicAssetUrls([
-          ...INDUSTRY_ASSETS.outdoorLiving.filter((file) => !file.includes('-social-')),
-          ...INDUSTRY_ASSETS.hvac.filter((file) => !file.includes('-social-')),
+          ...INDUSTRY_ASSETS.outdoorLiving,
+          ...INDUSTRY_ASSETS.hvac,
+          ...HOMEPAGE_ASSETS.brandMediaRiversideMill,
+          ...HOMEPAGE_ASSETS.campaignsSubmerged,
+          ...REVISION_ASSETS.daylitVenue,
+          ...CAPABILITY_ASSETS.phoneCounterNight,
+          ...CAPABILITY_ASSETS.twoTrucksDawn,
         ]),
       ],
     },
@@ -315,12 +312,17 @@ export const SITE_CONTRACT = [
       title: 'Brand Media: Photo, Video & Creative | Rushes Media',
       description:
         'Photo, video, and campaign creative that makes a business easier to notice, understand, and choose.',
-      lastmod: '2026-09-02',
+      lastmod: '2026-09-03',
       extraAssets: [
         '/assets/brand-media.css',
+        '/assets/capability-pages.css',
         ...publicAssetUrls([
-          ...INDUSTRY_ASSETS.medSpa.filter((file) => !file.includes('-social-')),
+          ...INDUSTRY_ASSETS.medSpa,
           ...REVISION_ASSETS.coastalTerrace,
+          ...CAPABILITY_ASSETS.manorTerrace,
+          ...INDUSTRY_ASSETS.outdoorLivingPool,
+          ...CAPABILITY_ASSETS.marbleKitchen,
+          ...REVISION_ASSETS.restaurant,
         ]),
       ],
     },
@@ -330,12 +332,14 @@ export const SITE_CONTRACT = [
       title: 'Demand, not boosted posts — Rushes Media',
       description:
         'Meta and Google campaigns built around one credible idea, a focused conversion path and measurable qualified opportunities. Ad spend stays in the client-owned account.',
-      lastmod: '2026-09-02',
+      lastmod: '2026-09-03',
       extraAssets: [
         '/assets/brand-media.css',
+        '/assets/capability-pages.css',
         ...publicAssetUrls([
           ...HOMEPAGE_ASSETS.campaignsSubmerged,
           ...REVISION_ASSETS.bakery,
+          ...CAPABILITY_ASSETS.coastalStreet,
         ]),
       ],
     },
@@ -345,12 +349,14 @@ export const SITE_CONTRACT = [
       title: 'A site that books — Rushes Media',
       description:
         'Custom sites and landing pages with one job: call, book, or request the estimate. Built for the campaign behind it.',
-      lastmod: '2026-09-02',
+      lastmod: '2026-09-03',
       extraAssets: [
         '/assets/brand-media.css',
+        '/assets/capability-pages.css',
         ...publicAssetUrls([
           ...REVISION_ASSETS.daylitVenue,
           ...HOMEPAGE_ASSETS.brandMediaRiversideMill,
+          ...CAPABILITY_ASSETS.daylitStudio,
         ]),
       ],
     },
@@ -360,12 +366,16 @@ export const SITE_CONTRACT = [
       title: 'AI Consulting & Business Systems | Rushes Media',
       description:
         'Practical AI consulting, workflow automation, lead capture, and follow-up systems that save time and make the business easier to run.',
-      lastmod: '2026-09-02',
+      lastmod: '2026-09-03',
       extraAssets: [
         '/assets/brand-media.css',
+        '/assets/capability-pages.css',
         ...publicAssetUrls([
           ...REVISION_ASSETS.restaurant,
-          ...INDUSTRY_ASSETS.interiorDesign.filter((file) => !file.includes('-social-')),
+          ...INDUSTRY_ASSETS.interiorDesign,
+          ...CAPABILITY_ASSETS.phoneCounterNight,
+          ...CAPABILITY_ASSETS.porchDuskDoorbell,
+          ...CAPABILITY_ASSETS.twoTrucksDawn,
         ]),
       ],
     },
@@ -393,212 +403,6 @@ export const SITE_CONTRACT = [
     },
     compatibilityDisposition: 'Astro service or mechanism route with a shared conversion contract',
   })),
-  {
-    path: '/industries/',
-    owner: 'generated',
-    indexable: true,
-    source: 'src/pages/industries/index.astro',
-    title: 'Industry Examples | Rushes Media',
-    description:
-      'See how Rushes adapts media, campaigns, web, AI, and business systems to different industries, customer journeys, and growth opportunities.',
-    canonical: `${SITE_ORIGIN}/industries/`,
-    requiredAssets: [
-      '/assets/industry-page.css',
-      '/assets/images/logo-icon.png',
-      '/assets/images/logo-wordmark.png',
-      ...publicAssetUrls([
-        ...INDUSTRY_ASSETS.outdoorLiving.filter((file) => !file.includes('-social-')),
-        ...INDUSTRY_ASSETS.interiorDesign.filter((file) => !file.includes('-social-')),
-        ...INDUSTRY_ASSETS.hvac.filter((file) => !file.includes('-social-')),
-        ...INDUSTRY_ASSETS.medSpa.filter((file) => !file.includes('-social-')),
-        ...INDUSTRY_ASSETS.hubSocial,
-      ]),
-    ],
-    requiredCtas: [
-      '#book',
-      BOOKING_URL,
-      '/outdoor-living/',
-      '/interior-design/',
-      '/hvac/',
-      '/med-spa/',
-    ],
-    requiredScripts: [GA4_LOADER_PREFIX, '/assets/meta-pixel.js'],
-    sitemap: true,
-    lastmod: '2026-09-02',
-    lifecycleStatus: 'core-market',
-    breadcrumb: [
-      { name: 'Home', path: '/' },
-      { name: 'Industries', path: '/industries/' },
-    ],
-    openGraph: {
-      title: 'Industry Examples | Rushes Media',
-      description:
-        'See how Rushes adapts media, campaigns, web, AI, and business systems to different industries, customer journeys, and growth opportunities.',
-      url: `${SITE_ORIGIN}/industries/`,
-      image: `${SITE_ORIGIN}/assets/images/industries/industries-hub-social-1200x630.jpg`,
-      imageWidth: 1200,
-      imageHeight: 630,
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: 'Industry Examples | Rushes Media',
-      description:
-        'See how Rushes adapts media, campaigns, web, AI, and business systems to different industries, customer journeys, and growth opportunities.',
-      image: `${SITE_ORIGIN}/assets/images/industries/industries-hub-social-1200x630.jpg`,
-    },
-    jsonLd: routeSchema(
-      '/industries/',
-      'Industry Examples | Rushes Media',
-      'See how Rushes adapts media, campaigns, web, AI, and business systems to different industries, customer journeys, and growth opportunities.',
-      [
-        { name: 'Home', path: '/' },
-        { name: 'Industries', path: '/industries/' },
-      ],
-      `${SITE_ORIGIN}/assets/images/industries/industries-hub-social-1200x630.jpg`,
-    ),
-    primaryImage: {
-      status: 'approved',
-      truthClass: 'labeled-concept',
-      sourceMaster: 'composite of the approved Outdoor Living and HVAC concept masters',
-      publicUrl: '/assets/images/industries/industries-hub-social-1200x630.jpg',
-      width: 1200,
-      height: 630,
-    },
-    compatibilityDisposition: 'Astro market-selection hub for three buying models and four core markets',
-  },
-  ...[
-    {
-      path: '/outdoor-living/',
-      source: 'src/pages/[slug]/index.astro',
-      title: 'Outdoor Living Contractor Marketing | Rushes Media',
-      description:
-        'Marketing systems for hardscape, landscape design-build, and custom pool contractors—connecting project media, qualification, booking, and follow-up.',
-      parentRoute: '/industries/',
-      lifecycleStatus: /** @type {const} */ ('core-market'),
-      breadcrumbName: 'Outdoor Living & Design-Build',
-      assetFiles: [...INDUSTRY_ASSETS.outdoorLiving, ...INDUSTRY_ASSETS.outdoorLivingPool],
-      socialImage: '/assets/images/industries/outdoor-living-hero-social-1200x630.jpg',
-      primaryImage: {
-        status: /** @type {const} */ ('approved'),
-        truthClass: 'labeled-concept',
-        sourceMaster: 'clients/rushes-media/assets/industry-pages/hardscape/masters/nano-banana-pro-4x5-4k-master.png',
-        publicUrl: '/assets/images/industries/outdoor-living-hero-1920.jpg',
-        width: 1920,
-        height: 2400,
-      },
-    },
-    {
-      path: '/interior-design/',
-      source: 'src/pages/[slug]/index.astro',
-      title: 'Interior Design Marketing Systems | Rushes Media',
-      description:
-        'Marketing systems for interior designers, kitchen and bath studios, residential design-build firms, and cabinetry teams seeking better-fit consultations.',
-      parentRoute: '/industries/',
-      lifecycleStatus: /** @type {const} */ ('core-market'),
-      breadcrumbName: 'Interior Design & Residential Build',
-      assetFiles: [...INDUSTRY_ASSETS.interiorDesign, ...INDUSTRY_ASSETS.interiorDetail],
-      socialImage: '/assets/images/industries/interior-design-hero-social-1200x630.jpg',
-      primaryImage: {
-        status: /** @type {const} */ ('approved'),
-        truthClass: 'labeled-concept',
-        sourceMaster: 'clients/rushes-media/assets/industry-pages/interior-design/masters/recraft-v41-living-master.png',
-        publicUrl: '/assets/images/industries/interior-design-hero-1920.jpg',
-        width: 1920,
-        height: 1080,
-      },
-    },
-    {
-      path: '/hvac/',
-      source: 'src/pages/[slug]/index.astro',
-      title: 'HVAC Marketing for Replacement Estimates | Rushes Media',
-      description:
-        'Connect HVAC campaigns, call and form capture, service-versus-replacement routing, booking, and estimate follow-up around qualified changeout opportunities.',
-      parentRoute: '/industries/',
-      lifecycleStatus: /** @type {const} */ ('core-market'),
-      breadcrumbName: 'HVAC Replacement & Home Comfort',
-      assetFiles: INDUSTRY_ASSETS.hvac,
-      socialImage: '/assets/images/industries/hvac-hero-social-1200x630.jpg',
-      primaryImage: {
-        status: /** @type {const} */ ('approved'),
-        truthClass: 'labeled-concept',
-        sourceMaster: 'clients/rushes-media/assets/industry-pages/hvac/masters/nano-banana-pro-4x5-4k-master.png',
-        publicUrl: '/assets/images/industries/hvac-hero-1920.jpg',
-        width: 1920,
-        height: 2400,
-      },
-    },
-    {
-      path: '/med-spa/',
-      source: 'src/pages/[slug]/index.astro',
-      title: 'Med Spa Marketing for Qualified Consults | Rushes Media',
-      description:
-        'Connect approved treatment positioning, campaign creative, consult capture, booking, and consented follow-up around services and provider capacity.',
-      parentRoute: '/industries/',
-      lifecycleStatus: /** @type {const} */ ('core-market'),
-      breadcrumbName: 'Med Spa & Aesthetic Practices',
-      assetFiles: INDUSTRY_ASSETS.medSpa,
-      socialImage: '/assets/images/industries/med-spa-hero-social-1200x630.jpg',
-      primaryImage: {
-        status: /** @type {const} */ ('approved'),
-        truthClass: 'labeled-concept',
-        sourceMaster: 'clients/rushes-media/assets/industry-pages/med-spa/masters/flux2pro-treatment-room-master.jpg',
-        publicUrl: '/assets/images/industries/med-spa-hero-960.jpg',
-        width: 960,
-        height: 1200,
-      },
-    },
-  ].map((route) => {
-    const breadcrumb = [
-      { name: 'Home', path: '/' },
-      { name: 'Industries', path: '/industries/' },
-      { name: route.breadcrumbName, path: route.path },
-    ];
-    return {
-      path: route.path,
-      owner: /** @type {const} */ ('generated'),
-      indexable: route.sitemap !== false,
-      source: route.source,
-      title: route.title,
-      description: route.description,
-      canonical: `${SITE_ORIGIN}${route.path}`,
-      requiredAssets: [
-        '/assets/industry-page.css',
-        '/assets/images/logo-icon.png',
-        '/assets/images/logo-wordmark.png',
-        ...publicAssetUrls(route.assetFiles),
-      ],
-      requiredCtas: ['#book', BOOKING_URL],
-      requiredScripts: [GA4_LOADER_PREFIX, '/assets/meta-pixel.js'],
-      sitemap: true,
-      lastmod: '2026-09-02',
-      parentRoute: route.parentRoute,
-      breadcrumb,
-      lifecycleStatus: route.lifecycleStatus,
-      primaryImage: route.primaryImage,
-      openGraph: {
-        title: route.title,
-        description: route.description,
-        url: `${SITE_ORIGIN}${route.path}`,
-        image: `${SITE_ORIGIN}${route.socialImage}`,
-        imageWidth: 1200,
-        imageHeight: 630,
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title: route.title,
-        description: route.description,
-        image: `${SITE_ORIGIN}${route.socialImage}`,
-      },
-      jsonLd: routeSchema(
-        route.path,
-        route.title,
-        route.description,
-        breadcrumb,
-        `${SITE_ORIGIN}${route.primaryImage.publicUrl}`,
-      ),
-      compatibilityDisposition: 'substantial Astro market page; retired niche aliases redirect here where applicable',
-    };
-  }),
   {
     path: '/privacy/',
     owner: 'generated',
@@ -750,8 +554,34 @@ export const SITE_CONTRACT = [
     source: 'server.js',
     sitemap: false,
     redirectStatus: 301,
-    redirectTo: '/outdoor-living/',
-    compatibilityDisposition: 'retired niche alias consolidated into Outdoor Living',
+    redirectTo: '/#examples',
+    compatibilityDisposition: 'retired niche alias; industry pages folded into the homepage examples (2026-09-03)',
+  })),
+  ...[
+    '/industries',
+    '/industries/',
+    '/industries/index.html',
+    '/outdoor-living',
+    '/outdoor-living/',
+    '/outdoor-living/index.html',
+    '/interior-design',
+    '/interior-design/',
+    '/interior-design/index.html',
+    '/hvac',
+    '/hvac/',
+    '/hvac/index.html',
+    '/med-spa',
+    '/med-spa/',
+    '/med-spa/index.html',
+  ].map((path) => ({
+    path,
+    owner: /** @type {const} */ ('redirect'),
+    indexable: false,
+    source: 'server.js',
+    sitemap: false,
+    redirectStatus: 301,
+    redirectTo: '/#examples',
+    compatibilityDisposition: 'retired industry route; short breakdowns now live on the homepage examples section (2026-09-03)',
   })),
   ...['/inquire', '/inquire/', '/inquire/index.html', '/connect', '/connect/', '/connect/index.html', '/contact', '/contact/', '/contact/index.html'].map(
     (path) => ({
@@ -869,8 +699,8 @@ export const REVIEW_COMPATIBILITY_FILES = [
 
 export const PUBLIC_ASSET_FILES = [
   'assets/inner-page.css',
-  'assets/industry-page.css',
   'assets/brand-media.css',
+  'assets/capability-pages.css',
   'assets/meta-pixel.js',
   'assets/images/hero/hero-bg.jpg',
   'assets/images/hero/hero-night-city-poster.jpg',
@@ -881,6 +711,7 @@ export const PUBLIC_ASSET_FILES = [
   ...HOMEPAGE_BROWSER_ASSET_FILES,
   ...REVISION_BROWSER_ASSET_FILES,
   ...INDUSTRY_BROWSER_ASSET_FILES,
+  ...CAPABILITY_BROWSER_ASSET_FILES,
 ];
 
 export const REVIEW_ASSET_FILES = [

@@ -1,0 +1,20 @@
+---
+import type { StandalonePair } from '../../data/capability-pages';
+
+interface Props { pair: StandalonePair; }
+const { pair } = Astro.props;
+---
+
+<section id="pair" class="cap-section cap-pair" aria-label="Hire it alone or connect it">
+  <article>
+    <span class="brand-media-eye">{pair.alone.eye}</span>
+    <h2>{pair.alone.heading}</h2>
+    <p>{pair.alone.body}</p>
+  </article>
+  <article class="cap-pair__loop">
+    <span class="brand-media-eye">{pair.loop.eye}</span>
+    <h2>{pair.loop.heading}</h2>
+    <p>{pair.loop.body}</p>
+    <a class="cap-link" href={pair.loop.href}>{pair.loop.label}<span aria-hidden="true">→</span></a>
+  </article>
+</section>

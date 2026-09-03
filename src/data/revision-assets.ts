@@ -1,4 +1,4 @@
-import type { VisualAsset } from './industry-pages';
+import type { VisualAsset } from './visual-assets';
 
 const DEFAULT_ASSET_PACK =
   'rushes-content/website-revision-asset-pack-2026-08-31';

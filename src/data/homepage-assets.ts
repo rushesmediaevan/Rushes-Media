@@ -1,4 +1,4 @@
-import type { VisualAsset } from './industry-pages';
+import type { VisualAsset } from './visual-assets';
 
 const MOBILE_MEDIA = '(max-width: 760px)';
 const DESKTOP_MEDIA = '(min-width: 761px)';

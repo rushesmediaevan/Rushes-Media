@@ -1,0 +1,66 @@
+---
+import type { SystemsBody } from '../../data/capability-pages';
+import ConceptPicture from '../brand-media/ConceptPicture.astro';
+import Lead from './Lead.astro';
+import Pair from './Pair.astro';
+
+interface Props { body: SystemsBody; }
+const { body } = Astro.props;
+const { request, map, control } = body;
+---
+
+<section id="what-this-is" tabindex="-1" class="cap-section cap-request" aria-labelledby="request-heading">
+  <Lead lead={request} id="request-heading" />
+  <div class="cap-request__grid">
+    <ol id="request-timeline" class="cap-timeline" aria-label={request.label}>
+      <li class="cap-timeline__label"><span class="brand-media-eye">{request.label}</span></li>
+      {request.moments.map((moment) => (
+        <li>
+          <time>{moment.time}</time>
+          <div>
+            <span class="brand-media-eye">{moment.stage}</span>
+            <h3>{moment.heading}</h3>
+            <p>{moment.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+    <div class="cap-moments" aria-label="Three moments a system has to catch">
+      {request.assets.map((asset) => (
+        <ConceptPicture asset={asset} sizes={asset.sizes} showCaption={false} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<section id="systems-map" class="cap-band cap-band--navy" aria-labelledby="map-heading">
+  <div class="cap-section">
+    <Lead lead={map} id="map-heading" wide />
+    <ol class="cap-ledger">
+      {map.steps.map((step, index) => (
+        <li>
+          <span class="cap-num">{String(index + 1).padStart(2, '0')}</span>
+          <span class="brand-media-eye">{step.label}</span>
+          <h3>{step.title}</h3>
+          <p>{step.body}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<section id="control" class="cap-section cap-control" aria-labelledby="control-heading">
+  <Lead lead={control} id="control-heading" />
+  <div class="cap-split">
+    <article>
+      <h3>{control.ai.title}</h3>
+      <ul>{control.ai.items.map((item) => <li>{item}</li>)}</ul>
+    </article>
+    <article class="cap-split--people">
+      <h3>{control.people.title}</h3>
+      <ul>{control.people.items.map((item) => <li>{item}</li>)}</ul>
+    </article>
+  </div>
+</section>
+
+<Pair pair={body.pair} />

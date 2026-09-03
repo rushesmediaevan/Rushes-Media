@@ -1,0 +1,121 @@
+---
+import type { DemandLoopBody } from '../../data/capability-pages';
+import ConceptPicture from '../brand-media/ConceptPicture.astro';
+import Lead from './Lead.astro';
+
+interface Props { body: DemandLoopBody; }
+const { body } = Astro.props;
+const { loop, chapters, thread, entry, boundary } = body;
+
+const CENTER = 260;
+const RADIUS = 186;
+const nodes = loop.stages.map((stage, index) => {
+  const angle = (-90 + index * (360 / loop.stages.length)) * (Math.PI / 180);
+  const x = CENTER + RADIUS * Math.cos(angle);
+  const y = CENTER + RADIUS * Math.sin(angle);
+  const labelRadius = RADIUS + 44;
+  const lx = CENTER + labelRadius * Math.cos(angle);
+  const ly = CENTER + labelRadius * Math.sin(angle);
+  const anchor = Math.abs(Math.cos(angle)) < 0.2 ? 'middle' : Math.cos(angle) > 0 ? 'start' : 'end';
+  return { ...stage, index, x, y, lx, ly, anchor };
+});
+const circumference = 2 * Math.PI * RADIUS;
+---
+
+<section id="loop-stages" tabindex="-1" class="cap-section cap-loop" aria-labelledby="loop-stages-heading">
+  <Lead lead={loop} id="loop-stages-heading" />
+  <div class="cap-loop__grid">
+    <svg id="loop-map" class="cap-loop__map" viewBox="0 0 520 520" role="img" aria-label="The Demand Loop: attention, reach, decision, response, and continuity, connected in one ring" data-loop-map>
+      <circle class="cap-loop__ring" cx={CENTER} cy={CENTER} r={RADIUS} style={`--ring:${circumference.toFixed(1)}`} />
+      {nodes.map((node) => (
+        <>
+          <a href={`#loop-stage-${node.index + 1}`}>
+            <circle class="cap-loop__node" cx={node.x.toFixed(1)} cy={node.y.toFixed(1)} r="26" />
+            <text class="cap-loop__number" x={node.x.toFixed(1)} y={(node.y + 5).toFixed(1)} text-anchor="middle">{String(node.index + 1).padStart(2, '0')}</text>
+          </a>
+          <text class="cap-loop__label" x={node.lx.toFixed(1)} y={(node.ly + 4).toFixed(1)} text-anchor={node.anchor}>{node.stage}</text>
+        </>
+      ))}
+      <text class="cap-loop__title" x={CENTER} y={CENTER - 8} text-anchor="middle">The Demand Loop</text>
+      <text class="cap-loop__subtitle" x={CENTER} y={CENTER + 20} text-anchor="middle">attention → action → next date</text>
+    </svg>
+    <ol class="cap-loop__legend">
+      {nodes.map((node) => (
+        <li>
+          <span class="cap-num">{String(node.index + 1).padStart(2, '0')}</span>
+          <div>
+            <span class="brand-media-eye">{node.stage} · {node.capability}</span>
+            <b>{node.name}</b>
+            <p>{node.purpose}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<div id="chapters" class="cap-chapters">
+  {chapters.map((chapter, index) => (
+    <section class="cap-section cap-chapter" aria-labelledby={`loop-stage-${index + 1}-heading`}>
+      <ConceptPicture asset={chapter.asset} className="cap-chapter__visual" sizes="(max-width: 760px) calc(100vw - 44px), 40vw" showCaption={false} />
+      <header id={`loop-stage-${index + 1}`} tabindex="-1" class="cap-chapter__copy">
+        <span class="cap-num">{String(index + 1).padStart(2, '0')}</span>
+        <span class="brand-media-eye">{chapter.stage}</span>
+        <h2 id={`loop-stage-${index + 1}-heading`}>{chapter.name}</h2>
+        <p class="cap-chapter__purpose">{chapter.purpose}</p>
+        <p>{chapter.body}</p>
+        <a class="cap-link" href={chapter.href}>Rushes capability · {chapter.capability}<span aria-hidden="true">→</span></a>
+      </header>
+    </section>
+  ))}
+</div>
+
+<section id="thread" class="cap-band cap-band--navy" aria-labelledby="thread-heading">
+  <div class="cap-section">
+    <Lead lead={thread} id="thread-heading" wide />
+    <ol class="cap-thread">
+      {thread.moments.map((moment, index) => (
+        <li>
+          <span class="cap-num">{String(index + 1).padStart(2, '0')}</span>
+          <span class="brand-media-eye">{moment.stage}</span>
+          <p>{moment.line}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<section id="entry" class="cap-section cap-entry" aria-labelledby="entry-heading">
+  <Lead lead={entry} id="entry-heading" />
+  <div class="cap-entry__grid">
+    {entry.options.map((option) => (
+      <a class="cap-entry__card" href={option.href}>
+        <h3>{option.title}</h3>
+        <p>{option.body}</p>
+        <span class="cap-link">{option.label}<span aria-hidden="true">→</span></span>
+      </a>
+    ))}
+  </div>
+  <aside id="boundary" class="cap-boundary">
+    <span class="brand-media-eye">{boundary.eye}</span>
+    <h3>{boundary.heading}</h3>
+    <p>{boundary.body}</p>
+  </aside>
+</section>
+
+<script is:inline>
+  (() => {
+    const map = document.querySelector('[data-loop-map]');
+    if (!map || !('IntersectionObserver' in window)) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    map.classList.add('cap-loop__map--armed');
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        map.classList.add('cap-loop__map--drawn');
+        observer.disconnect();
+      }
+    }, { threshold: 0.35 });
+    observer.observe(map);
+  })();
+</script>

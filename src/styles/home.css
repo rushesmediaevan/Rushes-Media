@@ -2889,7 +2889,6 @@
       line-height: 1.6;
     }
     .v3-film,
-    .v3-strip,
     .v3-web-photo,
     .v3-range figure {
       margin: 0;
@@ -2897,17 +2896,14 @@
       background: var(--navy);
     }
     .v3-film,
-    .v3-strip,
     .v3-web-photo,
     .v3-film img,
-    .v3-strip img,
     .v3-web-photo img,
     .v3-range img {
       width: 100%;
       height: 100%;
     }
     .v3-film img,
-    .v3-strip img,
     .v3-web-photo img,
     .v3-range img {
       display: block;
@@ -2922,20 +2918,6 @@
       height: min(32vh, 280px);
     }
     .v3-film-hero { grid-row: 1 / span 2; }
-    .v3-strip {
-      display: grid;
-      grid-template-columns: 1.1fr .7fr 1.2fr;
-      gap: 8px;
-      align-items: end;
-      height: min(28vh, 240px);
-    }
-    .v3-crop { margin: 0; overflow: hidden; height: 100%; background: var(--navy); }
-    .v3-crop--feed { aspect-ratio: 4 / 5; height: 92%; }
-    .v3-crop--story { aspect-ratio: 9 / 16; height: 100%; }
-    .v3-crop--site { aspect-ratio: 16 / 9; height: 78%; }
-    .v3-crop--feed img { object-position: 42% 48%; }
-    .v3-crop--story img { object-position: 58% 30%; }
-    .v3-crop--site img { object-position: 50% 70%; }
     .v3-web-photo {
       height: min(30vh, 260px);
     }
@@ -3069,7 +3051,6 @@
         max-height: none;
       }
       .v3-film,
-      .v3-strip,
       .v3-web-photo,
       .v3-systems { order: -1; }
       .v3-film {
@@ -3078,17 +3059,6 @@
         grid-template-rows: auto;
       }
       .v3-film-hero { grid-column: 1 / -1; min-height: 220px; }
-      .v3-strip {
-        grid-template-columns: 1fr;
-        height: auto;
-      }
-      .v3-crop,
-      .v3-crop--feed,
-      .v3-crop--story,
-      .v3-crop--site {
-        aspect-ratio: 4 / 5;
-        height: auto;
-      }
       .v3-web-photo { height: auto; aspect-ratio: 4 / 5; }
       .v3-systems ol { grid-template-columns: 1fr; }
       .v3-range {
@@ -3102,11 +3072,6 @@
       .v3-chapter-copy h3 { font-size: clamp(32px, 10vw, 44px); }
     }
 
-    @media (max-width: 760px) {
-      /* v3.1: one idea in three crops stays a row on phones; three stacked copies of one still read as a bug */
-      .v3-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; height: auto; align-items: stretch; }
-      .v3-crop, .v3-crop--feed, .v3-crop--story, .v3-crop--site { height: auto; aspect-ratio: 3 / 4; }
-    }
     /* v3.2: services chapters — one media height, equal crops, rules between chapters, systems block with room */
     .v3-chapter { max-height: none; }
     .v3-chapter + .v3-chapter { margin-top: 10px; padding-top: 28px; border-top: 1px solid rgba(26, 42, 63, .12); }
@@ -3118,16 +3083,9 @@
     @media (min-width: 761px) {
       .v3-chapter { gap: 16px 48px; padding: 18px 0 22px; }
       .v3-film,
-      .v3-strip,
       .v3-web-photo { height: min(46vh, 400px); }
       .v3-film { grid-template-columns: minmax(0, 1.5fr) minmax(0, .75fr); grid-template-rows: 1fr 1fr; }
       .v3-film > div { min-height: 0; }
-      .v3-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; }
-      .v3-crop, .v3-crop--feed, .v3-crop--story, .v3-crop--site { height: 100%; aspect-ratio: auto; }
-      .v3-strip { gap: 6px; }
-      .v3-crop--feed img { object-position: 0% 50%; }
-      .v3-crop--story img { object-position: 50% 50%; }
-      .v3-crop--site img { object-position: 100% 50%; }
       .v3-systems { gap: 18px; align-self: center; }
       .v3-systems-map { max-width: none; }
       .v3-systems-map text { font-size: 12.5px; }
@@ -3136,17 +3094,41 @@
     @media (max-width: 760px) {
       /* the systems chapter reads title first; the numbered list is the diagram on phones */
       .v3-chapter--systems .v3-systems { order: 1; margin-top: 14px; padding-top: 18px; border-top: 1px solid rgba(26, 42, 63, .14); }
-      /* phones: one wide frame; three 125px slivers of the same photo do not read as a triptych */
-      .v3-strip { grid-template-columns: 1fr; gap: 0; }
-      .v3-crop--story, .v3-crop--site { display: none; }
-      .v3-crop--feed { aspect-ratio: 16 / 10; }
-      .v3-crop--feed img { object-position: 50% 45%; }
       .v3-chapter--systems .v3-systems-map { display: none; }
       .v3-chapter + .v3-chapter { margin-top: 18px; padding-top: 26px; }
     }
     @media (prefers-reduced-motion: reduce) {
       .v3-film img,
-      .v3-strip img,
       .v3-web-photo img,
       .v3-range img { opacity: 1; }
     }
+    /* v4 (2026-09-03): one uncut campaign frame; the systems block sits on one panel; examples are breakdowns, not links */
+    .v3-campaign-photo img { object-position: 50% 55%; }
+    .v3-chapter--systems .v3-systems {
+      padding: 22px 24px 24px;
+      border: 1px solid rgba(26, 42, 63, .12);
+      background: var(--paper, #e8dfcf);
+    }
+    .v3-chapter--systems .v3-systems-map { max-width: 100%; }
+    .v3-chapter--systems .v3-systems ol { padding-top: 16px; border-top: 1px solid rgba(26, 42, 63, .14); }
+    .v3-range-card { cursor: default; }
+    .v3-range-move {
+      display: grid;
+      gap: 2px;
+      margin-top: 10px !important;
+      padding-top: 10px;
+      border-top: 1px solid rgba(26, 42, 63, .14);
+      color: var(--navy) !important;
+      font-size: 13.5px !important;
+    }
+    .v3-range-move b {
+      color: var(--gold-on-light);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    @media (max-width: 760px) {
+      .v3-campaign-photo { aspect-ratio: 16 / 10; }
+    }
+    .v3-range-card h3 { color: var(--navy); }

@@ -106,8 +106,8 @@ async function assertContentRoutes(origin, includeReviewRoutes) {
   );
   assert.equal(
     contentRoutes.length,
-    includeReviewRoutes ? 21 : 18,
-    `The smoke matrix must cover ${includeReviewRoutes ? 21 : 18} content routes.`,
+    includeReviewRoutes ? 16 : 13,
+    `The smoke matrix must cover ${includeReviewRoutes ? 16 : 13} content routes.`,
   );
 
   for (const route of contentRoutes) {
@@ -193,7 +193,7 @@ async function assertRedirects(origin) {
     301,
     { method: 'HEAD' },
   );
-  assert.equal(canonicalWithQuery.headers.get('location'), '/outdoor-living/?utm_source=smoke');
+  assert.equal(canonicalWithQuery.headers.get('location'), '/?utm_source=smoke#examples');
 
   const rootExplicitFile = await expectResponse(origin, '/index.html?utm_medium=smoke', 301);
   assert.equal(rootExplicitFile.headers.get('location'), '/?utm_medium=smoke');

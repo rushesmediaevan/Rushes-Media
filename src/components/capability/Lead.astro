@@ -1,0 +1,17 @@
+---
+import type { SectionLead } from '../../data/capability-pages';
+
+interface Props {
+  lead: SectionLead;
+  id: string;
+  wide?: boolean;
+}
+
+const { lead, id, wide = false } = Astro.props;
+---
+
+<header class:list={['cap-lead', wide && 'cap-lead--wide']}>
+  <span class="brand-media-eye">{lead.eye}</span>
+  <h2 id={id}>{lead.heading}</h2>
+  {lead.intro && <p>{lead.intro}</p>}
+</header>

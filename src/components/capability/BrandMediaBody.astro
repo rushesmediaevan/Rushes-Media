@@ -1,0 +1,91 @@
+---
+import type { BrandMediaBody } from '../../data/capability-pages';
+import ConceptPicture from '../brand-media/ConceptPicture.astro';
+import Lead from './Lead.astro';
+import Pair from './Pair.astro';
+
+interface Props { body: BrandMediaBody; }
+const { body } = Astro.props;
+const { manifesto, gallery, delivery } = body;
+
+// Proportional frames for the "one frame, four uses" spread (unit height 100).
+const frames = delivery.spread.formats.map((format) => {
+  const [w, h] = format.ratio.split(':').map(Number);
+  const height = w >= h ? 100 * (h / w) : 100;
+  const width = w >= h ? 100 : 100 * (w / h);
+  return { ...format, width, height };
+});
+---
+
+<section id="what-this-is" tabindex="-1" class="cap-section cap-manifesto" aria-labelledby="manifesto-heading">
+  <div class="cap-manifesto__copy">
+    <span class="brand-media-eye">{manifesto.eye}</span>
+    <h2 id="manifesto-heading">{manifesto.heading}</h2>
+    <p class="cap-pull">{manifesto.pull}</p>
+    {manifesto.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+  </div>
+  <ConceptPicture asset={manifesto.asset} className="cap-manifesto__visual" sizes={manifesto.asset.sizes} showCaption={false} />
+</section>
+
+<section id="gallery" class="cap-band cap-band--navy" aria-labelledby="gallery-heading">
+  <div class="cap-section">
+    <Lead lead={gallery} id="gallery-heading" wide />
+    <div class="cap-gallery">
+      {gallery.items.map((item, index) => (
+        <figure class="cap-gallery__item">
+          <ConceptPicture asset={item.asset} sizes={item.asset.sizes.includes('32vw') ? item.asset.sizes : '(max-width: 760px) calc(100vw - 44px), 32vw'} showCaption={false} />
+          <figcaption>
+            <span class="brand-media-eye">{String(index + 1).padStart(2, '0')} · {item.label}</span>
+            <h3>{item.heading}</h3>
+            <p>{item.body}</p>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section id="delivery" class="cap-section cap-delivery" aria-labelledby="delivery-heading">
+  <Lead lead={delivery} id="delivery-heading" />
+  <ol class="cap-stages">
+    {delivery.stages.map((stage, index) => (
+      <li>
+        <span class="brand-media-eye">{String(index + 1).padStart(2, '0')} · {stage.label}</span>
+        <h3>{stage.title}</h3>
+        <p>{stage.body}</p>
+      </li>
+    ))}
+  </ol>
+  <div class="cap-spread">
+    <div class="cap-spread__copy">
+      <span class="brand-media-eye">{delivery.spread.eye}</span>
+      <h3>{delivery.spread.heading}</h3>
+    </div>
+    <svg class="cap-spread__map" viewBox="0 0 640 180" role="img" aria-label="One captured frame becomes feed, story, web, and sales versions">
+      <rect class="cap-spread__source" x="20" y="30" width="150" height="100" />
+      <text class="cap-spread__label" x="95" y="150" text-anchor="middle">Capture</text>
+      <path class="cap-spread__line" d="M170 80 H210" />
+      <path class="cap-spread__line" d="M210 80 V40 M210 80 V120" />
+      {frames.map((frame, index) => {
+        const slotWidth = 100;
+        const x = 240 + index * slotWidth + (slotWidth - frame.width) / 2;
+        const y = 80 - frame.height / 2;
+        return (
+          <>
+            <path class="cap-spread__line" d={`M210 ${index < 2 ? 40 : 120} H${x}`} />
+            <rect class="cap-spread__frame" x={x} y={y} width={frame.width} height={frame.height} />
+            <text class="cap-spread__ratio" x={x + frame.width / 2} y={84} text-anchor="middle">{frame.ratio}</text>
+            <text class="cap-spread__label" x={240 + index * slotWidth + slotWidth / 2} y="150" text-anchor="middle">{frame.name}</text>
+          </>
+        );
+      })}
+    </svg>
+    <ul class="cap-spread__uses">
+      {delivery.spread.formats.map((format) => (
+        <li><b>{format.name}</b><span>{format.use}</span></li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<Pair pair={body.pair} />

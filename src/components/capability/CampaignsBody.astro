@@ -1,0 +1,82 @@
+---
+import type { CampaignsBody } from '../../data/capability-pages';
+import ConceptPicture from '../brand-media/ConceptPicture.astro';
+import Lead from './Lead.astro';
+import Pair from './Pair.astro';
+
+interface Props { body: CampaignsBody; }
+const { body } = Astro.props;
+const { leak, matrix, experiment } = body;
+const nodeX = (index: number) => 60 + index * 160;
+---
+
+<section id="what-this-is" tabindex="-1" class="cap-section cap-leak" aria-labelledby="leak-heading">
+  <Lead lead={leak} id="leak-heading" />
+  <svg id="leak-map" class="cap-leak__map" viewBox="0 0 760 130" role="img" aria-label="The path from idea to outcome, with the four places paid campaigns leak">
+    {leak.nodes.map((node, index) => (
+      <>
+        {index < leak.nodes.length - 1 && (
+          <>
+            <path class="cap-leak__line" d={`M${nodeX(index) + 22} 50 H${nodeX(index + 1) - 22}`} />
+            <g class="cap-leak__gap" transform={`translate(${nodeX(index) + 80} 50)`}>
+              <circle r="11" />
+              <text y="4" text-anchor="middle">{index + 1}</text>
+            </g>
+          </>
+        )}
+        <circle class="cap-leak__node" cx={nodeX(index)} cy="50" r="22" />
+        <text class="cap-leak__label" x={nodeX(index)} y="104" text-anchor="middle">{node}</text>
+      </>
+    ))}
+  </svg>
+  <ol class="cap-leak__pains">
+    {leak.pains.map((pain, index) => (
+      <li>
+        <span class="cap-num">{index + 1}</span>
+        <div>
+          <span class="brand-media-eye">Between {leak.nodes[pain.after]} and {leak.nodes[pain.after + 1]}</span>
+          <h3>{pain.title}</h3>
+          <p>{pain.body}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<section id="matrix" class="cap-band cap-band--navy" aria-labelledby="matrix-heading">
+  <div class="cap-section">
+    <Lead lead={matrix} id="matrix-heading" wide />
+    <table class="cap-matrix">
+      <thead>
+        <tr><th scope="col">Layer</th><th scope="col">What is fixed before launch</th><th scope="col">Who owns it</th></tr>
+      </thead>
+      <tbody>
+        {matrix.rows.map((row) => (
+          <tr>
+            <th scope="row"><span class="brand-media-eye">{row.label}</span><b>{row.title}</b></th>
+            <td>{row.body}</td>
+            <td class="cap-matrix__note">{row.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="experiment" class="cap-section cap-experiment" aria-labelledby="experiment-heading">
+  <Lead lead={experiment} id="experiment-heading" />
+  <div class="cap-experiment__grid">
+    <ol class="cap-rail">
+      {experiment.steps.map((step, index) => (
+        <li>
+          <span class="cap-num">{String(index + 1).padStart(2, '0')}</span>
+          <h3>{step.name}</h3>
+          <p>{step.body}</p>
+        </li>
+      ))}
+    </ol>
+    <ConceptPicture asset={experiment.asset} className="cap-experiment__visual" sizes={experiment.asset.sizes} showCaption={false} />
+  </div>
+</section>
+
+<Pair pair={body.pair} />

@@ -5,18 +5,16 @@ import HomePicture from './HomePicture.astro';
 
 <section id="examples" tabindex="-1" aria-labelledby="examples-heading">
   <div class="v3-examples-head">
-    <span>Selected applications</span>
+    <span>Where this takes shape</span>
     <h2 id="examples-heading">Different businesses. Different opportunities.</h2>
     <div>
-      <p>Rushes works across industries. The right work depends on what the business is trying to accomplish. These examples show how media, campaigns, web, and systems can take shape in different contexts. They are Industry examples, not a limit on who Rushes can help.</p>
-      <a href="/industries/">Explore the industry examples <span aria-hidden="true">→</span></a>
+      <p>Rushes works across industries. The right work depends on what the business is trying to accomplish. These are a few of the markets where the approach has taken shape, with the move that usually comes first. They are examples, not a limit on who Rushes can help.</p>
     </div>
   </div>
   <div class="v3-range">
     {audiences.map((audience, index) => (
-      <a
+      <article
         class:list={['v3-range-card', index === 0 && 'lead']}
-        href={audience.href}
         data-visual-truth={audience.visual.truthClass}
       >
         <figure>
@@ -28,7 +26,8 @@ import HomePicture from './HomePicture.astro';
         <span class="who-card-route">{audience.routeLabel}</span>
         <h3>{audience.label}</h3>
         <p>{audience.summary}</p>
-      </a>
+        <p class="v3-range-move"><b>Usual first move</b>{audience.firstMove}</p>
+      </article>
     ))}
   </div>
 </section>

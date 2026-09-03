@@ -266,18 +266,18 @@ for (const route of REDIRECT_ROUTES) {
 }
 
 const generatedRoutes = SITE_CONTRACT.filter((route) => route.owner === 'generated');
-assert.equal(generatedRoutes.length, 13, 'Exactly 13 content routes must be Astro-generated.');
-assert.equal(INDEXABLE_ROUTES.length, 13, 'Exactly 13 routes must be in the sitemap contract.');
+assert.equal(generatedRoutes.length, 8, 'Exactly 8 content routes must be Astro-generated.');
+assert.equal(INDEXABLE_ROUTES.length, 8, 'Exactly 8 routes must be in the sitemap contract.');
 assert.equal(
   generatedRoutes.filter((route) => route.indexable).length,
-  13,
-  'Exactly 13 generated routes must remain indexable.',
+  8,
+  'Exactly 8 generated routes must remain indexable.',
 );
 
 const publicHtmlRoutes = SITE_CONTRACT.filter((route) =>
   ['generated', 'compatibility'].includes(route.owner),
 );
-assert.equal(publicHtmlRoutes.length, 18, 'Exactly 18 HTML routes belong in the public release.');
+assert.equal(publicHtmlRoutes.length, 13, 'Exactly 13 HTML routes belong in the public release.');
 
 assert.equal(REVISION_BROWSER_ASSET_FILES.length, 60, 'The revision derivative set must contain 60 files.');
 assert.equal(
@@ -297,7 +297,7 @@ assert.ok(
 );
 for (const [routePath, assetIds, expectedCount] of [
   ['/', ['05-medspa', '02-bakery', '04-restaurant', '06-daylit-venue'], 48],
-  ['/brand-media/', ['07-coastal-terrace'], 12],
+  ['/brand-media/', ['07-coastal-terrace', '04-restaurant'], 24],
 ]) {
   const route = SITE_CONTRACT.find((entry) => entry.path === routePath);
   const revisionAssets = (route?.requiredAssets ?? []).filter((file) =>
@@ -501,7 +501,6 @@ for (const utmKey of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']
 }
 assert.ok(homepageHtml.includes('slice(0,120)'), 'Homepage attribution must truncate at 120 characters.');
 assert.ok(homepageHtml.includes('30-minute Growth Call'), 'Homepage Growth Call duration drifted from 30 minutes.');
-assert.ok(homepageHtml.includes('Industry examples'), 'Homepage lost the cross-industry framing.');
 assert.ok(
   homepageHtml.includes('Rushes works across industries.'),
   'Homepage must make clear that the examples do not limit who Rushes can help.',
@@ -510,7 +509,12 @@ assert.ok(homepageHtml.includes('Outdoor Living &amp; Design-Build'));
 assert.ok(homepageHtml.includes('Interior Design &amp; Residential Build'));
 assert.ok(homepageHtml.includes('HVAC Replacement &amp; Home Comfort'));
 assert.ok(homepageHtml.includes('Med Spa &amp; Aesthetic Practices'));
-assert.ok(homepageHtml.includes('href="/industries/"'));
+assert.ok(!homepageHtml.includes('href="/industries/"'), 'Retired industries hub leaked into homepage links.');
+for (const retiredIndustryHref of ['/outdoor-living/', '/interior-design/', '/hvac/', '/med-spa/']) {
+  assert.ok(!homepageHtml.includes(`href="${retiredIndustryHref}"`), `Retired industry route leaked into homepage links: ${retiredIndustryHref}`);
+}
+assert.ok(homepageHtml.includes('Usual first move'), 'Homepage examples lost their first-move breakdown.');
+assert.ok(!/<a\s[^>]*class="v3-range-card/.test(homepageHtml), 'Homepage examples must be breakdowns, not links.');
 assert.ok(!homepageHtml.includes('href="/hardscape/"'), 'Retired hardscape URL leaked into homepage links.');
 assert.ok(!homepageHtml.includes('href="/pools/"'), 'Retired pools URL leaked into homepage links.');
 assert.ok(homepageHtml.includes(GHL_TRACKING_ID), 'Homepage GHL tracking ID drifted.');
@@ -681,7 +685,7 @@ for (const routePath of ['/brand-media/', '/campaigns/', '/web/', '/follow-up/']
   const html = await readFile(pageFile('/demand-loop/'), 'utf8');
   assertBuiltMobileNav(html, 'editorial-mobile-navigation', '/demand-loop/');
   assert.ok(
-    html.includes('<header id="loop-stage-4" tabindex="-1">'),
+    html.includes('id="loop-stage-4" tabindex="-1"'),
     '/demand-loop/ stage anchors must transfer keyboard focus to their destination cards.',
   );
   assert.ok(
@@ -693,13 +697,6 @@ for (const routePath of ['/brand-media/', '/campaigns/', '/web/', '/follow-up/']
   }
   for (const removedMarker of ['Nine handoffs', 'Rushes owns', 'Owner owns', 'Operating agreement', 'Control point']) {
     assert.ok(!html.includes(removedMarker), `/demand-loop/ retained internal operating copy: ${removedMarker}`);
-  }
-}
-for (const routePath of ['/industries/', '/outdoor-living/', '/interior-design/', '/hvac/', '/med-spa/']) {
-  const html = await readFile(pageFile(routePath), 'utf8');
-  assertBuiltMobileNav(html, 'industry-mobile-navigation', routePath);
-  for (const href of ['/#services', '/demand-loop/', '/#examples', '#book']) {
-    assert.ok(tags(html, 'a').some((link) => link.href === href), `${routePath} mobile navigation lost ${href}.`);
   }
 }
 
@@ -719,7 +716,6 @@ for (const marker of [
 assert.ok(!brandMediaHtml.includes('A realistic example'), '/brand-media/ retained the cut realistic-example block.');
 assert.ok(!brandMediaHtml.includes('concept visualization'), '/brand-media/ retained a concept-visualization caption.');
 assert.ok(!brandMediaHtml.includes('A strong starting point'), '/brand-media/ retained the cut starting-point section.');
-assert.ok(!brandMediaHtml.includes('What you receive'), '/brand-media/ retained the cut delivery section.');
 assert.ok(!brandMediaHtml.includes('Brand Media earns attention.'), '/brand-media/ retained its superseded distinction heading.');
 assert.ok(!brandMediaHtml.includes('role="note"'), '/brand-media/ retained a redundant image-note block.');
 assert.ok(!brandMediaHtml.includes('Book a Growth Call') || brandMediaHtml.indexOf('brand-media-button--primary') < 0, '/brand-media/ hero must not duplicate the Growth Call button.');
@@ -730,11 +726,11 @@ assertOrdered(brandMediaHtml, [
   'id="book"',
 ], '/brand-media/');
 assert.ok(!brandMediaHtml.includes('/assets/images/industries/interior-design-detail-1440.jpg'));
+assert.ok(!brandMediaHtml.includes('capability-answers'), '/brand-media/ retained the generic answer-row template.');
 assert.ok(brandMediaHtml.includes('/assets/images/industries/med-spa-hero-960.jpg'));
 assertRevisionPicture(brandMediaHtml, '07-coastal-terrace');
 assert.ok(!brandMediaHtml.includes('/assets/images/revision/02-bakery-'));
 assert.ok(!brandMediaHtml.includes('/assets/images/revision/05-medspa-'));
-assert.ok(!brandMediaHtml.includes('/assets/images/revision/04-restaurant-'));
 assert.ok(!brandMediaHtml.includes('/assets/images/revision/06-daylit-venue-'));
 assert.ok(!brandMediaHtml.includes('/assets/work/'), '/brand-media/ leaked review-only work material.');
 assert.ok(!brandMediaHtml.includes('/assets/proof/'), '/brand-media/ leaked review-only proof material.');
@@ -762,7 +758,7 @@ const homepageImageSources = tags(homepageHtml, 'img').map((image) => image.src)
 const brandMediaImageSources = tags(brandMediaHtml, 'img').map((image) => image.src).filter(Boolean);
 for (const [routePath, folder, assetId, expectedCount] of [
   ['/', 'homepage', 'brand-media-riverside-mill', 1],
-  ['/', 'homepage', 'campaigns-submerged', 3],
+  ['/', 'homepage', 'campaigns-submerged', 1],
   ['/', 'revision', '05-medspa', 1],
   ['/', 'revision', '06-daylit-venue', 1],
   ['/brand-media/', 'revision', '07-coastal-terrace', 1],
@@ -778,7 +774,8 @@ for (const [routePath, folder, assetId, expectedCount] of [
 const homepageConceptImages = tags(homepageHtml, 'img').filter(
   (entry) => entry.src?.includes('/assets/images/homepage/'),
 );
-assert.equal(homepageConceptImages.length, 4, 'Homepage must render mill once and the campaign still three times.');
+assert.equal(homepageConceptImages.length, 2, 'Homepage must render the mill once and one uncut campaign frame.');
+assert.ok(!homepageHtml.includes('v3-strip'), 'Homepage retained the sliced campaign triptych.');
 assert.equal(
   new Set(homepageConceptImages.map((image) => image.src)).size,
   2,
@@ -799,11 +796,35 @@ for (const routePath of ['/campaigns/', '/web/', '/follow-up/', '/demand-loop/']
   assert.ok(!html.includes('A strong starting point'), `${routePath} retained a cut starting-point section.`);
   assertOrdered(html, [
     'class="brand-media-hero',
-    'id="what-this-is"',
+    routePath === '/demand-loop/' ? 'id="loop-stages"' : 'id="what-this-is"',
     'class="brand-media-faq',
     'id="book"',
   ], routePath);
 }
+
+// Each capability page carries its own body; the generic answer-row template is gone.
+const capabilitySignatures = new Map([
+  ['/brand-media/', ['data-capability-body="brand-media"', 'id="gallery"', 'id="delivery"', 'class="cap-spread__map"']],
+  ['/campaigns/', ['data-capability-body="campaigns"', 'id="leak-map"', 'id="matrix"', 'id="experiment"', '<table class="cap-matrix"']],
+  ['/web/', ['data-capability-body="web"', 'id="decision-ladder"', 'id="pains"', 'id="process"']],
+  ['/follow-up/', ['data-capability-body="systems"', 'id="request-timeline"', 'id="systems-map"', 'id="control"']],
+  ['/demand-loop/', ['data-capability-body="demand-loop"', 'id="loop-map"', 'id="chapters"', 'id="thread"', 'id="entry"']],
+]);
+const capabilityBodies = [];
+for (const [routePath, markers] of capabilitySignatures) {
+  const html = await readFile(pageFile(routePath), 'utf8');
+  for (const marker of markers) {
+    assert.ok(html.includes(marker), `${routePath} lost its page-specific structure: ${marker}`);
+  }
+  assert.ok(!html.includes('class="capability-answers"'), `${routePath} still renders the generic answer-row template.`);
+  assert.ok(html.includes('/assets/capability-pages.css'), `${routePath} lost the capability stylesheet.`);
+  assert.ok(html.includes('id="pair"') || routePath === '/demand-loop/', `${routePath} lost its stands-alone / connects pair.`);
+  capabilityBodies.push(markers[0]);
+  for (const otherMarker of [...capabilitySignatures.values()].flat().filter((entry) => entry.startsWith('id=') && !markers.includes(entry))) {
+    assert.ok(!html.includes(otherMarker), `${routePath} borrowed another page's section: ${otherMarker}`);
+  }
+}
+assert.equal(new Set(capabilityBodies).size, 5, 'Capability pages must render five distinct bodies.');
 
 const campaignsHtml = await readFile(pageFile('/campaigns/'), 'utf8');
 for (const marker of [
@@ -825,88 +846,6 @@ for (const marker of [
   assert.ok(webHtml.includes(marker), `/web/ is missing strategic marker: ${marker}`);
 }
 
-const industryMarkers = new Map([
-  ['/industries/', ['Four industry examples', 'See how the approach changes by business.', 'The Demand Loop changes with the business.']],
-  ['/outdoor-living/', ['The outdoor-living project path', 'One outdoor-living system. Distinct project lanes.', 'Do hardscape, landscape design-build and pool projects need separate campaigns?']],
-  ['/interior-design/', ['The residential design-project path', 'A stronger path for the residential work worth protecting.', 'Will marketing make the brand feel generic?']],
-  ['/hvac/', ['The replacement-opportunity path', 'Built around replacement value, not just more phone volume.', 'Does this replace our dispatcher or office team?']],
-  ['/med-spa/', ['The aesthetic-consult path', 'Built around approved priorities and available provider capacity.', 'Does Rushes write medical or treatment claims?']],
-]);
-const industryTexts = [];
-for (const [routePath, markers] of industryMarkers) {
-  const route = SITE_CONTRACT.find((entry) => entry.path === routePath);
-  assert.ok(route, `Missing industry contract route ${routePath}.`);
-  const html = await readFile(pageFile(routePath), 'utf8');
-  const text = visibleText(html);
-  assert.ok(text.length > 1500, `${routePath} is still too thin to explain the market clearly.`);
-  industryTexts.push(text);
-  for (const marker of markers) {
-    assert.ok(html.includes(marker), `${routePath} is missing its distinct content marker: ${marker}`);
-  }
-  assert.ok(html.includes('/assets/industry-page.css'), `${routePath} lost the industry design system.`);
-  assert.ok(html.includes('data-industry-booking-frame'), `${routePath} lost its booking frame.`);
-  for (const utmKey of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
-    assert.ok(html.includes(utmKey), `${routePath} attribution is missing ${utmKey}.`);
-  }
-  assert.ok(html.includes('slice(0,120)'), `${routePath} attribution must truncate at 120 characters.`);
-  assert.ok(html.includes('growth_call_click'), `${routePath} lost its Growth Call click event.`);
-  assert.ok(html.includes('booking_section_view'), `${routePath} lost meaningful booking visibility.`);
-  assert.ok(html.includes('industry_route'), `${routePath} lost its established industry analytics dimension.`);
-  assert.ok(html.includes("host.endsWith('.test')"), `${routePath} analytics test-host suppression is missing.`);
-  assert.ok(!html.includes('astro-island'), `${routePath} emitted an Astro island.`);
-  assert.ok(!html.includes('/assets/proof/'), `${routePath} leaked a review-only proof asset into release HTML.`);
-  assert.ok(!html.includes('data-review-only-asset'), `${routePath} leaked private review markup.`);
-  assert.equal(route.primaryImage?.status, 'approved', `${routePath} primary-image gate drifted.`);
-  assert.ok(html.includes('data-visual-truth="labeled-concept"'), `${routePath} lost its visual truth label.`);
-  assert.ok(
-    html.includes('not a completed client project') ||
-      html.includes('not client work') ||
-      html.includes('not a client installation') ||
-      html.includes('no patient'),
-    `${routePath} lost its visible concept disclosure.`,
-  );
-  if (routePath !== '/industries/') {
-    assert.ok(html.includes('The Demand Loop for this market'), `${routePath} lost its Demand Loop connection.`);
-    for (const removedSection of ['industry-pains', 'industry-fit', 'industry-region']) {
-      assert.ok(!html.includes(removedSection), `${routePath} retained the removed section: ${removedSection}`);
-    }
-    assertOrdered(html, [
-      'class="industry-hero"',
-      'id="system"',
-      'class="industry-section industry-use-cases"',
-      'class="industry-section industry-proof"',
-      'class="industry-related"',
-      'class="industry-section industry-faq"',
-      'id="book"',
-    ], routePath);
-  }
-  for (const source of tags(html, 'source').filter((entry) => entry.type?.startsWith('image/'))) {
-    assert.ok(source.srcset?.includes('w'), `${routePath} emitted an image source without width descriptors.`);
-    assert.ok(source.sizes, `${routePath} emitted an image source without sizes.`);
-  }
-  for (const image of tags(html, 'img').filter((entry) => entry.src?.includes('/assets/images/industries/'))) {
-    assert.ok(Number(image.width) > 0 && Number(image.height) > 0, `${routePath} image lacks measured dimensions.`);
-    assert.ok(image.alt, `${routePath} industry image lacks descriptive alt text.`);
-  }
-}
-assert.equal(new Set(industryTexts).size, industryTexts.length, 'Industry pages emitted repeated boilerplate documents.');
-
-const industriesHubHtml = await readFile(pageFile('/industries/'), 'utf8');
-for (const marker of [
-  'These are a few industries where Rushes has relevant experience, not a limit on who we work with.',
-  'Do you work with businesses outside these industries?',
-  'Can I hire only one piece?',
-  'The Demand Loop changes with the business.',
-]) {
-  assert.ok(industriesHubHtml.includes(marker), `/industries/ is missing modular-fit marker: ${marker}`);
-}
-assertOrdered(industriesHubHtml, [
-  'class="industry-hero industry-hub-hero"',
-  'id="markets"',
-  'class="industry-section industry-hub-loop"',
-  'class="industry-section industry-faq"',
-  'id="book"',
-], '/industries/');
 
 const sitemap = await readFile(path.join(distRoot, 'sitemap.xml'), 'utf8');
 const sitemapLocations = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
@@ -917,11 +856,6 @@ const expectedSitemapPaths = [
   '/campaigns/',
   '/web/',
   '/follow-up/',
-  '/industries/',
-  '/outdoor-living/',
-  '/interior-design/',
-  '/hvac/',
-  '/med-spa/',
   '/privacy/',
   '/terms/',
 ];
@@ -937,25 +871,21 @@ assert.deepEqual(
 );
 assert.ok(!sitemap.includes('/work/'), '/work/ must remain outside the sitemap.');
 assert.ok(!sitemap.includes('/funnel/'), '/funnel/ must remain outside the sitemap.');
-assert.ok(sitemap.includes('/med-spa/'), '/med-spa/ must be present in the sitemap.');
-assert.ok(sitemap.includes('/industries/'), '/industries/ must be present in the sitemap.');
+for (const retiredIndustryPath of ['/industries/', '/outdoor-living/', '/interior-design/', '/hvac/', '/med-spa/']) {
+  assert.ok(!sitemap.includes(retiredIndustryPath), `Retired ${retiredIndustryPath} must remain outside the sitemap.`);
+}
 assert.ok(!sitemap.includes('/hardscape/'), 'Retired /hardscape/ must remain outside the sitemap.');
 assert.ok(!sitemap.includes('/pools/'), 'Retired /pools/ must remain outside the sitemap.');
 assert.ok(!sitemap.includes('<priority>'), 'Sitemap must not emit meaningless priority values.');
 assert.ok(!sitemap.includes('<changefreq>'), 'Sitemap must not emit meaningless changefreq values.');
 const sitemapLastmods = [...sitemap.matchAll(/<lastmod>(.*?)<\/lastmod>/g)].map((match) => match[1]);
 const expectedLastmods = new Map([
-  ['/', '2026-09-02'],
-  ['/demand-loop/', '2026-09-02'],
-  ['/brand-media/', '2026-09-02'],
-  ['/campaigns/', '2026-09-02'],
-  ['/web/', '2026-09-02'],
-  ['/follow-up/', '2026-09-02'],
-  ['/industries/', '2026-09-02'],
-  ['/outdoor-living/', '2026-09-02'],
-  ['/interior-design/', '2026-09-02'],
-  ['/hvac/', '2026-09-02'],
-  ['/med-spa/', '2026-09-02'],
+  ['/', '2026-09-03'],
+  ['/demand-loop/', '2026-09-03'],
+  ['/brand-media/', '2026-09-03'],
+  ['/campaigns/', '2026-09-03'],
+  ['/web/', '2026-09-03'],
+  ['/follow-up/', '2026-09-03'],
   ['/privacy/', '2026-08-13'],
   ['/terms/', '2026-08-13'],
 ]);
@@ -970,13 +900,8 @@ assert.deepEqual(
   'Sitemap significant-content lastmod values drifted.',
 );
 
-const medSpaRoute = SITE_CONTRACT.find((route) => route.path === '/med-spa/');
-const medSpaHtml = await readFile(pageFile('/med-spa/'), 'utf8');
-assert.equal(medSpaRoute?.indexable, true);
-assert.equal(medSpaRoute?.sitemap, true);
-assert.equal(metaContent(medSpaHtml, 'name', 'robots'), undefined);
 
-for (const retiredRoute of ['/hardscape/', '/pools/']) {
+for (const retiredRoute of ['/hardscape/', '/pools/', '/industries/', '/outdoor-living/', '/interior-design/', '/hvac/', '/med-spa/']) {
   await assert.rejects(
     stat(pageFile(retiredRoute)),
     { code: 'ENOENT' },
@@ -1009,7 +934,6 @@ assert.equal(
   robots,
   'User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /thanks/\nDisallow: /playbook-thanks/\nDisallow: /playbook/\nDisallow: /call/\nDisallow: /work/\nDisallow: /ops/\n\nSitemap: https://rushesmedia.com/sitemap.xml\n',
 );
-assert.ok(!robots.includes('Disallow: /med-spa/'), 'Robots must allow crawling /med-spa/ so noindex can be observed.');
 
 assert.ok(!homepageHtml.includes('href="/work/"'), '/work/ must remain absent from navigation.');
 assert.deepEqual(
@@ -1234,6 +1158,13 @@ for (const link of callBookingLinks) {
 }
 assert.ok(!callText.includes('Open the 30-minute calendar'), '/call/ must not claim /#book opens the calendar directly.');
 
+for (const route of publicHtmlRoutes) {
+  const html = await readFile(pageFile(route.path), 'utf8');
+  for (const retiredHref of ['/industries/', '/outdoor-living/', '/interior-design/', '/hvac/', '/med-spa/']) {
+    assert.ok(!html.includes(`href="${retiredHref}"`), `${route.path} still links to the retired route ${retiredHref}.`);
+  }
+}
+
 const stagedFiles = await walkFiles(publicRoot);
 assert.deepEqual(
   stagedFiles,
@@ -1249,5 +1180,5 @@ for (const directory of ASTRO_ROUTE_DIRECTORIES) {
 }
 
 console.log(
-  `Built contract assertions passed: 13 sitemap routes; 18 GA4-tagged public pages; homepage JS ${builtFirstPartyBytes}/${HOMEPAGE_FIRST_PARTY_JS_BUDGET} legacy bytes; review routes excluded.`,
+  `Built contract assertions passed: 8 sitemap routes; 13 GA4-tagged public pages; homepage JS ${builtFirstPartyBytes}/${HOMEPAGE_FIRST_PARTY_JS_BUDGET} legacy bytes; review routes excluded.`,
 );

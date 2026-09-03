@@ -1,10 +1,14 @@
 ---
 import ConceptPicture from '../components/brand-media/ConceptPicture.astro';
+import BrandMediaBody from '../components/capability/BrandMediaBody.astro';
+import CampaignsBody from '../components/capability/CampaignsBody.astro';
+import DemandLoopBody from '../components/capability/DemandLoopBody.astro';
+import SystemsBody from '../components/capability/SystemsBody.astro';
+import WebBody from '../components/capability/WebBody.astro';
 import BookingWidget from '../components/shared/BookingWidget.astro';
 import EditorialFooter from '../components/shared/EditorialFooter.astro';
 import EditorialHeader from '../components/shared/EditorialHeader.astro';
-import type { CapabilityPage } from '../data/capability-pages';
-import { innerPageNavigation } from '../data/inner-pages';
+import { innerPageNavigation, type CapabilityPage } from '../data/capability-pages';
 import { HOME_FONT_URL, SITE } from '../data/site';
 import BaseLayout from './BaseLayout.astro';
 
@@ -17,11 +21,13 @@ const seo = {
   canonical,
   openGraph: { title: page.title, description: page.description, url: canonical },
 };
+const body = page.body;
 ---
 
 <BaseLayout seo={seo} fontUrl={HOME_FONT_URL} includeMetaPixel>
   <link slot="head" rel="stylesheet" href="/assets/inner-page.css" />
   <link slot="head" rel="stylesheet" href="/assets/brand-media.css" />
+  <link slot="head" rel="stylesheet" href="/assets/capability-pages.css" />
 
   <EditorialHeader current={page.current} />
   <main
@@ -31,6 +37,7 @@ const seo = {
     data-page-family={page.family}
     data-brand-media-page={page.family === 'brand-media' ? true : undefined}
     data-service={page.slug}
+    data-capability-body={body.kind}
   >
     <header class="brand-media-hero capability-hero">
       <div class="brand-media-hero__copy">
@@ -69,37 +76,11 @@ const seo = {
       </div>
     </header>
 
-    {page.loopSteps && (
-      <section id="loop-stages" tabindex="-1" class="capability-loop" aria-labelledby="loop-stages-heading">
-        <div class="brand-media-section-lead brand-media-section-lead--light">
-          <span class="brand-media-eye">Five connected moments</span>
-          <h2 id="loop-stages-heading">From attention to action, without the usual gaps.</h2>
-        </div>
-        <ol class="capability-loop-list">
-          {page.loopSteps.map((step, index) => (
-            <li>
-              <header id={`loop-stage-${index + 1}`} tabindex="-1">
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <small>{step.stage}</small>
-                <h3>{step.name}</h3>
-                <p>{step.purpose}</p>
-                <b>{step.capability}</b>
-              </header>
-            </li>
-          ))}
-        </ol>
-      </section>
-    )}
-
-    <div class="capability-answers">
-      {page.answers.map((answer) => (
-        <article id={answer.id} tabindex="-1">
-          <span class="brand-media-eye">{answer.eye}</span>
-          <h2>{answer.heading}</h2>
-          <p>{answer.body}</p>
-        </article>
-      ))}
-    </div>
+    {body.kind === 'brand-media' && <BrandMediaBody body={body} />}
+    {body.kind === 'campaigns' && <CampaignsBody body={body} />}
+    {body.kind === 'web' && <WebBody body={body} />}
+    {body.kind === 'systems' && <SystemsBody body={body} />}
+    {body.kind === 'demand-loop' && <DemandLoopBody body={body} />}
 
     <section class="brand-media-faq capability-faq" aria-labelledby="capability-faq-heading">
       <div>

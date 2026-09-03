@@ -43,17 +43,9 @@ const systems = homeServices[3];
   </article>
 
   <article class="v3-chapter" aria-labelledby="v3-campaigns-heading">
-    <div class="v3-strip" aria-label="One campaign idea in three coordinated frames">
-      <figure class="v3-crop v3-crop--feed">
-        <HomePicture asset={homepageAssets.campaignsSubmerged} sizes="(max-width: 760px) 92vw, 18vw" />
-      </figure>
-      <figure class="v3-crop v3-crop--story">
-        <HomePicture asset={homepageAssets.campaignsSubmerged} sizes="(max-width: 760px) 92vw, 14vw" />
-      </figure>
-      <figure class="v3-crop v3-crop--site">
-        <HomePicture asset={homepageAssets.campaignsSubmerged} sizes="(max-width: 760px) 92vw, 22vw" />
-      </figure>
-    </div>
+    <figure class="v3-web-photo v3-campaign-photo" aria-label="Creative Campaigns photograph">
+      <HomePicture asset={homepageAssets.campaignsSubmerged} sizes="(max-width: 760px) 100vw, 48vw" />
+    </figure>
     <div class="v3-chapter-copy">
       <span class="v3-kicker">{campaigns.stage}</span>
       <h3 id="v3-campaigns-heading">{campaigns.name}</h3>
