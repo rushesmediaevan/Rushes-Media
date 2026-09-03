@@ -146,14 +146,14 @@ export const BOOKING_COPY = {
 export const homepageSeo: PageSeo = {
   title: 'Rushes Media | Media, Web, AI & Growth Systems',
   description:
-    'Rushes helps businesses grow through exceptional media, creative campaigns, web experiences, practical AI consulting, and business systems.',
+    'Rushes Media, Haddon Heights NJ: brand photo and video, Meta and Google campaigns, websites, and AI follow-up systems for South Jersey and Philadelphia.',
   canonical: `${SITE.origin}/`,
   openGraph: {
     type: 'website',
     siteName: SITE.name,
     title: 'Rushes Media | Media, Web, AI & Growth Systems',
     description:
-      'Rushes helps businesses grow through exceptional media, creative campaigns, web experiences, practical AI consulting, and business systems.',
+      'Rushes Media, Haddon Heights NJ: brand photo and video, Meta and Google campaigns, websites, and AI follow-up systems for South Jersey and Philadelphia.',
     url: `${SITE.origin}/`,
     image: `${SITE.origin}/assets/images/hero/hero-bg.jpg`,
     imageWidth: 1920,
@@ -163,7 +163,7 @@ export const homepageSeo: PageSeo = {
     card: 'summary_large_image',
     title: 'Rushes Media | Media, Web, AI & Growth Systems',
     description:
-      'Rushes helps businesses grow through exceptional media, creative campaigns, web experiences, practical AI consulting, and business systems.',
+      'Rushes Media, Haddon Heights NJ: brand photo and video, Meta and Google campaigns, websites, and AI follow-up systems for South Jersey and Philadelphia.',
     image: `${SITE.origin}/assets/images/hero/hero-bg.jpg`,
   },
   jsonLd: {
@@ -172,7 +172,7 @@ export const homepageSeo: PageSeo = {
     name: SITE.name,
     url: `${SITE.origin}/`,
     description:
-      'Rushes helps businesses grow through exceptional media, creative campaigns, web experiences, practical AI consulting, and business systems.',
+      'Rushes Media, Haddon Heights NJ: brand photo and video, Meta and Google campaigns, websites, and AI follow-up systems for South Jersey and Philadelphia.',
     email: SITE.email,
     telephone: SITE.phoneDisplay,
     address: {
