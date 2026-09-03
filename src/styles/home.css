@@ -3107,6 +3107,43 @@
       .v3-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; height: auto; align-items: stretch; }
       .v3-crop, .v3-crop--feed, .v3-crop--story, .v3-crop--site { height: auto; aspect-ratio: 3 / 4; }
     }
+    /* v3.2: services chapters — one media height, equal crops, rules between chapters, systems block with room */
+    .v3-chapter { max-height: none; }
+    .v3-chapter + .v3-chapter { margin-top: 10px; padding-top: 28px; border-top: 1px solid rgba(26, 42, 63, .12); }
+    .v3-chapter-copy p { font-size: 15.5px; }
+    .v3-systems li span { display: flex; align-items: baseline; gap: 8px; color: var(--gold-dark, #765a2c); font-size: 11px; letter-spacing: .1em; }
+    .v3-systems li span b { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; letter-spacing: 0; color: var(--navy); }
+    .v3-systems li strong { margin: 6px 0 4px; font-size: 15px; }
+    .v3-systems li p { font-size: 13.5px; line-height: 1.5; }
+    @media (min-width: 761px) {
+      .v3-chapter { gap: 16px 48px; padding: 18px 0 22px; }
+      .v3-film,
+      .v3-strip,
+      .v3-web-photo { height: min(46vh, 400px); }
+      .v3-film { grid-template-columns: minmax(0, 1.5fr) minmax(0, .75fr); grid-template-rows: 1fr 1fr; }
+      .v3-film > div { min-height: 0; }
+      .v3-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; }
+      .v3-crop, .v3-crop--feed, .v3-crop--story, .v3-crop--site { height: 100%; aspect-ratio: auto; }
+      .v3-strip { gap: 6px; }
+      .v3-crop--feed img { object-position: 0% 50%; }
+      .v3-crop--story img { object-position: 50% 50%; }
+      .v3-crop--site img { object-position: 100% 50%; }
+      .v3-systems { gap: 18px; align-self: center; }
+      .v3-systems-map { max-width: none; }
+      .v3-systems-map text { font-size: 12.5px; }
+      .v3-systems ol { gap: 18px 28px; padding-top: 18px; border-top: 1px solid rgba(26, 42, 63, .14); }
+    }
+    @media (max-width: 760px) {
+      /* the systems chapter reads title first; the numbered list is the diagram on phones */
+      .v3-chapter--systems .v3-systems { order: 1; margin-top: 14px; padding-top: 18px; border-top: 1px solid rgba(26, 42, 63, .14); }
+      /* phones: one wide frame; three 125px slivers of the same photo do not read as a triptych */
+      .v3-strip { grid-template-columns: 1fr; gap: 0; }
+      .v3-crop--story, .v3-crop--site { display: none; }
+      .v3-crop--feed { aspect-ratio: 16 / 10; }
+      .v3-crop--feed img { object-position: 50% 45%; }
+      .v3-chapter--systems .v3-systems-map { display: none; }
+      .v3-chapter + .v3-chapter { margin-top: 18px; padding-top: 26px; }
+    }
     @media (prefers-reduced-motion: reduce) {
       .v3-film img,
       .v3-strip img,

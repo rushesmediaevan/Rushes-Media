@@ -95,9 +95,9 @@ const systems = homeServices[3];
         <text class="v3-systems-label" x="490" y="86" text-anchor="middle">Keep moving</text>
       </svg>
       <ol>
-        {systemsBeats.map((beat) => (
+        {systemsBeats.map((beat, index) => (
           <li>
-            <span>{beat.label}</span>
+            <span><b>{String(index + 1).padStart(2, '0')}</b> {beat.label}</span>
             <strong>{beat.heading}</strong>
             <p>{beat.example}</p>
           </li>
