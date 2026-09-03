@@ -3,6 +3,7 @@ import { industryVisuals } from './visual-assets';
 import { homepageAssets } from './homepage-assets';
 import { revisionAssets } from './revision-assets';
 import { capabilityAssets } from './capability-assets';
+import { faqPageSchema, SITE } from './site';
 
 export interface CommercialFaq { question: string; answer: string; }
 
@@ -680,6 +681,63 @@ export const capabilityPages: readonly CapabilityPage[] = [
   systemsCapability,
   demandLoopCapability,
 ];
+
+/**
+ * Structured data for a capability page, built from the page's own content so the
+ * markup and the schema can never drift. Geography is deliberately omitted: Rushes
+ * sells to owner-led businesses anywhere, and areaServed here would signal otherwise.
+ */
+const BREADCRUMB_PATHS: Record<string, string> = { Home: '/', Services: '/#services' };
+
+const SERVICE_TYPES: Record<string, string> = {
+  'brand-media': 'Brand photography and video production',
+  campaigns: 'Meta and Google advertising campaign management',
+  web: 'Website and landing page design and development',
+  'follow-up': 'AI consulting and business systems automation',
+};
+
+export function capabilityPageSchema(page: CapabilityPage): Record<string, unknown> {
+  const url = `${SITE.origin}/${page.slug}/`;
+  const provider = { '@type': 'ProfessionalService', name: SITE.name, url: `${SITE.origin}/` };
+  const graph: Record<string, unknown>[] = [
+    {
+      '@type': 'WebPage',
+      '@id': url,
+      url,
+      name: page.title,
+      description: page.description,
+      isPartOf: { '@type': 'WebSite', name: SITE.name, url: `${SITE.origin}/` },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: page.breadcrumb.map((name, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name,
+        item:
+          index === page.breadcrumb.length - 1
+            ? url
+            : `${SITE.origin}${BREADCRUMB_PATHS[name] ?? '/'}`,
+      })),
+    },
+    faqPageSchema(page.faq.items),
+  ];
+
+  const serviceType = SERVICE_TYPES[page.slug];
+  if (serviceType) {
+    graph.push({
+      '@type': 'Service',
+      '@id': `${url}#service`,
+      name: page.eyebrow,
+      serviceType,
+      description: page.description,
+      url,
+      provider,
+    });
+  }
+
+  return { '@context': 'https://schema.org', '@graph': graph };
+}
 
 export const innerPageNavigation = [
   { href: '/demand-loop/', label: 'Demand Loop' },

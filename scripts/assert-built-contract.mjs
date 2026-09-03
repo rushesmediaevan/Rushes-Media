@@ -21,6 +21,7 @@ import {
   REVIEW_ASSET_FILES,
   REVIEW_ONLY_ROUTES,
   SITE_CONTRACT,
+  SITE_ORIGIN,
 } from './site-contract.mjs';
 import { CONVERSION_PAGE_COPY } from './conversion-page-copy.mjs';
 
@@ -825,6 +826,69 @@ for (const [routePath, markers] of capabilitySignatures) {
   }
 }
 assert.equal(new Set(capabilityBodies).size, 5, 'Capability pages must render five distinct bodies.');
+
+// Structured data: every capability page must describe itself to search and AI crawlers,
+// and the schema must be generated from the page's own copy (no hand-maintained drift).
+for (const [routePath, expectsService] of [
+  ['/brand-media/', true],
+  ['/campaigns/', true],
+  ['/web/', true],
+  ['/follow-up/', true],
+  ['/demand-loop/', false],
+]) {
+  const html = await readFile(pageFile(routePath), 'utf8');
+  const documents = jsonLdDocuments(html);
+  assert.equal(documents.length, 1, `${routePath} must emit exactly one JSON-LD document.`);
+  const graph = documents[0]['@graph'];
+  assert.ok(Array.isArray(graph), `${routePath} JSON-LD must use an @graph.`);
+  const types = graph.map((node) => node['@type']);
+  for (const required of ['WebPage', 'BreadcrumbList', 'FAQPage']) {
+    assert.ok(types.includes(required), `${routePath} JSON-LD is missing ${required}.`);
+  }
+  assert.equal(
+    types.includes('Service'),
+    expectsService,
+    `${routePath} Service schema presence drifted (the Demand Loop is a mechanism, not a service).`,
+  );
+
+  const canonical = `${SITE_ORIGIN}${routePath}`;
+  const webPage = graph.find((node) => node['@type'] === 'WebPage');
+  assert.equal(webPage.url, canonical, `${routePath} WebPage url drifted from its canonical.`);
+
+  const crumbs = graph.find((node) => node['@type'] === 'BreadcrumbList').itemListElement;
+  assert.equal(crumbs[0].item, `${SITE_ORIGIN}/`, `${routePath} breadcrumb must start at the site root.`);
+  assert.equal(crumbs.at(-1).item, canonical, `${routePath} breadcrumb must end on its own canonical.`);
+  assert.deepEqual(
+    crumbs.map((crumb) => crumb.position),
+    crumbs.map((_, index) => index + 1),
+    `${routePath} breadcrumb positions must be sequential.`,
+  );
+
+  const questions = graph.find((node) => node['@type'] === 'FAQPage').mainEntity;
+  assert.ok(questions.length >= 3, `${routePath} FAQ schema must carry the page's questions.`);
+  const text = visibleText(html);
+  for (const question of questions) {
+    assert.ok(
+      text.includes(question.name),
+      `${routePath} FAQ schema drifted from the rendered page: ${question.name}`,
+    );
+    assert.ok(
+      text.includes(question.acceptedAnswer.text),
+      `${routePath} FAQ answer is marked up but not visible on the page.`,
+    );
+  }
+
+  if (expectsService) {
+    const service = graph.find((node) => node['@type'] === 'Service');
+    assert.equal(service.provider.name, 'Rushes Media', `${routePath} Service provider drifted.`);
+    assert.ok(service.serviceType, `${routePath} Service is missing a serviceType.`);
+    assert.equal(
+      service.areaServed,
+      undefined,
+      `${routePath} Service must not declare areaServed — Rushes sells beyond one region.`,
+    );
+  }
+}
 
 const campaignsHtml = await readFile(pageFile('/campaigns/'), 'utf8');
 for (const marker of [

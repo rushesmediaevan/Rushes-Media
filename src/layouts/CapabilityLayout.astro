@@ -8,7 +8,7 @@ import WebBody from '../components/capability/WebBody.astro';
 import BookingWidget from '../components/shared/BookingWidget.astro';
 import EditorialFooter from '../components/shared/EditorialFooter.astro';
 import EditorialHeader from '../components/shared/EditorialHeader.astro';
-import { innerPageNavigation, type CapabilityPage } from '../data/capability-pages';
+import { capabilityPageSchema, innerPageNavigation, type CapabilityPage } from '../data/capability-pages';
 import { HOME_FONT_URL, SITE } from '../data/site';
 import BaseLayout from './BaseLayout.astro';
 
@@ -20,6 +20,7 @@ const seo = {
   description: page.description,
   canonical,
   openGraph: { title: page.title, description: page.description, url: canonical },
+  jsonLd: capabilityPageSchema(page),
 };
 const body = page.body;
 ---
