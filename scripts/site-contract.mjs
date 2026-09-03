@@ -142,7 +142,7 @@ export const SITE_CONTRACT = [
     source: 'src/pages/index.astro',
     title: 'Rushes Media | Media, Web, AI & Growth Systems',
     description:
-      'Rushes Media, Haddon Heights NJ: brand photo and video, Meta and Google campaigns, websites, and AI follow-up systems for South Jersey and Philadelphia.',
+      'Rushes Media makes strong businesses easier to notice, easier to choose, and easier to run: brand media, creative campaigns, web experiences, and AI consulting that turns attention into closed work.',
     canonical: `${SITE_ORIGIN}/`,
     requiredAssets: [
       '/assets/images/hero/hero-bg.jpg',
@@ -182,7 +182,7 @@ export const SITE_CONTRACT = [
       siteName: 'Rushes Media',
       title: 'Rushes Media | Media, Web, AI & Growth Systems',
       description:
-        'Rushes Media, Haddon Heights NJ: brand photo and video, Meta and Google campaigns, websites, and AI follow-up systems for South Jersey and Philadelphia.',
+        'Rushes Media makes strong businesses easier to notice, easier to choose, and easier to run: brand media, creative campaigns, web experiences, and AI consulting that turns attention into closed work.',
       url: `${SITE_ORIGIN}/`,
       image: `${SITE_ORIGIN}/assets/images/hero/hero-bg.jpg`,
       imageWidth: 1920,
@@ -192,7 +192,7 @@ export const SITE_CONTRACT = [
       card: 'summary_large_image',
       title: 'Rushes Media | Media, Web, AI & Growth Systems',
       description:
-        'Rushes Media, Haddon Heights NJ: brand photo and video, Meta and Google campaigns, websites, and AI follow-up systems for South Jersey and Philadelphia.',
+        'Rushes Media makes strong businesses easier to notice, easier to choose, and easier to run: brand media, creative campaigns, web experiences, and AI consulting that turns attention into closed work.',
       image: `${SITE_ORIGIN}/assets/images/hero/hero-bg.jpg`,
     },
     jsonLd: {
@@ -203,7 +203,7 @@ export const SITE_CONTRACT = [
           name: 'Rushes Media',
           url: `${SITE_ORIGIN}/`,
           description:
-            'Rushes Media, Haddon Heights NJ: brand photo and video, Meta and Google campaigns, websites, and AI follow-up systems for South Jersey and Philadelphia.',
+            'Rushes Media makes strong businesses easier to notice, easier to choose, and easier to run: brand media, creative campaigns, web experiences, and AI consulting that turns attention into closed work.',
           email: 'evan@rushesmedia.com',
           telephone: '(609) 405-9918',
           address: {
