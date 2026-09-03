@@ -12,3 +12,6 @@ npm-debug.log*
 .env.*
 assets/images/references/
 assets/video/raw/
+
+# QA captures and Lighthouse bundles never enter the Railway build context
+qa/

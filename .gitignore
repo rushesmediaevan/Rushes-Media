@@ -10,3 +10,12 @@ dist/
 .env
 .env.*
 !.env.example
+
+# QA captures and Lighthouse bundles: keep REPORT.md / REVIEW.md, never the binaries (67 MB landed in d960b53)
+qa/**/*.png
+qa/**/*.jpg
+qa/**/lighthouse-*.html
+qa/**/lighthouse-*.json
+qa/**/axe-*.json
+qa/**/results.json
+!qa/screenshots/*.png
