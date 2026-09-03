@@ -1,5 +1,6 @@
 import { industryVisuals, type VisualAsset } from './industry-pages';
 import { homepageAssets } from './homepage-assets';
+import { homePrimaryNav } from './navigation';
 import { revisionAssets } from './revision-assets';
 
 export interface HomeNavItem {
@@ -29,12 +30,12 @@ export interface HomeAudience {
   visual: VisualAsset;
 }
 
-export const primaryNavigation: readonly HomeNavItem[] = [
-  { href: '#services', label: 'Services', number: '01', mobileSubtitle: 'What we build' },
-  { href: '#system', label: 'Demand Loop', number: '02', mobileSubtitle: 'How the services connect' },
-  { href: '#process', label: 'Process', number: '03', mobileSubtitle: 'Simple to start' },
-  { href: '#faq', label: 'FAQ', number: '04', mobileSubtitle: 'What you need to know' },
-];
+export const primaryNavigation: readonly HomeNavItem[] = homePrimaryNav.map(({ href, label, number, mobileSubtitle }) => ({
+  href,
+  label,
+  number,
+  mobileSubtitle,
+}));
 
 export const heroFlow = [
   { from: 'Content', to: 'Attention' },
@@ -124,19 +125,48 @@ export const homeServices: readonly HomeService[] = [
       'Focused sites and landing pages answer key questions and make calling, booking, or requesting an estimate straightforward.',
     tags: ['Custom sites', 'Landing pages', 'Conversion UX'],
     tone: 'gold',
-    visual: homepageAssets.webLawOffice,
+    visual: revisionAssets.daylitVenue,
   },
   {
     href: '/follow-up/',
     stage: 'Time & leverage',
     name: 'AI & Business Systems',
-    plainName: 'Save time and make the business easier to run.',
+    plainName: 'Inquiries get captured, routed, answered, and kept moving.',
     description:
-      'Practical AI consulting, workflow automation, lead capture, and follow-up reduce repetitive work, strengthen handoffs, and keep opportunities moving.',
+      'Practical AI, workflow design, and follow-up give every request an owner, a first reply, and a next date — without adding another tool the team has to remember.',
     tags: ['AI consulting', 'Workflow automation', 'Lead capture & follow-up'],
     tone: 'navy',
   },
 ];
+
+export const brandMediaFilm = [
+  homepageAssets.brandMediaRiversideMill,
+  revisionAssets.bakery,
+  revisionAssets.restaurant,
+] as const;
+
+export const systemsBeats = [
+  {
+    label: 'Capture',
+    heading: 'Every request lands in one place.',
+    example: 'A Saturday estimate request is logged with the service and neighborhood before anyone picks up.',
+  },
+  {
+    label: 'Route',
+    heading: 'The right person sees it, with context.',
+    example: 'Replacement inquiries go to the owner. Routine service stays with dispatch.',
+  },
+  {
+    label: 'Respond',
+    heading: 'A useful first reply goes out while intent is high.',
+    example: 'A missed-call text confirms the request and offers two appointment windows.',
+  },
+  {
+    label: 'Keep moving',
+    heading: 'Open items stay visible until they close.',
+    example: 'An unanswered estimate reminder surfaces on day three instead of disappearing into the inbox.',
+  },
+] as const;
 
 export const systemSteps = [
   {
@@ -236,6 +266,7 @@ export const faqs = [
 export const footerLinks = [
   { href: '#services', label: 'Services' },
   { href: '/demand-loop/', label: 'Demand Loop' },
+  { href: '#examples', label: 'Examples' },
   { href: '/industries/', label: 'Industry examples' },
   { href: '#book', label: 'Book a Growth Call' },
 ] as const;

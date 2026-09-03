@@ -1,20 +1,10 @@
 ---
 import { SHARED_CTA, SITE } from '../../data/site';
+import { navCurrent, sitePrimaryNav, mobileNavLinks } from '../../data/navigation';
 import MobileNavDialog from './MobileNavDialog.astro';
 
 interface Props { current?: string; }
 const { current = '' } = Astro.props;
-const links = [
-  { href: '/#services', label: 'Services', key: 'services' },
-  { href: '/industries/', label: 'Industries', key: 'industries' },
-  { href: '/demand-loop/', label: 'Demand Loop', key: 'demand-loop' },
-] as const;
-const currentState = (key: string): 'page' | 'location' | undefined =>
-  current === key ? (key === 'services' ? 'location' : 'page') : undefined;
-const mobileLinks = [
-  ...links.map((link) => ({ ...link, current: currentState(link.key) })),
-  { href: '#book', label: SHARED_CTA.label, cta: true },
-] as const;
 ---
 
 <nav class="editorial-nav" aria-label="Primary navigation">
@@ -23,12 +13,12 @@ const mobileLinks = [
     <img src={SITE.logoWordmark} alt="Rushes Media" width="2888" height="322" />
   </a>
   <div class="editorial-nav-links">
-    {links.map((link) => (
-      <a href={link.href} aria-current={currentState(link.key)}>{link.label}</a>
+    {sitePrimaryNav.map((link) => (
+      <a href={link.href} aria-current={navCurrent(current, link.key)}>{link.label}</a>
     ))}
     <a href="#book" class="editorial-nav-cta" data-growth-call-click data-link-location="navigation">
       {SHARED_CTA.label}
     </a>
   </div>
-  <MobileNavDialog id="editorial-mobile-navigation" links={mobileLinks} />
+  <MobileNavDialog id="editorial-mobile-navigation" links={mobileNavLinks(current)} />
 </nav>

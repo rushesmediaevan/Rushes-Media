@@ -20,7 +20,7 @@ if (cursor) {
       cursorFrame = 0;
     });
   }, { passive: true });
-  document.querySelectorAll('a,button,.svc-row,.faq-q').forEach((element) => {
+  document.querySelectorAll('a,button,.v3-chapter,.v3-range-card,.faq-q').forEach((element) => {
     element.addEventListener('mouseenter', () => cursor.classList.add('big'));
     element.addEventListener('mouseleave', () => cursor.classList.remove('big'));
   });
@@ -109,7 +109,7 @@ if (floatingCta && heroButtons && 'IntersectionObserver' in window) {
     updateFloatingCta();
   }, { rootMargin: '0px 0px -35% 0px' });
   heroObserver.observe(heroButtons);
-  document.querySelectorAll('#system, #who, #cta, footer').forEach((element) => closeObserver.observe(element));
+  document.querySelectorAll('#system, #examples, #cta, footer').forEach((element) => closeObserver.observe(element));
 }
 
 const revealElements = document.querySelectorAll('.r');

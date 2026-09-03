@@ -1,0 +1,36 @@
+---
+import type { VisualAsset } from '../../data/industry-pages';
+
+interface Props {
+  asset: VisualAsset;
+  sizes: string;
+  loading?: 'eager' | 'lazy';
+  class?: string;
+  fetchpriority?: 'high' | 'low' | 'auto';
+}
+
+const {
+  asset,
+  sizes,
+  loading = 'lazy',
+  fetchpriority = 'auto',
+} = Astro.props;
+---
+
+<picture class={Astro.props.class} data-visual-truth={asset.truthClass}>
+  {asset.sources.map((source) => (
+    <source srcset={source.srcset} sizes={sizes} type={source.type} media={source.media} />
+  ))}
+  <img
+    src={asset.fallback.src}
+    srcset={asset.fallback.srcset}
+    sizes={sizes}
+    width={asset.fallback.width}
+    height={asset.fallback.height}
+    alt={asset.alt}
+    loading={loading}
+    fetchpriority={fetchpriority}
+    decoding="async"
+    style={`--focal:${asset.focalPoint};--mobile-focal:${asset.mobileFocalPoint ?? asset.focalPoint}`}
+  />
+</picture>

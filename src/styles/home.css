@@ -2744,3 +2744,367 @@
     @media (prefers-reduced-motion: reduce) {
       .reveal-enabled .r { opacity: 1; transform: none; transition: none; }
     }
+
+    /* ══ V3 — after homepage CSS lock ═══════════════════════ */
+    #problem,
+    #services,
+    #system,
+    #examples,
+    #process,
+    #faq,
+    #cta {
+      padding-block: clamp(56px, 5.5vw, 80px);
+    }
+    #services { padding-bottom: 28px; }
+    #system { padding-top: 32px; padding-bottom: 32px; }
+    #examples { padding-top: 32px; padding-bottom: 32px; }
+    #problem { padding-block: clamp(48px, 5vw, 72px); }
+    .problem-pull { margin-top: 18px; padding-block: 14px; font-size: clamp(24px, 2.6vw, 36px); }
+    #system .sys-step,
+    #system .sys-step:first-child,
+    #system .sys-step:last-child { min-height: 0; }
+    #process .steps > li,
+    #process .steps > li:first-child,
+    #process .steps > li:last-child { min-height: 0; }
+    .cta-book { margin-top: 28px; padding-top: 24px; }
+    .cta-book .booking-widget { max-height: 600px; }
+    .cta-cal-wrap iframe { min-height: 480px; max-height: 600px; }
+    footer { padding: 28px var(--px) 20px; }
+    .ft-brand-block > p { margin-top: 16px; font-size: clamp(20px, 2vw, 26px); }
+    .ft-bottom { margin-top: 28px; }
+    .ft-legal-link { text-decoration: underline; text-underline-offset: 3px; }
+    .reveal-enabled .r { opacity: 1; transform: none; }
+    #system .system-hd { margin-bottom: 24px; }
+    #system .system-h2 { font-size: clamp(32px, 3.6vw, 48px); }
+    #system .sys-node { width: 44px; height: 44px; box-shadow: 0 0 0 6px var(--cream); }
+    #system .sys-stage { margin-top: 10px; color: var(--gold-on-light); }
+    #system .sys-step-service > span { color: var(--gold-on-light); }
+    #process .process-h2 { font-size: clamp(32px, 3.8vw, 48px); }
+    #process .process-hd > p { margin-top: 12px; }
+    #process .steps.process-sequence > li,
+    #process .steps.process-sequence > li:first-child,
+    #process .steps.process-sequence > li:last-child { min-height: 0; padding: 16px 0; }
+    #process .step-title { color: var(--cream); }
+    #faq { padding-block: 40px; }
+    #cta { padding-block: 40px; }
+    #cta .cta-h2 { font-size: clamp(36px, 4.4vw, 56px); }
+    #cta .cta-sub { margin-top: 12px; }
+    #hero .btn-g {
+      color: #0c1825;
+      background-color: #c9a66b;
+      background-image: none;
+      isolation: isolate;
+    }
+
+    .v3-services {
+      background: var(--cream);
+      color: var(--navy);
+    }
+    .v3-services-head,
+    .v3-examples-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(240px, 0.7fr);
+      gap: 10px 40px;
+      align-items: end;
+      max-width: var(--max);
+      margin: 0 auto 12px;
+    }
+    .v3-services-head .eye,
+    .v3-examples-head > span,
+    .v3-kicker,
+    .v3-systems li span,
+    .v3-range-card .who-card-route {
+      color: var(--gold-on-light);
+    }
+    .v3-services-head .eye,
+    .v3-examples-head > span {
+      grid-column: 1 / -1;
+    }
+    .v3-services-head h2,
+    .v3-examples-head h2 {
+      margin: 0;
+      max-width: 16ch;
+      color: var(--navy);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(30px, 4.2vw, 52px);
+      font-weight: 400;
+      letter-spacing: -.03em;
+      line-height: .96;
+    }
+    .v3-services-head p,
+    .v3-examples-head p {
+      margin: 0;
+      color: rgba(26, 42, 63, .7);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+    .v3-examples-head a,
+    .v3-more {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--navy);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .v3-chapter {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+      gap: 14px 32px;
+      align-items: center;
+      max-width: var(--max);
+      max-height: 900px;
+      margin: 0 auto;
+      padding: 8px 0 10px;
+    }
+    .v3-chapter-copy { min-width: 0; }
+    .v3-kicker {
+      display: block;
+      font-size: 12px;
+      letter-spacing: .04em;
+    }
+    .v3-chapter-copy h3 {
+      margin: 4px 0 6px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 3.8vw, 46px);
+      font-weight: 400;
+      letter-spacing: -.03em;
+      line-height: .92;
+    }
+    .v3-claim {
+      margin: 0 0 10px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(20px, 2.1vw, 26px);
+      font-weight: 300;
+      line-height: 1.25;
+    }
+    .v3-chapter-copy p {
+      margin: 0 0 10px;
+      color: rgba(26, 42, 63, .72);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .v3-film,
+    .v3-strip,
+    .v3-web-photo,
+    .v3-range figure {
+      margin: 0;
+      overflow: hidden;
+      background: var(--navy);
+    }
+    .v3-film,
+    .v3-strip,
+    .v3-web-photo,
+    .v3-film img,
+    .v3-strip img,
+    .v3-web-photo img,
+    .v3-range img {
+      width: 100%;
+      height: 100%;
+    }
+    .v3-film img,
+    .v3-strip img,
+    .v3-web-photo img,
+    .v3-range img {
+      display: block;
+      object-fit: cover;
+      object-position: var(--focal, center);
+    }
+    .v3-film {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(0, .7fr);
+      grid-template-rows: minmax(110px, 16vh) minmax(96px, 14vh);
+      gap: 8px;
+      height: min(32vh, 280px);
+    }
+    .v3-film-hero { grid-row: 1 / span 2; }
+    .v3-strip {
+      display: grid;
+      grid-template-columns: 1.1fr .7fr 1.2fr;
+      gap: 8px;
+      align-items: end;
+      height: min(28vh, 240px);
+    }
+    .v3-crop { margin: 0; overflow: hidden; height: 100%; background: var(--navy); }
+    .v3-crop--feed { aspect-ratio: 4 / 5; height: 92%; }
+    .v3-crop--story { aspect-ratio: 9 / 16; height: 100%; }
+    .v3-crop--site { aspect-ratio: 16 / 9; height: 78%; }
+    .v3-crop--feed img { object-position: 42% 48%; }
+    .v3-crop--story img { object-position: 58% 30%; }
+    .v3-crop--site img { object-position: 50% 70%; }
+    .v3-web-photo {
+      height: min(30vh, 260px);
+    }
+    .v3-systems {
+      display: grid;
+      gap: 16px;
+    }
+    .v3-systems-map {
+      width: 100%;
+      max-width: 560px;
+      height: auto;
+    }
+    .v3-systems-map circle {
+      fill: var(--cream);
+      stroke: var(--navy);
+      stroke-width: 1.5;
+    }
+    .v3-systems-map .v3-systems-line {
+      fill: none;
+      stroke: var(--gold);
+      stroke-width: 1.5;
+    }
+    .v3-systems-map text {
+      fill: var(--navy);
+      font-family: Inter, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .v3-systems-map .v3-systems-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .04em;
+    }
+    .v3-systems ol {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 16px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .v3-systems li span {
+      display: block;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .v3-systems li strong {
+      display: block;
+      margin: 4px 0 4px;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    .v3-systems li p {
+      margin: 0;
+      color: rgba(26, 42, 63, .68);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    #examples {
+      background: var(--cream);
+    }
+    .v3-range {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, .85fr) minmax(0, .85fr);
+      grid-template-areas:
+        "lead second third"
+        "lead fourth fourth";
+      gap: 10px 12px;
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+    .v3-range-card {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      color: inherit;
+      text-decoration: none;
+    }
+    .v3-range-card.lead { grid-area: lead; }
+    .v3-range-card:nth-child(2) { grid-area: second; }
+    .v3-range-card:nth-child(3) { grid-area: third; }
+    .v3-range-card:nth-child(4) { grid-area: fourth; }
+    .v3-range figure {
+      aspect-ratio: 16 / 11;
+    }
+    .v3-range-card.lead figure {
+      aspect-ratio: 4 / 5;
+      flex: 1;
+      min-height: 0;
+    }
+    .v3-range-card:nth-child(4) figure { aspect-ratio: 16 / 9; }
+    .v3-range-card h3 {
+      margin: 10px 0 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 400;
+    }
+    .v3-range-card p {
+      margin: 4px 0 0;
+      color: rgba(26, 42, 63, .68);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .v3-range-card .who-card-route {
+      margin-top: 8px;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 760px) {
+      #problem,
+      #services,
+      #system,
+      #examples,
+      #process,
+      #faq,
+      #cta {
+        padding-block: 56px;
+      }
+      #services { padding-bottom: 40px; }
+      #system,
+      #examples { padding-top: 40px; }
+      .v3-services-head,
+      .v3-examples-head,
+      .v3-chapter {
+        grid-template-columns: 1fr;
+        max-height: none;
+      }
+      .v3-film,
+      .v3-strip,
+      .v3-web-photo,
+      .v3-systems { order: -1; }
+      .v3-film {
+        height: auto;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .v3-film-hero { grid-column: 1 / -1; min-height: 220px; }
+      .v3-strip {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+      .v3-crop,
+      .v3-crop--feed,
+      .v3-crop--story,
+      .v3-crop--site {
+        aspect-ratio: 4 / 5;
+        height: auto;
+      }
+      .v3-web-photo { height: auto; aspect-ratio: 4 / 5; }
+      .v3-systems ol { grid-template-columns: 1fr; }
+      .v3-range {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+          "lead lead"
+          "second third"
+          "fourth fourth";
+      }
+      .v3-range-card.lead figure { min-height: 280px; }
+      .v3-chapter-copy h3 { font-size: clamp(32px, 10vw, 44px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .v3-film img,
+      .v3-strip img,
+      .v3-web-photo img,
+      .v3-range img { opacity: 1; }
+    }

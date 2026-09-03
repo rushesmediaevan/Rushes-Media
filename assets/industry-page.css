@@ -431,9 +431,9 @@ main { display: block; }
   background: var(--gold);
   text-decoration: none;
 }
-.industry-related .industry-eye { margin: 0; color: rgba(12, 24, 37, .68); }
+.industry-related .industry-eye { margin: 0; color: #0c1825; }
 .industry-related strong { font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(30px, 4vw, 50px); font-weight: 400; line-height: 1.05; }
-.industry-related p { margin: 10px 0 0; color: rgba(12, 24, 37, .72); }
+.industry-related p { margin: 10px 0 0; color: #0c1825; }
 .industry-related > span:last-child { font-size: 12px; font-weight: 600; text-align: right; }
 .industry-related:hover { background: var(--cream); }
 
@@ -485,7 +485,15 @@ main { display: block; }
 [data-page-variant='consultation'] .industry-support { color: rgba(26, 42, 63, .76); }
 [data-page-variant='consultation'] .industry-lede { color: rgba(26, 42, 63, .82); }
 [data-page-variant='consultation'] .industry-breadcrumbs li:not(:last-child)::after { color: rgba(141, 111, 62, .7); }
-[data-page-variant='consultation'] .industry-eye { color: var(--gold-dark); }
+[data-page-variant='consultation'] .industry-eye { color: #5c451f; }
+[data-page-variant='consultation'] .industry-hero h1 em { color: #5c451f; }
+[data-page-variant='consultation'] .industry-hero-visual li span { color: #5c451f; }
+[data-page-variant='consultation'] .industry-system .industry-eye,
+[data-page-variant='consultation'] .industry-faq .industry-eye,
+[data-page-variant='consultation'] .industry-booking-copy .industry-eye { color: #d3b77d; }
+[data-page-variant='consultation'] .industry-use-cases .industry-eye { color: #4f3a16; }
+[data-page-variant='consultation'] .industry-related .industry-eye,
+[data-page-variant='consultation'] .industry-related p { color: #0c1825; }
 [data-page-variant='consultation'] .industry-button-secondary { color: var(--navy); border-color: rgba(26, 42, 63, .35); }
 [data-page-variant='consultation'] .industry-button-secondary:hover { color: var(--cream); background: var(--ink); border-color: var(--ink); }
 [data-page-variant='consultation'] .industry-hero-visual figcaption { color: rgba(26, 42, 63, .76); }
@@ -506,6 +514,7 @@ main { display: block; }
 .industry-footer-brand img:last-child { width: 196px; height: auto; }
 .industry-footer-links { display: flex; flex-wrap: wrap; gap: 14px 26px; justify-content: flex-end; }
 .industry-footer-links a { min-height: 44px; display: inline-flex; align-items: center; color: var(--gold); font-size: 12px; text-decoration: none; }
+.industry-footer-links a.industry-legal-link { text-decoration: underline; text-underline-offset: 3px; }
 .industry-footer > p { grid-column: 1 / -1; margin: 0; color: rgba(245, 240, 230, .64); font-size: 11px; }
 .industry-footer > p a { color: inherit; }
 

@@ -1,45 +1,33 @@
 ---
 import { audiences } from '../../data/home';
-
+import HomePicture from './HomePicture.astro';
 ---
 
-<section id="who" aria-labelledby="who-heading">
-  <div class="who-head">
-    <span>Industry examples</span>
-    <h2 id="who-heading">Different businesses. Different ways to grow.</h2>
+<section id="examples" tabindex="-1" aria-labelledby="examples-heading">
+  <div class="v3-examples-head">
+    <span>Selected applications</span>
+    <h2 id="examples-heading">Different businesses. Different opportunities.</h2>
     <div>
-      <p>Rushes works across industries. These examples show how the approach changes with different customers, decisions, and business goals. The right mix might include stronger media, wider reach, a better digital experience, practical AI, or systems that save the team time.</p>
+      <p>Rushes works across industries. The right work depends on what the business is trying to accomplish. These examples show how media, campaigns, web, and systems can take shape in different contexts. They are Industry examples, not a limit on who Rushes can help.</p>
       <a href="/industries/">Explore the industry examples <span aria-hidden="true">→</span></a>
     </div>
   </div>
-  <div class="who-market-grid">
+  <div class="v3-range">
     {audiences.map((audience, index) => (
-      <a class:list={['who-card', `who-card--${index + 1}`]} href={audience.href} data-visual-truth={audience.visual.truthClass}>
+      <a
+        class:list={['v3-range-card', index === 0 && 'lead']}
+        href={audience.href}
+        data-visual-truth={audience.visual.truthClass}
+      >
         <figure>
-          <picture>
-            {audience.visual.sources.map((source) => (
-              <source srcset={source.srcset} sizes={audience.visual.sizes} type={source.type} media={source.media} />
-            ))}
-            <img
-              src={audience.visual.fallback.src}
-              srcset={audience.visual.fallback.srcset}
-              sizes={audience.visual.sizes}
-              width={audience.visual.fallback.width}
-              height={audience.visual.fallback.height}
-              alt={audience.visual.alt}
-              loading="lazy"
-              decoding="async"
-              style={`--who-focal:${audience.visual.focalPoint};--who-mobile-focal:${audience.visual.mobileFocalPoint ?? audience.visual.focalPoint}`}
-            />
-          </picture>
+          <HomePicture
+            asset={audience.visual}
+            sizes={index === 0 ? '(max-width: 760px) 100vw, 48vw' : '(max-width: 760px) 50vw, 24vw'}
+          />
         </figure>
-        <div class="who-card-copy">
-          <span class="who-card-route">{audience.routeLabel}</span>
-          <h3>{audience.label}</h3>
-          <p>{audience.summary}</p>
-          <div class="who-card-result"><span>Built to improve</span><b>{audience.result}</b></div>
-          <strong>Explore this market <span aria-hidden="true">→</span></strong>
-        </div>
+        <span class="who-card-route">{audience.routeLabel}</span>
+        <h3>{audience.label}</h3>
+        <p>{audience.summary}</p>
       </a>
     ))}
   </div>

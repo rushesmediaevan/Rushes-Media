@@ -1,15 +1,10 @@
 ---
 import { SHARED_CTA, SITE } from '../../data/site';
+import { navCurrent, sitePrimaryNav, mobileNavLinks } from '../../data/navigation';
 import MobileNavDialog from '../shared/MobileNavDialog.astro';
 
 interface Props { current?: 'page' | 'location'; }
-const { current } = Astro.props;
-const mobileLinks = [
-  { href: '/#services', label: 'Services' },
-  { href: '/industries/', label: 'Industries', current },
-  { href: '/demand-loop/', label: 'Demand Loop' },
-  { href: '#book', label: SHARED_CTA.label, cta: true },
-] as const;
+const { current: _industryCurrent } = Astro.props;
 ---
 
 <nav class="industry-nav" aria-label="Primary navigation">
@@ -18,12 +13,12 @@ const mobileLinks = [
     <img src={SITE.logoWordmark} alt="Rushes Media" width="2888" height="322" />
   </a>
   <div class="industry-nav-links">
-    <a href="/#services">Services</a>
-    <a href="/industries/" aria-current={current}>Industries</a>
-    <a href="/demand-loop/">Demand Loop</a>
+    {sitePrimaryNav.map((link) => (
+      <a href={link.href} aria-current={navCurrent(undefined, link.key)}>{link.label}</a>
+    ))}
     <a href="#book" class="industry-nav-cta" data-growth-call-click data-link-location="navigation">
       {SHARED_CTA.label}
     </a>
   </div>
-  <MobileNavDialog id="industry-mobile-navigation" links={mobileLinks} />
+  <MobileNavDialog id="industry-mobile-navigation" links={mobileNavLinks()} />
 </nav>

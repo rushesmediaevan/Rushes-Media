@@ -4,6 +4,7 @@
     body{font-family:'Inter',system-ui,sans-serif;background:var(--ink);color:var(--cream);-webkit-font-smoothing:antialiased;line-height:1.7;}
     a{color:var(--gold);text-decoration:none;}
     a:hover{color:var(--gold-d);}
+    main a{text-decoration:underline;text-underline-offset:3px;}
     nav{position:sticky;top:0;z-index:800;display:flex;align-items:center;justify-content:space-between;
         padding:0 var(--px);height:85px;background:#0c1825;box-shadow:0 10px 28px rgba(2,8,14,.18);
         border-bottom:1px solid rgba(184,152,96,.18);}
@@ -28,6 +29,7 @@
     .back{display:inline-block;margin-top:24px;font-size:14px;}
     footer{border-top:1px solid rgba(184,152,96,.18);padding:40px var(--px);text-align:center;}
     .ft-copy{color:rgba(245,240,230,.5);font-size:13px;}
+    .legal-inline-link{color:inherit;text-decoration:underline;text-underline-offset:3px;}
 
 a:focus-visible {
   outline: 2px solid var(--gold);

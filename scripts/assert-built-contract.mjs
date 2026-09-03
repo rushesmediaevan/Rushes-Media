@@ -296,8 +296,8 @@ assert.ok(
   'Superseded homepage derivatives remain public.',
 );
 for (const [routePath, assetIds, expectedCount] of [
-  ['/', ['05-medspa'], 12],
-  ['/brand-media/', ['04-restaurant', '06-daylit-venue', '07-coastal-terrace'], 36],
+  ['/', ['05-medspa', '02-bakery', '04-restaurant', '06-daylit-venue'], 48],
+  ['/brand-media/', ['07-coastal-terrace'], 12],
 ]) {
   const route = SITE_CONTRACT.find((entry) => entry.path === routePath);
   const revisionAssets = (route?.requiredAssets ?? []).filter((file) =>
@@ -313,12 +313,11 @@ const homepageRoute = SITE_CONTRACT.find((entry) => entry.path === '/');
 const homepageAssets = (homepageRoute?.requiredAssets ?? []).filter((file) =>
   file.startsWith('/assets/images/homepage/'),
 );
-assert.equal(homepageAssets.length, 36, 'Homepage must own exactly 36 art-directed derivatives.');
+assert.equal(homepageAssets.length, 24, 'Homepage must own exactly 24 art-directed derivatives.');
 assert.ok(
   homepageAssets.every((file) => [
     'brand-media-riverside-mill',
     'campaigns-submerged',
-    'web-law-office',
   ].some((assetId) => file.includes(`/${assetId}-`))),
   'Homepage owns an image outside the selected review set.',
 );
@@ -435,9 +434,8 @@ for (const approvedHomepageMarker of [
   'Book a Growth Call',
   'Our Services',
   '>Services</a>',
-  '>Demand Loop</a>',
-  '>Process</a>',
-  '>FAQ</a>',
+  '>How It Works</a>',
+  '>Examples</a>',
 ]) {
   assert.ok(
     homepageHtml.includes(approvedHomepageMarker),
@@ -458,7 +456,7 @@ assertOrdered(homepageHtml, [
   'id="problem"',
   'id="services"',
   'id="system"',
-  'id="who"',
+  'id="examples"',
   'id="process"',
   'id="faq"',
   'id="book"',
@@ -474,18 +472,18 @@ assert.ok(!homepageHtml.includes('Image note:'), 'Homepage retained a redundant 
 for (const assetId of [
   'brand-media-riverside-mill',
   'campaigns-submerged',
-  'web-law-office',
 ]) {
   assertHomepagePicture(homepageHtml, assetId);
 }
 assertRevisionPicture(homepageHtml, '05-medspa');
+assertRevisionPicture(homepageHtml, '02-bakery');
+assertRevisionPicture(homepageHtml, '04-restaurant');
+assertRevisionPicture(homepageHtml, '06-daylit-venue');
 assert.ok(homepageHtml.includes('/assets/images/industries/outdoor-living-hero-1920.jpg'));
 assert.ok(!homepageHtml.includes('/assets/images/homepage/outdoor-dusk-fire-'));
 assert.ok(!homepageHtml.includes('/assets/images/homepage/medspa-lounge-'));
 assert.ok(!homepageHtml.includes('brand-media-bakery'), 'Rejected Brand Media bakery image remained on the homepage.');
-assert.ok(!homepageHtml.includes('/assets/images/revision/02-bakery-'));
-assert.ok(!homepageHtml.includes('/assets/images/revision/04-restaurant-'));
-assert.ok(!homepageHtml.includes('/assets/images/revision/06-daylit-venue-'));
+assert.ok(!homepageHtml.includes('web-law-office'), 'Homepage retained the retired law-office web proof.');
 assert.ok(!homepageHtml.includes('/assets/images/revision/07-coastal-terrace-'));
 assert.ok(homepageHtml.includes('The Demand Loop'));
 assert.ok(
@@ -700,12 +698,7 @@ for (const routePath of ['/brand-media/', '/campaigns/', '/web/', '/follow-up/']
 for (const routePath of ['/industries/', '/outdoor-living/', '/interior-design/', '/hvac/', '/med-spa/']) {
   const html = await readFile(pageFile(routePath), 'utf8');
   assertBuiltMobileNav(html, 'industry-mobile-navigation', routePath);
-  const expectedCurrent = routePath === '/industries/' ? 'page' : 'location';
-  assert.ok(
-    tags(html, 'a').some((link) => link.href === '/industries/' && link['aria-current'] === expectedCurrent),
-    `${routePath} Industries current-state semantics drifted.`,
-  );
-  for (const href of ['/#services', '/industries/', '/demand-loop/', '#book']) {
+  for (const href of ['/#services', '/demand-loop/', '/#examples', '#book']) {
     assert.ok(tags(html, 'a').some((link) => link.href === href), `${routePath} mobile navigation lost ${href}.`);
   }
 }
@@ -715,37 +708,34 @@ for (const marker of [
   'data-brand-media-page',
   '/assets/brand-media.css',
   'Make what sets you apart visible.',
-  'Brand Media makes the value visible. It can stand alone—or strengthen every channel around it.',
-  'Show what makes the choice worth making.',
-  'From creative direction to ready-to-use assets.',
-  'Start with what people need to see.',
+  'What strong media makes visible',
+  'What owners want to ask',
   'Bring the offer that deserves a clearer story.',
+  'Some scenes are Rushes concept imagery, not client work.',
   'data-visual-truth="labeled-concept"',
 ]) {
   assert.ok(brandMediaHtml.includes(marker), `/brand-media/ is missing its dedicated marker: ${marker}`);
 }
+assert.ok(!brandMediaHtml.includes('A realistic example'), '/brand-media/ retained the cut realistic-example block.');
+assert.ok(!brandMediaHtml.includes('concept visualization'), '/brand-media/ retained a concept-visualization caption.');
+assert.ok(!brandMediaHtml.includes('A strong starting point'), '/brand-media/ retained the cut starting-point section.');
+assert.ok(!brandMediaHtml.includes('What you receive'), '/brand-media/ retained the cut delivery section.');
 assert.ok(!brandMediaHtml.includes('Brand Media earns attention.'), '/brand-media/ retained its superseded distinction heading.');
 assert.ok(!brandMediaHtml.includes('role="note"'), '/brand-media/ retained a redundant image-note block.');
+assert.ok(!brandMediaHtml.includes('Book a Growth Call') || brandMediaHtml.indexOf('brand-media-button--primary') < 0, '/brand-media/ hero must not duplicate the Growth Call button.');
 assertOrdered(brandMediaHtml, [
-  'class="brand-media-hero"',
-  'class="brand-media-distinction"',
-  'class="brand-media-visual-story"',
-  'class="brand-media-delivery"',
-  'class="brand-media-fit-faq"',
+  'class="brand-media-hero',
+  'id="what-this-is"',
+  'class="brand-media-faq',
   'id="book"',
 ], '/brand-media/');
-assert.ok(
-  brandMediaHtml.includes('brand-media-story--wide brand-media-story--text'),
-  '/brand-media/ expertise story must remain an intentional editorial text panel.',
-);
 assert.ok(!brandMediaHtml.includes('/assets/images/industries/interior-design-detail-1440.jpg'));
 assert.ok(brandMediaHtml.includes('/assets/images/industries/med-spa-hero-960.jpg'));
-assert.ok(brandMediaHtml.includes('/assets/images/industries/outdoor-living-pool-1920.jpg'));
-assertRevisionPicture(brandMediaHtml, '04-restaurant');
-assertRevisionPicture(brandMediaHtml, '06-daylit-venue');
 assertRevisionPicture(brandMediaHtml, '07-coastal-terrace');
 assert.ok(!brandMediaHtml.includes('/assets/images/revision/02-bakery-'));
 assert.ok(!brandMediaHtml.includes('/assets/images/revision/05-medspa-'));
+assert.ok(!brandMediaHtml.includes('/assets/images/revision/04-restaurant-'));
+assert.ok(!brandMediaHtml.includes('/assets/images/revision/06-daylit-venue-'));
 assert.ok(!brandMediaHtml.includes('/assets/work/'), '/brand-media/ leaked review-only work material.');
 assert.ok(!brandMediaHtml.includes('/assets/proof/'), '/brand-media/ leaked review-only proof material.');
 assert.ok(!brandMediaHtml.includes('data-review-only-asset'), '/brand-media/ leaked private review markup.');
@@ -770,53 +760,47 @@ for (const image of brandMediaConceptImages) {
 
 const homepageImageSources = tags(homepageHtml, 'img').map((image) => image.src).filter(Boolean);
 const brandMediaImageSources = tags(brandMediaHtml, 'img').map((image) => image.src).filter(Boolean);
-for (const [routePath, folder, assetId] of [
-  ['/', 'homepage', 'brand-media-riverside-mill'],
-  ['/', 'homepage', 'campaigns-submerged'],
-  ['/', 'homepage', 'web-law-office'],
-  ['/', 'revision', '05-medspa'],
-  ['/brand-media/', 'revision', '04-restaurant'],
-  ['/brand-media/', 'revision', '06-daylit-venue'],
-  ['/brand-media/', 'revision', '07-coastal-terrace'],
+for (const [routePath, folder, assetId, expectedCount] of [
+  ['/', 'homepage', 'brand-media-riverside-mill', 1],
+  ['/', 'homepage', 'campaigns-submerged', 3],
+  ['/', 'revision', '05-medspa', 1],
+  ['/', 'revision', '06-daylit-venue', 1],
+  ['/brand-media/', 'revision', '07-coastal-terrace', 1],
 ]) {
   const expected = `/assets/images/${folder}/${assetId}-mobile-1200.webp`;
   const expectedRouteSources = routePath === '/' ? homepageImageSources : brandMediaImageSources;
-  const otherRouteSources = routePath === '/' ? brandMediaImageSources : homepageImageSources;
-  assert.equal(expectedRouteSources.filter((source) => source === expected).length, 1, `${expected} needs one prominent slot.`);
-  assert.ok(!otherRouteSources.includes(expected), `${expected} was reused across prominent routes.`);
+  assert.equal(
+    expectedRouteSources.filter((source) => source === expected).length,
+    expectedCount,
+    `${expected} needs ${expectedCount} prominent slot(s).`,
+  );
 }
 const homepageConceptImages = tags(homepageHtml, 'img').filter(
   (entry) => entry.src?.includes('/assets/images/homepage/'),
 );
-assert.equal(homepageConceptImages.length, 3, 'Homepage must render three dedicated concept images.');
+assert.equal(homepageConceptImages.length, 4, 'Homepage must render mill once and the campaign still three times.');
 assert.equal(
   new Set(homepageConceptImages.map((image) => image.src)).size,
-  homepageConceptImages.length,
-  'Homepage reused a selected concept image in more than one prominent slot.',
+  2,
+  'Homepage homepage-folder images must be mill plus the campaign still.',
 );
 for (const image of homepageConceptImages) {
   assert.ok(Number(image.width) > 0 && Number(image.height) > 0, 'Homepage concept image lacks measured dimensions.');
   assert.ok(image.alt, 'Homepage concept image lacks descriptive alt text.');
 }
 
-for (const [routePath, signature] of [
-  ['/campaigns/', 'campaign-matrix'],
-  ['/web/', 'page-anatomy'],
-  ['/follow-up/', 'response-rail'],
-]) {
+for (const routePath of ['/campaigns/', '/web/', '/follow-up/', '/demand-loop/']) {
   const html = await readFile(pageFile(routePath), 'utf8');
-  assert.ok(html.includes(`data-signature="${signature}"`), `${routePath} signature drifted.`);
-  for (const marker of ['What this service does']) {
-    assert.ok(html.includes(marker), `${routePath} outcome frame is missing: ${marker}`);
-  }
-  for (const removedMarker of ['Measured through', 'Not mistaken for', 'service-ownership', 'service-fit']) {
-    assert.ok(!html.includes(removedMarker), `${routePath} retained the removed section: ${removedMarker}`);
-  }
+  assert.ok(html.includes('class="brand-media-hero'), `${routePath} lost the shared two-image opening.`);
+  assert.ok(html.includes('See the work') || html.includes('See how it connects'), `${routePath} lost its in-page work anchor.`);
+  assert.ok(!html.includes('class="brand-media-button--primary"'), `${routePath} hero must not duplicate the Growth Call button.`);
+  assert.ok(html.includes('What owners want to ask'), `${routePath} lost its FAQ.`);
+  assert.ok(!html.includes('A realistic example'), `${routePath} retained a cut example block.`);
+  assert.ok(!html.includes('A strong starting point'), `${routePath} retained a cut starting-point section.`);
   assertOrdered(html, [
-    'class="service-hero"',
-    'id="service-system"',
-    'class="commercial-section service-process"',
-    'class="commercial-section service-faq"',
+    'class="brand-media-hero',
+    'id="what-this-is"',
+    'class="brand-media-faq',
     'id="book"',
   ], routePath);
 }
@@ -832,7 +816,7 @@ for (const marker of [
 
 const webHtml = await readFile(pageFile('/web/'), 'utf8');
 for (const marker of [
-  'Make the value clear. <em>Make the next step easy.</em>',
+  'Make the value clear. Make the next step easy.',
   'Build a fast, distinctive digital experience that communicates the offer',
   'Five decisions, in the order a buyer needs them.',
   'Build the decision path before decorating the page.',

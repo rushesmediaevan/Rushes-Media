@@ -1,50 +1,115 @@
 ---
-import { homeServices } from '../../data/home';
+import { brandMediaFilm, homeServices, systemsBeats } from '../../data/home';
+import { homepageAssets } from '../../data/homepage-assets';
+import HomePicture from './HomePicture.astro';
 
+const brand = homeServices[0];
+const campaigns = homeServices[1];
+const web = homeServices[2];
+const systems = homeServices[3];
 ---
 
-<!-- ══ SERVICES ═══════════════════════════════════════════ -->
-<section id="services" tabindex="-1">
-  <div class="svc-hd">
-    <h2 class="svc-h2 r">What We Build</h2>
-    <span class="svc-count r d1">04 capabilities</span>
-  </div>
-  <div class="svc-board">
-    {homeServices.map((service, index) => (
-      <a class:list={['svc-card', `svc-card--${service.tone}`, service.visual && 'svc-card--visual', 'r', index > 0 && `d${index}`]} href={service.href}>
-        {service.visual && (
-          <figure class="svc-card-visual" data-visual-truth={service.visual.truthClass}>
-            <picture>
-              {service.visual.sources.map((source) => (
-                <source srcset={source.srcset} sizes={service.visual?.sizes} type={source.type} media={source.media} />
-              ))}
-              <img
-                src={service.visual.fallback.src}
-                srcset={service.visual.fallback.srcset}
-                sizes={service.visual?.sizes}
-                width={service.visual.fallback.width}
-                height={service.visual.fallback.height}
-                alt={service.visual.alt}
-                loading="lazy"
-                decoding="async"
-                style={`--svc-focal:${service.visual.focalPoint};--svc-mobile-focal:${service.visual.mobileFocalPoint ?? service.visual.focalPoint}`}
-              />
-            </picture>
-          </figure>
-        )}
-        <div class="svc-card-top">
-          <span class="svc-stage">{service.stage}</span>
-          <span class="svc-arr" aria-hidden="true">↗</span>
-        </div>
-        <div class="svc-card-main">
-          <h3 class="svc-name">{service.name}</h3>
-          <p class="svc-name-plain">{service.plainName}</p>
-          <p class="svc-desc">{service.description}</p>
-        </div>
-        <ul class="svc-tags">
-          {service.tags.map((tag) => <li class="svc-tag">{tag}</li>)}
-        </ul>
-      </a>
-    ))}
-  </div>
+<section id="services" class="v3-services" tabindex="-1" aria-labelledby="v3-services-heading">
+  <header class="v3-services-head">
+    <div>
+      <span class="eye">What Rushes does</span>
+      <h2 id="v3-services-heading" class="svc-h2">Capabilities that move the business forward.</h2>
+    </div>
+    <p>
+      Rushes brings together brand media, creative campaigns, web experiences, and business systems.
+      Each capability can stand alone or connect through the Demand Loop.
+    </p>
+  </header>
+
+  <article class="v3-chapter" aria-labelledby="v3-brand-heading">
+    <figure class="v3-film" aria-label="Brand Media photographic sequence">
+      <div class="v3-film-hero">
+        <HomePicture asset={brandMediaFilm[0]} sizes="(max-width: 760px) 100vw, 42vw" />
+      </div>
+      <div>
+        <HomePicture asset={brandMediaFilm[1]} sizes="(max-width: 760px) 50vw, 18vw" />
+      </div>
+      <div>
+        <HomePicture asset={brandMediaFilm[2]} sizes="(max-width: 760px) 50vw, 18vw" />
+      </div>
+    </figure>
+    <div class="v3-chapter-copy">
+      <span class="v3-kicker">{brand.stage}</span>
+      <h3 id="v3-brand-heading">{brand.name}</h3>
+      <p class="v3-claim">{brand.plainName}</p>
+      <p>{brand.description}</p>
+      <a class="v3-more" href={brand.href}>Open Brand Media<span aria-hidden="true">→</span></a>
+    </div>
+  </article>
+
+  <article class="v3-chapter" aria-labelledby="v3-campaigns-heading">
+    <div class="v3-strip" aria-label="One campaign idea in three coordinated frames">
+      <figure class="v3-crop v3-crop--feed">
+        <HomePicture asset={homepageAssets.campaignsSubmerged} sizes="(max-width: 760px) 92vw, 18vw" />
+      </figure>
+      <figure class="v3-crop v3-crop--story">
+        <HomePicture asset={homepageAssets.campaignsSubmerged} sizes="(max-width: 760px) 92vw, 14vw" />
+      </figure>
+      <figure class="v3-crop v3-crop--site">
+        <HomePicture asset={homepageAssets.campaignsSubmerged} sizes="(max-width: 760px) 92vw, 22vw" />
+      </figure>
+    </div>
+    <div class="v3-chapter-copy">
+      <span class="v3-kicker">{campaigns.stage}</span>
+      <h3 id="v3-campaigns-heading">{campaigns.name}</h3>
+      <p class="v3-claim">{campaigns.plainName}</p>
+      <p>{campaigns.description}</p>
+      <a class="v3-more" href={campaigns.href}>Open Creative Campaigns<span aria-hidden="true">→</span></a>
+    </div>
+  </article>
+
+  <article class="v3-chapter" aria-labelledby="v3-web-heading">
+    <figure class="v3-web-photo" data-slot="web-proof" aria-label="Web and digital experience photograph">
+      <HomePicture asset={web.visual!} sizes="(max-width: 760px) 100vw, 48vw" />
+    </figure>
+    <div class="v3-chapter-copy">
+      <span class="v3-kicker">{web.stage}</span>
+      <h3 id="v3-web-heading">{web.name}</h3>
+      <p class="v3-claim">{web.plainName}</p>
+      <p>{web.description}</p>
+      <a class="v3-more" href={web.href}>Open Web and Digital Experience<span aria-hidden="true">→</span></a>
+    </div>
+  </article>
+
+  <article class="v3-chapter v3-chapter--systems" aria-labelledby="v3-systems-heading">
+    <div class="v3-systems" aria-label="How inquiries move through the business">
+      <svg class="v3-systems-map" viewBox="0 0 640 132" role="img" aria-hidden="true">
+        <title>Capture, route, respond, and keep moving</title>
+        <path class="v3-systems-line" d="M70 40 H190 M210 40 H330 M350 40 H470 M490 40 H570" />
+        <circle cx="70" cy="40" r="18" />
+        <circle cx="210" cy="40" r="18" />
+        <circle cx="350" cy="40" r="18" />
+        <circle cx="490" cy="40" r="18" />
+        <text x="70" y="45" text-anchor="middle">01</text>
+        <text x="210" y="45" text-anchor="middle">02</text>
+        <text x="350" y="45" text-anchor="middle">03</text>
+        <text x="490" y="45" text-anchor="middle">04</text>
+        <text class="v3-systems-label" x="70" y="86" text-anchor="middle">Capture</text>
+        <text class="v3-systems-label" x="210" y="86" text-anchor="middle">Route</text>
+        <text class="v3-systems-label" x="350" y="86" text-anchor="middle">Respond</text>
+        <text class="v3-systems-label" x="490" y="86" text-anchor="middle">Keep moving</text>
+      </svg>
+      <ol>
+        {systemsBeats.map((beat) => (
+          <li>
+            <span>{beat.label}</span>
+            <strong>{beat.heading}</strong>
+            <p>{beat.example}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+    <div class="v3-chapter-copy">
+      <span class="v3-kicker">{systems.stage}</span>
+      <h3 id="v3-systems-heading">{systems.name}</h3>
+      <p class="v3-claim">{systems.plainName}</p>
+      <p>{systems.description}</p>
+      <a class="v3-more" href={systems.href}>Open AI &amp; Business Systems<span aria-hidden="true">→</span></a>
+    </div>
+  </article>
 </section>

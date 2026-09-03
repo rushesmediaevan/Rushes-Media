@@ -1,20 +1,19 @@
 ---
-import type { InnerPage } from '../../data/inner-pages';
-import { innerPages } from '../../data/inner-pages';
+import { capabilityPages, type CapabilityPage } from '../../data/capability-pages';
 import type { IndustryPage } from '../../data/industry-pages';
 import { industryPages } from '../../data/industry-pages';
 import IndustryPageLayout from '../../layouts/IndustryPageLayout.astro';
-import InnerPageLayout from '../../layouts/InnerPageLayout.astro';
+import CapabilityLayout from '../../layouts/CapabilityLayout.astro';
 
 export function getStaticPaths() {
-  return [...innerPages, ...industryPages].map((page) => ({
+  return [...capabilityPages, ...industryPages].map((page) => ({
     params: { slug: page.slug },
     props: { page },
   }));
 }
 
 interface Props {
-  page: InnerPage | IndustryPage;
+  page: CapabilityPage | IndustryPage;
 }
 
 const { page } = Astro.props;
@@ -22,4 +21,4 @@ const { page } = Astro.props;
 
 {page.family === 'industry'
   ? <IndustryPageLayout page={page} />
-  : <InnerPageLayout page={page} />}
+  : <CapabilityLayout page={page} />}

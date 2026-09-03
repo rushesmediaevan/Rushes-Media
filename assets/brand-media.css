@@ -583,3 +583,170 @@
   .brand-media-button,
   .brand-media-faq__list summary span { transition: none; }
 }
+
+.capability-page {
+  background: #f5f0e6;
+  color: #1a2a3f;
+}
+
+.capability-hero {
+  min-height: 0;
+}
+
+.capability-answers {
+  display: grid;
+  gap: 0;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 8px clamp(22px, 5vw, 76px) 24px;
+}
+
+.capability-answers article {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  gap: 12px 40px;
+  padding: 14px 0;
+  border-top: 1px solid rgba(26, 42, 63, .14);
+}
+
+.capability-answers h2 {
+  margin: 8px 0 0;
+  max-width: 18ch;
+  font-size: clamp(28px, 3.4vw, 42px);
+  line-height: 1.05;
+}
+
+.capability-answers p {
+  margin: 8px 0 0;
+  max-width: 62ch;
+  color: rgba(26, 42, 63, .74);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.capability-loop {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 48px clamp(22px, 5vw, 76px) 12px;
+}
+
+.capability-loop-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.capability-loop-list header {
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 16px 20px;
+  border: 1px solid rgba(26, 42, 63, .16);
+  background: #fff;
+}
+
+.capability-loop-list span,
+.capability-loop-list small {
+  color: #765a2c;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.capability-loop-list h3 {
+  margin: 8px 0 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.capability-loop-list p {
+  margin: 0;
+  color: rgba(26, 42, 63, .7);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.capability-loop-list b {
+  margin-top: auto;
+  padding-top: 12px;
+  color: #1a2a3f;
+  font-size: 12px;
+}
+
+.capability-faq {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 12px clamp(22px, 5vw, 76px) 8px;
+}
+
+.capability-disclosure {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(22px, 5vw, 76px) 28px;
+  color: rgba(26, 42, 63, .72);
+  font-size: 12px;
+}
+
+.capability-page .brand-media-hero {
+  min-height: 0;
+  gap: clamp(28px, 4vw, 56px);
+  padding-top: clamp(36px, 4vw, 56px);
+  padding-bottom: clamp(36px, 4vw, 56px);
+}
+
+.capability-page .brand-media-hero h1 {
+  font-size: clamp(44px, 5.2vw, 72px);
+}
+
+.capability-page .brand-media-hero__main picture { aspect-ratio: 16 / 10; }
+.capability-page .brand-media-hero__visuals { width: min(100%, 420px); padding-bottom: 40px; }
+
+.capability-page .brand-media-hero__support {
+  margin-top: 20px;
+}
+
+.capability-page .brand-media-section-lead {
+  margin-bottom: 24px;
+}
+
+.capability-page .brand-media-section-lead h2 {
+  font-size: clamp(32px, 4vw, 52px);
+}
+
+.capability-page .capability-answers .brand-media-eye,
+.capability-page .brand-media-section-lead--light .brand-media-eye,
+.capability-page .capability-faq .brand-media-eye {
+  color: #5c451f;
+}
+
+.capability-loop-list header { min-height: 0; }
+
+.capability-page .brand-media-booking {
+  max-width: 1280px;
+  margin: 0 auto 24px;
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.capability-page .brand-media-booking__copy h2 {
+  font-size: clamp(32px, 4vw, 48px);
+}
+
+.capability-page .brand-media-faq h2 {
+  font-size: clamp(28px, 3.4vw, 42px);
+}
+
+@media (max-width: 900px) {
+  .capability-answers article,
+  .capability-loop-list {
+    grid-template-columns: 1fr;
+  }
+  .capability-loop-list header { min-height: 0; }
+}

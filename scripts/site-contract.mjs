@@ -154,9 +154,17 @@ export const SITE_CONTRACT = [
       '/assets/video/hero-loop.mp4',
       '/assets/images/logo-icon.png',
       '/assets/images/logo-wordmark.png',
-      ...publicAssetUrls(HOMEPAGE_BROWSER_ASSET_FILES),
+      ...publicAssetUrls([
+        ...HOMEPAGE_ASSETS.brandMediaRiversideMill,
+        ...HOMEPAGE_ASSETS.campaignsSubmerged,
+      ]),
       ...publicAssetUrls(INDUSTRY_ASSETS.outdoorLiving.filter((file) => !file.includes('-social-'))),
+      ...publicAssetUrls(INDUSTRY_ASSETS.interiorDesign.filter((file) => !file.includes('-social-'))),
+      ...publicAssetUrls(INDUSTRY_ASSETS.hvac.filter((file) => !file.includes('-social-'))),
       ...publicAssetUrls(REVISION_ASSETS.medSpa),
+      ...publicAssetUrls(REVISION_ASSETS.bakery),
+      ...publicAssetUrls(REVISION_ASSETS.restaurant),
+      ...publicAssetUrls(REVISION_ASSETS.daylitVenue),
     ],
     requiredCtas: [
       '#book',
@@ -293,6 +301,13 @@ export const SITE_CONTRACT = [
       description:
         'The Rushes system connecting Brand Media, campaigns, web, AI-supported business systems, lead capture, and follow-up around one clear path from attention to action.',
       lastmod: '2026-09-02',
+      extraAssets: [
+        '/assets/brand-media.css',
+        ...publicAssetUrls([
+          ...INDUSTRY_ASSETS.outdoorLiving.filter((file) => !file.includes('-social-')),
+          ...INDUSTRY_ASSETS.hvac.filter((file) => !file.includes('-social-')),
+        ]),
+      ],
     },
     {
       path: '/brand-media/',
@@ -304,10 +319,7 @@ export const SITE_CONTRACT = [
       extraAssets: [
         '/assets/brand-media.css',
         ...publicAssetUrls([
-          ...INDUSTRY_ASSETS.outdoorLivingPool,
           ...INDUSTRY_ASSETS.medSpa.filter((file) => !file.includes('-social-')),
-          ...REVISION_ASSETS.restaurant,
-          ...REVISION_ASSETS.daylitVenue,
           ...REVISION_ASSETS.coastalTerrace,
         ]),
       ],
@@ -319,6 +331,13 @@ export const SITE_CONTRACT = [
       description:
         'Meta and Google campaigns built around one credible idea, a focused conversion path and measurable qualified opportunities. Ad spend stays in the client-owned account.',
       lastmod: '2026-09-02',
+      extraAssets: [
+        '/assets/brand-media.css',
+        ...publicAssetUrls([
+          ...HOMEPAGE_ASSETS.campaignsSubmerged,
+          ...REVISION_ASSETS.bakery,
+        ]),
+      ],
     },
     {
       path: '/web/',
@@ -327,6 +346,13 @@ export const SITE_CONTRACT = [
       description:
         'Custom sites and landing pages with one job: call, book, or request the estimate. Built for the campaign behind it.',
       lastmod: '2026-09-02',
+      extraAssets: [
+        '/assets/brand-media.css',
+        ...publicAssetUrls([
+          ...REVISION_ASSETS.daylitVenue,
+          ...HOMEPAGE_ASSETS.brandMediaRiversideMill,
+        ]),
+      ],
     },
     {
       path: '/follow-up/',
@@ -335,6 +361,13 @@ export const SITE_CONTRACT = [
       description:
         'Practical AI consulting, workflow automation, lead capture, and follow-up systems that save time and make the business easier to run.',
       lastmod: '2026-09-02',
+      extraAssets: [
+        '/assets/brand-media.css',
+        ...publicAssetUrls([
+          ...REVISION_ASSETS.restaurant,
+          ...INDUSTRY_ASSETS.interiorDesign.filter((file) => !file.includes('-social-')),
+        ]),
+      ],
     },
   ].map((route) => ({
     ...route,
