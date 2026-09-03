@@ -3102,6 +3102,11 @@
       .v3-chapter-copy h3 { font-size: clamp(32px, 10vw, 44px); }
     }
 
+    @media (max-width: 760px) {
+      /* v3.1: one idea in three crops stays a row on phones; three stacked copies of one still read as a bug */
+      .v3-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; height: auto; align-items: stretch; }
+      .v3-crop, .v3-crop--feed, .v3-crop--story, .v3-crop--site { height: auto; aspect-ratio: 3 / 4; }
+    }
     @media (prefers-reduced-motion: reduce) {
       .v3-film img,
       .v3-strip img,
