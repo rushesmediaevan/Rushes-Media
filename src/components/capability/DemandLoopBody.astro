@@ -29,7 +29,7 @@ const circumference = 2 * Math.PI * RADIUS;
       <circle class="cap-loop__ring" cx={CENTER} cy={CENTER} r={RADIUS} style={`--ring:${circumference.toFixed(1)}`} />
       {nodes.map((node) => (
         <>
-          <a href={`#loop-stage-${node.index + 1}`}>
+          <a href={`#loop-stage-${node.index + 1}`} aria-label={`Go to ${node.stage}: ${node.name}`}>
             <circle class="cap-loop__node" cx={node.x.toFixed(1)} cy={node.y.toFixed(1)} r="26" />
             <text class="cap-loop__number" x={node.x.toFixed(1)} y={(node.y + 5).toFixed(1)} text-anchor="middle">{String(node.index + 1).padStart(2, '0')}</text>
           </a>

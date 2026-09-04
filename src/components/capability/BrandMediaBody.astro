@@ -82,7 +82,10 @@ const frames = delivery.spread.formats.map((format) => {
     </svg>
     <ul class="cap-spread__uses">
       {delivery.spread.formats.map((format) => (
-        <li><b>{format.name}</b><span>{format.use}</span></li>
+        <li>
+          <span class="cap-spread__format" style={`--format-ratio:${format.ratio.replace(':', '/')}`}>{format.ratio}</span>
+          <b>{format.name}</b><span>{format.use}</span>
+        </li>
       ))}
     </ul>
   </div>

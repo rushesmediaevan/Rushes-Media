@@ -314,3 +314,61 @@
 .capability-page .cap-band--navy .cap-section b { color: var(--bm-cream); }
 .capability-page .cap-band--navy .cap-section p { color: var(--cap-text-dark); }
 .capability-page .cap-band--navy .cap-section .cap-lead p { color: var(--cap-text-dark); }
+.cap-spread__format { display: none; }
+
+/* The mobile opening is two blocks, not six grid rows with compounded gaps. */
+@media (max-width: 760px) {
+  .capability-page { --cap-x: clamp(20px, 6vw, 32px); }
+  .capability-page .brand-media-hero { padding: 28px var(--cap-x) 40px; gap: 28px; }
+  .capability-page .brand-media-hero__copy { display: block; min-width: 0; }
+  .capability-page .brand-media-breadcrumb { margin-bottom: 24px; line-height: 1.5; }
+  .capability-page .brand-media-breadcrumb a { min-height: 24px; display: inline-flex; align-items: center; }
+  .capability-page .brand-media-hero h1 { font-size: clamp(40px, 11vw, 54px); line-height: 1.03; margin-top: 14px; }
+  .capability-page .brand-media-hero__support { font-size: 16px; line-height: 1.65; margin-top: 20px; }
+  .capability-page .brand-media-actions { margin-top: 16px; }
+  .capability-page .brand-media-text-link { min-height: 44px; font-size: 14px; }
+  .capability-page .brand-media-hero__visuals { margin-top: 0; width: 100%; max-width: 520px; }
+  .cap-section { padding-block: 44px; }
+  .cap-lead { gap: 16px; margin-bottom: 28px; }
+  .cap-lead h2, .cap-manifesto__copy h2, .cap-chapter__copy h2 { max-width: none; font-size: clamp(34px, 9.3vw, 44px); line-height: 1.08; }
+  .cap-manifesto__copy .cap-pull { margin: 20px 0; }
+  .capability-page .cap-section p { font-size: 16px; line-height: 1.65; }
+  .cap-gallery { gap: 32px; }
+  .cap-gallery__item .brand-concept picture,
+  .cap-manifesto__visual picture, .cap-experiment__visual picture,
+  .cap-process__visual picture, .cap-chapter__visual picture { aspect-ratio: 4 / 3; }
+  .cap-manifesto__visual, .cap-chapter__visual { width: 100%; max-width: none; }
+  .cap-pair { padding-top: 0; }
+  .cap-pair article, .cap-spread, .cap-split article { padding: 24px 20px; }
+  .cap-pair article h2 { margin-top: 20px; }
+  .cap-spread { gap: 24px; }
+  .cap-spread__uses { gap: 20px; }
+  .cap-spread__uses li { font-size: 14px; }
+  .cap-spread__uses b { font-size: 16px; }
+  .cap-spread__format { display: flex; align-items: center; justify-content: center; width: 64px; aspect-ratio: var(--format-ratio); margin-bottom: 10px; border: 1px solid var(--bm-navy); background: var(--bm-cream); color: var(--bm-navy); font-size: 14px; }
+  /* These labels are repeated in the adjacent readable lists. */
+  .cap-spread__map, .cap-leak__map { display: none; }
+  .cap-leak__pains li { grid-template-columns: 28px minmax(0, 1fr); gap: 12px; }
+  .cap-steps li, .cap-loop__legend li { grid-template-columns: 32px minmax(0, 1fr); gap: 12px; }
+  .cap-rail li { padding-left: 24px; }
+  .cap-timeline { padding-left: 8px; }
+  .cap-timeline li { padding-left: 18px; }
+  .cap-timeline li::before { left: -14px; }
+  .cap-moments { grid-template-columns: 1fr; gap: 16px; }
+  .cap-moments .brand-concept picture { aspect-ratio: 4 / 3; }
+  .cap-matrix tbody td { font-size: 16px; }
+  .cap-matrix tbody td.cap-matrix__note { font-size: 13px; padding-top: 12px; }
+  .cap-loop__label { display: none; }
+  .cap-loop__map { max-width: 380px; }
+  .cap-loop__map a .cap-loop__node { r: 44px; }
+  .cap-loop__number { font-size: 24px; }
+  .cap-chapter { gap: 24px; }
+  .cap-thread .cap-num { margin-bottom: 14px; }
+  .cap-entry__card { min-height: 0; }
+  .capability-page .brand-media-faq { padding: 24px var(--cap-x) 8px; margin-top: 16px; gap: 24px; }
+  .capability-page .brand-media-faq__list summary { font-size: 18px; line-height: 1.4; }
+  .capability-page .brand-media-faq__list p { font-size: 16px; line-height: 1.65; }
+  .capability-page .brand-media-booking { padding: 44px var(--cap-x); gap: 28px; }
+  .capability-page .brand-media-booking__copy h2 { font-size: 36px; line-height: 1.08; }
+  .capability-page .brand-media-booking__copy p { font-size: 16px; line-height: 1.65; }
+}
