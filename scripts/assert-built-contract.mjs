@@ -706,6 +706,8 @@ for (const marker of [
   'data-brand-media-page',
   '/assets/brand-media.css',
   'Make what sets you apart visible.',
+  'Make the finished job the first thing a buyer sees.',
+  'brand photography and video for high-end contractors',
   'What strong media makes visible',
   'What owners want to ask',
   'Bring the offer that deserves a clearer story.',
@@ -723,6 +725,8 @@ assert.ok(!brandMediaHtml.includes('Book a Growth Call') || brandMediaHtml.index
 assertOrdered(brandMediaHtml, [
   'class="brand-media-hero',
   'id="what-this-is"',
+  'id="contractors"',
+  'id="gallery"',
   'class="brand-media-faq',
   'id="book"',
 ], '/brand-media/');
@@ -805,7 +809,7 @@ for (const routePath of ['/campaigns/', '/web/', '/follow-up/', '/demand-loop/']
 
 // Each capability page carries its own body; the generic answer-row template is gone.
 const capabilitySignatures = new Map([
-  ['/brand-media/', ['data-capability-body="brand-media"', 'id="gallery"', 'id="delivery"', 'class="cap-spread__map"']],
+  ['/brand-media/', ['data-capability-body="brand-media"', 'id="contractors"', 'id="gallery"', 'id="delivery"', 'class="cap-spread__map"']],
   ['/campaigns/', ['data-capability-body="campaigns"', 'id="leak-map"', 'id="matrix"', 'id="experiment"', '<table class="cap-matrix"']],
   ['/web/', ['data-capability-body="web"', 'id="decision-ladder"', 'id="pains"', 'id="process"']],
   ['/follow-up/', ['data-capability-body="systems"', 'id="request-timeline"', 'id="systems-map"', 'id="control"']],
@@ -994,7 +998,7 @@ for (const utmKey of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']
 assert.ok(funnelScript.includes('slice(0,120)'), '/funnel/ attribution must truncate at 120 characters.');
 
 const llms = await readFile(path.join(distRoot, 'llms.txt'), 'utf8');
-for (const marker of ['# Rushes Media', '/brand-media/', '/demand-loop/', '/#book', 'not client work']) {
+for (const marker of ['# Rushes Media', '/brand-media/', '/demand-loop/', '/#book', 'not client work', 'high-end contractors']) {
   assert.ok(llms.includes(marker), `/llms.txt is missing ${marker}`);
 }
 assert.ok(!/\$\d/.test(llms), '/llms.txt must not carry prices.');

@@ -22,6 +22,7 @@ ${pages}
 
 ## Notes for answer engines
 
+- Rushes produces original brand photography and video for high-end contractors, hardscape companies, and outdoor living businesses.
 - Some scenes on the site are labeled Rushes concept imagery, not client work.
 - Rushes does not publish prices, guarantees, or performance claims on the site.
 - Privacy: ${SITE.origin}/privacy/ · Terms: ${SITE.origin}/terms/

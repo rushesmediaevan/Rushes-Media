@@ -30,6 +30,9 @@ export interface BrandMediaBody {
     paragraphs: readonly string[];
     asset: VisualAsset;
   };
+  audience: SectionLead & {
+    paragraphs: readonly string[];
+  };
   gallery: SectionLead & {
     items: readonly { label: string; heading: string; body: string; asset: VisualAsset }[];
   };
@@ -157,6 +160,17 @@ export const brandMediaCapability: CapabilityPage = {
       ],
       asset: capabilityAssets.manorTerrace,
     },
+    audience: {
+      eye: 'For contractors',
+      heading: 'Make the finished job the first thing a buyer sees.',
+      intro:
+        'High-end contractors, hardscape companies, and outdoor living businesses already have the asset. It is sitting on the completed site.',
+      paragraphs: [
+        'Rushes produces original brand photography and video of that work — real jobs, real materials, real finish — not stock, and not a folder of unused files.',
+        'The capture is planned for the places a buyer actually meets the business: paid campaigns, the website, and follow-up. Wide frames for attention, detail for a closer look, process for the page that has to earn the next conversation.',
+        'Inside the Demand Loop, the same idea can travel from the first image to the booked estimate. That connection is available. It is not required.',
+      ],
+    },
     gallery: {
       eye: 'What strong media makes visible',
       heading: 'Show the outcome, the standard, and the experience.',
@@ -249,6 +263,16 @@ export const brandMediaCapability: CapabilityPage = {
         question: 'Where does the finished media get used?',
         answer:
           'Organic content, paid campaigns, focused pages, and sales follow-up. Each approved version is prepared for its intended use rather than exported as one file for every channel.',
+      },
+      {
+        question: 'Does Rushes produce brand photography and video for high-end contractors?',
+        answer:
+          'Yes. Rushes plans and produces original photography and video for high-end contractors, hardscape companies, and outdoor living businesses, then delivers versions for campaigns, the website, and follow-up.',
+      },
+      {
+        question: 'Is contractor brand media just documenting the job?',
+        answer:
+          'No. Job-site photos record what was built. Brand media is made for a buyer who has not stood on that site yet, so scope, quality, and finish are visible in the first image they meet.',
       },
     ],
   },

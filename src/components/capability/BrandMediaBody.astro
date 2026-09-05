@@ -6,7 +6,7 @@ import Pair from './Pair.astro';
 
 interface Props { body: BrandMediaBody; }
 const { body } = Astro.props;
-const { manifesto, gallery, delivery } = body;
+const { manifesto, audience, gallery, delivery } = body;
 
 // Proportional frames for the "one frame, four uses" spread (unit height 100).
 const frames = delivery.spread.formats.map((format) => {
@@ -25,6 +25,11 @@ const frames = delivery.spread.formats.map((format) => {
     {manifesto.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
   </div>
   <ConceptPicture asset={manifesto.asset} className="cap-manifesto__visual" sizes={manifesto.asset.sizes} showCaption={false} />
+</section>
+
+<section id="contractors" class="cap-section cap-audience" aria-labelledby="audience-heading">
+  <Lead lead={audience} id="audience-heading" wide />
+  {audience.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
 </section>
 
 <section id="gallery" class="cap-band cap-band--navy" aria-labelledby="gallery-heading">
