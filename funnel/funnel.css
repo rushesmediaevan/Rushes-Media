@@ -44,6 +44,14 @@ img { max-width: 100%; display: block; }
 }
 .f-nav-cta:hover { background: rgba(184,152,96,.12); border-color: var(--gold); }
 
+@media (max-width: 600px) {
+  .f-nav { gap: 16px; padding-block: 12px; }
+  .f-logo { min-width: 0; gap: 8px; height: 32px; }
+  .f-logo .wm { width: min(35vw, 150px); height: auto; }
+  .f-nav-cta { flex: none; max-width: 116px; min-height: 44px; padding: 10px 12px; font-size: 10px; line-height: 1.5; }
+  .f-hero-cta { max-width: 100%; line-height: 1.5; }
+}
+
 /* Hero */
 .f-hero {
   padding: clamp(48px, 10vw, 96px) var(--px) clamp(40px, 8vw, 72px);

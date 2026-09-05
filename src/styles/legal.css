@@ -39,3 +39,16 @@ a:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+
+@media (max-width: 600px) {
+  :root { --px: 20px; }
+  nav { height: 72px; gap: 16px; }
+  .logo { min-width: 0; gap: 8px; min-height: 44px; }
+  .logo-crest { height: 32px; }
+  .logo-wordmark { width: min(35vw, 150px); height: auto; }
+  .nav-cta { flex: none; max-width: 108px; padding: 10px 12px; font-size: 13px; line-height: 1.35; }
+  main { padding-top: 40px; padding-bottom: 56px; overflow-wrap: anywhere; }
+  h1 { font-size: clamp(36px, 10vw, 48px); }
+  .urls, .sms { padding: 18px 16px; }
+  .back { min-height: 44px; display: inline-flex; align-items: center; }
+}

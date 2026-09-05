@@ -20,7 +20,7 @@ import HomePicture from './HomePicture.astro';
         <figure>
           <HomePicture
             asset={audience.visual}
-            sizes={index === 0 ? '(max-width: 760px) 100vw, 48vw' : '(max-width: 760px) 50vw, 24vw'}
+            sizes={index === 0 ? '(max-width: 760px) calc(100vw - 40px), 48vw' : '(max-width: 760px) calc(100vw - 40px), 24vw'}
           />
         </figure>
         <span class="who-card-route">{audience.routeLabel}</span>

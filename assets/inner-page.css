@@ -480,3 +480,12 @@ img { display: block; max-width: 100%; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
 }
+
+@media (max-width: 760px) {
+  .editorial-footer { padding: 40px var(--page-x) 28px; gap: 28px; }
+  .editorial-footer-column { gap: 0; }
+  .editorial-footer-column a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; }
+  .editorial-footer-brand img:last-child { width: min(220px, 60vw); }
+  .editorial-footer-legal { margin-top: 8px; font-size: 12px; overflow-wrap: anywhere; }
+  .commercial-route-links a { min-height: 48px; }
+}
