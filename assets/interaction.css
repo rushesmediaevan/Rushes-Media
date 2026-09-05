@@ -1,6 +1,6 @@
 /* Native rendering, no document-level mouse tracking. */
 @media (hover: hover) and (pointer: fine) and (forced-colors: none) {
-  html body { cursor: url('/assets/cursor.svg') 2 2, auto; }
+  html body { cursor: url('/assets/cursor.svg?v=20') 1 1, auto; }
 }
 :where(p, h1, h2, h3, h4, h5, h6, blockquote, figcaption, td, th) { cursor: text; }
 :is(a[href], button, summary, select, label, input[type='checkbox'], input[type='radio']) { cursor: pointer; }

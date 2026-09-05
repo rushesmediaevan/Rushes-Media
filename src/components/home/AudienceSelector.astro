@@ -12,15 +12,15 @@ import HomePicture from './HomePicture.astro';
     </div>
   </div>
   <div class="v3-range">
-    {audiences.map((audience, index) => (
+    {audiences.map((audience) => (
       <article
-        class:list={['v3-range-card', index === 0 && 'lead']}
+        class="v3-range-card"
         data-visual-truth={audience.visual.truthClass}
       >
         <figure>
           <HomePicture
             asset={audience.visual}
-            sizes={index === 0 ? '(max-width: 760px) calc(100vw - 40px), 48vw' : '(max-width: 760px) calc(100vw - 40px), 24vw'}
+            sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1440px) 44vw, 624px"
           />
         </figure>
         <span class="who-card-route">{audience.routeLabel}</span>
