@@ -400,7 +400,13 @@ export const SITE_CONTRACT = [
       title: route.title,
       description: route.description,
       url: `${SITE_ORIGIN}${route.path}`,
+      type: 'website',
+      siteName: 'Rushes Media',
+      image: `${SITE_ORIGIN}/assets/images/hero/hero-bg.jpg`,
+      imageWidth: 1920,
+      imageHeight: 1080,
     },
+    twitter: { card: 'summary_large_image', title: route.title, description: route.description, image: `${SITE_ORIGIN}/assets/images/hero/hero-bg.jpg` },
     compatibilityDisposition: 'Astro service or mechanism route with a shared conversion contract',
   })),
   {
@@ -706,6 +712,9 @@ export const REVIEW_COMPATIBILITY_FILES = [
 ];
 
 export const PUBLIC_ASSET_FILES = [
+  'assets/interaction.css',
+  'assets/cursor.svg',
+  'assets/form-runtime.js',
   'assets/inner-page.css',
   'assets/brand-media.css',
   'assets/capability-pages.css',

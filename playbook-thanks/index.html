@@ -14,8 +14,6 @@
     window.gtag = function () { dataLayer.push(arguments); };
     gtag('js', new Date());
     gtag('config', 'G-86B4B79T54');
-    var src = new URLSearchParams(window.location.search).get('src');
-    gtag('event', 'generate_lead', { lead_source: 'playbook' + (src ? ':' + src : '') });
   })();
 </script>
 
@@ -46,7 +44,7 @@
       flex-direction: column;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      cursor: none;
+      cursor: auto;
     }
     a { text-decoration: none; color: inherit; }
     img { max-width: 100%; display: block; }
@@ -67,17 +65,7 @@
       outline-offset: 4px;
     }
 
-    #cur {
-      position: fixed; z-index: 9999;
-      width: 10px; height: 10px;
-      background: var(--gold);
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%,-50%);
-      transition: width .18s var(--ease), height .18s var(--ease), opacity .18s;
-    }
-    #cur.big { width: 40px; height: 40px; opacity: .3; }
-    @media (hover: none) { #cur { display: none; } }
+
 
     body::before {
       content: '';
@@ -161,7 +149,7 @@
       font-size: 14px; font-weight: 500;
       letter-spacing: .08em; text-transform: uppercase;
       padding: 17px 34px; border-radius: 2px;
-      cursor: none;
+      cursor: auto;
       transition: background .2s var(--ease), border-color .2s, transform .2s, color .2s;
     }
     .btn .arr { transition: transform .2s var(--ease); }
@@ -190,10 +178,11 @@
       .btn { justify-content: center; width: 100%; }
     }
   </style>
+  <link rel="stylesheet" href="/assets/interaction.css" />
 </head>
-<body>
+<body class="confirmation-page">
 
-<div id="cur"></div>
+
 
 <header>
   <a href="/" class="logo" aria-label="Rushes Media — home">
@@ -241,12 +230,7 @@
     bookingReturn.href = destination.toString();
   }
 
-  const cur = document.getElementById('cur');
-  document.addEventListener('mousemove', e => { cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; });
-  document.querySelectorAll('a,button').forEach(el => {
-    el.addEventListener('mouseenter', () => cur.classList.add('big'));
-    el.addEventListener('mouseleave', () => cur.classList.remove('big'));
-  });
+
 </script>
 
 </body>

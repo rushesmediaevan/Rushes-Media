@@ -153,6 +153,7 @@
       color: rgba(245,240,230,.32);
     }
   </style>
+  <link rel="stylesheet" href="/assets/interaction.css" />
 </head>
 <body>
   <header>
@@ -169,23 +170,27 @@
 
     <div id="err" class="err" role="alert"></div>
 
-    <form id="form" novalidate>
+    <noscript>
+      <style>#form { display: none; }</style>
+      <p>To request the scorecard without JavaScript, <a href="mailto:evan@rushesmedia.com?subject=Local%20lead%20leak%20scorecard">email Evan</a>.</p>
+    </noscript>
+    <form id="form" method="post" action="/api/playbook-capture">
       <input type="hidden" name="src" id="src" value="ig-growth" />
 
       <label>First name *
-        <input name="firstName" required autocomplete="given-name" />
+        <input name="firstName" maxlength="200" required autocomplete="given-name" />
       </label>
 
       <label>Email *
-        <input name="email" type="email" required autocomplete="email" />
+        <input name="email" maxlength="254" type="email" required autocomplete="email" />
       </label>
 
       <label>Business name
-        <input name="businessName" autocomplete="organization" />
+        <input name="businessName" maxlength="200" autocomplete="organization" />
       </label>
 
       <label>Website or Instagram
-        <input name="website" autocomplete="url" placeholder="yoursite.com or @yourhandle" />
+        <input name="website" maxlength="300" autocomplete="url" placeholder="yoursite.com or @yourhandle" />
       </label>
 
       <label>Business type *
@@ -219,6 +224,8 @@
 
   <footer>© 2026 Rushes Media · rushesmedia.com</footer>
 
+  <script src="/assets/meta-pixel.js" defer></script>
+  <script src="/assets/form-runtime.js" defer></script>
   <script>
     const params = new URLSearchParams(location.search);
     const src = params.get('src');
@@ -228,37 +235,17 @@
 
     const form = document.getElementById('form');
     const err = document.getElementById('err');
-    const btn = document.getElementById('submit');
-    const defaultButtonLabel = btn.textContent;
-
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       err.classList.remove('on');
-      btn.disabled = true;
-      btn.textContent = 'Sending…';
 
       const formData = new FormData(form);
       const data = {
         ...Object.fromEntries(formData),
         marketingConsent: formData.get('marketingConsent') === 'true',
       };
-      try {
-        const res = await fetch('/api/playbook-capture', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
-        const json = await res.json();
-        if (!res.ok || !json.ok) {
-          throw new Error(json.error || 'Something went wrong');
-        }
-        location.href = '/playbook-thanks/';
-      } catch (ex) {
-        err.textContent = ex.message;
-        err.classList.add('on');
-        btn.disabled = false;
-        btn.textContent = defaultButtonLabel;
-      }
+      await window.RushesForms.submit({ form, endpoint: '/api/playbook-capture', payload: data,
+        message: err, destination: '/playbook-thanks/', source: 'playbook:' + data.src });
     });
   </script>
 </body>

@@ -1,0 +1,84 @@
+[
+  {
+    "check": "reduced motion",
+    "route": "/thanks/",
+    "animation": "none",
+    "opacity": "1"
+  },
+  {
+    "check": "reduced motion",
+    "route": "/playbook-thanks/",
+    "animation": "none",
+    "opacity": "1"
+  },
+  {
+    "check": "forced colors",
+    "cursor": "auto"
+  },
+  {
+    "check": "JavaScript disabled",
+    "circles": 0,
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "headingOpacity": "1"
+  },
+  {
+    "check": "cursor asset blocked",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "hiddenCursorRules": 0
+  },
+  {
+    "check": "hidden floating link skipped",
+    "focus": "Rushes Media — home",
+    "hidden": "true",
+    "inert": true
+  },
+  {
+    "check": "keyboard FAQ opens",
+    "open": ""
+  },
+  {
+    "check": "keyboard FAQ closes",
+    "open": null
+  },
+  {
+    "check": "native dialog reverse tab boundary",
+    "result": "Focus moved to browser chrome (document body active); no background page control received focus."
+  },
+  {
+    "check": "menu desktop resize",
+    "expanded": "false",
+    "open": false,
+    "overflow": ""
+  },
+  {
+    "check": "browser required field validation",
+    "field": "firstName",
+    "invalid": true
+  },
+  {
+    "check": "credential-free form failure",
+    "firstName": "Audit",
+    "emailRetained": true,
+    "message": "Service temporarily unavailable",
+    "buttonDisabled": false
+  },
+  {
+    "check": "keyboard enters mock iframe",
+    "active": "IFRAME",
+    "frameId": "rushes-growth-call-calendar"
+  },
+  {
+    "check": "keyboard exits mock iframe",
+    "active": "A",
+    "label": "Services"
+  },
+  {
+    "check": "mock reconnect late readiness",
+    "state": "ready"
+  },
+  {
+    "check": "scorecard without JavaScript",
+    "emailAlternative": true,
+    "formDisplay": "none"
+  }
+]

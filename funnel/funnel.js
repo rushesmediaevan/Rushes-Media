@@ -204,29 +204,29 @@
         <div class="f-section-inner f-form-wrap">
           <h2>${esc(cfg.cta?.formTitle)}</h2>
           <p class="f-form-sub">${esc(cfg.cta?.formSub)}</p>
-          <form class="f-form" id="lead-form" novalidate>
+          <form class="f-form" id="lead-form" method="post" action="/api/lead">
             <div class="f-hp" aria-hidden="true">
               <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
             </div>
             <div class="f-field">
               <label for="name">Name</label>
-              <input id="name" name="name" type="text" required autocomplete="name" />
+              <input id="name" name="name" maxlength="200" type="text" required autocomplete="name" />
             </div>
             <div class="f-field">
               <label for="business">Business name</label>
-              <input id="business" name="business" type="text" required autocomplete="organization" />
+              <input id="business" name="business" maxlength="200" type="text" required autocomplete="organization" />
             </div>
             <div class="f-field">
               <label for="phone">Phone</label>
-              <input id="phone" name="phone" type="tel" required autocomplete="tel" />
+              <input id="phone" name="phone" maxlength="32" type="tel" required autocomplete="tel" />
             </div>
             <div class="f-field">
               <label for="email">Email</label>
-              <input id="email" name="email" type="email" required autocomplete="email" />
+              <input id="email" name="email" maxlength="254" type="email" required autocomplete="email" />
             </div>
             <div class="f-field">
               <label for="need">${esc(cfg.form?.needLabel)}</label>
-              <textarea id="need" name="need" required placeholder="${esc(cfg.form?.needPlaceholder)}"></textarea>
+              <textarea id="need" name="need" maxlength="1000" required placeholder="${esc(cfg.form?.needPlaceholder)}"></textarea>
             </div>
             <div class="f-field">
               <label for="sms_consent" style="display:flex;gap:.5rem;align-items:flex-start;font-weight:400;font-size:.78rem;line-height:1.45;cursor:pointer;text-transform:none;letter-spacing:normal;">
@@ -257,10 +257,9 @@
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const btn = form.querySelector('.f-submit');
       msg.textContent = '';
       msg.className = 'f-form-msg';
-      btn.disabled = true;
+
 
       const fd = new FormData(form);
       const payload = {
@@ -272,33 +271,14 @@
         need: fd.get('need'),
         website: fd.get('website'),
         sms_consent: fd.get('sms_consent') === 'yes' ? 'yes' : 'no',
-        source_url: location.href,
+        source_url: location.href.slice(0, 300),
         calendarUrl: cfg.thanks?.calendarUrl || cfg.calendarUrl || '',
       };
 
-      try {
-        const res = await fetch('/api/lead', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok) {
-          msg.textContent =
-            data.error === 'rate_limit'
-              ? 'Too many attempts — try again in an hour.'
-              : 'Something failed. Call or email from rushesmedia.com.';
-          msg.className = 'f-form-msg err';
-          btn.disabled = false;
-          return;
-        }
-        const thanks = cfg.thanks?.path || '/thanks/';
-        location.href = thanks + (thanks.includes('?') ? '&' : '?') + 'niche=' + encodeURIComponent(cfg.id);
-      } catch {
-        msg.textContent = 'Network error — try again or book from rushesmedia.com.';
-        msg.className = 'f-form-msg err';
-        btn.disabled = false;
-      }
+      const thanks = new URL(cfg.thanks?.path || '/thanks/', location.origin);
+      thanks.searchParams.set('niche', cfg.id);
+      await window.RushesForms.submit({ form, endpoint: '/api/lead', payload, message: msg,
+        destination: thanks.toString(), source: cfg.id || 'site_form' });
     });
   }
 })();

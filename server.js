@@ -9,6 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const { capturePlaybookLead, loadGhlConfig } = require('./lib/playbook-capture');
 const { captureFunnelLead } = require('./lib/funnel-capture');
+const { withRequestDeadline } = require('./lib/ghl');
 
 const ROOT = __dirname;
 const BUILD_ROOT = path.join(ROOT, 'dist');
@@ -47,12 +48,38 @@ const MIME = {
   '.xml': 'application/xml; charset=utf-8',
 };
 
-function readBody(req) {
+function readBody(req, signal) {
   return new Promise((resolve, reject) => {
     const chunks = [];
-    req.on('data', (c) => chunks.push(c));
-    req.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
-    req.on('error', reject);
+    const maxBytes = 64 * 1024;
+    let bytes = 0;
+    const cleanup = () => {
+      req.off('data', onData);
+      req.off('end', onEnd);
+      req.off('error', onError);
+      req.off('aborted', onAborted);
+      signal.removeEventListener('abort', onAbort);
+    };
+    const fail = (error) => { cleanup(); req.resume(); reject(error); };
+    const onData = (chunk) => {
+      bytes += chunk.length;
+      if (bytes > maxBytes) fail(Object.assign(new Error('Request too large'), { status: 413 }));
+      else chunks.push(chunk);
+    };
+    const onEnd = () => { cleanup(); resolve(Buffer.concat(chunks).toString('utf8')); };
+    const onError = (error) => fail(error);
+    const onAborted = () => fail(Object.assign(new Error('Request aborted'), { status: 400 }));
+    const onAbort = () => fail(signal.reason);
+    if (Number(req.headers['content-length']) > maxBytes) {
+      fail(Object.assign(new Error('Request too large'), { status: 413 }));
+      return;
+    }
+    if (signal.aborted) { fail(signal.reason); return; }
+    req.on('data', onData);
+    req.on('end', onEnd);
+    req.on('error', onError);
+    req.on('aborted', onAborted);
+    signal.addEventListener('abort', onAbort, { once: true });
   });
 }
 
@@ -196,6 +223,9 @@ function leadRateLimited(ip) {
   const hits = (LEAD_RATE.get(ip) || []).filter((t) => now - t < 60 * 60 * 1000);
   if (hits.length >= 5) return true;
   hits.push(now);
+  if (!LEAD_RATE.has(ip) && LEAD_RATE.size >= LEAD_RATE_MAX_IPS) {
+    LEAD_RATE.delete(LEAD_RATE.keys().next().value);
+  }
   LEAD_RATE.set(ip, hits);
   return false;
 }
@@ -212,7 +242,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if (req.method === 'OPTIONS' && (req.url === '/api/playbook-capture' || req.url === '/api/lead')) {
+  if (req.method === 'OPTIONS' && (urlPath === '/api/playbook-capture' || urlPath === '/api/lead')) {
     res.writeHead(204, {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -222,7 +252,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if (req.method === 'GET' && req.url === '/api/health') {
+  if (req.method === 'GET' && urlPath === '/api/health') {
     const { loc, token } = loadGhlConfig();
     const ghlConfigured = Boolean(loc && token);
     sendJson(res, ghlConfigured ? 200 : 503, {
@@ -232,44 +262,41 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if (req.method === 'POST' && req.url === '/api/lead') {
-    const ip =
-      (req.headers['x-forwarded-for'] || '').split(',')[0].trim() ||
-      req.socket.remoteAddress ||
-      'unknown';
+  if (req.method === 'POST' && ['/api/lead', '/api/playbook-capture'].includes(urlPath)) {
+    const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim()
+      || req.socket.remoteAddress || 'unknown';
     if (leadRateLimited(ip)) {
+      res.setHeader('Retry-After', '3600');
       sendJson(res, 429, { ok: false, error: 'rate_limit' });
       return;
     }
+    const disconnected = new AbortController();
+    const deadline = AbortSignal.any([AbortSignal.timeout(30_000), disconnected.signal]);
+    const onClose = () => {
+      if (!res.writableEnded) disconnected.abort();
+    };
+    res.on('close', onClose);
     try {
-      const raw = await readBody(req);
+      const raw = await readBody(req, deadline);
       const body = parseBody(req, raw);
       if (!body) {
         sendJson(res, 400, { ok: false, error: 'Invalid body' });
         return;
       }
-      const result = await captureFunnelLead(body);
-      sendJson(res, result.ok ? 200 : 400, result);
-    } catch (err) {
-      console.error('lead-capture error:', err.message);
-      sendJson(res, 500, { ok: false, error: 'Server error' });
-    }
-    return;
-  }
-
-  if (req.method === 'POST' && req.url === '/api/playbook-capture') {
-    try {
-      const raw = await readBody(req);
-      const body = parseBody(req, raw);
-      if (!body) {
-        sendJson(res, 400, { ok: false, error: 'Invalid body' });
-        return;
-      }
-      const result = await capturePlaybookLead(body);
-      sendJson(res, result.ok ? 200 : 400, result);
-    } catch (err) {
-      console.error('playbook-capture error:', err.message);
-      sendJson(res, 500, { ok: false, error: 'Server error' });
+      const capture = urlPath === '/api/lead' ? captureFunnelLead : capturePlaybookLead;
+      const result = await withRequestDeadline(deadline, () => capture(body));
+      if (!res.destroyed) sendJson(res, result.ok ? 200 : 400, result);
+    } catch (error) {
+      const timeout = ['TimeoutError', 'AbortError'].includes(error.name);
+      const status = timeout ? 504 : error.code === 'not_configured' ? 503 : error.status === 413 ? 413 : error.upstream ? 502 : 500;
+      const message = timeout ? 'Request timed out. Contact Rushes before submitting again.'
+        : status === 503 ? 'Service temporarily unavailable'
+        : status === 413 ? 'Request too large'
+        : status === 502 ? 'Capture service unavailable. Please try again later.' : 'Server error';
+      console.error('capture failure:', { route: urlPath, status });
+      if (!res.destroyed) sendJson(res, status, { ok: false, error: message });
+    } finally {
+      res.off('close', onClose);
     }
     return;
   }

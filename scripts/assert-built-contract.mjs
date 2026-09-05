@@ -195,6 +195,8 @@ function assertArtDirectedPicture(html, folder, assetId) {
 const assertRevisionPicture = (html, assetId) => assertArtDirectedPicture(html, 'revision', assetId);
 const assertHomepagePicture = (html, assetId) => assertArtDirectedPicture(html, 'homepage', assetId);
 
+const bookingRuntimeSource = await readFile(path.join(projectRoot, 'src/scripts/booking-widget.mjs'), 'utf8');
+
 function assertBookingRuntime(html, routePath) {
   for (const marker of [
     'data-booking-direct',
@@ -212,7 +214,7 @@ function assertBookingRuntime(html, routePath) {
     '[iFrameResizerChild]Ready',
     '[iFrameSizer]',
   ]) {
-    assert.ok(html.includes(marker), `${routePath} booking runtime is missing: ${marker}`);
+    assert.ok(html.includes(marker) || bookingRuntimeSource.includes(marker), `${routePath} booking runtime is missing: ${marker}`);
   }
   assert.ok(
     html.includes('mailto:evan@rushesmedia.com?subject=30-minute%20Growth%20Call%20request'),
@@ -498,9 +500,9 @@ assert.equal((homepageHtml.match(/Rushes capability/g) || []).length, 5, 'Each c
 assert.ok(!homepageHtml.includes('How It Can Connect'));
 assert.ok(!homepageHtml.includes('A connected path, when the priority calls for one.'));
 for (const utmKey of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
-  assert.ok(homepageHtml.includes(utmKey), `Homepage attribution is missing ${utmKey}.`);
+  assert.ok(await htmlOrLocalScriptContains(homepageHtml, utmKey), `Homepage attribution is missing ${utmKey}.`);
 }
-assert.ok(homepageHtml.includes('slice(0,120)'), 'Homepage attribution must truncate at 120 characters.');
+assert.ok(await htmlOrLocalScriptContains(homepageHtml, 'slice(0,120)'), 'Homepage attribution must truncate at 120 characters.');
 assert.ok(homepageHtml.includes('30-minute Growth Call'), 'Homepage Growth Call duration drifted from 30 minutes.');
 assert.ok(
   homepageHtml.includes('Rushes works across industries.'),
@@ -575,9 +577,10 @@ for (const resilientBookingMarker of [
   '[iFrameSizer]',
   'event.origin !== destination.origin',
 ]) {
-  assert.ok(homepageHtml.includes(resilientBookingMarker), `Homepage booking fail-safe is missing: ${resilientBookingMarker}`);
+  assert.ok(homepageHtml.includes(resilientBookingMarker) || bookingRuntimeSource.includes(resilientBookingMarker), `Homepage booking fail-safe is missing: ${resilientBookingMarker}`);
 }
 assertBookingRuntime(homepageHtml, '/');
+assert.ok(await htmlOrLocalScriptContains(homepageHtml, '[iFrameResizerChild]Ready'), 'Built homepage lost its booking controller.');
 assert.ok(!homepageHtml.includes('Calendar loaded. Choose a time'), 'Iframe load alone must not claim that the third-party calendar hydrated.');
 assert.ok(homepageHtml.includes('class="hero-media-toggle"'));
 assert.ok(homepageHtml.includes('aria-controls="hero-background-video"'));
@@ -611,12 +614,12 @@ assert.ok(
 
 const homepageLocalScripts = localScriptSources(homepageHtml);
 assert.ok(homepageLocalScripts.includes('/assets/meta-pixel.js'));
-const homepageInlineModules = [...homepageHtml.matchAll(/<script\b[^>]*type="module"[^>]*>([\s\S]*?)<\/script>/gi)];
+const homepageInlineModules = [...homepageHtml.matchAll(/<script\b(?![^>]*\bsrc=)[^>]*type="module"[^>]*>([\s\S]*?)<\/script>/gi)];
 const homepageExternalModules = homepageLocalScripts.filter((source) => /^\/_astro\/.*\.js$/.test(source));
 assert.equal(
   homepageInlineModules.length + homepageExternalModules.length,
-  1,
-  'Homepage must emit exactly one owned interaction bundle.',
+  2,
+  'Homepage must emit its home and shared booking interaction bundles.',
 );
 assert.equal(
   homepageLocalScripts.length,
@@ -634,17 +637,17 @@ for (const route of SITE_CONTRACT.filter(
 )) {
   const html = await readFile(pageFile(route.path), 'utf8');
   assert.ok(!html.includes('astro-island'), `${route.path} emitted an Astro island.`);
-  assert.ok(!/<script[^>]+type="module"/i.test(html), `${route.path} emitted client module JS.`);
-  assert.ok(!/_astro\/[^"']+\.js/.test(html), `${route.path} emitted Astro runtime JS.`);
+  const modules = localScriptSources(html).filter((source) => /^\/_astro\/.*\.js$/.test(source));
+  assert.deepEqual(modules, homepageExternalModules, `${route.path} must use only the shared booking module.`);
   assert.ok(html.includes(`data-page-family=`), `${route.path} lost its semantic family discriminator.`);
   assertBookingRuntime(html, route.path);
   assert.ok(html.includes('data-booking-status'), `${route.path} lost the booking loading status.`);
   assert.ok(html.includes('data-booking-state="loading"'), `${route.path} lost the booking loading state.`);
   assert.ok(html.includes('data-booking-loading'), `${route.path} lost the designed booking loading plate.`);
   assert.ok(html.includes('data-booking-fallback'), `${route.path} lost the collapsed booking failure state.`);
-  assert.ok(html.includes("showUnavailable('unavailable'"), `${route.path} lost the unavailable-frame state.`);
-  assert.ok(html.includes('data-booking-click-ready'), `${route.path} lost delegated Growth Call click tracking.`);
-  assert.ok(html.includes('a[href="#book"]'), `${route.path} no longer tracks every in-page Growth Call control.`);
+  assert.ok(bookingRuntimeSource.includes("showUnavailable('unavailable'"), `${route.path} lost the unavailable-frame state.`);
+  assert.ok(await htmlOrLocalScriptContains(html, 'data-booking-click-ready'), `${route.path} lost delegated Growth Call click tracking.`);
+  assert.ok(await htmlOrLocalScriptContains(html, 'a[href="#book"]'), `${route.path} no longer tracks every in-page Growth Call control.`);
 }
 
 const mobileNavSource = await readFile(
@@ -1146,8 +1149,9 @@ assert.equal(
   (thanksHtml.match(/<\/script>/gi) || []).length,
   '/thanks/ contains an unclosed script.',
 );
-assert.ok(thanksHtml.includes('AW-REPLACE_ME/REPLACE_ME_LABEL'));
-assert.ok(thanksHtml.includes("!adsConversionId.includes('REPLACE_ME')"));
+assert.ok(!thanksHtml.includes("gtag('event', 'conversion'"), 'Confirmation visits must not trigger Ads conversions.');
+assert.ok(!thanksHtml.includes("gtag('event', 'generate_lead'"));
+assert.ok(!metaPixel.includes("fbq('track', 'Lead')"));
 assert.ok(thanksHtml.includes("endsWith('.test')"));
 assert.ok(thanksHtml.includes("'[::1]'"));
 

@@ -7,11 +7,12 @@
   },
   "approvedRevisionFiles": {
     "src/components/home/HeroSection.astro": "a3cb960380d58424f5f8633a7c72b8145c182df7d59704450ac7cee7fbcf9aac",
-    "src/components/home/HomepageHeader.astro": "4dca3fdb57441083a7d351662f36df91aa79f567e2eba53831081b5b1d070a3b"
+    "src/components/home/HomepageHeader.astro": "9e84f3fbfa0e79e1b24b431c5e6d5f625c68dfd09ac689ac7f0eabe9bc4f6598"
   },
   "homepageCssProtectedPrefix": {
     "path": "src/styles/home.css",
-    "lineCount": 655,
-    "sha256": "2dd1f5633069f42b830271cbb813aa9b4120479545d4bc83b425c46be3f16083"
-  }
+    "lineCount": 645,
+    "sha256": "fc92f24ecea4c599f03fc542d2c15685faaa678c93077df58b08d25baf3cba5d"
+  },
+  "repairBaseline": "2026-09-05: approved cursor removal and native homepage dialog; hero media unchanged."
 }

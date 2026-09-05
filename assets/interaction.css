@@ -1,0 +1,17 @@
+/* Native rendering, no document-level mouse tracking. */
+@media (hover: hover) and (pointer: fine) and (forced-colors: none) {
+  html body { cursor: url('/assets/cursor.svg') 2 2, auto; }
+}
+:where(p, h1, h2, h3, h4, h5, h6, blockquote, figcaption, td, th) { cursor: text; }
+:is(a[href], button, summary, select, label, input[type='checkbox'], input[type='radio']) { cursor: pointer; }
+:is(a[href], button, summary) :where(*) { cursor: inherit; }
+:where(input:not([type='checkbox']):not([type='radio']):not([type='submit']), textarea, [contenteditable='true']) { cursor: text; }
+:is(button, input, select, textarea):disabled { cursor: not-allowed; }
+[aria-busy='true'] button:disabled { cursor: wait; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  .confirmation-page *, .confirmation-page *::before, .confirmation-page *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

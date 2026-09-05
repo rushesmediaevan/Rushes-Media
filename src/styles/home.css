@@ -8,7 +8,7 @@
       color: #f5f0e6;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      cursor: none;
+      cursor: auto;
     }
     a { text-decoration: none; color: inherit; }
     img { max-width: 100%; display: block; }
@@ -31,17 +31,7 @@
     }
 
     /* ── CURSOR ──────────────────────────────────────── */
-    #cur {
-      position: fixed; z-index: 9999;
-      width: 10px; height: 10px;
-      background: var(--gold);
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%,-50%);
-      transition: width .18s var(--ease), height .18s var(--ease), opacity .18s;
-    }
-    #cur.big { width: 40px; height: 40px; opacity: .3; }
-    @media (hover: none) { #cur { display: none; } }
+
 
     /* ── NAV ─────────────────────────────────────────── */
     nav {
@@ -64,7 +54,7 @@
       align-items: center;
       gap: 12px;
       height: 48px;
-      cursor: none;
+      cursor: auto;
     }
     .logo-crest {
       height: 100%;
@@ -98,10 +88,10 @@
       border: 1px solid rgba(184,152,96,.4);
       padding: 10px 22px; border-radius: 2px;
       transition: background .2s, border-color .2s !important;
-      cursor: none;
+      cursor: auto;
     }
     .nav-r .cta:hover { background: rgba(184,152,96,.12) !important; border-color: var(--gold) !important; }
-    .burger { display: none; background: none; border: none; color: var(--cream); cursor: none; flex-direction: column; gap: 5px; padding: 8px; }
+    .burger { display: none; background: none; border: none; color: var(--cream); cursor: auto; flex-direction: column; gap: 5px; padding: 8px; }
     .burger span { display: block; width: 22px; height: 1.5px; background: var(--cream); }
     @media (max-width: 960px) {
       /* Hide the desktop list before it collides with the brand lockup. The
@@ -272,7 +262,7 @@
       font-size: 12px; font-weight: 700; letter-spacing: .05em;
       padding: 12px 20px; border-radius: 40px;
       box-shadow: 0 6px 28px rgba(184,152,96,.35);
-      transition: background .2s, transform .2s; cursor: none;
+      transition: background .2s, transform .2s; cursor: auto;
     }
     #fcta a:hover { background: #c8a96e; transform: translateY(-2px); }
 
@@ -534,7 +524,7 @@
       font-size: 13px; font-weight: 600; letter-spacing: .04em;
       padding: 15px 28px; border-radius: 2px;
       transition: background .22s, transform .22s, box-shadow .22s, border-color .22s;
-      cursor: none; white-space: nowrap;
+      cursor: auto; white-space: nowrap;
     }
     .btn-g { background: var(--gold); color: var(--ink); border: 1px solid transparent; }
     .btn-g:hover { background: #c8a96e; transform: translateY(-2px); box-shadow: 0 8px 22px rgba(184,152,96,.28); }
@@ -905,7 +895,7 @@
       gap: clamp(20px, 3vw, 48px);
       padding: clamp(36px, 4.2vw, 56px) 0;
       border-bottom: 1px solid rgba(26,42,63,.16);
-      cursor: none;
+      cursor: auto;
       transition: background .25s var(--ease);
       border-radius: 4px;
       padding-left: 16px; padding-right: 16px;
@@ -1164,7 +1154,7 @@
       padding: 22px 0; gap: 20px;
       font-size: 14px; font-weight: 500;
       color: rgba(245,240,230,.75);
-      cursor: none;
+      cursor: auto;
       width: 100%; border: 0; background: transparent;
       font-family: inherit; text-align: left;
       list-style: none;
@@ -1271,7 +1261,7 @@
       padding: 13px 15px;
       width: 100%;
       transition: border-color .2s var(--ease), background .2s;
-      cursor: none;
+      cursor: auto;
     }
     .lead-form textarea { resize: vertical; min-height: 92px; }
     .lead-form input::placeholder,
@@ -1307,7 +1297,7 @@
       border: 1px solid transparent; border-radius: 2px;
       padding: 17px 36px;
       display: inline-flex; align-items: center; gap: 10px;
-      cursor: none;
+      cursor: auto;
       transition: background .2s var(--ease), transform .2s, box-shadow .2s;
     }
     .lead-form button:hover { background: var(--ink); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(12,24,37,.18); }
@@ -1744,7 +1734,6 @@
        HOMEPAGE COMMERCIAL SYSTEM — approved lower-page pass
        The locked night-flight hero remains above this layer.
     ════════════════════════════════════════════════════ */
-    #cur.big { width: 20px; height: 20px; }
 
     #problem,
     #services,
@@ -2040,7 +2029,6 @@
     }
 
     @media (pointer: coarse) {
-      #cur { display: none !important; }
       .btn, .svc-row { cursor: pointer; }
     }
 
@@ -2680,7 +2668,6 @@
     }
 
     @media (pointer: coarse) {
-      #cur { display: none !important; }
       body { cursor: auto; }
       .btn, .svc-card, .who-card { cursor: pointer; }
     }
@@ -3132,3 +3119,13 @@
       .v3-campaign-photo { aspect-ratio: 16 / 10; }
     }
     .v3-range-card h3 { color: var(--navy); }
+
+/* Native dialog preserves the existing menu composition and isolates background focus. */
+#mob { margin: 0; border: 0; max-width: none; max-height: none; width: 100%; height: 100dvh; color: var(--cream); }
+#mob:not([open]) { display: none; }
+#mob::backdrop { background: #0c1825; }
+#fcta:not(.on) { visibility: hidden; }
+#fcta.on { visibility: visible; }
+/* Shared cursor semantics take precedence over legacy component declarations. */
+.logo, .nav-r a, .burger, .btn, #fcta a, .mob-cta, .faq-q, .lead-submit { cursor: pointer; }
+.lead-form input, .lead-form textarea { cursor: text; }

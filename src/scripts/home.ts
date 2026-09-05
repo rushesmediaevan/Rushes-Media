@@ -6,26 +6,6 @@ declare global {
   }
 }
 
-const cursor = document.getElementById('cur');
-if (cursor) {
-  let cursorFrame = 0;
-  let cursorX = 0;
-  let cursorY = 0;
-  document.addEventListener('mousemove', (event) => {
-    cursorX = event.clientX;
-    cursorY = event.clientY;
-    if (cursorFrame) return;
-    cursorFrame = window.requestAnimationFrame(() => {
-      cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
-      cursorFrame = 0;
-    });
-  }, { passive: true });
-  document.querySelectorAll('a,button,.v3-chapter,.v3-range-card,.faq-q').forEach((element) => {
-    element.addEventListener('mouseenter', () => cursor.classList.add('big'));
-    element.addEventListener('mouseleave', () => cursor.classList.remove('big'));
-  });
-}
-
 const navigation = document.getElementById('nav');
 if (navigation) {
   const syncNavigationSurface = () => navigation.classList.toggle('on', window.scrollY > 40);
@@ -47,47 +27,38 @@ if (hero && heroVideo && heroToggle) {
 const mobileMenu = document.getElementById('mob');
 const menuButton = document.getElementById('burger');
 const closeButton = document.getElementById('mob-x');
-if (mobileMenu && menuButton && closeButton) {
-  const openMenu = () => {
-    mobileMenu.removeAttribute('inert');
+if (mobileMenu instanceof HTMLDialogElement && menuButton && closeButton) {
+  let previousOverflow = '';
+  let restoreFocus = true;
+  const closeMenu = (restore = true) => {
+    restoreFocus = restore;
+    if (mobileMenu.open) mobileMenu.close();
+  };
+  menuButton.addEventListener('click', () => {
+    if (mobileMenu.open) return;
+    previousOverflow = document.body.style.overflow;
+    restoreFocus = true;
+    mobileMenu.showModal();
     mobileMenu.classList.add('on');
-    mobileMenu.setAttribute('aria-hidden', 'false');
     menuButton.setAttribute('aria-expanded', 'true');
     document.body.classList.add('mob-open');
     document.body.style.overflow = 'hidden';
     closeButton.focus();
-  };
-  const closeMenu = (restoreFocus = true) => {
+  });
+  closeButton.addEventListener('click', () => closeMenu());
+  mobileMenu.addEventListener('cancel', () => { restoreFocus = true; });
+  mobileMenu.addEventListener('close', () => {
     mobileMenu.classList.remove('on');
-    mobileMenu.setAttribute('aria-hidden', 'true');
-    mobileMenu.setAttribute('inert', '');
     menuButton.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('mob-open');
-    document.body.style.overflow = '';
+    document.body.style.overflow = previousOverflow;
     if (restoreFocus) menuButton.focus();
-  };
-  menuButton.addEventListener('click', openMenu);
-  closeButton.addEventListener('click', () => closeMenu());
+  });
   mobileMenu.querySelectorAll('a').forEach((anchor) => {
     anchor.addEventListener('click', () => closeMenu(false));
   });
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && mobileMenu.classList.contains('on')) closeMenu();
-  });
-  mobileMenu.addEventListener('keydown', (event) => {
-    if (event.key !== 'Tab') return;
-    const focusable = [
-      ...mobileMenu.querySelectorAll<HTMLElement>('a[href], button:not([disabled])'),
-    ];
-    const first = focusable[0];
-    const last = focusable.at(-1);
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last?.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first?.focus();
-    }
+  window.matchMedia('(min-width: 961px)').addEventListener('change', (event) => {
+    if (event.matches) closeMenu(false);
   });
 }
 
@@ -96,7 +67,15 @@ const heroButtons = document.querySelector('.hero-btns');
 if (floatingCta && heroButtons && 'IntersectionObserver' in window) {
   let heroVisible = true;
   let closeVisible = false;
-  const updateFloatingCta = () => floatingCta.classList.toggle('on', !heroVisible && !closeVisible);
+  const updateFloatingCta = () => {
+    const visible = !heroVisible && !closeVisible;
+    // Do not hide the link while a keyboard user is actively using it.
+    if (!visible && floatingCta.contains(document.activeElement)) return;
+    floatingCta.classList.toggle('on', visible);
+    floatingCta.inert = !visible;
+    floatingCta.setAttribute('aria-hidden', String(!visible));
+  };
+  floatingCta.addEventListener('focusout', () => queueMicrotask(updateFloatingCta));
   const heroObserver = new IntersectionObserver((entries) => {
     heroVisible = Boolean(entries[0]?.isIntersecting);
     updateFloatingCta();

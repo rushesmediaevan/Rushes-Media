@@ -19,7 +19,8 @@ const seo = {
   title: page.title,
   description: page.description,
   canonical,
-  openGraph: { title: page.title, description: page.description, url: canonical },
+  openGraph: { type: 'website', siteName: SITE.name, title: page.title, description: page.description, url: canonical, image: `${SITE.origin}/assets/images/hero/hero-bg.jpg`, imageWidth: 1920, imageHeight: 1080 },
+  twitter: { card: 'summary_large_image', title: page.title, description: page.description, image: `${SITE.origin}/assets/images/hero/hero-bg.jpg` },
   jsonLd: capabilityPageSchema(page),
 };
 const body = page.body;

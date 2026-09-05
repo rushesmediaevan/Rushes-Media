@@ -7,7 +7,7 @@
  *
  * Until the ID is set this file is a no-op — safe to ship.
  * PageView fires on every page that includes this script.
- * Lead fires automatically on /thanks/ (form submitted) and /playbook-thanks/.
+ * Lead fires only after confirmed API capture, through form-runtime.js.
  * The $1,000 test optimizes Instant Form leads, not /thanks. After paste+deploy,
  * still wire GHL CAPI Schedule on Growth Call book. Never paste the MPM pixel.
  * Brief: systems/outreach/RUSHES-ACQUISITION-1000-TEST-2026-08-13.md
@@ -41,8 +41,4 @@
   fbq('init', META_PIXEL_ID);
   fbq('track', 'PageView');
 
-  var p = location.pathname;
-  if (p.indexOf('/thanks') === 0 || p.indexOf('/playbook-thanks') === 0) {
-    fbq('track', 'Lead');
-  }
 })();

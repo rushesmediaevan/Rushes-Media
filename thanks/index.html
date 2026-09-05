@@ -14,8 +14,6 @@
     window.gtag = function () { dataLayer.push(arguments); };
     gtag('js', new Date());
     gtag('config', 'G-86B4B79T54');
-    var niche = new URLSearchParams(window.location.search).get('niche');
-    gtag('event', 'generate_lead', { lead_source: niche || 'site_form' });
   })();
 </script>
 
@@ -29,60 +27,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <!-- ════════════════════════════════════════════════════════════════════
-       GOOGLE ADS CONVERSION TRACKING  —  EVAN: READ THIS
-
-       This fires a conversion the moment a lead lands here (i.e. right
-       after they submit the Jobber form). That is the signal Google's
-       algorithm optimizes against.
-
-       BEFORE THIS WORKS YOU MUST DO 2 THINGS IN GOOGLE ADS:
-
-       1. Tools → Conversions → + New conversion action → Website
-          → set up MANUALLY (not via tag setup wizard).
-          - Category:        "Submit lead form"
-          - Conversion name: "Lead Form — rushesmedia.com"
-          - Value:           Use the same value for each ($1) is fine to start.
-                             (Real money value gets fed later via offline import.)
-          - Count:           "One" (not "Every")
-
-       2. Google gives you two values: a Conversion ID (AW-XXXXXXXXXX)
-          and a Conversion Label (a short string). Paste them below where
-          it says REPLACE_ME. Then redeploy the site.
-
-       Until you do step 2, this page works fine for the user but
-       reports ZERO conversions to Google. Do not launch spend before
-       this is live with the real IDs.
-       ════════════════════════════════════════════════════════════════════ -->
-
-  <!-- Meta pixel — fires Lead automatically on this page once ID is set in /assets/meta-pixel.js -->
+  <!-- Conversion events are emitted only after successful capture. -->
   <script src="/assets/meta-pixel.js" defer></script>
-
-  <!-- Google tag (gtag.js) -->
-  <script>
-    const analyticsHost = window.location.hostname.toLowerCase();
-    const suppressLocalAnalytics = ['localhost', '127.0.0.1', '[::1]'].includes(analyticsHost) || analyticsHost.endsWith('.test');
-    const adsConversionId = 'AW-REPLACE_ME'; // stays dormant until a real Google Ads conversion ID replaces the placeholder
-    if (!suppressLocalAnalytics && !adsConversionId.includes('REPLACE_ME')) {
-      const googleTag = document.createElement('script');
-      googleTag.async = true;
-      googleTag.src = 'https://www.googletagmanager.com/gtag/js?id=AW-REPLACE_ME';
-      document.head.appendChild(googleTag);
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      // ↓↓↓  REPLACE  AW-REPLACE_ME  WITH YOUR REAL CONVERSION ID  ↓↓↓
-      gtag('config', 'AW-REPLACE_ME');
-
-      // ↓↓↓  REPLACE BOTH VALUES BELOW WITH YOUR REAL ID + LABEL  ↓↓↓
-      gtag('event', 'conversion', {
-        'send_to': 'AW-REPLACE_ME/REPLACE_ME_LABEL',
-        'value': 1.0,
-        'currency': 'USD'
-      });
-    }
-  </script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -96,7 +42,7 @@
       flex-direction: column;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      cursor: none;
+      cursor: auto;
     }
     a { text-decoration: none; color: inherit; }
     img { max-width: 100%; display: block; }
@@ -117,17 +63,7 @@
       outline-offset: 4px;
     }
 
-    #cur {
-      position: fixed; z-index: 9999;
-      width: 10px; height: 10px;
-      background: var(--gold);
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%,-50%);
-      transition: width .18s var(--ease), height .18s var(--ease), opacity .18s;
-    }
-    #cur.big { width: 40px; height: 40px; opacity: .3; }
-    @media (hover: none) { #cur { display: none; } }
+
 
     /* glow */
     body::before {
@@ -216,7 +152,7 @@
       font-size: 14px; font-weight: 500;
       letter-spacing: .08em; text-transform: uppercase;
       padding: 17px 34px; border-radius: 2px;
-      cursor: none;
+      cursor: auto;
       transition: background .2s var(--ease), border-color .2s, transform .2s, color .2s;
     }
     .btn .arr { transition: transform .2s var(--ease); }
@@ -245,10 +181,11 @@
       .btn { justify-content: center; width: 100%; }
     }
   </style>
+  <link rel="stylesheet" href="/assets/interaction.css" />
 </head>
-<body>
+<body class="confirmation-page">
 
-<div id="cur"></div>
+
 
 <header>
   <a href="/" class="logo" aria-label="Rushes Media — home">
@@ -294,12 +231,7 @@
     bookingReturn.href = destination.toString();
   }
 
-  const cur = document.getElementById('cur');
-  document.addEventListener('mousemove', e => { cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; });
-  document.querySelectorAll('a,button').forEach(el => {
-    el.addEventListener('mouseenter', () => cur.classList.add('big'));
-    el.addEventListener('mouseleave', () => cur.classList.remove('big'));
-  });
+
 </script>
 <script>
   if (!['localhost', '127.0.0.1', '[::1]'].includes(window.location.hostname) && !window.location.hostname.toLowerCase().endsWith('.test')) {

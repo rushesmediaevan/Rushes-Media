@@ -250,14 +250,14 @@ async function assertApiNegatives(origin) {
   });
   assert.deepEqual(await unsupportedLead.json(), { ok: false, error: 'Invalid body' });
 
-  const leadWithoutCredentials = await expectResponse(origin, '/api/lead', 500, {
+  const leadWithoutCredentials = await expectResponse(origin, '/api/lead', 503, {
     method: 'POST',
     headers: { 'content-type': 'application/json', 'x-forwarded-for': '192.0.2.11' },
-    body: JSON.stringify({ name: 'Smoke Test', email: 'safe@example.test', phone: '6095550100' }),
+    body: JSON.stringify({ name: 'Smoke Test', business: 'Example', need: 'Website review', email: 'safe@example.test', phone: '6095550100' }),
   });
-  assert.deepEqual(await leadWithoutCredentials.json(), { ok: false, error: 'Server error' });
+  assert.deepEqual(await leadWithoutCredentials.json(), { ok: false, error: 'Service temporarily unavailable' });
 
-  const playbookWithoutCredentials = await expectResponse(origin, '/api/playbook-capture', 500, {
+  const playbookWithoutCredentials = await expectResponse(origin, '/api/playbook-capture', 503, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
@@ -268,7 +268,7 @@ async function assertApiNegatives(origin) {
       src: 'ig-growth',
     }),
   });
-  assert.deepEqual(await playbookWithoutCredentials.json(), { ok: false, error: 'Server error' });
+  assert.deepEqual(await playbookWithoutCredentials.json(), { ok: false, error: 'Service temporarily unavailable' });
 
   await expectResponse(origin, '/api/health', 405, { method: 'POST' });
   await expectResponse(origin, '/api/lead', 404);

@@ -1,0 +1,71 @@
+{
+  "conditions": "Chromium desktop 1440x900, localhost, cache disabled, unthrottled CPU/network, third parties suppressed, 1.8-second observation after navigation; early lab samples, not Lighthouse or field CWV",
+  "samples": [
+    {
+      "label": "before",
+      "run": 1,
+      "lcp": 128,
+      "cls": 0.0000987354419849537,
+      "fcp": 128,
+      "domContentLoaded": 79.5,
+      "load": 130.7999999821186,
+      "htmlBytes": 59307,
+      "resourceBytes": 1001880
+    },
+    {
+      "label": "after",
+      "run": 1,
+      "lcp": 132,
+      "cls": 0.0000987354419849537,
+      "fcp": 132,
+      "domContentLoaded": 73.09999999403954,
+      "load": 155.09999999403954,
+      "htmlBytes": 50237,
+      "resourceBytes": 1042448
+    },
+    {
+      "label": "before",
+      "run": 2,
+      "lcp": 128,
+      "cls": 0.0000987354419849537,
+      "fcp": 128,
+      "domContentLoaded": 69.2000000178814,
+      "load": 165.30000001192093,
+      "htmlBytes": 59307,
+      "resourceBytes": 1035314
+    },
+    {
+      "label": "after",
+      "run": 2,
+      "lcp": 108,
+      "cls": 0.0000987354419849537,
+      "fcp": 108,
+      "domContentLoaded": 60.5,
+      "load": 87.5,
+      "htmlBytes": 50237,
+      "resourceBytes": 1042448
+    },
+    {
+      "label": "before",
+      "run": 3,
+      "lcp": 136,
+      "cls": 0.0000987354419849537,
+      "fcp": 136,
+      "domContentLoaded": 76.80000001192093,
+      "load": 115.19999998807907,
+      "htmlBytes": 59307,
+      "resourceBytes": 1035314
+    },
+    {
+      "label": "after",
+      "run": 3,
+      "lcp": 116,
+      "cls": 0.0000987354419849537,
+      "fcp": 116,
+      "domContentLoaded": 60.70000001788139,
+      "load": 96.60000002384186,
+      "htmlBytes": 50237,
+      "resourceBytes": 1042448
+    }
+  ]
+}

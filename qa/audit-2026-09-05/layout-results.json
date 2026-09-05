@@ -1,0 +1,457 @@
+[
+  {
+    "route": "/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "route": "/brand-media/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "route": "/campaigns/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "route": "/web/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "route": "/follow-up/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "route": "/demand-loop/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "route": "/privacy/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "route": "/terms/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "route": "/call/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "route": "/funnel/?niche=hardscape",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "route": "/playbook/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "route": "/thanks/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "route": "/playbook-thanks/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 320,
+    "width": 320
+  },
+  {
+    "route": "/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 390,
+    "width": 390
+  },
+  {
+    "route": "/brand-media/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 390,
+    "width": 390
+  },
+  {
+    "route": "/campaigns/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 390,
+    "width": 390
+  },
+  {
+    "route": "/web/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 390,
+    "width": 390
+  },
+  {
+    "route": "/follow-up/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 390,
+    "width": 390
+  },
+  {
+    "route": "/demand-loop/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 390,
+    "width": 390
+  },
+  {
+    "route": "/privacy/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 390,
+    "width": 390
+  },
+  {
+    "route": "/terms/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 390,
+    "width": 390
+  },
+  {
+    "route": "/call/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 390,
+    "width": 390
+  },
+  {
+    "route": "/funnel/?niche=hardscape",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 390,
+    "width": 390
+  },
+  {
+    "route": "/playbook/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 390,
+    "width": 390
+  },
+  {
+    "route": "/thanks/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 390,
+    "width": 390
+  },
+  {
+    "route": "/playbook-thanks/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 390,
+    "width": 390
+  },
+  {
+    "route": "/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 768,
+    "width": 768
+  },
+  {
+    "route": "/brand-media/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 768,
+    "width": 768
+  },
+  {
+    "route": "/campaigns/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 768,
+    "width": 768
+  },
+  {
+    "route": "/web/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 768,
+    "width": 768
+  },
+  {
+    "route": "/follow-up/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 768,
+    "width": 768
+  },
+  {
+    "route": "/demand-loop/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 768,
+    "width": 768
+  },
+  {
+    "route": "/privacy/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 768,
+    "width": 768
+  },
+  {
+    "route": "/terms/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 768,
+    "width": 768
+  },
+  {
+    "route": "/call/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 768,
+    "width": 768
+  },
+  {
+    "route": "/funnel/?niche=hardscape",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 768,
+    "width": 768
+  },
+  {
+    "route": "/playbook/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 768,
+    "width": 768
+  },
+  {
+    "route": "/thanks/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 768,
+    "width": 768
+  },
+  {
+    "route": "/playbook-thanks/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 768,
+    "width": 768
+  },
+  {
+    "route": "/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1024,
+    "width": 1024
+  },
+  {
+    "route": "/brand-media/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1024,
+    "width": 1024
+  },
+  {
+    "route": "/campaigns/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1024,
+    "width": 1024
+  },
+  {
+    "route": "/web/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1024,
+    "width": 1024
+  },
+  {
+    "route": "/follow-up/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1024,
+    "width": 1024
+  },
+  {
+    "route": "/demand-loop/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1024,
+    "width": 1024
+  },
+  {
+    "route": "/privacy/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1024,
+    "width": 1024
+  },
+  {
+    "route": "/terms/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1024,
+    "width": 1024
+  },
+  {
+    "route": "/call/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1024,
+    "width": 1024
+  },
+  {
+    "route": "/funnel/?niche=hardscape",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1024,
+    "width": 1024
+  },
+  {
+    "route": "/playbook/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1024,
+    "width": 1024
+  },
+  {
+    "route": "/thanks/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1024,
+    "width": 1024
+  },
+  {
+    "route": "/playbook-thanks/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1024,
+    "width": 1024
+  },
+  {
+    "route": "/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1440,
+    "width": 1440
+  },
+  {
+    "route": "/brand-media/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1440,
+    "width": 1440
+  },
+  {
+    "route": "/campaigns/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1440,
+    "width": 1440
+  },
+  {
+    "route": "/web/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1440,
+    "width": 1440
+  },
+  {
+    "route": "/follow-up/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1440,
+    "width": 1440
+  },
+  {
+    "route": "/demand-loop/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1440,
+    "width": 1440
+  },
+  {
+    "route": "/privacy/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1440,
+    "width": 1440
+  },
+  {
+    "route": "/terms/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1440,
+    "width": 1440
+  },
+  {
+    "route": "/call/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1440,
+    "width": 1440
+  },
+  {
+    "route": "/funnel/?niche=hardscape",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1440,
+    "width": 1440
+  },
+  {
+    "route": "/playbook/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1440,
+    "width": 1440
+  },
+  {
+    "route": "/thanks/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1440,
+    "width": 1440
+  },
+  {
+    "route": "/playbook-thanks/",
+    "cursor": "url(\"http://127.0.0.1:4189/assets/cursor.svg\") 2 2, auto",
+    "h1": 1,
+    "scrollWidth": 1440,
+    "width": 1440
+  }
+]
