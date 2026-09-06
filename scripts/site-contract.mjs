@@ -713,7 +713,6 @@ export const REVIEW_COMPATIBILITY_FILES = [
 
 export const PUBLIC_ASSET_FILES = [
   'assets/interaction.css',
-  'assets/cursor.svg',
   'assets/form-runtime.js',
   'assets/inner-page.css',
   'assets/brand-media.css',
