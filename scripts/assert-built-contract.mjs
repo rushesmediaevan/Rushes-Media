@@ -1001,10 +1001,13 @@ for (const utmKey of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']
 assert.ok(funnelScript.includes('slice(0,120)'), '/funnel/ attribution must truncate at 120 characters.');
 
 const llms = await readFile(path.join(distRoot, 'llms.txt'), 'utf8');
-for (const marker of ['# Rushes Media', '/brand-media/', '/demand-loop/', '/#book', 'not client work', 'high-end contractors']) {
+for (const marker of ['# Rushes Media', '/brand-media/', '/demand-loop/', '/#book', 'not client work', 'owner-led businesses', 'Brand Media can be hired on its own']) {
   assert.ok(llms.includes(marker), `/llms.txt is missing ${marker}`);
 }
 assert.ok(!/\$\d/.test(llms), '/llms.txt must not carry prices.');
+assert.ok(!llms.includes('for high-end contractors'), '/llms.txt must not narrow Brand Media to contractors.');
+
+assert.ok(homepageHtml.includes('as="image" href="/assets/images/hero/hero-night-city-poster.jpg"'), 'Homepage must discover its still fallback before stylesheet loading.');
 
 const robots = await readFile(path.join(distRoot, 'robots.txt'), 'utf8');
 assert.equal(

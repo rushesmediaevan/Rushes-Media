@@ -35,6 +35,9 @@ const seo = {
   trackingId={SITE.ghlTrackingId}
   includeMetaPixel
 >
+  <!-- The still fallback is a separate image from the video poster. Discover
+       it in the document instead of waiting for the homepage stylesheet. -->
+  <link slot="head" rel="preload" as="image" href="/assets/images/hero/hero-night-city-poster.jpg" fetchpriority="high" />
   <FloatingCta />
   <HomepageHeader />
   <main id="main-content" tabindex="-1">

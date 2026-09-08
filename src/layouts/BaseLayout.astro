@@ -63,7 +63,12 @@ const ga4MeasurementId = SITE.ga4MeasurementId;
     {preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
     {fontUrl && <link rel="preconnect" href="https://fonts.googleapis.com" />}
     {fontUrl && <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />}
-    {fontUrl && <link href={fontUrl} rel="stylesheet" />}
+    {fontUrl && (
+      <>
+        <link rel="preload" as="style" href={fontUrl} onload="this.onload=null;this.rel='stylesheet'" />
+        <noscript><link href={fontUrl} rel="stylesheet" /></noscript>
+      </>
+    )}
     <style is:global>
       .rushes-skip-link {
         position: fixed;

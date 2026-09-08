@@ -462,6 +462,11 @@ export const webCapability: CapabilityPage = {
     heading: FAQ_EYEBROW,
     items: [
       {
+        question: 'Do I need a landing page or a full website?',
+        answer:
+          'A landing page focuses on one offer or campaign and one next step, such as an inquiry, call or booking. A full website gives visitors room to explore multiple services, understand the business and find the right path. The choice depends on what visitors need to decide and where they are coming from.',
+      },
+      {
         question: 'Can you improve an existing site without rebuilding it?',
         answer:
           'Often, yes. Rushes first identifies whether the real problem is positioning, structure, proof, mobile usability or the handoff after inquiry. A rebuild is recommended only when the current system cannot support the required path.',
