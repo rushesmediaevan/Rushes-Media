@@ -259,6 +259,7 @@ export const faqs = [
 ] as const;
 
 export const footerLinks = [
+  { href: '/articles/', label: 'Articles' },
   { href: '#services', label: 'Services' },
   { href: '/demand-loop/', label: 'Demand Loop' },
   { href: '#examples', label: 'Examples' },

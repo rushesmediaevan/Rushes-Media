@@ -3,6 +3,7 @@ import { spawn } from 'node:child_process';
 import { createServer } from 'node:net';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { ARTICLES } from './article-routes.mjs';
 import {
   COMPATIBILITY_FILES,
   HERO_VIDEO_URL,
@@ -106,8 +107,8 @@ async function assertContentRoutes(origin, includeReviewRoutes) {
   );
   assert.equal(
     contentRoutes.length,
-    includeReviewRoutes ? 16 : 13,
-    `The smoke matrix must cover ${includeReviewRoutes ? 16 : 13} content routes.`,
+    (includeReviewRoutes ? 16 : 13) + 1 + ARTICLES.length,
+    'The smoke matrix must include core routes and registered articles.',
   );
 
   for (const route of contentRoutes) {

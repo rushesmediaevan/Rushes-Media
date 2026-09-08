@@ -24,6 +24,7 @@ import {
   SITE_ORIGIN,
 } from './site-contract.mjs';
 import { CONVERSION_PAGE_COPY } from './conversion-page-copy.mjs';
+import { ARTICLES } from './article-routes.mjs';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const distRoot = path.join(projectRoot, 'dist');
@@ -269,18 +270,19 @@ for (const route of REDIRECT_ROUTES) {
 }
 
 const generatedRoutes = SITE_CONTRACT.filter((route) => route.owner === 'generated');
-assert.equal(generatedRoutes.length, 8, 'Exactly 8 content routes must be Astro-generated.');
-assert.equal(INDEXABLE_ROUTES.length, 8, 'Exactly 8 routes must be in the sitemap contract.');
+const articleRouteCount = 1 + ARTICLES.length;
+assert.equal(generatedRoutes.length, 8 + articleRouteCount, 'Core pages and registered articles must be Astro-generated.');
+assert.equal(INDEXABLE_ROUTES.length, 8 + articleRouteCount, 'Sitemap must include core pages and registered articles.');
 assert.equal(
   generatedRoutes.filter((route) => route.indexable).length,
-  8,
-  'Exactly 8 generated routes must remain indexable.',
+  8 + articleRouteCount,
+  'Core pages and registered articles must remain indexable.',
 );
 
 const publicHtmlRoutes = SITE_CONTRACT.filter((route) =>
   ['generated', 'compatibility'].includes(route.owner),
 );
-assert.equal(publicHtmlRoutes.length, 13, 'Exactly 13 HTML routes belong in the public release.');
+assert.equal(publicHtmlRoutes.length, 13 + articleRouteCount, 'Public release must include registered articles.');
 
 assert.equal(REVISION_BROWSER_ASSET_FILES.length, 60, 'The revision derivative set must contain 60 files.');
 assert.equal(
@@ -633,7 +635,7 @@ assert.ok(
 );
 
 for (const route of SITE_CONTRACT.filter(
-  (entry) => entry.owner === 'generated' && !['/', '/privacy/', '/terms/'].includes(entry.path),
+  (entry) => entry.owner === 'generated' && entry.source === 'src/pages/[slug]/index.astro',
 )) {
   const html = await readFile(pageFile(route.path), 'utf8');
   assert.ok(!html.includes('astro-island'), `${route.path} emitted an Astro island.`);
@@ -927,6 +929,8 @@ const expectedSitemapPaths = [
   '/campaigns/',
   '/web/',
   '/follow-up/',
+  '/articles/',
+  ...ARTICLES.map((article) => `/articles/${article.slug}/`),
   '/privacy/',
   '/terms/',
 ];
@@ -957,6 +961,8 @@ const expectedLastmods = new Map([
   ['/campaigns/', '2026-09-03'],
   ['/web/', '2026-09-03'],
   ['/follow-up/', '2026-09-03'],
+  ['/articles/', undefined],
+  ...ARTICLES.map((article) => [`/articles/${article.slug}/`, undefined]),
   ['/privacy/', '2026-08-13'],
   ['/terms/', '2026-08-13'],
 ]);
@@ -1261,5 +1267,5 @@ for (const directory of ASTRO_ROUTE_DIRECTORIES) {
 }
 
 console.log(
-  `Built contract assertions passed: 8 sitemap routes; 13 GA4-tagged public pages; homepage JS ${builtFirstPartyBytes}/${HOMEPAGE_FIRST_PARTY_JS_BUDGET} legacy bytes; review routes excluded.`,
+  `Built contract assertions passed: ${INDEXABLE_ROUTES.length} sitemap routes; ${publicHtmlRoutes.length} GA4-tagged public pages; homepage JS ${builtFirstPartyBytes}/${HOMEPAGE_FIRST_PARTY_JS_BUDGET} legacy bytes; review routes excluded.`,
 );
