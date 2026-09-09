@@ -1,4 +1,5 @@
 import SITE_FACTS from './site-facts.json' with { type: 'json' };
+import { ARTICLES } from './article-routes.mjs';
 
 export const {
   SITE_ORIGIN,
@@ -408,6 +409,31 @@ export const SITE_CONTRACT = [
     },
     twitter: { card: 'summary_large_image', title: route.title, description: route.description, image: `${SITE_ORIGIN}/assets/images/hero/hero-bg.jpg` },
     compatibilityDisposition: 'Astro service or mechanism route with a shared conversion contract',
+  })),
+  {
+    path: '/articles/',
+    owner: 'generated', indexable: true, sitemap: true,
+    source: 'src/pages/articles/index.astro',
+    title: 'Articles — Rushes Media',
+    description: 'Practical guides to choosing and connecting brand media, campaigns, websites and business systems.',
+    canonical: `${SITE_ORIGIN}/articles/`,
+    requiredCtas: ['/#book'], requiredScripts: [GA4_LOADER_PREFIX],
+  },
+  ...ARTICLES.map((article) => ({
+    path: `/articles/${article.slug}/`,
+    owner: 'generated', indexable: true, sitemap: true,
+    source: `src/pages/articles/${article.slug}.md`,
+    title: `${article.title} — Rushes Media`, description: article.description,
+    canonical: `${SITE_ORIGIN}/articles/${article.slug}/`,
+    openGraph: { type: 'article', title: article.title, description: article.description, url: `${SITE_ORIGIN}/articles/${article.slug}/`, siteName: 'Rushes Media' },
+    twitter: { card: 'summary', title: article.title, description: article.description },
+    jsonLd: {
+      '@context': 'https://schema.org', '@type': 'Article',
+      headline: article.title, description: article.description, mainEntityOfPage: `${SITE_ORIGIN}/articles/${article.slug}/`,
+      author: { '@type': 'Organization', name: 'Rushes Media', url: SITE_ORIGIN },
+      publisher: { '@type': 'Organization', name: 'Rushes Media', url: SITE_ORIGIN },
+    },
+    requiredCtas: ['/#book', '/articles/'], requiredScripts: [GA4_LOADER_PREFIX],
   })),
   {
     path: '/privacy/',

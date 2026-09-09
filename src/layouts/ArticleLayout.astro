@@ -1,0 +1,43 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { SITE, HOME_FONT_URL } from '../data/site';
+import { ARTICLES } from '../../scripts/article-routes.mjs';
+import '../styles/articles.css';
+
+interface Props { frontmatter?: { slug: string }; }
+const article = ARTICLES.find((item) => item.slug === Astro.props.frontmatter?.slug);
+if (!article) throw new Error('Article must be registered in scripts/article-routes.mjs');
+const canonical = `${SITE.origin}/articles/${article.slug}/`;
+const seo = {
+  title: `${article.title} — Rushes Media`,
+  description: article.description,
+  canonical,
+  openGraph: { type: 'article', title: article.title, description: article.description, url: canonical, siteName: 'Rushes Media' },
+  twitter: { card: 'summary', title: article.title, description: article.description },
+  jsonLd: {
+    '@context': 'https://schema.org', '@type': 'Article',
+    headline: article.title, description: article.description, mainEntityOfPage: canonical,
+    author: { '@type': 'Organization', name: 'Rushes Media', url: SITE.origin },
+    publisher: { '@type': 'Organization', name: 'Rushes Media', url: SITE.origin },
+  },
+};
+---
+<BaseLayout seo={seo} fontUrl={HOME_FONT_URL}>
+  <header class="article-nav">
+    <a href="/" class="article-brand" aria-label="Rushes Media — home">Rushes Media</a>
+    <a href="/articles/">All articles</a>
+  </header>
+  <main id="main-content" class="article-shell" tabindex="-1">
+    <nav class="article-breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/articles/">Articles</a> / {article.category}</nav>
+    <article>
+      <header><p class="article-eyebrow">{article.category} · By Rushes Media</p><h1>{article.title}</h1><p class="article-deck">{article.description}</p></header>
+      <div class="article-prose"><slot /></div>
+    </article>
+    <aside class="article-next" aria-label="Next step">
+      <h2>Bring the campaign you’re considering.</h2>
+      <p>A Growth Call is a place to discuss the offer, landing experience and inquiry handoff before deciding what work is needed.</p>
+      <a href="/#book">Book a Growth Call →</a>
+    </aside>
+  </main>
+  <footer class="article-footer"><a href="/articles/">Articles</a><a href="/campaigns/">Campaigns</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><p>© {new Date().getFullYear()} {SITE.legalName}</p></footer>
+</BaseLayout>

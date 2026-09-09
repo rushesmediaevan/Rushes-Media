@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE, HOME_FONT_URL } from '../../data/site';
+import { ARTICLES } from '../../../scripts/article-routes.mjs';
+import '../../styles/articles.css';
+const seo = { title: 'Articles — Rushes Media', description: 'Practical guides to choosing and connecting brand media, campaigns, websites and business systems.', canonical: `${SITE.origin}/articles/` };
+---
+<BaseLayout seo={seo} fontUrl={HOME_FONT_URL}>
+  <header class="article-nav"><a href="/" class="article-brand" aria-label="Rushes Media — home">Rushes Media</a><a href="/#book">Book a Growth Call</a></header>
+  <main id="main-content" class="article-shell" tabindex="-1">
+    <p class="article-eyebrow">The Rushes reading room</p>
+    <h1>Useful decisions.<br />Better foundations.</h1>
+    <p class="article-deck">Practical guides for owners choosing the creative and digital work their business needs next.</p>
+    <div class="article-list">{ARTICLES.map((article) => <article><p class="article-eyebrow">{article.category}</p><h2><a href={`/articles/${article.slug}/`}>{article.title}</a></h2><p>{article.description}</p><a href={`/articles/${article.slug}/`}>Read the guide →</a></article>)}</div>
+  </main>
+  <footer class="article-footer"><a href="/">Home</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><p>© {new Date().getFullYear()} {SITE.legalName}</p></footer>
+</BaseLayout>
