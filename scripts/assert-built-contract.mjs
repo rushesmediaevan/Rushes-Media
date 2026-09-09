@@ -1052,8 +1052,8 @@ const workPageSource = await readFile(
 const workScriptSource = await readFile(path.join(projectRoot, 'assets/work/work-review.js'), 'utf8');
 const dockerfileSource = await readFile(path.join(projectRoot, 'Dockerfile'), 'utf8');
 assert.ok(
-  dockerfileSource.includes('COPY scripts/site-facts.json scripts/site-contract.mjs ./scripts/'),
-  'The production image no longer contains the route contract required by server.js.',
+  dockerfileSource.includes('COPY scripts/site-facts.json scripts/site-contract.mjs scripts/article-routes.mjs ./scripts/'),
+  'The production image must contain the route contract and its article registry dependency required by server.js.',
 );
 assert.ok(
   dockerfileSource.includes('COPY content ./content'),
