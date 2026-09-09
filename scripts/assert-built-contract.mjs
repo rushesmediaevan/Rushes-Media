@@ -911,7 +911,7 @@ for (const marker of [
 const webHtml = await readFile(pageFile('/web/'), 'utf8');
 for (const marker of [
   'Make the value clear. Make the next step easy.',
-  'Build a fast, distinctive digital experience that communicates the offer',
+  'Website and landing page design that makes your offer clear',
   'Five decisions, in the order a buyer needs them.',
   'Build the decision path before decorating the page.',
   'whether to rebuild, focus or keep the current site.',
