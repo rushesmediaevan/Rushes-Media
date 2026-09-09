@@ -367,6 +367,11 @@ export const campaignsCapability: CapabilityPage = {
           'The business does. Spend stays on the client-owned account and card; Rushes scopes creative, structure and management separately.',
       },
       {
+        question: 'What should we agree on before spending money on ads?',
+        answer:
+          'Agree on the offer, creative, destination, budget, tracking, response coverage and the conditions for pausing spend. Keep the platform budget separate from the scope for creative and management, and define the qualified next step the campaign should create.',
+      },
+      {
         question: 'Do you launch as soon as the ads are designed?',
         answer:
           'No. Exact creative approval, landing behavior, tracking, budget, response coverage and the conditions for pausing or stopping spend are separate launch gates.',
@@ -397,7 +402,7 @@ export const webCapability: CapabilityPage = {
   hero: {
     heading: 'Make the value clear. Make the next step easy.',
     support:
-      'Build a fast, distinctive digital experience that communicates the offer, makes the evidence easy to judge, and gives the right visitor a clear next step on any device.',
+      'Website and landing page design that makes your offer clear, puts the evidence in reach, and gives the right visitor a straightforward next step on any device.',
     secondaryLabel: 'See the work',
     secondaryTarget: '#what-this-is',
     visual: revisionAssets.daylitVenue,
