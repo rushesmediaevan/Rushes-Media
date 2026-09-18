@@ -649,7 +649,7 @@ for (const route of SITE_CONTRACT.filter(
   assert.ok(html.includes('data-booking-fallback'), `${route.path} lost the collapsed booking failure state.`);
   assert.ok(bookingRuntimeSource.includes("showUnavailable('unavailable'"), `${route.path} lost the unavailable-frame state.`);
   assert.ok(await htmlOrLocalScriptContains(html, 'data-booking-click-ready'), `${route.path} lost delegated Growth Call click tracking.`);
-  assert.ok(await htmlOrLocalScriptContains(html, 'a[href="#book"]'), `${route.path} no longer tracks every in-page Growth Call control.`);
+  assert.ok(html.includes('data-growth-call-tracking'), `${route.path} lost shared Growth Call tracking.`);
 }
 
 const mobileNavSource = await readFile(
