@@ -394,8 +394,8 @@ export const campaignsCapability: CapabilityPage = {
 export const webCapability: CapabilityPage = {
   family: 'service',
   slug: 'web',
-  title: 'A site that books — Rushes Media',
-  description: 'Custom sites and landing pages with one job: call, book, or request the estimate. Built for the campaign behind it.',
+  title: 'Website & Landing Page Design | Rushes Media',
+  description: 'Custom websites and landing pages that explain your offer, show your work, and make it easy for the right visitors to inquire or book.',
   eyebrow: 'Web & landing',
   breadcrumb: ['Home', 'Services', 'Web'],
   current: 'services',
@@ -615,7 +615,7 @@ export const demandLoopCapability: CapabilityPage = {
   slug: 'demand-loop',
   title: 'The Demand Loop | Rushes Media',
   description:
-    'The Rushes system connecting Brand Media, campaigns, web, AI-supported business systems, lead capture, and follow-up around one clear path from attention to action.',
+    'The Demand Loop connects Rushes Media’s brand media, campaigns, websites, AI systems and follow-up into a clear path from attention to action.',
   eyebrow: 'The connected system',
   breadcrumb: ['Home', 'Demand Loop'],
   current: 'demand-loop',

@@ -1,6 +1,6 @@
 ---
 import type { PageSeo } from '../data/site';
-import { LEGAL_FONT_URL } from '../data/site';
+import { LEGAL_FONT_URL, SITE } from '../data/site';
 import BaseLayout from './BaseLayout.astro';
 import '../styles/legal.css';
 
@@ -9,9 +9,28 @@ interface Props {
 }
 
 const { seo } = Astro.props;
+const legalSeo: PageSeo = {
+  ...seo,
+  openGraph: {
+    type: 'website', siteName: SITE.name, title: seo.title,
+    description: seo.description, url: seo.canonical,
+    image: `${SITE.origin}/assets/images/hero/hero-bg.jpg`,
+    imageWidth: 1920, imageHeight: 1080,
+  },
+  twitter: {
+    card: 'summary_large_image', title: seo.title, description: seo.description,
+    image: `${SITE.origin}/assets/images/hero/hero-bg.jpg`,
+  },
+  jsonLd: {
+    '@context': 'https://schema.org', '@type': 'WebPage',
+    '@id': seo.canonical, url: seo.canonical, name: seo.title,
+    description: seo.description,
+    publisher: { '@type': 'Organization', name: SITE.name, url: SITE.origin },
+  },
+};
 ---
 
-<BaseLayout seo={seo} fontUrl={LEGAL_FONT_URL} faviconHref="">
+<BaseLayout seo={legalSeo} fontUrl={LEGAL_FONT_URL} faviconHref="">
   <nav>
     <a href="/" class="logo" aria-label="Rushes Media — home">
       <img src="/assets/images/logo-icon.png" alt="" class="logo-crest" width="833" height="959" />
