@@ -1,6 +1,9 @@
 ---
 import { primaryNavigation } from '../../data/home';
 import { SHARED_CTA, SITE } from '../../data/site';
+import { Image } from 'astro:assets';
+import logoIcon from '../../../assets/images/logo-icon.png';
+import logoWordmark from '../../../assets/images/logo-wordmark.png';
 ---
 
 <dialog id="mob" aria-label="Navigation menu">
@@ -33,8 +36,8 @@ import { SHARED_CTA, SITE } from '../../data/site';
 
 <nav id="nav">
   <a href="/" class="logo" aria-label="Rushes Media — home">
-    <img src={SITE.logoIcon} alt="" class="logo-crest" width="833" height="959" />
-    <img src={SITE.logoWordmark} alt="Rushes Media" class="logo-wordmark" width="2888" height="322" />
+    <Image src={logoIcon} alt="" class="logo-crest" height={48} densities={[1, 2, 3]} format="webp" quality="max" loading="eager" />
+    <Image src={logoWordmark} alt="Rushes Media" class="logo-wordmark" height={22} densities={[1, 2, 3]} format="webp" quality="max" loading="eager" />
   </a>
   <ul class="nav-r">
     {primaryNavigation.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
