@@ -209,31 +209,6 @@
 
     void startForEnvironment();
 
-    if (document.documentElement.getAttribute('data-booking-click-ready') !== 'true') {
-      document.documentElement.setAttribute('data-booking-click-ready', 'true');
-      document.addEventListener('click', (event) => {
-        const link = event.target instanceof Element
-          ? event.target.closest('[data-growth-call-click], a[href="#book"]')
-          : null;
-        if (!link) return;
-        const inferredLocation = link.closest('.hero-btns')
-          ? 'hero'
-          : link.closest('#mob')
-            ? 'mobile-navigation'
-            : link.closest('#nav, .editorial-nav, .industry-nav')
-              ? 'navigation'
-              : link.closest('#fcta')
-                ? 'floating'
-                : link.closest('footer')
-                  ? 'footer'
-                  : 'unknown';
-        emit('growth_call_click', {
-          ...analyticsContext,
-          link_location: link.getAttribute('data-link-location') || inferredLocation,
-        });
-      });
-    }
-
     if ('IntersectionObserver' in window) {
       let sent = false;
       const observer = new IntersectionObserver((entries) => {

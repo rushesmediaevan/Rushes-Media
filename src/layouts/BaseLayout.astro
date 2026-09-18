@@ -92,6 +92,33 @@ const ga4MeasurementId = SITE.ga4MeasurementId;
     {includeMetaPixel && <script is:inline src="/assets/meta-pixel.js" defer></script>}
   </head>
   <body data-tracking-id={trackingId}>
+    <script is:inline data-growth-call-tracking>
+      (() => {
+        const host = location.hostname.toLowerCase();
+        if (['localhost', '127.0.0.1', '[::1]'].includes(host) || host.endsWith('.test')) return;
+        if (document.documentElement.getAttribute('data-booking-click-ready') === 'true') return;
+        document.documentElement.setAttribute('data-booking-click-ready', 'true');
+        document.addEventListener('click', (event) => {
+          const link = event.target?.closest?.('a[href], [data-growth-call-click]');
+          if (!link) return;
+          const url = new URL(link.getAttribute('href') || '', location.href);
+          const sameOrigin = url.origin === location.origin;
+          if (!sameOrigin || (!link.hasAttribute('data-growth-call-click') && url.hash !== '#book')) return;
+          if (typeof window.gtag !== 'function') return;
+          const widget = document.querySelector('[data-booking-widget]');
+          const route = widget?.getAttribute('data-booking-route') || location.pathname;
+          const inferredLocation = link.closest('.article-next') ? 'article'
+            : link.closest('.hero-btns') ? 'hero'
+            : link.closest('#mob') ? 'mobile-navigation'
+            : link.closest('#nav, .editorial-nav, .industry-nav') ? 'navigation'
+            : link.closest('#fcta') ? 'floating'
+            : link.closest('footer') ? 'footer' : 'unknown';
+          const context = { booking_route: route, link_location: link.getAttribute('data-link-location') || inferredLocation };
+          if (widget?.classList.contains('booking-widget--industry')) context.industry_route = route;
+          window.gtag('event', 'growth_call_click', context);
+        });
+      })();
+    </script>
     <a class="rushes-skip-link" href="#main-content" aria-label="Skip to main content"></a>
     <slot />
     <slot name="scripts" />
