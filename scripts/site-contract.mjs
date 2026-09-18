@@ -291,7 +291,7 @@ export const SITE_CONTRACT = [
       source: 'demand-loop/index.html',
       title: 'The Demand Loop | Rushes Media',
       description:
-        'The Rushes system connecting Brand Media, campaigns, web, AI-supported business systems, lead capture, and follow-up around one clear path from attention to action.',
+        'The Demand Loop connects Rushes Media’s brand media, campaigns, websites, AI systems and follow-up into a clear path from attention to action.',
       lastmod: '2026-09-03',
       extraAssets: [
         '/assets/brand-media.css',
@@ -347,9 +347,9 @@ export const SITE_CONTRACT = [
     {
       path: '/web/',
       source: 'web/index.html',
-      title: 'A site that books — Rushes Media',
+      title: 'Website & Landing Page Design | Rushes Media',
       description:
-        'Custom sites and landing pages with one job: call, book, or request the estimate. Built for the campaign behind it.',
+        'Custom websites and landing pages that explain your offer, show your work, and make it easy for the right visitors to inquire or book.',
       lastmod: '2026-09-03',
       extraAssets: [
         '/assets/brand-media.css',
@@ -444,6 +444,22 @@ export const SITE_CONTRACT = [
     description:
       'Privacy Policy for Rushes Group LLC (DBA Rushes Media), including SMS and text messaging consent.',
     canonical: `${SITE_ORIGIN}/privacy/`,
+    openGraph: {
+      type: 'website', siteName: 'Rushes Media', title: 'Privacy Policy — Rushes Media',
+      description: 'Privacy Policy for Rushes Group LLC (DBA Rushes Media), including SMS and text messaging consent.',
+      url: `${SITE_ORIGIN}/privacy/`, image: `${SITE_ORIGIN}/assets/images/hero/hero-bg.jpg`, imageWidth: 1920, imageHeight: 1080,
+    },
+    twitter: {
+      card: 'summary_large_image', title: 'Privacy Policy — Rushes Media',
+      description: 'Privacy Policy for Rushes Group LLC (DBA Rushes Media), including SMS and text messaging consent.',
+      image: `${SITE_ORIGIN}/assets/images/hero/hero-bg.jpg`,
+    },
+    jsonLd: {
+      '@context': 'https://schema.org', '@type': 'WebPage', '@id': `${SITE_ORIGIN}/privacy/`,
+      url: `${SITE_ORIGIN}/privacy/`, name: 'Privacy Policy — Rushes Media',
+      description: 'Privacy Policy for Rushes Group LLC (DBA Rushes Media), including SMS and text messaging consent.',
+      publisher: { '@type': 'Organization', name: 'Rushes Media', url: SITE_ORIGIN },
+    },
     requiredAssets: ['/assets/images/logo-icon.png', '/assets/images/logo-wordmark.png'],
     requiredCtas: [`${SITE_ORIGIN}/terms/`, `${SITE_ORIGIN}/#book`],
     requiredScripts: [GA4_LOADER_PREFIX],
@@ -462,6 +478,22 @@ export const SITE_CONTRACT = [
     description:
       'Terms of Service and SMS messaging program terms for Rushes Group LLC (DBA Rushes Media).',
     canonical: `${SITE_ORIGIN}/terms/`,
+    openGraph: {
+      type: 'website', siteName: 'Rushes Media', title: 'Terms of Service & SMS Program — Rushes Media',
+      description: 'Terms of Service and SMS messaging program terms for Rushes Group LLC (DBA Rushes Media).',
+      url: `${SITE_ORIGIN}/terms/`, image: `${SITE_ORIGIN}/assets/images/hero/hero-bg.jpg`, imageWidth: 1920, imageHeight: 1080,
+    },
+    twitter: {
+      card: 'summary_large_image', title: 'Terms of Service & SMS Program — Rushes Media',
+      description: 'Terms of Service and SMS messaging program terms for Rushes Group LLC (DBA Rushes Media).',
+      image: `${SITE_ORIGIN}/assets/images/hero/hero-bg.jpg`,
+    },
+    jsonLd: {
+      '@context': 'https://schema.org', '@type': 'WebPage', '@id': `${SITE_ORIGIN}/terms/`,
+      url: `${SITE_ORIGIN}/terms/`, name: 'Terms of Service & SMS Program — Rushes Media',
+      description: 'Terms of Service and SMS messaging program terms for Rushes Group LLC (DBA Rushes Media).',
+      publisher: { '@type': 'Organization', name: 'Rushes Media', url: SITE_ORIGIN },
+    },
     requiredAssets: ['/assets/images/logo-icon.png', '/assets/images/logo-wordmark.png'],
     requiredCtas: [`${SITE_ORIGIN}/privacy/`, `${SITE_ORIGIN}/#book`],
     requiredScripts: [GA4_LOADER_PREFIX],
