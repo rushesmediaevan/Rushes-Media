@@ -163,38 +163,14 @@ export const systemsBeats = [
   },
 ] as const;
 
-export const systemSteps = [
-  {
-    stage: 'Attention',
-    owner: 'Brand Media',
-    title: 'Earn attention.',
-    description: 'Make the reputation, expertise, and experience behind the business worth noticing.',
-  },
-  {
-    stage: 'Reach',
-    owner: 'Creative Campaigns',
-    title: 'Extend the right reach.',
-    description: 'Carry the strongest idea to more of the people most likely to value it.',
-  },
-  {
-    stage: 'Decision',
-    owner: 'Web & Landing',
-    title: 'Make the value clear.',
-    description: 'Help buyers understand the offer, judge fit, and take the next step.',
-  },
-  {
-    stage: 'Response',
-    owner: 'AI & Business Systems',
-    title: 'Protect the handoff.',
-    description: 'Route inquiries, preserve context, and make the next useful action clear while intent is high.',
-  },
-  {
-    stage: 'Continuity',
-    owner: 'AI & Business Systems',
-    title: 'Keep opportunity moving.',
-    description: 'Use practical automation and follow-up to save time and make the next step harder to lose.',
-  },
-] as const;
+import { demandLoopSteps } from './demand-loop';
+
+export const systemSteps = demandLoopSteps.map((step) => ({
+  stage: step.stage,
+  owner: step.capability,
+  title: `${step.name}.`,
+  description: step.purpose,
+}));
 
 export const processSteps = [
   {

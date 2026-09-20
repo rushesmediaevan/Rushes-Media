@@ -13,10 +13,10 @@ const nodes = loop.stages.map((stage, index) => {
   const angle = (-90 + index * (360 / loop.stages.length)) * (Math.PI / 180);
   const x = CENTER + RADIUS * Math.cos(angle);
   const y = CENTER + RADIUS * Math.sin(angle);
-  const labelRadius = RADIUS + 44;
-  const lx = CENTER + labelRadius * Math.cos(angle);
-  const ly = CENTER + labelRadius * Math.sin(angle);
-  const anchor = Math.abs(Math.cos(angle)) < 0.2 ? 'middle' : Math.cos(angle) > 0 ? 'start' : 'end';
+  // Keep stage labels inside the SVG, including longer customer-facing names.
+  const lx = x;
+  const ly = y - 44;
+  const anchor = 'middle';
   return { ...stage, index, x, y, lx, ly, anchor };
 });
 const circumference = 2 * Math.PI * RADIUS;
@@ -25,7 +25,7 @@ const circumference = 2 * Math.PI * RADIUS;
 <section id="loop-stages" tabindex="-1" class="cap-section cap-loop" aria-labelledby="loop-stages-heading">
   <Lead lead={loop} id="loop-stages-heading" />
   <div class="cap-loop__grid">
-    <svg id="loop-map" class="cap-loop__map" viewBox="0 0 520 520" role="img" aria-label="The Demand Loop: attention, reach, decision, response, and continuity, connected in one ring" data-loop-map>
+    <svg id="loop-map" class="cap-loop__map" viewBox="0 0 520 520" role="img" aria-label={`The Demand Loop: ${loop.stages.map((stage) => stage.stage.toLowerCase()).join(', ')}, connected in one ring`} data-loop-map>
       <circle class="cap-loop__ring" cx={CENTER} cy={CENTER} r={RADIUS} style={`--ring:${circumference.toFixed(1)}`} />
       {nodes.map((node) => (
         <>
@@ -37,7 +37,7 @@ const circumference = 2 * Math.PI * RADIUS;
         </>
       ))}
       <text class="cap-loop__title" x={CENTER} y={CENTER - 8} text-anchor="middle">The Demand Loop</text>
-      <text class="cap-loop__subtitle" x={CENTER} y={CENTER + 20} text-anchor="middle">attention → action → next date</text>
+      <text class="cap-loop__subtitle" x={CENTER} y={CENTER + 20} text-anchor="middle">attention → customers → revenue</text>
     </svg>
     <ol class="cap-loop__legend">
       {nodes.map((node) => (

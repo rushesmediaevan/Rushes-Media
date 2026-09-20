@@ -176,7 +176,7 @@ export const SITE_CONTRACT = [
       'https://link.msgsndr.com/js/external-tracking.js',
     ],
     sitemap: true,
-    lastmod: '2026-09-03',
+    lastmod: '2026-09-20',
     lifecycleStatus: 'active',
     openGraph: {
       type: 'website',
@@ -291,8 +291,8 @@ export const SITE_CONTRACT = [
       source: 'demand-loop/index.html',
       title: 'The Demand Loop | Rushes Media',
       description:
-        'The Demand Loop connects Rushes Media’s brand media, campaigns, websites, AI systems and follow-up into a clear path from attention to action.',
-      lastmod: '2026-09-03',
+        'The Demand Loop connects Rushes Media’s media, campaigns, websites and follow-up to help turn attention into inquiries, conversations and revenue.',
+      lastmod: '2026-09-20',
       extraAssets: [
         '/assets/brand-media.css',
         '/assets/capability-pages.css',
