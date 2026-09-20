@@ -602,27 +602,21 @@ export const systemsCapability: CapabilityPage = {
   },
 };
 
-const loopStages: readonly LoopStage[] = [
-  { stage: 'Attention', name: 'Earn attention', capability: 'Brand Media', href: '/brand-media/', purpose: 'Show the reputation, work, and value that make the business worth choosing.' },
-  { stage: 'Reach', name: 'Extend the reach', capability: 'Creative Campaigns', href: '/campaigns/', purpose: 'Put the strongest idea in front of more of the right people.' },
-  { stage: 'Decision', name: 'Make the value clear', capability: 'Web & Landing', href: '/web/', purpose: 'Give interested buyers a focused place to understand the offer and act.' },
-  { stage: 'Response', name: 'Turn interest into conversation', capability: 'AI & Business Systems', href: '/follow-up/', purpose: 'Route inquiries, preserve context, and make the next useful action clear.' },
-  { stage: 'Continuity', name: 'Keep opportunity moving', capability: 'AI & Business Systems', href: '/follow-up/', purpose: 'Use practical automation and follow-up to save time and keep opportunities moving.' },
-];
+import { demandLoopIntroduction, demandLoopSteps } from './demand-loop';
+const loopStages: readonly LoopStage[] = demandLoopSteps;
 
 export const demandLoopCapability: CapabilityPage = {
   family: 'mechanism',
   slug: 'demand-loop',
   title: 'The Demand Loop | Rushes Media',
   description:
-    'The Demand Loop connects Rushes Media’s brand media, campaigns, websites, AI systems and follow-up into a clear path from attention to action.',
+    'The Demand Loop connects Rushes Media’s media, campaigns, websites and follow-up to help turn attention into inquiries, conversations and revenue.',
   eyebrow: 'The connected system',
   breadcrumb: ['Home', 'Demand Loop'],
   current: 'demand-loop',
   hero: {
-    heading: 'The Demand Loop. Make attention lead somewhere.',
-    support:
-      'The Demand Loop connects the work around growth. Brand Media earns attention. Creative Campaigns extend the reach. Web turns interest into action. AI and business systems reduce friction, speed up response, and help the team keep opportunities moving.',
+    heading: 'The Demand Loop. Turn attention into revenue.',
+    support: demandLoopIntroduction,
     secondaryLabel: 'See how it connects',
     secondaryTarget: '#loop-stages',
     visual: industryVisuals.outdoorLiving,
@@ -631,8 +625,8 @@ export const demandLoopCapability: CapabilityPage = {
   body: {
     kind: 'demand-loop',
     loop: {
-      eye: 'Five connected moments',
-      heading: 'From attention to action, without the usual gaps.',
+      eye: 'Five connected stages',
+      heading: 'A clearer path from attention to paying customers.',
       intro:
         'Use one capability or connect the full path. The goal is more visibility, more qualified conversations, a clearer path to revenue, and less time lost behind the scenes.',
       stages: loopStages,
@@ -652,9 +646,9 @@ export const demandLoopCapability: CapabilityPage = {
       moments: [
         { stage: 'Attention', line: 'A finished project is photographed so the result, the detail, and the setting are unmistakable.' },
         { stage: 'Reach', line: 'The strongest frame becomes the campaign, aimed at the homeowners most likely to want that project.' },
-        { stage: 'Decision', line: 'The click lands on a page that continues the same story and asks for one clear next step.' },
-        { stage: 'Response', line: 'The inquiry arrives with its source attached and gets a first reply while interest is high.' },
-        { stage: 'Continuity', line: 'The open estimate stays on the list, with a next date, until it becomes a decision.' },
+        { stage: loopStages[2].stage, line: 'The click lands on a page that explains the project and makes requesting an estimate easy.' },
+        { stage: loopStages[3].stage, line: 'The interested homeowner gets a reply and a clear way to arrange a consultation.' },
+        { stage: loopStages[4].stage, line: 'The team follows up on the estimate, answers questions, and helps the homeowner decide whether to go ahead.' },
       ],
     },
     entry: {

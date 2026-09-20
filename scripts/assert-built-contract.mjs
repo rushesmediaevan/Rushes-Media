@@ -492,10 +492,10 @@ assert.ok(!homepageHtml.includes('web-law-office'), 'Homepage retained the retir
 assert.ok(!homepageHtml.includes('/assets/images/revision/07-coastal-terrace-'));
 assert.ok(homepageHtml.includes('The Demand Loop'));
 assert.ok(
-  homepageHtml.includes('Brand Media earns attention. Creative Campaigns extend the reach.'),
+  homepageHtml.includes('Rushes connects compelling media, targeted campaigns, websites built to convert, and timely follow-up'),
   'Homepage connection copy lost its tangible cause-and-effect sequence.',
 );
-for (const phrase of ['Earn attention.', 'Extend the right reach.', 'Make the value clear.', 'Protect the handoff.', 'Keep opportunity moving.']) {
+for (const phrase of ['Earn attention.', 'Reach the right people.', 'Turn interest into inquiries.', 'Start the conversation.', 'Follow through to the sale.']) {
   assert.ok(homepageHtml.includes(phrase), `Homepage connection concept is missing: ${phrase}`);
 }
 assert.equal((homepageHtml.match(/Rushes capability/g) || []).length, 5, 'Each connection moment needs a visible capability relationship.');
@@ -698,7 +698,7 @@ for (const routePath of ['/brand-media/', '/campaigns/', '/web/', '/follow-up/']
     tags(html, 'a').some((link) => link.href === '/demand-loop/' && link['aria-current'] === 'page'),
     '/demand-loop/ must expose exact page-current state.',
   );
-  for (const marker of ['Five connected moments', 'Brand Media', 'Creative Campaigns', 'Web &amp; Landing', 'AI &amp; Business Systems']) {
+  for (const marker of ['Five connected stages', 'Brand Media', 'Creative Campaigns', 'Web &amp; Landing', 'AI &amp; Business Systems']) {
     assert.ok(html.includes(marker), `/demand-loop/ is missing its simplified system marker: ${marker}`);
   }
   for (const removedMarker of ['Nine handoffs', 'Rushes owns', 'Owner owns', 'Operating agreement', 'Control point']) {
@@ -955,8 +955,8 @@ assert.ok(!sitemap.includes('<priority>'), 'Sitemap must not emit meaningless pr
 assert.ok(!sitemap.includes('<changefreq>'), 'Sitemap must not emit meaningless changefreq values.');
 const sitemapLastmods = [...sitemap.matchAll(/<lastmod>(.*?)<\/lastmod>/g)].map((match) => match[1]);
 const expectedLastmods = new Map([
-  ['/', '2026-09-03'],
-  ['/demand-loop/', '2026-09-03'],
+  ['/', '2026-09-20'],
+  ['/demand-loop/', '2026-09-20'],
   ['/brand-media/', '2026-09-03'],
   ['/campaigns/', '2026-09-03'],
   ['/web/', '2026-09-03'],
