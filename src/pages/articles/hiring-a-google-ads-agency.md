@@ -49,6 +49,10 @@ Request a written breakdown of management, setup, copy, creative production, lan
 
 At Rushes, ad spend stays on the client’s account and card, with creative, structure and management scoped separately. The [campaigns page](/campaigns/) explains the work and the checks before activation. When comparing providers, use the same scope so a lower headline fee does not hide a different service.
 
+The management fee pays for the agency’s work running your campaigns; it is separate from the money spent showing ads. Ask how that fee is calculated: a fixed amount, a percentage of ad spend, a combination, or a payment tied to agreed results. Request the total cost at your proposed budget and an explanation of what changes if spending increases or decreases.
+
+Check whether there is a minimum fee, what work is included, and which changes require your approval. If payment depends on results, define the result precisely: a submitted form, a qualified inquiry and a paying customer are different outcomes. Compare the work and responsibilities alongside the fee.
+
 ## 4. Understand who does the work and how decisions reach you
 
 Ask: **“Who manages the account, who covers absences, and what will you show us when you recommend a change?”**
@@ -78,6 +82,8 @@ Walk through one example from submission to response. Identify where the inquiry
 You do not need to promise an instant response around the clock. You do need an achievable process that your team understands. If inquiry handling is part of the problem, discuss the [follow-up and business systems](/follow-up/) alongside the campaign rather than discovering the gap after launch.
 
 Keep a submitted inquiry distinct from a booked or attended appointment. This makes it easier to identify whether the next improvement belongs in the ads, the landing page or the response process.
+
+For a practical way to assign responsibilities and keep track of next steps, see [how to build a lead follow-up process your team can run](/articles/building-a-lead-follow-up-process/).
 
 ## 7. Read the commitment and handover terms
 
