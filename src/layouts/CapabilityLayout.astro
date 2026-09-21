@@ -11,6 +11,7 @@ import EditorialHeader from '../components/shared/EditorialHeader.astro';
 import { capabilityPageSchema, innerPageNavigation, type CapabilityPage } from '../data/capability-pages';
 import { HOME_FONT_URL, SITE } from '../data/site';
 import BaseLayout from './BaseLayout.astro';
+import { ARTICLES } from '../../scripts/article-routes.mjs';
 
 interface Props { page: CapabilityPage; }
 const { page } = Astro.props;
@@ -24,6 +25,13 @@ const seo = {
   jsonLd: capabilityPageSchema(page),
 };
 const body = page.body;
+const guideCategory: Record<string, string> = {
+  'brand-media': 'Brand Media',
+  campaigns: 'Campaigns',
+  web: 'Web',
+  'follow-up': 'Business Systems',
+};
+const guides = ARTICLES.filter((article) => article.category === guideCategory[page.slug]);
 ---
 
 <BaseLayout seo={seo} fontUrl={HOME_FONT_URL} includeMetaPixel>
@@ -88,6 +96,12 @@ const body = page.body;
       <div>
         <span class="brand-media-eye">{page.faq.eyebrow}</span>
         <h2 id="capability-faq-heading">{page.faq.heading}</h2>
+        {guides.length > 0 && (
+          <nav class="service-guides" aria-label="Practical guides for this service">
+            <p>Plan your next step</p>
+            <ul>{guides.map((guide) => <li><a href={`/articles/${guide.slug}/`}>{guide.title}</a></li>)}</ul>
+          </nav>
+        )}
       </div>
       <div class="brand-media-faq__list">
         {page.faq.items.map((item) => (
@@ -115,3 +129,13 @@ const body = page.body;
   </main>
   <EditorialFooter />
 </BaseLayout>
+
+<style>
+  .service-guides { margin-top: 28px; max-width: 36rem; font-size: 14px; line-height: 1.6; }
+  .service-guides p { color: var(--bm-navy); font-weight: 600; }
+  .service-guides ul { padding-left: 1.2em; }
+  .service-guides li + li { margin-top: 12px; }
+  .service-guides a { color: var(--bm-navy); text-underline-offset: 3px; }
+  .service-guides a:hover { text-decoration-thickness: 2px; }
+  .service-guides a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+</style>
