@@ -30,4 +30,10 @@ export const ARTICLES = [
     description: 'A practical checklist for business owners: Google Ads account access, measurement, fees, campaign management, landing pages and the handoff after an inquiry.',
     category: 'Campaigns',
   },
+  {
+    slug: 'brand-video-production-cost',
+    title: 'Brand Video Production Cost: What to Budget in 2026',
+    description: 'Brand video production cost ranges from $3,000 to six figures. Learn what drives quotes up or down and how to budget confidently in 2026.',
+    category: 'Brand Media',
+  },
 ];
