@@ -287,7 +287,7 @@ export const brandMediaCapability: CapabilityPage = {
 export const campaignsCapability: CapabilityPage = {
   family: 'service',
   slug: 'campaigns',
-  title: 'Demand, not boosted posts — Rushes Media',
+  title: 'Meta & Google Ads Campaign Management | Rushes Media',
   description:
     'Meta and Google campaigns built around one credible idea, a focused conversion path and measurable qualified opportunities. Ad spend stays in the client-owned account.',
   eyebrow: 'Creative campaigns',

@@ -330,7 +330,7 @@ export const SITE_CONTRACT = [
     {
       path: '/campaigns/',
       source: 'campaigns/index.html',
-      title: 'Demand, not boosted posts — Rushes Media',
+      title: 'Meta & Google Ads Campaign Management | Rushes Media',
       description:
         'Meta and Google campaigns built around one credible idea, a focused conversion path and measurable qualified opportunities. Ad spend stays in the client-owned account.',
       lastmod: '2026-09-03',
