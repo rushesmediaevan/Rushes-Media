@@ -30,4 +30,11 @@ export const ARTICLES = [
     description: 'A practical checklist for business owners: Google Ads account access, measurement, fees, campaign management, landing pages and the handoff after an inquiry.',
     category: 'Campaigns',
   },
+  {
+    slug: 'local-business-photography-cost',
+    title: 'Local Business Photography Cost: A Transparent Breakdown',
+    description: 'Local business photography cost explained clearly — what drives pricing, what hides in quotes, and how to budget before you collect a single proposal.',
+    category: 'Brand Media',
+    image: '/assets/images/articles/local-business-photography-cost.png',
+  },
 ];
