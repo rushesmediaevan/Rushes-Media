@@ -40,4 +40,25 @@ const seo = {
     </aside>
   </main>
   <footer class="article-footer"><a href="/articles/">Articles</a><a href="/campaigns/">Campaigns</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><p>© {new Date().getFullYear()} {SITE.legalName}</p></footer>
+<script is:inline>
+  (() => {
+    const host = location.hostname.toLowerCase();
+    if (['localhost', '127.0.0.1', '[::1]'].includes(host) || host.endsWith('.test')) return;
+    document.addEventListener('click', (event) => {
+      const link = event.target instanceof Element ? event.target.closest('a[href]') : null;
+      if (!link || typeof window.gtag !== 'function') return;
+      const target = new URL(link.href, location.href);
+      if (target.origin !== location.origin) return;
+      const booking = target.pathname === '/' && target.hash === '#book';
+      const service = ['/brand-media/', '/campaigns/', '/web/', '/follow-up/', '/demand-loop/'].includes(target.pathname);
+      if (!booking && !service) return;
+      window.gtag('event', booking ? 'growth_call_click' : 'article_service_click', {
+        page_path: location.pathname,
+        article_slug: location.pathname.split('/').filter(Boolean).pop(),
+        link_location: link.closest('.article-next') ? 'article-next-step' : 'article-content',
+        destination_path: target.pathname + target.hash,
+      });
+    });
+  })();
+</script>
 </BaseLayout>
