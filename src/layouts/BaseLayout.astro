@@ -114,6 +114,11 @@ const ga4MeasurementId = SITE.ga4MeasurementId;
             : link.closest('#fcta') ? 'floating'
             : link.closest('footer') ? 'footer' : 'unknown';
           const context = { booking_route: route, link_location: link.getAttribute('data-link-location') || inferredLocation };
+          if (location.pathname.startsWith('/articles/') && location.pathname.split('/').filter(Boolean).length === 2) {
+            context.article_slug = location.pathname.split('/').filter(Boolean).pop();
+            context.page_path = location.pathname;
+            context.destination_path = url.pathname + url.hash;
+          }
           if (widget?.classList.contains('booking-widget--industry')) context.industry_route = route;
           window.gtag('event', 'growth_call_click', context);
         });

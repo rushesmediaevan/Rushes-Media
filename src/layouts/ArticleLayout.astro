@@ -49,10 +49,9 @@ const seo = {
       if (!link || typeof window.gtag !== 'function') return;
       const target = new URL(link.href, location.href);
       if (target.origin !== location.origin) return;
-      const booking = target.pathname === '/' && target.hash === '#book';
       const service = ['/brand-media/', '/campaigns/', '/web/', '/follow-up/', '/demand-loop/'].includes(target.pathname);
-      if (!booking && !service) return;
-      window.gtag('event', booking ? 'growth_call_click' : 'article_service_click', {
+      if (!service) return;
+      window.gtag('event', 'article_service_click', {
         page_path: location.pathname,
         article_slug: location.pathname.split('/').filter(Boolean).pop(),
         link_location: link.closest('.article-next') ? 'article-next-step' : 'article-content',
