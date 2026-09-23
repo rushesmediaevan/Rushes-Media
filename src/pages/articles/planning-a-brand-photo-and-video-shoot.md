@@ -70,6 +70,33 @@ Before booking, put the deliverable list in writing. Clarify:
 
 For permissions and usage, ask the provider to document who may use the assets, where they may appear, and any agreed limits. Identify who will arrange permissions for the people, locations and other materials in the production. Resolve unanswered questions before capture rather than leaving them for the person publishing the work.
 
+## Compare photography and video quotes on the same scope
+
+An hourly or day rate does not tell you what the finished project will cost. Before comparing prices, send each provider the same brief: the intended uses, essential shots, people and locations, required files and deadline.
+
+Ask each provider to separate these items in the proposal:
+
+| Part of the project | What to confirm |
+| --- | --- |
+| Planning | Whether the shot list, schedule, location planning and creative direction are included. |
+| Production | The time, crew and equipment included, plus how extra time or another location would be priced. |
+| Finished assets | The number of edited photographs and videos, their formats, and which revisions are included. |
+| Use of the work | Whether the agreed uses cover your website, social channels, paid ads and any print materials you need. |
+| Additional expenses | Travel, location hire, talent, styling or other items outside the quoted fee. |
+| Delivery and changes | The delivery date, any rush charge, and what happens if the brief or shoot date changes. |
+
+Compare the total for the work you need, with exclusions written down. A lower capture fee may cover fewer finished files or leave editing outside the quote. A larger package may include work you do not need. Ask for an essential scope and separately priced options so you can choose deliberately.
+
+### Should photography and video share a shoot day?
+
+They can share a location and preparation, but video may need additional crew, lighting, sound and time. Ask the team to price the combined brief and explain any tradeoffs. Keep separate production time when combining the work would compromise the essential photographs or videos.
+
+### What should I budget before requesting a quote?
+
+Start with your essential deliverables and a spending limit you are comfortable sharing. Ask what scope fits that limit and what would cost extra. A general price range cannot establish the cost of your project without its locations, production requirements, editing and intended uses.
+
+For a scoped proposal, [tell Rushes about the shoot you are planning](/#book). Include what needs to be photographed or filmed, where it will happen, where the work will appear and when you need the finished files. Photography and video can be booked as standalone work.
+
 ## Assign review and approval
 
 Name a person who can consolidate feedback and a person authorized to approve the finished assets. They may be the same person. Make sure any other required reviewers are known before production begins.
