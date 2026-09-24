@@ -7,6 +7,17 @@ Before hiring a Google Ads agency, establish who can access the account, what th
 
 Use the questions below during a discovery call, then request the answers in writing before committing.
 
+## What proof should a Google Ads agency provide before you hire them?
+
+Ask for a relevant work example, a sample report and a written explanation of what the agency will deliver. You should be able to see what was measured, what the agency did and what the numbers leave out.
+
+- **Relevant work:** a case study that explains the service, budget, time period and agency's role. Ask how the situation compares with your business.
+- **Results you can interpret:** a redacted report that separates clicks, inquiries, qualified leads and sales. If revenue is shown, ask where it came from and how it was connected to the campaign.
+- **A measurement demonstration:** an explanation of how a test inquiry reaches both the reporting system and the person who responds.
+- **Clear responsibilities:** written scope, fees, account access, approvals and handover terms.
+
+An agency may need to protect client information. Redacted examples or a walkthrough can still help you assess its work. Past results provide context; they do not guarantee the same outcome for your business.
+
 ## 1. Confirm account access and the exit plan
 
 Ask: **“Will our business have its own administrative access, and what happens to the account if we stop working together?”**
