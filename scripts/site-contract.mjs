@@ -423,6 +423,7 @@ export const SITE_CONTRACT = [
     path: `/articles/${article.slug}/`,
     owner: 'generated', indexable: true, sitemap: true,
     source: `src/pages/articles/${article.slug}.md`,
+    lastmod: article.lastmod,
     title: `${article.title} — Rushes Media`, description: article.description,
     canonical: `${SITE_ORIGIN}/articles/${article.slug}/`,
     openGraph: { type: 'article', title: article.title, description: article.description, url: `${SITE_ORIGIN}/articles/${article.slug}/`, siteName: 'Rushes Media' },
