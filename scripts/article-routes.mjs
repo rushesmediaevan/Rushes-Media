@@ -36,4 +36,12 @@ export const ARTICLES = [
     description: 'A practical checklist for business owners: Google Ads account access, measurement, fees, campaign management, landing pages and the handoff after an inquiry.',
     category: 'Campaigns',
   },
+  {
+    slug: 'thryv-alternative',
+    title: 'Thryv Alternative: What to Look for Before You Switch',
+    description: 'Looking for a Thryv alternative? This guide helps owner-led businesses ask the right questions before switching — so you find a fit that actually grows.',
+    category: 'Campaigns',
+    image: '/assets/images/hero/thryv-alternative.png',
+    imageAlt: 'A small business owner reviewing marketing software options on a laptop at a desk',
+  },
 ];

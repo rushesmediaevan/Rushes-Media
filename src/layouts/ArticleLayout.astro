@@ -8,12 +8,13 @@ interface Props { frontmatter?: { slug: string }; }
 const article = ARTICLES.find((item) => item.slug === Astro.props.frontmatter?.slug);
 if (!article) throw new Error('Article must be registered in scripts/article-routes.mjs');
 const canonical = `${SITE.origin}/articles/${article.slug}/`;
+const ogImage = article.image ? `${SITE.origin}${article.image}` : undefined;
 const seo = {
   title: `${article.title} — Rushes Media`,
   description: article.description,
   canonical,
-  openGraph: { type: 'article', title: article.title, description: article.description, url: canonical, siteName: 'Rushes Media' },
-  twitter: { card: 'summary', title: article.title, description: article.description },
+  openGraph: { type: 'article', title: article.title, description: article.description, url: canonical, siteName: 'Rushes Media', ...(ogImage ? { image: ogImage } : {}) },
+  twitter: { card: ogImage ? 'summary_large_image' : 'summary', title: article.title, description: article.description, ...(ogImage ? { image: ogImage } : {}) },
   jsonLd: {
     '@context': 'https://schema.org', '@type': 'Article',
     headline: article.title, description: article.description, mainEntityOfPage: canonical,
