@@ -776,6 +776,7 @@ export const PUBLIC_ASSET_FILES = [
   'assets/brand-media.css',
   'assets/capability-pages.css',
   'assets/meta-pixel.js',
+  'assets/images/articles/google-ads-management-for-small-business.png',
   'assets/images/hero/hero-bg.jpg',
   'assets/images/hero/hero-night-city-poster.jpg',
   HERO_VIDEO_POSTER_PATH.slice(1),

@@ -30,4 +30,10 @@ export const ARTICLES = [
     description: 'A practical checklist for business owners: Google Ads account access, measurement, fees, campaign management, landing pages and the handoff after an inquiry.',
     category: 'Campaigns',
   },
+  {
+    slug: 'google-ads-management-for-small-business',
+    title: 'Google Ads Management for Small Business: What to Pay',
+    description: 'Google Ads management for small business costs more than most guides admit. Learn the real fee ranges, pricing models, and how to judge value.',
+    category: 'Campaigns',
+  },
 ];
