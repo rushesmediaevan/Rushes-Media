@@ -30,4 +30,10 @@ export const ARTICLES = [
     description: 'A practical checklist for business owners: Google Ads account access, measurement, fees, campaign management, landing pages and the handoff after an inquiry.',
     category: 'Campaigns',
   },
+  {
+    slug: 'business-photography-pricing',
+    title: 'Business Photography Pricing: What Clients Actually Pay',
+    description: 'Business photography pricing varies wildly — this guide breaks down real day rates, survey data, and hidden costs so you can budget with confidence.',
+    category: 'Brand Media',
+  },
 ];
