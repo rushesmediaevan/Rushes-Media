@@ -426,8 +426,8 @@ export const SITE_CONTRACT = [
     lastmod: article.lastmod,
     title: `${article.title} — Rushes Media`, description: article.description,
     canonical: `${SITE_ORIGIN}/articles/${article.slug}/`,
-    openGraph: { type: 'article', title: article.title, description: article.description, url: `${SITE_ORIGIN}/articles/${article.slug}/`, siteName: 'Rushes Media' },
-    twitter: { card: 'summary', title: article.title, description: article.description },
+    openGraph: { type: 'article', title: article.title, description: article.description, url: `${SITE_ORIGIN}/articles/${article.slug}/`, siteName: 'Rushes Media', ...(article.image ? { image: `${SITE_ORIGIN}${article.image}` } : {}) },
+    twitter: { card: 'summary', title: article.title, description: article.description, ...(article.image ? { image: `${SITE_ORIGIN}${article.image}` } : {}) },
     jsonLd: {
       '@context': 'https://schema.org', '@type': 'Article',
       headline: article.title, description: article.description, mainEntityOfPage: `${SITE_ORIGIN}/articles/${article.slug}/`,
@@ -782,6 +782,7 @@ export const PUBLIC_ASSET_FILES = [
   HERO_VIDEO_POSTER_PATH.slice(1),
   'assets/images/logo-icon.png',
   'assets/images/logo-wordmark.png',
+  'assets/images/articles/local-business-photography-cost.png',
   'assets/video/hero-loop.mp4',
   ...HOMEPAGE_BROWSER_ASSET_FILES,
   ...REVISION_BROWSER_ASSET_FILES,

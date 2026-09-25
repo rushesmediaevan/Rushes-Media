@@ -12,8 +12,8 @@ const seo = {
   title: `${article.title} — Rushes Media`,
   description: article.description,
   canonical,
-  openGraph: { type: 'article', title: article.title, description: article.description, url: canonical, siteName: 'Rushes Media' },
-  twitter: { card: 'summary', title: article.title, description: article.description },
+  openGraph: { type: 'article', title: article.title, description: article.description, url: canonical, siteName: 'Rushes Media', ...(article.image ? { image: `${SITE.origin}${article.image}` } : {}) },
+  twitter: { card: 'summary', title: article.title, description: article.description, ...(article.image ? { image: `${SITE.origin}${article.image}` } : {}) },
   jsonLd: {
     '@context': 'https://schema.org', '@type': 'Article',
     headline: article.title, description: article.description, mainEntityOfPage: canonical,
