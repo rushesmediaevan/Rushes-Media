@@ -36,4 +36,11 @@ export const ARTICLES = [
     description: 'A practical checklist for business owners: Google Ads account access, measurement, fees, campaign management, landing pages and the handoff after an inquiry.',
     category: 'Campaigns',
   },
+  {
+    slug: 'hibu-alternative',
+    lastmod: '2026-09-26',
+    title: 'Hibu Alternative: Better Options for Local Ad Spend',
+    description: 'A Hibu alternative should fix transparency, creative quality, and ownership — not just move you to a new dashboard. Compare your real options for 2026.',
+    category: 'Campaigns',
+  },
 ];
