@@ -964,7 +964,7 @@ const expectedLastmods = new Map([
   ['/articles/', undefined],
   ['/articles/landing-page-or-full-website/', '2026-09-18'],
   ['/articles/turning-business-reputation-into-brand-content/', '2026-09-18'],
-  ['/articles/planning-a-brand-photo-and-video-shoot/', '2026-09-23'],
+  ['/articles/planning-a-brand-photo-and-video-shoot/', '2026-09-26'],
   ['/articles/building-a-lead-follow-up-process/', '2026-09-26'],
   ['/articles/hiring-a-google-ads-agency/', '2026-09-26'],
   ['/privacy/', '2026-08-13'],

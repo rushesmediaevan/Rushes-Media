@@ -97,6 +97,14 @@ Start with your essential deliverables and a spending limit you are comfortable 
 
 For a scoped proposal, [tell Rushes about the shoot you are planning](/#book). Include what needs to be photographed or filmed, where it will happen, where the work will appear and when you need the finished files. Photography and video can be booked as standalone work.
 
+## Agree on a backup plan before shoot day
+
+Weather, illness or an unavailable location can disrupt a shoot. Before booking, ask who decides whether to postpone, when that decision must be made, and what happens to deposits, reserved crew and location costs. Have the provider put those terms in the proposal.
+
+If some shots can go ahead, agree which are worth capturing and how returning for the rest affects the scope and delivery date. Identify a backup date or an indoor alternative when the brief allows it. For an event that cannot move, decide which essential shots remain possible if a person or location becomes unavailable.
+
+Name the contact who can approve a change on the day. Share the revised plan with everyone affected before they travel. These are questions to resolve with your provider, not a promise that rescheduling is free or that every shoot has a workable fallback.
+
 ## Assign review and approval
 
 Name a person who can consolidate feedback and a person authorized to approve the finished assets. They may be the same person. Make sure any other required reviewers are known before production begins.

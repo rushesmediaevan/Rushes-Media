@@ -17,7 +17,7 @@ export const ARTICLES = [
   },
   {
     slug: 'planning-a-brand-photo-and-video-shoot',
-    lastmod: '2026-09-23',
+    lastmod: '2026-09-26',
     title: 'How to plan a brand photo and video shoot',
     description: 'Build a useful shoot brief: decide where the assets will appear, what to capture, who approves them and how the finished files will be delivered.',
     category: 'Brand Media',
