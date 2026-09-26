@@ -431,6 +431,7 @@ export const SITE_CONTRACT = [
     jsonLd: {
       '@context': 'https://schema.org', '@type': 'Article',
       headline: article.title, description: article.description, mainEntityOfPage: `${SITE_ORIGIN}/articles/${article.slug}/`,
+      dateModified: article.lastmod,
       author: { '@type': 'Organization', name: 'Rushes Media', url: SITE_ORIGIN },
       publisher: { '@type': 'Organization', name: 'Rushes Media', url: SITE_ORIGIN },
     },
