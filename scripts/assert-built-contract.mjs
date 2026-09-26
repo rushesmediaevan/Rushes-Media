@@ -1252,16 +1252,23 @@ const callText = visibleText(callHtml);
 for (const value of Object.values(CONVERSION_PAGE_COPY['call/index.html'])) {
   assert.ok(callHtml.includes(value), `/call/ lost centralized conversion copy: ${value}`);
 }
-for (const rejectedPhrase of ['pitch dump', '60 seconds from Evan', 'Video landing here', 'Founder-led.']) {
-  assert.ok(!callText.includes(rejectedPhrase), `/call/ retained unfinished or founder-centric copy: ${rejectedPhrase}`);
+for (const rejectedPhrase of [
+  'pitch dump',
+  '60 seconds from Evan',
+  'Video landing here',
+  'Founder-led.',
+  'The label stays on',
+  'retained IDs',
+  'Open booking options',
+]) {
+  assert.ok(!callText.includes(rejectedPhrase), `/call/ retained unfinished, internal, or pre-booking copy: ${rejectedPhrase}`);
 }
 assert.ok(!/\{\{COPY_[A-Z0-9_]+\}\}/.test(callHtml), '/call/ contains unresolved copy markers.');
-const callBookingLinks = [...callHtml.matchAll(/<a\b[^>]*href="\/#book"[^>]*>([\s\S]*?)<\/a>/gi)];
-assert.ok(callBookingLinks.length > 0, '/call/ lost its booking-options destination.');
-for (const link of callBookingLinks) {
-  assert.ok(visibleText(link[1]).includes('Open booking options'), '/call/ mislabels its homepage booking destination.');
-}
-assert.ok(!callText.includes('Open the 30-minute calendar'), '/call/ must not claim /#book opens the calendar directly.');
+// /call/ is the post-booking confirmation: it must not send a booked prospect back to book again.
+assert.ok(!/href="\/#book"/.test(callHtml), '/call/ is post-booking and must not link back to /#book.');
+assert.ok(callText.includes('You’re booked.'), '/call/ lost its booking confirmation headline.');
+assert.ok(/href="mailto:[^"]*Reschedule/.test(callHtml), '/call/ lost its reschedule fallback.');
+assert.ok(!/<video\b|<iframe\b|video-slot/.test(callHtml), '/call/ must not ship an empty video slot.');
 
 for (const route of publicHtmlRoutes) {
   const html = await readFile(pageFile(route.path), 'utf8');
