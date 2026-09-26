@@ -799,7 +799,13 @@ for (const image of homepageConceptImages) {
 for (const routePath of ['/campaigns/', '/web/', '/follow-up/', '/demand-loop/']) {
   const html = await readFile(pageFile(routePath), 'utf8');
   assert.ok(html.includes('class="brand-media-hero'), `${routePath} lost the shared two-image opening.`);
-  assert.ok(html.includes('See the work') || html.includes('See how it connects'), `${routePath} lost its in-page work anchor.`);
+  const exampleTarget = routePath === '/campaigns/' ? 'campaign-example' : routePath === '/web/' ? 'website-example' : null;
+  if (exampleTarget) {
+    assert.ok(html.includes(`href="#${exampleTarget}"`) && html.includes(`id="${exampleTarget}"`), `${routePath} example link must reach its corresponding section.`);
+    assert.ok(!html.includes('>See the work<'), `${routePath} must label its example honestly.`);
+  } else {
+    assert.ok(html.includes('See the work') || html.includes('See how it connects'), `${routePath} lost its in-page work anchor.`);
+  }
   assert.ok(!html.includes('class="brand-media-button--primary"'), `${routePath} hero must not duplicate the Growth Call button.`);
   assert.ok(html.includes('What owners want to ask'), `${routePath} lost its FAQ.`);
   assert.ok(!html.includes('A realistic example'), `${routePath} retained a cut example block.`);
@@ -901,9 +907,9 @@ for (const [routePath, expectsService] of [
 
 const campaignsHtml = await readFile(pageFile('/campaigns/'), 'utf8');
 for (const marker of [
-  'Every ad needs an accountable path after the click.',
-  'Copy approval is not launch approval.',
-  'Find the campaign worth funding.',
+  'Google Ads',
+  'Meta ads',
+  'Illustrative campaign · not a client result',
 ]) {
   assert.ok(campaignsHtml.includes(marker), `/campaigns/ is missing strategic marker: ${marker}`);
 }
@@ -911,10 +917,9 @@ for (const marker of [
 const webHtml = await readFile(pageFile('/web/'), 'utf8');
 for (const marker of [
   'Make the value clear. Make the next step easy.',
-  'Website and landing page design that makes your offer clear',
-  'Five decisions, in the order a buyer needs them.',
-  'Build the decision path before decorating the page.',
-  'whether to rebuild, focus or keep the current site.',
+  'Rushes Media · our own website',
+  'not an external client case study',
+  'href="/articles/landing-page-or-full-website/"',
 ]) {
   assert.ok(webHtml.includes(marker), `/web/ is missing strategic marker: ${marker}`);
 }
