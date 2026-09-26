@@ -31,7 +31,7 @@ export const ARTICLES = [
   },
   {
     slug: 'hiring-a-google-ads-agency',
-    lastmod: '2026-09-24',
+    lastmod: '2026-09-26',
     title: 'What to check before hiring a Google Ads agency',
     description: 'A practical checklist for business owners: Google Ads account access, measurement, fees, campaign management, landing pages and the handoff after an inquiry.',
     category: 'Campaigns',

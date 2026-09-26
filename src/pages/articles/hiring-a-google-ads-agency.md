@@ -64,6 +64,28 @@ The management fee pays for the agency’s work running your campaigns; it is se
 
 Check whether there is a minimum fee, what work is included, and which changes require your approval. If payment depends on results, define the result precisely: a submitted form, a qualified inquiry and a paying customer are different outcomes. Compare the work and responsibilities alongside the fee.
 
+### How to compare a fixed fee with revenue share
+
+Compare the total bill at the same ad spend and customer outcome. A percentage alone does not tell you what you will pay.
+
+**Hypothetical example, not Rushes pricing or a market benchmark:** assume $2,000 in monthly ad spend, with no refunds or cancellations. A $600 fixed management fee brings the total to $2,600. An alternative charging 3% of $20,000 in eligible, collected customer revenue also brings the total to $2,600: $2,000 for ads plus $600 for the agency.
+
+If eligible revenue rises to $40,000 at the same ad spend, the revenue-share total becomes $3,200. The fixed-fee example remains $2,600. These examples exclude setup, creative, tools, taxes and any other charges; include those when comparing actual proposals. The revenue figures are illustrations, not forecasts.
+
+Matching totals do not mean matching services. Ask what each fee buys and whether the calculation has a minimum, a cap or an additional fixed charge.
+
+Before agreeing to revenue share, ask:
+
+- **What revenue counts?** Signed contracts, deposits or payments actually collected? Which customers and services are included?
+- **How is the sale connected to the campaign?** Agree how existing customers, referrals and inquiries touched by several channels are handled, and how long a sale remains eligible.
+- **What happens when the sale changes?** Define how cancellations, refunds and unpaid balances affect the fee.
+- **Who checks the calculation?** Agree which records both sides will use, when the fee is due and how disagreements are resolved.
+- **What happens after the engagement ends?** Establish whether later sales from earlier inquiries still carry a fee, and for how long.
+
+For a **per-appointment quote**, define what makes an appointment eligible for payment: the service, location and other agreed qualification criteria, whether it must be attended or merely booked, and how duplicate inquiries, cancellations and no-shows are handled. Ask about credits or replacements before comparing the headline price.
+
+Request a sample invoice using the same hypothetical month for each proposal. That gives you a concrete way to compare costs and responsibilities without relying on a claim that one pricing model is always better.
+
 ## 4. Understand who does the work and how decisions reach you
 
 Ask: **“Who manages the account, who covers absences, and what will you show us when you recommend a change?”**
