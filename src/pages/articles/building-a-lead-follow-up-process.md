@@ -46,13 +46,28 @@ Define how ownership transfers. The receiving person should have the conversatio
 
 ## A worked example
 
-Consider this hypothetical inquiry: a business owner requests help with a new landing page. An acknowledgment arrives immediately. A team member asks for the offer and launch date. The owner replies, but the message remains in that team member's inbox while they are away.
+Consider this hypothetical inquiry: “We need a new website for two services and want it ready before a trade show. Can you help?” The business can confirm receipt automatically without pretending someone has assessed the project:
 
-The first response was quick. The unresolved step is reviewing the supplied information and arranging the next conversation.
+> Thanks — we received your website inquiry. This is an automatic confirmation; our team still needs to review your request before confirming scope or availability.
 
-A workable record would say: waiting on our team; assigned to the covering colleague; review the offer and propose a meeting time on the agreed business day. If the colleague cannot take it, the responsibility returns to the person managing coverage.
+That message is an acknowledgment, not an answer to “Can you help?” If you include a response window, it must match actual staffing and hours. Make sure replies reach an inbox someone monitors.
 
-The improvement is a visible handoff. Whether a reminder or a tool connection supports that handoff is a separate implementation decision.
+The internal record should preserve the original message, the two-service scope and the trade-show deadline. Assign a person to check the missing date and review availability. A useful human reply might begin:
+
+> You mentioned a website for two services ahead of a trade show. What date does the site need to be ready? That will help us check whether we can meet your timing.
+
+Do not ask again which service the customer needs. If the date was already supplied elsewhere in the conversation, use it. If the assigned person is away, transfer the history and next action to someone who can respond; forwarding a notification alone is not a completed handoff.
+
+Once someone replies or a team member takes over, pause the generic follow-up sequence so it does not interrupt the conversation. A request to stop must also stop further follow-up.
+
+Before using the workflow, test these cases:
+
+- The customer supplies the date in their first message: the reply should not ask for it again.
+- The requested date is unavailable: a person explains the options rather than automation promising a booking.
+- The customer replies while a reminder is queued: the reminder pauses for review.
+- The customer asks to stop: no further follow-up is sent.
+
+This example illustrates how to preserve context and responsibility. It is not a client result or a promise of faster sales.
 
 ## Automate a defined task
 

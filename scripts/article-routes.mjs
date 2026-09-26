@@ -24,7 +24,7 @@ export const ARTICLES = [
   },
   {
     slug: 'building-a-lead-follow-up-process',
-    lastmod: '2026-09-09',
+    lastmod: '2026-09-26',
     title: 'How to build a lead follow-up process your team can run',
     description: 'Review recent inquiries, assign a clear owner and next step, and decide which follow-up tasks need a person, a reminder or automation.',
     category: 'Business Systems',
