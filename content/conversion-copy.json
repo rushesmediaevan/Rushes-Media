@@ -28,11 +28,10 @@
       "SECONDARY_URL": "https://assets.cdn.filesafe.space/o3D3rSAdiE8inzOOk2oF/media/247c3e3b-dd18-4216-a3df-7b00f3991b89.pdf"
     },
     "call/index.html": {
-      "LEDE": "The Growth Call is a focused working session: how demand enters the business today, where qualified opportunities stall, and whether the full system is the right fit. Bring the numbers and context you already have; no formal presentation is required.",
-      "CAPACITY_HEADING": "Working fit",
-      "CAPACITY_LEAD": "Capacity is confirmed before scope.",
-      "CAPACITY_BODY": "The work moves forward only when service area, demand, response coverage, project economics, and timing support it.",
-      "RETURN_CTA": "Open booking options"
+      "LEDE": "Your 30-minute Growth Call is on the calendar. The time and Google Meet link are in the calendar invite we just sent. Here’s how to get the most out of the half hour.",
+      "BRING_NOTE": "Rough numbers are fine. No slides or prep work needed.",
+      "OUTCOME": "You’ll leave with a clear answer on whether we’re a fit, a practical next step, and, when the numbers support it, a realistic target for booked estimates. If we’re not the right answer for your business, we’ll say so.",
+      "RESCHEDULE": "Use the reschedule link in your confirmation email, or write to us and we’ll find a better time."
     },
     "call/teleprompter.html": {
       "OPERATING_NOTE": "The script makes only operating promises the business can keep consistently. Update the system before strengthening the claim; do not turn personal diligence into a founder credential.",
