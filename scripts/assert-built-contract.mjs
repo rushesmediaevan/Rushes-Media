@@ -980,6 +980,15 @@ assert.deepEqual(
   INDEXABLE_ROUTES.map((route) => route.lastmod).filter(Boolean),
   'Sitemap significant-content lastmod values drifted.',
 );
+for (const article of ARTICLES) {
+  const route = `/articles/${article.slug}/`;
+  const html = await readFile(pageFile(route), 'utf8');
+  const expectedDate = expectedLastmods.get(route);
+  const articleData = jsonLdDocuments(html).find((item) => item['@type'] === 'Article');
+  assert.equal(articleData?.dateModified, expectedDate, `${route}: Article revision must match verified sitemap date.`);
+  assert.ok(html.includes(`Updated <time datetime="${expectedDate}">`), `${route}: revision date must be visible and labeled Updated.`);
+  assert.equal(articleData?.datePublished, undefined, `${route}: do not invent an original publication date.`);
+}
 
 
 for (const retiredRoute of ['/hardscape/', '/pools/', '/industries/', '/outdoor-living/', '/interior-design/', '/hvac/', '/med-spa/']) {
