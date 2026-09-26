@@ -12,7 +12,7 @@ const nodeX = (index: number) => 60 + index * 160;
 
 <section id="what-this-is" tabindex="-1" class="cap-section cap-leak" aria-labelledby="leak-heading">
   <Lead lead={leak} id="leak-heading" />
-  <svg id="leak-map" class="cap-leak__map" viewBox="0 0 760 130" role="img" aria-label="The path from idea to outcome, with the four places paid campaigns leak">
+  <svg id="leak-map" class="cap-leak__map" viewBox="0 0 760 130" role="img" aria-label="A campaign connects the idea, ad, landing page, response and outcome">
     {leak.nodes.map((node, index) => (
       <>
         {index < leak.nodes.length - 1 && (
@@ -48,7 +48,7 @@ const nodeX = (index: number) => 60 + index * 160;
     <Lead lead={matrix} id="matrix-heading" wide />
     <table class="cap-matrix">
       <thead>
-        <tr><th scope="col">Layer</th><th scope="col">What is fixed before launch</th><th scope="col">Who owns it</th></tr>
+        <tr><th scope="col">Service</th><th scope="col">What the work includes</th><th scope="col">What to agree on</th></tr>
       </thead>
       <tbody>
         {matrix.rows.map((row) => (
@@ -79,4 +79,19 @@ const nodeX = (index: number) => 60 + index * 160;
   </div>
 </section>
 
+<section id="campaign-example" tabindex="-1" class="cap-section" aria-labelledby="campaign-example-heading">
+  <Lead lead={{ eye: 'Illustrative campaign · not a client result', heading: 'One service. A relevant ad. A page that answers the next question.', intro: 'Consider an established remodeling business that wants more kitchen projects. This example shows how the pieces could work together; it is not a campaign we are claiming to have run.' }} id="campaign-example-heading" />
+  <ol class="cap-rail">
+    <li><span class="cap-num">01</span><h3>Show the kind of project the customer wants.</h3><p>Use approved photographs of completed kitchens and explain the work the business takes on. Google search ads can address relevant searches; Facebook and Instagram creative can introduce the offer visually. Choose the channel to suit the opportunity and budget.</p></li>
+    <li><span class="cap-num">02</span><h3>Answer the questions before the inquiry.</h3><p>The landing page explains the service area, project scope and consultation process, with relevant examples. Someone interested in a kitchen project should not have to search a general service menu for those details.</p></li>
+    <li><span class="cap-num">03</span><h3>Check what happens after someone responds.</h3><p>Send the inquiry to the team handling consultations. Review which requests fit, which appointments happen and which projects are won. Those records help judge the campaign beyond clicks alone.</p></li>
+  </ol>
+  <p><a class="brand-media-text-link" href="/web/">Explore website and landing-page services →</a></p>
+</section>
+
 <Pair pair={body.pair} />
+
+<style>
+  #campaign-example .brand-media-text-link { color: var(--bm-navy); }
+  #campaign-example .brand-media-text-link:hover { text-decoration: underline; }
+</style>
