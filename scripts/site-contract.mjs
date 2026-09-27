@@ -143,7 +143,7 @@ export const SITE_CONTRACT = [
     source: 'src/pages/index.astro',
     title: 'Rushes Media | Media, Web, AI & Growth Systems',
     description:
-      'Rushes Media makes strong businesses easier to notice, easier to choose, and easier to run: brand media, creative campaigns, web experiences, and AI consulting that turns attention into closed work.',
+      'Photo, video, Google and Meta ads, websites, and business systems for owner-led companies. Hire Rushes Media to turn attention into customer inquiries.',
     canonical: `${SITE_ORIGIN}/`,
     requiredAssets: [
       '/assets/images/hero/hero-bg.jpg',
@@ -183,7 +183,7 @@ export const SITE_CONTRACT = [
       siteName: 'Rushes Media',
       title: 'Rushes Media | Media, Web, AI & Growth Systems',
       description:
-        'Rushes Media makes strong businesses easier to notice, easier to choose, and easier to run: brand media, creative campaigns, web experiences, and AI consulting that turns attention into closed work.',
+        'Photo, video, Google and Meta ads, websites, and business systems for owner-led companies. Hire Rushes Media to turn attention into customer inquiries.',
       url: `${SITE_ORIGIN}/`,
       image: `${SITE_ORIGIN}/assets/images/hero/hero-bg.jpg`,
       imageWidth: 1920,
@@ -193,7 +193,7 @@ export const SITE_CONTRACT = [
       card: 'summary_large_image',
       title: 'Rushes Media | Media, Web, AI & Growth Systems',
       description:
-        'Rushes Media makes strong businesses easier to notice, easier to choose, and easier to run: brand media, creative campaigns, web experiences, and AI consulting that turns attention into closed work.',
+        'Photo, video, Google and Meta ads, websites, and business systems for owner-led companies. Hire Rushes Media to turn attention into customer inquiries.',
       image: `${SITE_ORIGIN}/assets/images/hero/hero-bg.jpg`,
     },
     jsonLd: {
@@ -204,7 +204,7 @@ export const SITE_CONTRACT = [
           name: 'Rushes Media',
           url: `${SITE_ORIGIN}/`,
           description:
-            'Rushes Media makes strong businesses easier to notice, easier to choose, and easier to run: brand media, creative campaigns, web experiences, and AI consulting that turns attention into closed work.',
+            'Photo, video, Google and Meta ads, websites, and business systems for owner-led companies. Hire Rushes Media to turn attention into customer inquiries.',
           email: 'evan@rushesmedia.com',
           telephone: '(609) 405-9918',
           address: {

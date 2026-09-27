@@ -1,5 +1,8 @@
 ---
-import { SHARED_CTA, SITE } from '../../data/site';
+import { SHARED_CTA } from '../../data/site';
+import { Image } from 'astro:assets';
+import logoIcon from '../../../assets/images/logo-icon.png';
+import logoWordmark from '../../../assets/images/logo-wordmark.png';
 import { navCurrent, sitePrimaryNav, mobileNavLinks } from '../../data/navigation';
 import MobileNavDialog from './MobileNavDialog.astro';
 
@@ -9,8 +12,8 @@ const { current = '' } = Astro.props;
 
 <nav class="editorial-nav" aria-label="Primary navigation">
   <a href="/" class="editorial-logo" aria-label="Rushes Media — home">
-    <img src={SITE.logoIcon} alt="" width="833" height="959" />
-    <img src={SITE.logoWordmark} alt="Rushes Media" width="2888" height="322" />
+    <Image src={logoIcon} alt="" height={44} densities={[1, 2, 3]} format="webp" quality="max" loading="eager" />
+    <Image src={logoWordmark} alt="Rushes Media" height={25} densities={[1, 2, 3]} format="webp" quality="max" loading="eager" />
   </a>
   <div class="editorial-nav-links">
     {sitePrimaryNav.map((link) => (

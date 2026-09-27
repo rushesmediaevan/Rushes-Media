@@ -143,8 +143,8 @@ export const brandMediaCapability: CapabilityPage = {
     heading: 'Make what sets you apart visible.',
     support:
       'Rushes plans and produces photo, video, and campaign creative that shows people what the business offers, why it matters, and what makes it worth choosing.',
-    secondaryLabel: 'See the work',
-    secondaryTarget: '#what-this-is',
+    secondaryLabel: 'See what you get',
+    secondaryTarget: '#delivery',
     visual: revisionAssets.coastalTerrace,
     insetVisual: industryVisuals.medSpa,
   },
