@@ -36,4 +36,11 @@ export const ARTICLES = [
     description: 'A practical checklist for business owners: Google Ads account access, measurement, fees, campaign management, landing pages and the handoff after an inquiry.',
     category: 'Campaigns',
   },
+  {
+    slug: 'scorpion-alternative-for-local-service-business-ads',
+    lastmod: '2026-09-27',
+    title: 'Scorpion Alternative for Local Service Business Ads',
+    description: 'Looking for a Scorpion alternative that won\'t lock you out of your own assets? Compare vendors and find a better fit for local service businesses.',
+    category: 'Campaigns',
+  },
 ];
