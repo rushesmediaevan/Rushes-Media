@@ -362,9 +362,9 @@ export const campaignsCapability: CapabilityPage = {
     heading: FAQ_EYEBROW,
     items: [
       {
-        question: 'Who pays the ad platforms?',
+        question: 'How do we choose an ad budget, and who pays it?',
         answer:
-          'The business does. Spend stays on the client-owned account and card; Rushes scopes creative, structure and management separately.',
+          'We start with the service you want to sell, the area you serve, the value of a customer and any results from your current ads. Those inputs help us scope a test you can sustain and decide what would justify continuing it. You approve the budget before launch and pay the platforms through your own account and card. Rushes scopes creative, landing pages and management separately.',
       },
       {
         question: 'What should we agree on before spending money on ads?',
@@ -375,6 +375,11 @@ export const campaignsCapability: CapabilityPage = {
         question: 'Can I hire you just to manage ads?',
         answer:
           'Yes. Ad management can be a standalone service. We first review your offer, existing creative, destination page and tracking, then explain any work needed before launch. You do not have to buy a new website or a full service package.',
+      },
+      {
+        question: 'When can a campaign launch, and when will we know if it is working?',
+        answer:
+          'Launch depends on account access, approved creative, a working destination and verified inquiry tracking. We agree on that preparation and the review period in the project scope. Once ads run, clicks alone do not tell us whether they are working: we need relevant inquiries and your team’s feedback on appointments and sales. Small samples can be inconclusive, so we do not promise a result by a fixed date.',
       },
       {
         question: 'What should a campaign create?',
