@@ -37,9 +37,9 @@ export const primaryNavigation: readonly HomeNavItem[] = homePrimaryNav.map(({ h
 }));
 
 export const heroFlow = [
-  { from: 'Content', to: 'Attention' },
-  { from: 'Systems', to: 'Conversion' },
-  { from: 'Follow-up', to: 'Compounding' },
+  { from: 'Photo & video', to: 'Attention' },
+  { from: 'Ads & websites', to: 'Inquiries' },
+  { from: 'AI & systems', to: 'Time back' },
 ] as const;
 
 export const marqueeItems = [
@@ -126,9 +126,9 @@ export const homeServices: readonly HomeService[] = [
     href: '/follow-up/',
     stage: 'Time & leverage',
     name: 'AI & Business Systems',
-    plainName: 'Inquiries get captured, routed, answered, and kept moving.',
+    plainName: 'Give your team time back.',
     description:
-      'Practical AI, workflow design, and follow-up give every request an owner, a first reply, and a next date — without adding another tool the team has to remember.',
+      'Practical AI and better workflows take repetitive work off your team, connect the tools you already use and make sure every inquiry gets an owner, a reply and a next step.',
     tags: ['AI consulting', 'Workflow automation', 'Lead capture & follow-up'],
     tone: 'navy',
   },
@@ -140,27 +140,11 @@ export const brandMediaFilm = [
   revisionAssets.restaurant,
 ] as const;
 
-export const systemsBeats = [
-  {
-    label: 'Capture',
-    heading: 'Every request lands in one place.',
-    example: 'A Saturday estimate request is logged with the service and neighborhood before anyone picks up.',
-  },
-  {
-    label: 'Route',
-    heading: 'The right person sees it, with context.',
-    example: 'Replacement inquiries go to the owner. Routine service stays with dispatch.',
-  },
-  {
-    label: 'Respond',
-    heading: 'A useful first reply goes out while intent is high.',
-    example: 'A missed-call text confirms the request and offers two appointment windows.',
-  },
-  {
-    label: 'Keep moving',
-    heading: 'Open items stay visible until they close.',
-    example: 'An unanswered estimate reminder surfaces on day three instead of disappearing into the inbox.',
-  },
+export const systemsUses = [
+  { label: 'Admin', text: 'Automate repetitive admin, data entry and paperwork.' },
+  { label: 'Tools', text: 'Connect the forms, calendar, CRM and apps you already use.' },
+  { label: 'Inquiries', text: 'Capture every inquiry and send it to the right person.' },
+  { label: 'Replies', text: 'Draft first replies and follow-ups for your team to review.' },
 ] as const;
 
 import { demandLoopSteps } from './demand-loop';
@@ -171,30 +155,6 @@ export const systemSteps = demandLoopSteps.map((step) => ({
   title: `${step.name}.`,
   description: step.purpose,
 }));
-
-export const processSteps = [
-  {
-    phase: 'Focus',
-    title: 'Choose the priority.',
-    description:
-      'We agree on the service, market, audience, or business priority that deserves attention first.',
-    badge: 'Clear starting point',
-  },
-  {
-    phase: 'Build',
-    title: 'Build around it.',
-    description:
-      'Rushes builds the specific media, campaign, web, AI, or business-system work the priority requires without replacing what already works.',
-    badge: 'Focused scope',
-  },
-  {
-    phase: 'Improve',
-    title: 'Learn from the response.',
-    description:
-      'Audience response and buyer actions show what to keep, change, or expand.',
-    badge: 'Measured refinement',
-  },
-] as const;
 
 export const faqs = [
   {
@@ -220,17 +180,12 @@ export const faqs = [
   {
     question: 'Can Rushes handle one capability or connect several?',
     answer:
-      'Yes. Brand Media, campaigns, web, and AI or business systems can each stand alone. When several are useful, the Demand Loop connects them around one goal and one clear path from attention to action.',
+      'Yes. Photo and video, campaigns, websites and AI or business systems can each be hired on their own. When several are useful, we connect them around one goal. We call that the Demand Loop, and it is never a required package.',
   },
   {
     question: 'How do you measure results?',
     answer:
       'We choose a small set of signals that match the goal. Depending on the work, that may be audience response, qualified inquiries, booked conversations, or action on a page.',
-  },
-  {
-    question: 'Do we need the full Demand Loop?',
-    answer:
-      'No. The Demand Loop is Rushes’ connected system, not a mandatory package. Start with the capability that matters now, then connect more of the path only when it creates useful leverage.',
   },
 ] as const;
 
@@ -238,6 +193,6 @@ export const footerLinks = [
   { href: '/articles/', label: 'Articles' },
   { href: '#services', label: 'Services' },
   { href: '/demand-loop/', label: 'Demand Loop' },
-  { href: '#examples', label: 'Examples' },
+  { href: '#examples', label: 'Industries' },
   { href: '#book', label: 'Book a Growth Call' },
 ] as const;

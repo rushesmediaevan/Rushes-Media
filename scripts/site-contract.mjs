@@ -176,7 +176,7 @@ export const SITE_CONTRACT = [
       'https://link.msgsndr.com/js/external-tracking.js',
     ],
     sitemap: true,
-    lastmod: '2026-09-20',
+    lastmod: '2026-09-29',
     lifecycleStatus: 'active',
     openGraph: {
       type: 'website',
@@ -260,7 +260,7 @@ export const SITE_CONTRACT = [
               name: 'Can Rushes handle one capability or connect several?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Yes. Brand Media, campaigns, web, and AI or business systems can each stand alone. When several are useful, the Demand Loop connects them around one goal and one clear path from attention to action.',
+                text: 'Yes. Photo and video, campaigns, websites and AI or business systems can each be hired on their own. When several are useful, we connect them around one goal. We call that the Demand Loop, and it is never a required package.',
               },
             },
             {
@@ -269,14 +269,6 @@ export const SITE_CONTRACT = [
               acceptedAnswer: {
                 '@type': 'Answer',
                 text: 'We choose a small set of signals that match the goal. Depending on the work, that may be audience response, qualified inquiries, booked conversations, or action on a page.',
-              },
-            },
-            {
-              '@type': 'Question',
-              name: 'Do we need the full Demand Loop?',
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'No. The Demand Loop is Rushes’ connected system, not a mandatory package. Start with the capability that matters now, then connect more of the path only when it creates useful leverage.',
               },
             },
           ],
@@ -333,14 +325,13 @@ export const SITE_CONTRACT = [
       title: 'Meta & Google Ads Campaign Management | Rushes Media',
       description:
         'Meta and Google campaigns built around one credible idea, a focused conversion path and measurable qualified opportunities. Ad spend stays in the client-owned account.',
-      lastmod: '2026-09-03',
+      lastmod: '2026-09-29',
       extraAssets: [
         '/assets/brand-media.css',
         '/assets/capability-pages.css',
         ...publicAssetUrls([
           ...HOMEPAGE_ASSETS.campaignsSubmerged,
           ...REVISION_ASSETS.bakery,
-          ...CAPABILITY_ASSETS.coastalStreet,
         ]),
       ],
     },
@@ -350,15 +341,12 @@ export const SITE_CONTRACT = [
       title: 'Website & Landing Page Design | Rushes Media',
       description:
         'Custom websites and landing pages that explain your offer, show your work, and make it easy for the right visitors to inquire or book.',
-      lastmod: '2026-09-03',
+      lastmod: '2026-09-29',
       extraAssets: [
         '/assets/brand-media.css',
         '/assets/capability-pages.css',
-        ...publicAssetUrls([
-          ...REVISION_ASSETS.daylitVenue,
-          ...HOMEPAGE_ASSETS.brandMediaRiversideMill,
-          ...CAPABILITY_ASSETS.daylitStudio,
-        ]),
+        '/assets/images/web/rushes-site-desktop-1200.webp',
+        '/assets/images/web/rushes-site-phone-720.webp',
       ],
     },
     {
@@ -367,7 +355,7 @@ export const SITE_CONTRACT = [
       title: 'AI Consulting & Business Systems | Rushes Media',
       description:
         'Practical AI consulting, workflow automation, lead capture, and follow-up systems that save time and make the business easier to run.',
-      lastmod: '2026-09-03',
+      lastmod: '2026-09-29',
       extraAssets: [
         '/assets/brand-media.css',
         '/assets/capability-pages.css',
@@ -771,6 +759,12 @@ export const REVIEW_COMPATIBILITY_FILES = [
   'call/teleprompter.html',
 ];
 
+// Screenshots of rushesmedia.com shown on /web/ as owned work (src/components/capability/SiteShowcase.astro).
+export const WEB_SHOWCASE_ASSET_FILES = [
+  ...[800, 1200, 1600].flatMap((width) => ['avif', 'webp'].map((type) => `assets/images/web/rushes-site-desktop-${width}.${type}`)),
+  ...[360, 720].flatMap((width) => ['avif', 'webp'].map((type) => `assets/images/web/rushes-site-phone-${width}.${type}`)),
+];
+
 export const PUBLIC_ASSET_FILES = [
   'assets/interaction.css',
   'assets/form-runtime.js',
@@ -788,6 +782,7 @@ export const PUBLIC_ASSET_FILES = [
   ...REVISION_BROWSER_ASSET_FILES,
   ...INDUSTRY_BROWSER_ASSET_FILES,
   ...CAPABILITY_BROWSER_ASSET_FILES,
+  ...WEB_SHOWCASE_ASSET_FILES,
 ];
 
 export const REVIEW_ASSET_FILES = [

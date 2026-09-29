@@ -8,27 +8,22 @@ import { demandLoopIntroduction } from '../../data/demand-loop';
   <div class="system-inner">
     <div class="system-hd r">
       <span class="eye">The Demand Loop</span>
-      <h2 class="system-h2">Turn attention into revenue.</h2>
+      <h2 class="system-h2">Hire one service, or connect them.</h2>
       <p class="system-sub">{demandLoopIntroduction}</p>
     </div>
-    <ol class="system-flow r d1" aria-label="The Demand Loop: five stages that help turn attention into revenue">
+    <ol class="system-flow system-flow--compact r d1" aria-label="The Demand Loop: five stages that help turn attention into revenue">
       {systemSteps.map((step, index) => (
         <li class="sys-step">
           <span class="sys-node" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
           <div class="sys-stage">{step.stage}</div>
           <h3 class="sys-step-name">{step.title}</h3>
-          <p class="sys-step-service">
-            <span>Rushes capability</span>
-            <strong>{step.owner}</strong>
-          </p>
-          <p class="sys-step-desc">{step.description}</p>
+          <p class="sys-step-service"><strong>{step.owner}</strong></p>
           {index < systemSteps.length - 1 && <span class="sys-arrow" aria-hidden="true">→</span>}
         </li>
       ))}
     </ol>
     <div class="system-end">
-      <p class="system-close">Use one capability or connect the full path. The goal is more visibility, more qualified opportunities, a clearer path to revenue, and less time lost to disconnected work.</p>
-      <a class="system-link" href="/demand-loop/">Explore the complete Demand Loop <span aria-hidden="true">→</span></a>
+      <a class="system-link" href="/demand-loop/">How the services connect <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>

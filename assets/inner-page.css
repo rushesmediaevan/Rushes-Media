@@ -489,3 +489,9 @@ img { display: block; max-width: 100%; }
   .editorial-footer-legal { margin-top: 8px; font-size: 12px; overflow-wrap: anywhere; }
   .commercial-route-links a { min-height: 48px; }
 }
+
+/* Tablet header: keep each nav label on one line (the wordmark yields first). */
+.editorial-nav-links > a { white-space: nowrap; }
+@media (min-width: 761px) and (max-width: 940px) {
+  .editorial-logo img:last-child { display: none; }
+}

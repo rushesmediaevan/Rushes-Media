@@ -11,7 +11,7 @@ Neither choice guarantees useful leads. Start with one commercial question: **wh
 
 Google Search is one campaign type within Google Ads. Google also offers formats across other placements, including Display and YouTube. A proposal for “Google Ads” does not necessarily mean ads responding to a person's search. Google's [campaign-type guide](https://support.google.com/google-ads/answer/2567043?hl=en) explains the distinction.
 
-This guide compares Search with advertising on Facebook and Instagram. It is a planning framework, not a recommendation to activate either platform or spend a particular amount.
+This guide compares Search with Facebook and Instagram ads.
 
 ## When to investigate Google Search first
 

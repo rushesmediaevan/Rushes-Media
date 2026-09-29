@@ -440,7 +440,7 @@ for (const approvedHomepageMarker of [
   'Our Services',
   '>Services</a>',
   '>How It Works</a>',
-  '>Examples</a>',
+  '>Industries</a>',
 ]) {
   assert.ok(
     homepageHtml.includes(approvedHomepageMarker),
@@ -462,7 +462,6 @@ assertOrdered(homepageHtml, [
   'id="services"',
   'id="system"',
   'id="examples"',
-  'id="process"',
   'id="faq"',
   'id="book"',
 ], 'Homepage');
@@ -498,7 +497,7 @@ assert.ok(
 for (const phrase of ['Earn attention.', 'Reach the right people.', 'Turn interest into inquiries.', 'Start the conversation.', 'Follow through to the sale.']) {
   assert.ok(homepageHtml.includes(phrase), `Homepage connection concept is missing: ${phrase}`);
 }
-assert.equal((homepageHtml.match(/Rushes capability/g) || []).length, 5, 'Each connection moment needs a visible capability relationship.');
+assert.equal((homepageHtml.match(/class="sys-step-service"><strong>[^<]+<\/strong>/g) || []).length, 5, 'Each connection moment needs a visible capability relationship.');
 assert.ok(!homepageHtml.includes('How It Can Connect'));
 assert.ok(!homepageHtml.includes('A connected path, when the priority calls for one.'));
 for (const utmKey of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
@@ -518,7 +517,14 @@ assert.ok(!homepageHtml.includes('href="/industries/"'), 'Retired industries hub
 for (const retiredIndustryHref of ['/outdoor-living/', '/interior-design/', '/hvac/', '/med-spa/']) {
   assert.ok(!homepageHtml.includes(`href="${retiredIndustryHref}"`), `Retired industry route leaked into homepage links: ${retiredIndustryHref}`);
 }
-assert.ok(homepageHtml.includes('These are concepts, not completed client projects.'), 'Homepage concepts must not imply completed client work.');
+assert.equal(
+  (homepageHtml.match(/class="v3-concept-tag">Concept image</g) || []).length,
+  (homepageHtml.match(/class="v3-range-card"/g) || []).length,
+  'Every homepage industry image must carry its own concept label.',
+);
+assert.ok(!homepageHtml.includes('id="process"'), 'Homepage retained the generic process section the booking call already covers.');
+assert.ok(!homepageHtml.includes('Compounding'), 'Homepage hero retained internal operating vocabulary.');
+assert.ok(!homepageHtml.includes('>Examples</a>'), 'Navigation must not call concept imagery examples.');
 assert.ok(!/<a\s[^>]*class="v3-range-card/.test(homepageHtml), 'Homepage examples must be breakdowns, not links.');
 assert.ok(!homepageHtml.includes('href="/hardscape/"'), 'Retired hardscape URL leaked into homepage links.');
 assert.ok(!homepageHtml.includes('href="/pools/"'), 'Retired pools URL leaked into homepage links.');
@@ -714,7 +720,7 @@ for (const marker of [
   'Make the finished job the first thing a buyer sees.',
   'brand photography and video for high-end contractors',
   'What strong media makes visible',
-  'What owners want to ask',
+  'Brand media questions',
   'Bring the offer that deserves a clearer story.',
   'Some scenes are Rushes concept imagery, not client work.',
   'data-visual-truth="labeled-concept"',
@@ -799,15 +805,15 @@ for (const image of homepageConceptImages) {
 for (const routePath of ['/campaigns/', '/web/', '/follow-up/', '/demand-loop/']) {
   const html = await readFile(pageFile(routePath), 'utf8');
   assert.ok(html.includes('class="brand-media-hero'), `${routePath} lost the shared two-image opening.`);
-  const exampleTarget = routePath === '/campaigns/' ? 'matrix' : routePath === '/web/' ? 'website-example' : null;
+  const exampleTarget = routePath === '/campaigns/' ? 'what-this-is' : routePath === '/web/' ? 'website-example' : null;
   if (exampleTarget) {
     assert.ok(html.includes(`href="#${exampleTarget}"`) && html.includes(`id="${exampleTarget}"`), `${routePath} example link must reach its corresponding section.`);
     assert.ok(!html.includes('>See the work<'), `${routePath} must label its example honestly.`);
   } else {
-    assert.ok(html.includes('See the work') || html.includes('See how it connects'), `${routePath} lost its in-page work anchor.`);
+    assert.ok(html.includes('See an example') || html.includes('See how it connects'), `${routePath} lost its in-page example anchor.`);
   }
   assert.ok(!html.includes('class="brand-media-button--primary"'), `${routePath} hero must not duplicate the Growth Call button.`);
-  assert.ok(html.includes('What owners want to ask'), `${routePath} lost its FAQ.`);
+  assert.ok(html.includes('class="brand-media-faq__list"') && !html.includes('What owners want to ask'), `${routePath} lost its FAQ or kept the old eyebrow.`);
   assert.ok(!html.includes('A realistic example'), `${routePath} retained a cut example block.`);
   assert.ok(!html.includes('A strong starting point'), `${routePath} retained a cut starting-point section.`);
   assertOrdered(html, [
@@ -821,8 +827,8 @@ for (const routePath of ['/campaigns/', '/web/', '/follow-up/', '/demand-loop/']
 // Each capability page carries its own body; the generic answer-row template is gone.
 const capabilitySignatures = new Map([
   ['/brand-media/', ['data-capability-body="brand-media"', 'id="contractors"', 'id="gallery"', 'id="delivery"', 'class="cap-spread__map"']],
-  ['/campaigns/', ['data-capability-body="campaigns"', 'id="leak-map"', 'id="matrix"', 'id="experiment"', '<table class="cap-matrix"']],
-  ['/web/', ['data-capability-body="web"', 'id="decision-ladder"', 'id="pains"', 'id="process"']],
+  ['/campaigns/', ['data-capability-body="campaigns"', 'id="matrix"', 'id="plan"', '<table id="matrix" class="cap-matrix']],
+  ['/web/', ['data-capability-body="web"', 'id="scope"', 'id="website-example"', 'id="process"', 'class="site-showcase"']],
   ['/follow-up/', ['data-capability-body="systems"', 'id="request-timeline"', 'id="systems-map"', 'id="control"']],
   ['/demand-loop/', ['data-capability-body="demand-loop"', 'id="loop-map"', 'id="chapters"', 'id="thread"', 'id="entry"']],
 ]);
@@ -834,7 +840,8 @@ for (const [routePath, markers] of capabilitySignatures) {
   }
   assert.ok(!html.includes('class="capability-answers"'), `${routePath} still renders the generic answer-row template.`);
   assert.ok(html.includes('/assets/capability-pages.css'), `${routePath} lost the capability stylesheet.`);
-  assert.ok(html.includes('id="pair"') || routePath === '/demand-loop/', `${routePath} lost its stands-alone / connects pair.`);
+  assert.ok(html.includes('id="pair"') || routePath === '/demand-loop/', `${routePath} lost its stands-alone / connects line.`);
+  assert.ok(!html.includes('cap-pair__loop'), `${routePath} reverted to the two-panel stands-alone / connects block.`);
   capabilityBodies.push(markers[0]);
   for (const otherMarker of [...capabilitySignatures.values()].flat().filter((entry) => entry.startsWith('id=') && !markers.includes(entry))) {
     assert.ok(!html.includes(otherMarker), `${routePath} borrowed another page's section: ${otherMarker}`);
@@ -909,7 +916,7 @@ const campaignsHtml = await readFile(pageFile('/campaigns/'), 'utf8');
 for (const marker of [
   'Google Ads',
   'Meta ads',
-  'Explore campaign services',
+  'See what’s included',
 ]) {
   assert.ok(campaignsHtml.includes(marker), `/campaigns/ is missing strategic marker: ${marker}`);
 }
@@ -919,9 +926,16 @@ for (const marker of [
   'Make the value clear. Make the next step easy.',
   'Our own website',
   'Designed and built by Rushes.',
+  'Our own work, not a client project.',
+  'rushesmedia.com · designed and built by Rushes',
   'href="/articles/landing-page-or-full-website/"',
 ]) {
   assert.ok(webHtml.includes(marker), `/web/ is missing strategic marker: ${marker}`);
+}
+assert.ok(!webHtml.includes('/assets/images/revision/06-daylit-venue-'), '/web/ hero must show the owned site, not unrelated concept photography.');
+for (const routePath of ['/brand-media/', '/campaigns/', '/follow-up/', '/demand-loop/']) {
+  const html = await readFile(pageFile(routePath), 'utf8');
+  assert.ok(html.includes('Concept imagery, not client work'), `${routePath} hero concept images lost their nearby label.`);
 }
 
 
@@ -960,12 +974,12 @@ assert.ok(!sitemap.includes('<priority>'), 'Sitemap must not emit meaningless pr
 assert.ok(!sitemap.includes('<changefreq>'), 'Sitemap must not emit meaningless changefreq values.');
 const sitemapLastmods = [...sitemap.matchAll(/<lastmod>(.*?)<\/lastmod>/g)].map((match) => match[1]);
 const expectedLastmods = new Map([
-  ['/', '2026-09-20'],
+  ['/', '2026-09-29'],
   ['/demand-loop/', '2026-09-20'],
   ['/brand-media/', '2026-09-03'],
-  ['/campaigns/', '2026-09-03'],
-  ['/web/', '2026-09-03'],
-  ['/follow-up/', '2026-09-03'],
+  ['/campaigns/', '2026-09-29'],
+  ['/web/', '2026-09-29'],
+  ['/follow-up/', '2026-09-29'],
   ['/articles/', undefined],
   ['/articles/landing-page-or-full-website/', '2026-09-18'],
   ['/articles/turning-business-reputation-into-brand-content/', '2026-09-18'],

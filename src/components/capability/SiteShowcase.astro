@@ -1,0 +1,46 @@
+---
+/**
+ * Screenshots of rushesmedia.com itself: owned work, shown on the web services page
+ * in place of unrelated concept photography. Files are listed in scripts/site-contract.mjs.
+ */
+const base = '/assets/images/web/rushes-site';
+const desktopWidths = [800, 1200, 1600];
+const phoneWidths = [360, 720];
+const srcset = (crop: string, widths: number[], type: string) =>
+  widths.map((width) => `${base}-${crop}-${width}.${type} ${width}w`).join(', ');
+---
+
+<div class="site-showcase">
+  <figure class="site-showcase__desktop">
+    <div class="site-showcase__bar" aria-hidden="true"><i></i><i></i><i></i><span>rushesmedia.com</span></div>
+    <picture>
+      <source type="image/avif" srcset={srcset('desktop', desktopWidths, 'avif')} sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1200px) 50vw, 700px" />
+      <img
+        src={`${base}-desktop-1200.webp`}
+        srcset={srcset('desktop', desktopWidths, 'webp')}
+        sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1200px) 50vw, 700px"
+        width="1600"
+        height="1000"
+        alt="The Rushes Media homepage on a desktop screen: the headline “Media done right.” over a night view of a city."
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
+  </figure>
+  <figure class="site-showcase__phone">
+    <picture>
+      <source type="image/avif" srcset={srcset('phone', phoneWidths, 'avif')} sizes="(max-width: 760px) 34vw, 180px" />
+      <img
+        src={`${base}-phone-720.webp`}
+        srcset={srcset('phone', phoneWidths, 'webp')}
+        sizes="(max-width: 760px) 34vw, 180px"
+        width="720"
+        height="1280"
+        alt="The Rushes Media Brand Media page on a phone."
+        decoding="async"
+      />
+    </picture>
+  </figure>
+  <p class="site-showcase__caption">rushesmedia.com · designed and built by Rushes</p>
+</div>

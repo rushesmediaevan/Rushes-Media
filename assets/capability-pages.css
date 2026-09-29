@@ -375,3 +375,101 @@
   .capability-page .brand-media-booking__copy h2 { font-size: 36px; line-height: 1.08; }
   .capability-page .brand-media-booking__copy p { font-size: 16px; line-height: 1.65; }
 }
+
+/* ── v5 (2026-09-29): calmer hierarchy, one container edge, fewer sections ───────────
+   Sections share the hero's content edge (1440 container), section headings sit a
+   clear step below the H1, and the old two-panel pair is a single closing line. */
+.capability-page { --cap-max: 1440px; }
+.cap-lead { grid-template-columns: minmax(0, 1fr) minmax(280px, .62fr); align-items: end; }
+.cap-lead h2 { max-width: 18ch; font-size: clamp(34px, 3.7vw, 52px); line-height: 1.02; }
+.capability-page .cap-lead p { max-width: 46ch; }
+
+/* /web/ scope choices and what every project covers */
+.cap-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); margin: 0; }
+.cap-options article { padding: 26px 0 0; border-top: 2px solid var(--bm-gold); }
+.capability-page .cap-options h3 { margin: 0 0 10px; font-size: clamp(26px, 2.3vw, 32px); line-height: 1.06; }
+.capability-page .cap-options p { margin: 0; max-width: 40ch; }
+.cap-includes { display: grid; grid-template-columns: minmax(200px, .38fr) minmax(0, 1fr); gap: 16px clamp(32px, 5vw, 72px); margin-top: clamp(40px, 5vw, 64px); padding-top: 28px; border-top: 1px solid var(--cap-line); }
+.capability-page .cap-includes h3 { margin: 0; font-size: clamp(24px, 2vw, 28px); line-height: 1.1; }
+.cap-includes ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 40px; margin: 0; padding: 0; list-style: none; }
+.cap-includes li { position: relative; padding-left: 22px; color: var(--cap-text); font-size: 15.5px; line-height: 1.55; }
+.cap-includes li::before { content: ''; position: absolute; left: 0; top: .62em; width: 10px; height: 1px; background: var(--bm-gold-ink); }
+
+/* /web/ owned-site example */
+.cap-example { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, .9fr); gap: 20px clamp(40px, 7vw, 110px); align-items: end; }
+.capability-page .cap-example h2 { margin: 14px 0 0; font-size: clamp(34px, 3.7vw, 52px); line-height: 1.02; }
+.capability-page .cap-example p { margin: 0 0 12px; max-width: 52ch; }
+.capability-page .cap-band--navy .cap-example .cap-example__note { color: var(--bm-gold); font-size: 13px; font-weight: 600; }
+.cap-example__links { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 0; padding: 0; list-style: none; }
+.cap-example__links a { min-height: 44px; display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; border: 1px solid var(--cap-line-dark); color: var(--bm-cream); font-size: 13px; font-weight: 600; text-decoration: none; }
+.cap-example__links a:hover, .cap-example__links a:focus-visible { border-color: var(--bm-gold); color: var(--bm-gold); }
+
+/* Numbered process row shared by /web/ and /campaigns/ */
+.cap-flow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 2.6vw, 40px); margin: 0; padding: 0; list-style: none; }
+.cap-flow li { padding-top: 22px; border-top: 1px solid var(--cap-line); }
+.cap-band--navy .cap-flow li { border-top-color: var(--cap-line-dark); }
+.cap-band--navy .cap-flow .cap-num { color: var(--bm-gold); }
+.capability-page .cap-flow h3 { margin: 16px 0 8px; font-size: clamp(24px, 2vw, 28px); line-height: 1.08; }
+.capability-page .cap-flow p { margin: 0; font-size: 15px; line-height: 1.62; }
+
+/* /campaigns/ services table on cream */
+.cap-matrix--light thead th { color: var(--bm-gold-ink); border-bottom-color: var(--cap-line); }
+.cap-matrix--light tbody th, .cap-matrix--light tbody td { border-top-color: var(--cap-line); }
+.capability-page .cap-matrix--light tbody th b { color: var(--bm-navy); }
+.cap-matrix--light tbody td { color: var(--cap-text); font-size: 15px; }
+.cap-matrix--light .cap-matrix__note { color: var(--bm-gold-ink) !important; }
+
+/* One closing line replaces the stands-alone / connects pair */
+.cap-connect { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 40px; padding-block: 0 clamp(32px, 4vw, 56px); }
+.cap-connect::before { content: ''; flex: 0 0 100%; height: 1px; background: var(--cap-line); }
+.capability-page .cap-connect p { flex: 1 1 420px; max-width: 64ch; margin: 18px 0; color: var(--bm-navy); font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(22px, 2vw, 27px); line-height: 1.3; }
+.cap-connect .cap-link { color: var(--bm-navy); }
+
+/* /web/ hero: screenshots of the Rushes site (owned work) */
+.site-showcase { position: relative; width: min(100%, 640px); justify-self: end; padding: 0 44px 56px 0; }
+.site-showcase figure { margin: 0; }
+.site-showcase__desktop { overflow: hidden; border: 1px solid rgba(245, 240, 230, .18); border-radius: 8px; background: #16222f; box-shadow: 0 30px 70px rgba(2, 8, 14, .45); }
+.site-showcase__bar { display: flex; align-items: center; gap: 6px; height: 28px; padding: 0 12px; background: #1f2d3c; }
+.site-showcase__bar i { width: 8px; height: 8px; border-radius: 50%; background: rgba(245, 240, 230, .28); }
+.site-showcase__bar span { margin-left: 12px; color: rgba(245, 240, 230, .55); font-size: 11px; letter-spacing: .02em; }
+.site-showcase picture, .site-showcase img { display: block; width: 100%; height: auto; }
+.site-showcase__phone { position: absolute; right: 0; bottom: 0; width: 26%; overflow: hidden; border: 5px solid #0a121b; border-radius: 22px; background: #0a121b; box-shadow: 0 24px 50px rgba(2, 8, 14, .5), 0 0 0 1px rgba(245, 240, 230, .18); }
+.site-showcase__caption { position: absolute; left: 0; bottom: 14px; max-width: calc(74% - 16px); margin: 0; color: rgba(245, 240, 230, .66); font-size: 12px; line-height: 1.4; }
+
+/* The concept label sits directly under the hero photo it describes. */
+.capability-page .brand-media-hero__disclosure { font-size: 11px; color: rgba(245, 240, 230, .62); }
+
+@media (max-width: 900px) {
+  .cap-lead, .cap-options, .cap-includes, .cap-example { grid-template-columns: 1fr; }
+  .cap-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .site-showcase { justify-self: start; }
+}
+@media (max-width: 760px) {
+  .cap-includes ul { grid-template-columns: 1fr; }
+  .cap-includes li { font-size: 16px; }
+  .capability-page .cap-options h3 { font-size: 28px; }
+  .cap-options { gap: 28px; }
+  .cap-matrix--light tbody tr { border-top-color: var(--cap-line); }
+  .capability-page .cap-connect p { font-size: 22px; margin: 16px 0 0; }
+  .cap-connect { gap: 8px; padding-block: 0 28px; }
+  .site-showcase { width: 100%; padding: 0 24px 44px 0; }
+  .site-showcase__phone { width: 30%; border-width: 4px; border-radius: 16px; }
+  .site-showcase__caption { font-size: 11px; bottom: 8px; }
+}
+@media (max-width: 560px) {
+  .cap-flow { grid-template-columns: 1fr; gap: 0; }
+  .cap-flow li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 0 12px; padding: 18px 0; }
+  .cap-flow .cap-num { grid-row: 1 / span 2; font-size: 24px; }
+  .capability-page .cap-flow h3 { margin: 0 0 6px; }
+}
+
+/* Breadcrumb items share one baseline on phones (the Home link was taller than its siblings). */
+.capability-page .brand-media-breadcrumb { align-items: center; }
+
+/* FAQ, booking and route links share the same 1440 content edge as the hero and sections. */
+.capability-page .brand-media-faq,
+.capability-page .brand-media-booking { max-width: 1440px; }
+.capability-page .commercial-route-links { width: auto; max-width: calc(1440px - 2 * var(--cap-x)); margin-inline: max(var(--cap-x), calc((100% - 1440px) / 2 + var(--cap-x))); }
+
+/* In-page anchors land below the sticky header instead of under it. */
+.capability-page :is(section, aside)[id] { scroll-margin-top: 84px; }

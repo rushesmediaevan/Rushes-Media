@@ -17,11 +17,8 @@ export interface Point { title: string; body: string; }
 export interface LabeledPoint { label: string; title: string; body: string; note?: string; }
 export interface NamedStep { name: string; body: string; }
 
-/** Shared closing pair on every capability page: hire it alone, or connect it. */
-export interface StandalonePair {
-  alone: { eye: string; heading: string; body: string };
-  loop: { eye: string; heading: string; body: string; href: string; label: string };
-}
+/** One closing line on each service page: it can be hired alone, and it can connect to the others. */
+export interface ServiceConnection { body: string; }
 
 export interface BrandMediaBody {
   kind: 'brand-media';
@@ -40,26 +37,22 @@ export interface BrandMediaBody {
     stages: readonly LabeledPoint[];
     spread: { eye: string; heading: string; formats: readonly { name: string; ratio: string; use: string }[] };
   };
-  pair: StandalonePair;
+  pair: ServiceConnection;
 }
 
 export interface CampaignsBody {
   kind: 'campaigns';
-  leak: SectionLead & {
-    nodes: readonly string[];
-    pains: readonly (Point & { after: number })[];
-  };
   matrix: SectionLead & { rows: readonly LabeledPoint[] };
-  experiment: SectionLead & { steps: readonly NamedStep[]; asset: VisualAsset };
-  pair: StandalonePair;
+  plan: SectionLead & { steps: readonly NamedStep[] };
+  pair: ServiceConnection;
 }
 
 export interface WebBody {
   kind: 'web';
-  ladder: SectionLead & { rungs: readonly LabeledPoint[] };
-  pains: SectionLead & { items: readonly Point[] };
-  process: SectionLead & { steps: readonly NamedStep[]; asset: VisualAsset };
-  pair: StandalonePair;
+  scope: SectionLead & { options: readonly Point[]; includes: { title: string; items: readonly string[] } };
+  example: SectionLead & { note: string; links: readonly { href: string; label: string }[] };
+  process: SectionLead & { steps: readonly NamedStep[] };
+  pair: ServiceConnection;
 }
 
 export interface SystemsBody {
@@ -74,7 +67,7 @@ export interface SystemsBody {
     ai: { title: string; items: readonly string[] };
     people: { title: string; items: readonly string[] };
   };
-  pair: StandalonePair;
+  pair: ServiceConnection;
 }
 
 export interface LoopStage {
@@ -111,6 +104,8 @@ export interface CapabilityPage {
     secondaryTarget: string;
     visual: VisualAsset;
     insetVisual: VisualAsset;
+    /** Replace the two concept photos with screenshots of the Rushes site (owned work). */
+    siteShowcase?: boolean;
   };
   body: CapabilityBody;
   faq: {
@@ -126,7 +121,7 @@ export interface CapabilityPage {
   };
 }
 
-const FAQ_EYEBROW = 'What owners want to ask';
+const FAQ_EYEBROW = 'Questions';
 const GROWTH_CALL = '30-minute Growth Call';
 const NOTE = 'Choose a time that works for you.';
 
@@ -168,7 +163,6 @@ export const brandMediaCapability: CapabilityPage = {
       paragraphs: [
         'Rushes produces original brand photography and video of that work — real jobs, real materials, real finish — not stock, and not a folder of unused files.',
         'The capture is planned for the places a buyer actually meets the business: paid campaigns, the website, and follow-up. Wide frames for attention, detail for a closer look, process for the page that has to earn the next conversation.',
-        'Inside the Demand Loop, the same idea can travel from the first image to the booked estimate. That connection is available. It is not required.',
       ],
     },
     gallery: {
@@ -231,23 +225,12 @@ export const brandMediaCapability: CapabilityPage = {
       },
     },
     pair: {
-      alone: {
-        eye: 'When it stands alone',
-        heading: 'Hire Brand Media without a campaign, a website, or a system.',
-        body: 'A company that already has demand can still need a clearer visual record of the work. Brand Media can be the entire engagement.',
-      },
-      loop: {
-        eye: 'How it can connect',
-        heading: 'Inside the Demand Loop, the same idea can travel further.',
-        body: 'The first frame can become campaign creative, a web hero, and a follow-through asset. That connection is available. It is not required.',
-        href: '/demand-loop/',
-        label: 'See the Demand Loop',
-      },
+      body: 'Brand Media can be the whole engagement. When it helps, the same shoot can also supply your ads, website and follow-up.',
     },
   },
   faq: {
     eyebrow: FAQ_EYEBROW,
-    heading: FAQ_EYEBROW,
+    heading: 'Brand media questions',
     items: [
       {
         question: 'Can Rushes work with media we already have?',
@@ -297,69 +280,42 @@ export const campaignsCapability: CapabilityPage = {
     heading: 'Reach the right people. Give them a reason to choose you.',
     support:
       'Google and Meta ad management, campaign creative, and landing pages for established businesses. Connect the attention your ads earn to inquiries your team can turn into customers.',
-    secondaryLabel: 'Explore campaign services',
-    secondaryTarget: '#matrix',
+    secondaryLabel: 'See what’s included',
+    secondaryTarget: '#what-this-is',
     visual: homepageAssets.campaignsSubmerged,
     insetVisual: revisionAssets.bakery,
   },
   body: {
     kind: 'campaigns',
-    leak: {
-      eye: 'What this is',
-      heading: 'Put your next business opportunity in front of the right audience.',
-      intro:
-        'Promote a valuable service, support a launch, or reach a new market. Rushes brings the message, ads and destination together so potential customers understand what you offer and how to take the next step.',
-      nodes: ['Idea', 'Ad', 'Landing', 'Response', 'Outcome'],
-      pains: [
-        { after: 0, title: 'Give people a clear reason to care.', body: 'Choose the service or offer to promote, the customers it suits, and the strongest reason to consider your business.' },
-        { after: 1, title: 'Make the ad and page work together.', body: 'Carry the offer from the ad to a relevant page, with useful examples and a clear way to inquire.' },
-        { after: 2, title: 'Make contacting you straightforward.', body: 'Help visitors call, request a quote or book a conversation. Check that inquiries reach the right person.' },
-        { after: 3, title: 'Learn which inquiries become business.', body: 'Review lead quality with your team. Connect campaign reporting to appointments and sales where reliable records are available.' },
-      ],
-    },
     matrix: {
-      eye: 'Campaign services',
+      eye: 'What you can hire us for',
       heading: 'Ad management, creative and the page people land on.',
-      intro: 'Hire campaign management on its own, or include creative and landing-page work. Your proposal spells out the services, deliverables and fees before work starts.',
+      intro: 'Hire campaign management on its own, or add creative and a landing page. Your proposal lists the services, deliverables and fees before work starts.',
       rows: [
         { label: 'Google Ads', title: 'Reach people searching', body: 'Campaign setup and management around the services, searches and locations relevant to your business.', note: 'You own the account and approve the budget.' },
         { label: 'Meta ads', title: 'Introduce your offer', body: 'Facebook and Instagram campaigns with creative that explains the offer and gives people a reason to respond.', note: 'Rushes manages the agreed campaigns.' },
         { label: 'Creative', title: 'Give the campaign its message', body: 'Ad copy and visual assets matched to the offer. Photography, video and additional versions are scoped in the proposal.', note: 'You approve the claims and creative.' },
         { label: 'Landing pages', title: 'Turn interest into an inquiry', body: 'A focused page that answers buyer questions, shows relevant work and makes contacting you easy.', note: 'Use a suitable existing page or commission a new one.' },
-        { label: 'Reporting', title: 'See what the spend produces', body: 'Review spend, responses and lead quality, then use verified appointment and sales records to inform the next changes.', note: 'Your team confirms sales outcomes.' },
+        { label: 'Reporting', title: 'See what the spend produces', body: 'Spend, responses and lead quality, checked against the appointments and sales your team records.', note: 'Your team confirms sales outcomes.' },
       ],
     },
-    experiment: {
-      eye: 'How the work happens',
-      heading: 'Start with the business you want more of.',
-      intro: 'Bring your priority service, the customers you want to reach and any previous advertising. We’ll recommend a starting scope and explain what it needs to work.',
+    plan: {
+      eye: 'How a campaign runs',
+      heading: 'Start with the work you want more of.',
       steps: [
-        { name: 'Choose the opportunity', body: 'Agree on the service, audience and area to promote, and what makes an inquiry a good fit.' },
-        { name: 'Agree on scope and budget', body: 'Separate platform ad spend from Rushes fees. Confirm the included creative, pages and campaign management.' },
-        { name: 'Prepare the ads and page', body: 'Build the agreed assets and check that the page answers the questions raised by the ad.' },
-        { name: 'Approve and launch', body: 'Review the finished work, budget and tracking with you before activating the campaign.' },
-        { name: 'Review and improve', body: 'Use campaign data and feedback from your team to adjust the message, targeting or page.' },
+        { name: 'Choose the opportunity', body: 'Pick the service, customers and area to promote, and agree what makes an inquiry a good fit.' },
+        { name: 'Agree on scope and budget', body: 'Ad spend stays separate from Rushes fees. You approve the budget and pay the platforms from your own account.' },
+        { name: 'Match the ad and the page', body: 'Build ads and a page that carry the same offer, with relevant examples and an easy way to call, book or ask for a quote.' },
+        { name: 'Launch and review', body: 'After you approve the work and tracking, we review inquiry quality with your team and adjust the message, targeting or page.' },
       ],
-      asset: capabilityAssets.coastalStreet,
     },
     pair: {
-      alone: {
-        eye: 'When it stands alone',
-        heading: 'Keep what works. Hire the help you need.',
-        body: 'Campaign management can stand alone when you have suitable creative and a working website. A full rebuild is not a prerequisite.',
-      },
-      loop: {
-        eye: 'How it can connect',
-        heading: 'Connect ads, creative and your website.',
-        body: 'The Demand Loop brings these services together when your project needs them. We can also improve how inquiries reach your team.',
-        href: '/demand-loop/',
-        label: 'See the Demand Loop',
-      },
+      body: 'Campaign management can stand alone when your creative and website already work. Add creative or a landing page only when the campaign needs them.',
     },
   },
   faq: {
     eyebrow: FAQ_EYEBROW,
-    heading: FAQ_EYEBROW,
+    heading: 'Campaign questions',
     items: [
       {
         question: 'How do we choose an ad budget, and who pays it?',
@@ -408,68 +364,63 @@ export const webCapability: CapabilityPage = {
     heading: 'Make the value clear. Make the next step easy.',
     support:
       'Business websites and campaign landing pages that show what you do, give people confidence in your work, and turn interest into inquiries. Hire a focused improvement or a complete site.',
-    secondaryLabel: 'Explore our own site',
+    secondaryLabel: 'See our own site',
     secondaryTarget: '#website-example',
     visual: revisionAssets.daylitVenue,
     insetVisual: homepageAssets.brandMediaRiversideMill,
+    siteShowcase: true,
   },
   body: {
     kind: 'web',
-    ladder: {
-      eye: 'What this is',
-      heading: 'A website that helps people choose your business.',
-      intro:
-        'Your site should explain your services, show the quality of your work and make the next step easy. We plan the content, design the pages and connect the inquiry tools around what your business needs.',
-      rungs: [
-        { label: '01 · Content', title: 'Explain the work you want to win.', body: 'Organize your services and write clear page content around the projects and customers you want to attract.' },
-        { label: '02 · Design', title: 'Present your business at its best.', body: 'Build a visual direction around your brand, with layouts that work on phones and larger screens.' },
-        { label: '03 · Work', title: 'Show people what you can do.', body: 'Put approved project examples, photographs and testimonials where they help visitors judge your fit.' },
-        { label: '04 · Discovery', title: 'Make the important pages easy to find.', body: 'Use clear page titles, descriptive content and useful links between services and supporting information.' },
-        { label: '05 · Inquiries', title: 'Give interest somewhere to go.', body: 'Connect the agreed contact form, calendar or phone action, and check how your team receives inquiries.' },
+    scope: {
+      eye: 'What you can hire us for',
+      heading: 'Choose the scope that fits the job.',
+      intro: 'We look at what you already have before recommending a rebuild.',
+      options: [
+        { title: 'A landing page', body: 'One offer, one audience and one clear next step. Often the destination for an ad campaign or a launch.' },
+        { title: 'A full website', body: 'Room for several services, your work and the company behind it, with a clear way to get in touch from every page.' },
+        { title: 'Improvements to your site', body: 'Fix a confusing service page, an awkward mobile layout or a difficult contact form without replacing everything.' },
       ],
+      includes: {
+        title: 'Every project covers',
+        items: [
+          'Page content written around the work you want to win',
+          'A design that works on phones and large screens',
+          'Approved photos, projects and reviews placed where they help people decide',
+          'Clear page titles and links, so important pages are easy to find',
+          'A form, calendar or call button, tested to reach the right person',
+        ],
+      },
     },
-    pains: {
-      eye: 'Choose the right scope',
-      heading: 'One campaign page or a complete business website.',
-      intro: 'The right scope depends on what visitors need to know and where they are coming from. We review what you already have before recommending a rebuild.',
-      items: [
-        { title: 'A landing page for one offer.', body: 'Give an ad campaign or launch a focused destination, with the details visitors need and one clear next step.' },
-        { title: 'A website for the whole business.', body: 'Help visitors explore several services, see your work and understand the company behind it.' },
-        { title: 'An improvement to an existing site.', body: 'Address a confusing service page, awkward mobile layout or difficult inquiry process without replacing the entire site.' },
-        { title: 'A site your team can maintain.', body: 'Agree on who updates content, what access you receive and which ongoing support is included before choosing the build approach.' },
+    example: {
+      eye: 'Our own website',
+      heading: 'Designed and built by Rushes.',
+      intro: 'The site you are on is our own build: the visual identity, service pages, buyer guides and booking, with an email option if the calendar does not load.',
+      note: 'Our own work, not a client project.',
+      links: [
+        { href: '/', label: 'Homepage' },
+        { href: '/campaigns/', label: 'A service page' },
+        { href: '/articles/landing-page-or-full-website/', label: 'A buyer guide' },
+        { href: '#book', label: 'Booking' },
       ],
     },
     process: {
-      eye: 'How the work happens',
-      heading: 'From the first conversation to a working website.',
-      intro: 'We agree on the pages, content, responsibilities and launch needs before the build. You review the work along the way.',
+      eye: 'How a project runs',
+      heading: 'From first call to launch.',
       steps: [
-        { name: 'Review your goals and current site', body: 'Discuss the work you want to attract, the customers you serve and what your current website does well.' },
-        { name: 'Agree on pages and content', body: 'Define the scope, gather approved examples and confirm who supplies or approves each piece of content.' },
-        { name: 'Design and build', body: 'Create the agreed pages and check the layouts on phones and desktop screens.' },
-        { name: 'Connect your contact tools', body: 'Set up the agreed form, booking or call options and verify where customer requests go.' },
-        { name: 'Review, launch and hand over', body: 'Check the live pages and links, preserve important existing URLs, and explain access and ongoing maintenance.' },
+        { name: 'Agree on scope', body: 'Talk through the work you want to attract and review your current site. Confirm the pages, content and who supplies each piece.' },
+        { name: 'Design and build', body: 'Create the agreed pages and check them on phones and desktop screens. You review the work along the way.' },
+        { name: 'Connect contact tools', body: 'Set up the form, booking or call options and confirm where each inquiry goes.' },
+        { name: 'Launch and hand over', body: 'Check the live pages and links, keep important existing URLs working, and explain access and upkeep.' },
       ],
-      asset: capabilityAssets.daylitStudio,
     },
     pair: {
-      alone: {
-        eye: 'When it stands alone',
-        heading: 'A website project can stand on its own.',
-        body: 'Keep your current advertising or marketing team. Hire Rushes for the website, landing page or specific improvement you need.',
-      },
-      loop: {
-        eye: 'How it can connect',
-        heading: 'Bring the website and campaign together.',
-        body: 'When you also need ads or creative, Rushes can build them around the same offer so visitors find what brought them to the page.',
-        href: '/demand-loop/',
-        label: 'See the Demand Loop',
-      },
+      body: 'A website project can stand on its own. If you also need ads or creative, we can build them around the same offer so visitors find what brought them to the page.',
     },
   },
   faq: {
     eyebrow: FAQ_EYEBROW,
-    heading: FAQ_EYEBROW,
+    heading: 'Website questions',
     items: [
       {
         question: 'Do I need a landing page or a full website?',
@@ -482,9 +433,9 @@ export const webCapability: CapabilityPage = {
           'Often, yes. We review the content, design, mobile experience and contact tools first. The recommendation may be one improved page, a focused landing page or a larger rebuild, depending on what the existing site can support.',
       },
       {
-        question: 'Do you use a page builder?',
+        question: 'Do you use a page builder, and who maintains the site?',
         answer:
-          'The implementation depends on the site being maintained. What matters is a fast, accessible experience that the business can own and update.',
+          'The build approach depends on who will update the site. Before choosing it, we agree on who edits content, what access you receive and which ongoing support is included. The goal is a fast, accessible site your business owns.',
       },
       {
         question: 'What affects the cost and timing of a website project?',
@@ -516,10 +467,10 @@ export const systemsCapability: CapabilityPage = {
   breadcrumb: ['Home', 'Services', 'AI & business systems'],
   current: 'services',
   hero: {
-    heading: 'Inquiries get captured, routed, answered, and kept moving.',
+    heading: 'Practical AI and systems that give your team time back.',
     support:
-      'Practical AI and better workflows reduce repetitive work, connect the tools the team already uses, and give every request an owner, a first reply, and a next date.',
-    secondaryLabel: 'See the work',
+      'Take repetitive admin off your team, connect the tools you already use, and make sure every inquiry gets an owner, a first reply and a next step. People keep the decisions.',
+    secondaryLabel: 'See an example',
     secondaryTarget: '#what-this-is',
     visual: revisionAssets.restaurant,
     insetVisual: industryVisuals.interiorDesign,
@@ -569,23 +520,12 @@ export const systemsCapability: CapabilityPage = {
       },
     },
     pair: {
-      alone: {
-        eye: 'When it stands alone',
-        heading: 'Hire the system when response is the constraint.',
-        body: 'A business can already have strong media and a working website and still need a cleaner path from inquiry to a booked conversation.',
-      },
-      loop: {
-        eye: 'How it can connect',
-        heading: 'Inside the Demand Loop, follow-up protects the demand the other work creates.',
-        body: 'Media and campaigns can create attention. The site can collect it. The system makes sure it does not sit unanswered. Use the capability on its own, or connect the path.',
-        href: '/demand-loop/',
-        label: 'See the Demand Loop',
-      },
+      body: 'A systems project can stand on its own. It can also connect to the media, ads and website that bring inquiries in.',
     },
   },
   faq: {
     eyebrow: FAQ_EYEBROW,
-    heading: FAQ_EYEBROW,
+    heading: 'AI and systems questions',
     items: [
       {
         question: 'What does AI consulting include?',
@@ -680,7 +620,7 @@ export const demandLoopCapability: CapabilityPage = {
   },
   faq: {
     eyebrow: FAQ_EYEBROW,
-    heading: FAQ_EYEBROW,
+    heading: 'Demand Loop questions',
     items: [
       {
         question: 'Do we need every service?',

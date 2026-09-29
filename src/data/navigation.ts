@@ -11,7 +11,7 @@ export interface PrimaryNavItem {
 export const sitePrimaryNav: readonly PrimaryNavItem[] = [
   { href: '/#services', label: 'Services', key: 'services', number: '01', mobileSubtitle: 'What Rushes does' },
   { href: '/demand-loop/', label: 'How It Works', key: 'demand-loop', number: '02', mobileSubtitle: 'The Demand Loop' },
-  { href: '/#examples', label: 'Examples', key: 'examples', number: '03', mobileSubtitle: 'Selected applications' },
+  { href: '/#examples', label: 'Industries', key: 'examples', number: '03', mobileSubtitle: 'Who we work with' },
 ];
 
 export const homePrimaryNav: readonly PrimaryNavItem[] = [

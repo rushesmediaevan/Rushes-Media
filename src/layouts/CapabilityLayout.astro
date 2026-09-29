@@ -4,6 +4,7 @@ import BrandMediaBody from '../components/capability/BrandMediaBody.astro';
 import CampaignsBody from '../components/capability/CampaignsBody.astro';
 import DemandLoopBody from '../components/capability/DemandLoopBody.astro';
 import SystemsBody from '../components/capability/SystemsBody.astro';
+import SiteShowcase from '../components/capability/SiteShowcase.astro';
 import WebBody from '../components/capability/WebBody.astro';
 import BookingWidget from '../components/shared/BookingWidget.astro';
 import EditorialFooter from '../components/shared/EditorialFooter.astro';
@@ -68,22 +69,27 @@ const guides = ARTICLES.filter((article) => article.category === guideCategory[p
           </a>
         </div>
       </div>
-      <div class="brand-media-hero__visuals">
-        <ConceptPicture
-          asset={page.hero.visual}
-          className="brand-media-hero__main"
-          sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1200px) 48vw, 660px"
-          loading="eager"
-          fetchpriority="high"
-          showCaption={false}
-        />
-        <ConceptPicture
-          asset={page.hero.insetVisual}
-          className="brand-media-hero__inset"
-          sizes="(max-width: 760px) 40vw, 238px"
-          showCaption={false}
-        />
-      </div>
+      {page.hero.siteShowcase ? (
+        <SiteShowcase />
+      ) : (
+        <div class="brand-media-hero__visuals">
+          <ConceptPicture
+            asset={page.hero.visual}
+            className="brand-media-hero__main"
+            sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1200px) 48vw, 660px"
+            loading="eager"
+            fetchpriority="high"
+            showCaption={false}
+          />
+          <p class="brand-media-hero__disclosure">Concept imagery, not client work</p>
+          <ConceptPicture
+            asset={page.hero.insetVisual}
+            className="brand-media-hero__inset"
+            sizes="(max-width: 760px) 40vw, 238px"
+            showCaption={false}
+          />
+        </div>
+      )}
     </header>
 
     {body.kind === 'brand-media' && <BrandMediaBody body={body} />}

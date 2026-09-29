@@ -3229,3 +3229,47 @@
       .mob-list a { font-size: clamp(28px, 8vw, 38px); min-height: 48px; }
       .mob-sub { font-size: 11px; line-height: 1.5; }
     }
+
+    /* v5 (2026-09-29): readable service claims, a broader AI & systems panel, a compact
+       Demand Loop band and one concept label on each industry image. */
+    .v3-claim { color: var(--navy); font-weight: 400; }
+    .v3-systems--uses .v3-systems-title {
+      margin: 0;
+      color: var(--gold-on-light);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .v3-systems--uses ol { padding-top: 14px; border-top: 1px solid rgba(26, 42, 63, .14); }
+    .v3-systems--uses li strong { margin-top: 6px; font-size: 15.5px; font-weight: 500; line-height: 1.45; }
+    #system { padding-top: clamp(64px, 6vw, 88px); padding-bottom: clamp(64px, 6vw, 88px); }
+    #system .system-hd { margin-bottom: clamp(36px, 4vw, 52px); }
+    #system .system-h2 { font-size: clamp(34px, 3.8vw, 52px); line-height: 1.02; }
+    #system .system-flow--compact .sys-step,
+    #system .system-flow--compact .sys-step:first-child,
+    #system .system-flow--compact .sys-step:last-child { min-height: 0; }
+    #system .system-flow--compact .sys-step-name { margin: 10px 0 6px; font-size: clamp(24px, 2.1vw, 30px); }
+    #system .system-flow--compact .sys-step-service { margin: 0; }
+    #system .system-flow--compact .sys-step-service > strong { color: rgba(26, 42, 63, .72); font-family: Inter, sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0; }
+    #system .system-end { margin-top: 32px; }
+    .v3-range figure { position: relative; }
+    .v3-concept-tag {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      padding: 5px 9px;
+      background: rgba(12, 24, 37, .78);
+      color: rgba(245, 240, 230, .9);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      line-height: 1.2;
+    }
+    @media (max-width: 760px) {
+      #system .system-flow--compact .sys-step,
+      #system .system-flow--compact .sys-step:first-child,
+      #system .system-flow--compact .sys-step:last-child { padding-bottom: 18px; margin-bottom: 18px; }
+      #system .system-flow--compact .sys-node { grid-row: 1 / span 3; }
+      #system .system-flow--compact .sys-step-name { margin: 2px 0 2px; font-size: 26px; }
+    }

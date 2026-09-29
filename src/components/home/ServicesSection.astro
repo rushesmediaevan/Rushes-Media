@@ -1,5 +1,5 @@
 ---
-import { brandMediaFilm, homeServices, systemsBeats } from '../../data/home';
+import { brandMediaFilm, homeServices, systemsUses } from '../../data/home';
 import { homepageAssets } from '../../data/homepage-assets';
 import HomePicture from './HomePicture.astro';
 
@@ -15,10 +15,7 @@ const systems = homeServices[3];
       <span class="eye">What Rushes does</span>
       <h2 id="v3-services-heading" class="svc-h2">Capabilities that move the business forward.</h2>
     </div>
-    <p>
-      Rushes brings together brand media, creative campaigns, web experiences, and business systems.
-      Each capability can stand alone or connect through the Demand Loop.
-    </p>
+    <p>Photography and video, advertising, websites and practical AI. Hire one, or several that work together.</p>
   </header>
 
   <article class="v3-chapter" aria-labelledby="v3-brand-heading">
@@ -69,28 +66,13 @@ const systems = homeServices[3];
   </article>
 
   <article class="v3-chapter v3-chapter--systems" aria-labelledby="v3-systems-heading">
-    <div class="v3-systems" aria-label="How inquiries move through the business">
-      <svg class="v3-systems-map" viewBox="0 0 640 132" aria-hidden="true" focusable="false">
-        <path class="v3-systems-line" d="M70 40 H190 M210 40 H330 M350 40 H470 M490 40 H570" />
-        <circle cx="70" cy="40" r="18" />
-        <circle cx="210" cy="40" r="18" />
-        <circle cx="350" cy="40" r="18" />
-        <circle cx="490" cy="40" r="18" />
-        <text x="70" y="45" text-anchor="middle">01</text>
-        <text x="210" y="45" text-anchor="middle">02</text>
-        <text x="350" y="45" text-anchor="middle">03</text>
-        <text x="490" y="45" text-anchor="middle">04</text>
-        <text class="v3-systems-label" x="70" y="86" text-anchor="middle">Capture</text>
-        <text class="v3-systems-label" x="210" y="86" text-anchor="middle">Route</text>
-        <text class="v3-systems-label" x="350" y="86" text-anchor="middle">Respond</text>
-        <text class="v3-systems-label" x="490" y="86" text-anchor="middle">Keep moving</text>
-      </svg>
+    <div class="v3-systems v3-systems--uses">
+      <p class="v3-systems-title">Where it helps</p>
       <ol>
-        {systemsBeats.map((beat, index) => (
+        {systemsUses.map((use, index) => (
           <li>
-            <span><b>{String(index + 1).padStart(2, '0')}</b> {beat.label}</span>
-            <strong>{beat.heading}</strong>
-            <p>{beat.example}</p>
+            <span><b>{String(index + 1).padStart(2, '0')}</b> {use.label}</span>
+            <strong>{use.text}</strong>
           </li>
         ))}
       </ol>

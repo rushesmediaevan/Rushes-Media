@@ -1,69 +1,56 @@
 ---
 import type { WebBody } from '../../data/capability-pages';
-import ConceptPicture from '../brand-media/ConceptPicture.astro';
 import Lead from './Lead.astro';
 import Pair from './Pair.astro';
 
 interface Props { body: WebBody; }
 const { body } = Astro.props;
-const { ladder, pains, process } = body;
+const { scope, example, process } = body;
 ---
 
-<section id="what-this-is" tabindex="-1" class="cap-section cap-ladder-section" aria-labelledby="ladder-heading">
-  <Lead lead={ladder} id="ladder-heading" />
-  <ol id="decision-ladder" class="cap-ladder">
-    {ladder.rungs.map((rung) => (
+<section id="what-this-is" tabindex="-1" class="cap-section" aria-labelledby="scope-heading">
+  <Lead lead={scope} id="scope-heading" />
+  <div id="scope" class="cap-options">
+    {scope.options.map((option) => (
+      <article>
+        <h3>{option.title}</h3>
+        <p>{option.body}</p>
+      </article>
+    ))}
+  </div>
+  <div class="cap-includes">
+    <h3>{scope.includes.title}</h3>
+    <ul>{scope.includes.items.map((item) => <li>{item}</li>)}</ul>
+  </div>
+</section>
+
+<section id="website-example" tabindex="-1" class="cap-band cap-band--navy" aria-labelledby="website-example-heading">
+  <div class="cap-section cap-example">
+    <div>
+      <span class="brand-media-eye">{example.eye}</span>
+      <h2 id="website-example-heading">{example.heading}</h2>
+    </div>
+    <div>
+      <p>{example.intro}</p>
+      <p class="cap-example__note">{example.note}</p>
+      <ul class="cap-example__links" aria-label="Pages to explore">
+        {example.links.map((link) => <li><a href={link.href}>{link.label}<span aria-hidden="true">→</span></a></li>)}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="process" class="cap-section" aria-labelledby="process-heading">
+  <Lead lead={process} id="process-heading" />
+  <ol class="cap-flow">
+    {process.steps.map((step, index) => (
       <li>
-        <span class="brand-media-eye">{rung.label}</span>
-        <h3>{rung.title}</h3>
-        <p>{rung.body}</p>
+        <span class="cap-num">{String(index + 1).padStart(2, '0')}</span>
+        <h3>{step.name}</h3>
+        <p>{step.body}</p>
       </li>
     ))}
   </ol>
 </section>
 
-<section id="pains" class="cap-band cap-band--navy" aria-labelledby="pains-heading">
-  <div class="cap-section">
-    <Lead lead={pains} id="pains-heading" wide />
-    <div class="cap-pains">
-      {pains.items.map((pain, index) => (
-        <article>
-          <span class="cap-num">{String(index + 1).padStart(2, '0')}</span>
-          <h3>{pain.title}</h3>
-          <p>{pain.body}</p>
-        </article>
-      ))}
-    </div>
-  </div>
-</section>
-
-<section id="process" class="cap-section cap-process" aria-labelledby="process-heading">
-  <Lead lead={process} id="process-heading" />
-  <div class="cap-process__grid">
-    <ConceptPicture asset={process.asset} className="cap-process__visual" sizes={process.asset.sizes} showCaption={false} />
-    <ol class="cap-steps">
-      {process.steps.map((step, index) => (
-        <li>
-          <span class="cap-num">{String(index + 1).padStart(2, '0')}</span>
-          <div>
-            <h3>{step.name}</h3>
-            <p>{step.body}</p>
-          </div>
-        </li>
-      ))}
-    </ol>
-  </div>
-</section>
-
-<section id="website-example" tabindex="-1" class="cap-section" aria-labelledby="website-example-heading">
-  <Lead lead={{ eye: 'Our own website', heading: 'Designed and built by Rushes.', intro: 'This site brings our visual identity, service pages, articles and booking tools together. Explore it on your phone or desktop to see the design and build.' }} id="website-example-heading" />
-  <p><a class="brand-media-text-link" href="/">Explore the Rushes homepage →</a></p>
-</section>
-
 <Pair pair={body.pair} />
-
-<style>
-  #website-example .brand-media-text-link { color: var(--bm-navy); }
-  #website-example .brand-media-text-link:hover { text-decoration: underline; }
-  #website-example .cap-steps p + p { margin-top: 0.75rem; }
-</style>
