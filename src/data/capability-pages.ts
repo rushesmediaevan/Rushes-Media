@@ -487,6 +487,11 @@ export const webCapability: CapabilityPage = {
           'The implementation depends on the site being maintained. What matters is a fast, accessible experience that the business can own and update.',
       },
       {
+        question: 'What affects the cost and timing of a website project?',
+        answer:
+          'The scope matters more than the page count alone: writing content, creating or gathering approved images, connecting forms or booking tools, and preserving existing pages all affect the work. Timing also depends on account access, content readiness and review turnaround. Bring your current site, priorities and any deadline so we can agree on the work, responsibilities and launch requirements before the build. Confirm ongoing hosting, updates and support separately from the initial project.',
+      },
+      {
         question: 'What do you need from me to start?',
         answer:
           'Bring your current website, priority services, target customers and any deadline. We will identify the brand files, approved project examples, content and account access needed for the agreed scope. You approve public claims and finished content before launch.',
