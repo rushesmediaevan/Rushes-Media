@@ -384,7 +384,7 @@ export const campaignsCapability: CapabilityPage = {
       {
         question: 'What should a campaign create?',
         answer:
-          'More of the right people reaching a clear next step. Depending on the business, that may be a qualified estimate, consultation, or purchase conversation.',
+          'An inquiry about work you want to win. Before launch, agree on the service, customer, area and other requirements that make an inquiry a fit. Then distinguish those inquiries from appointments and sales using your team’s records. A click or form submission alone does not establish a new customer.',
       },
     ],
   },
