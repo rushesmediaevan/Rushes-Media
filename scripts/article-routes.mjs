@@ -2,6 +2,13 @@
 // lastmod is the verified date of a significant content revision, never build time.
 export const ARTICLES = [
   {
+    slug: 'google-search-or-meta-ads',
+    lastmod: '2026-09-29',
+    title: 'Google Search or Meta ads: where should your business start?',
+    description: 'Compare Search and Facebook or Instagram ads using your offer, customer demand, creative and lead quality. Complete a practical brief before approving spend.',
+    category: 'Campaigns',
+  },
+  {
     slug: 'landing-page-or-full-website',
     lastmod: '2026-09-18',
     title: 'Landing page or full website: which does your business need?',

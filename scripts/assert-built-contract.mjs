@@ -972,6 +972,7 @@ const expectedLastmods = new Map([
   ['/articles/planning-a-brand-photo-and-video-shoot/', '2026-09-26'],
   ['/articles/building-a-lead-follow-up-process/', '2026-09-26'],
   ['/articles/hiring-a-google-ads-agency/', '2026-09-26'],
+  ['/articles/google-search-or-meta-ads/', '2026-09-29'],
   ['/privacy/', '2026-08-13'],
   ['/terms/', '2026-08-13'],
 ]);
