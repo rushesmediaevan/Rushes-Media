@@ -297,8 +297,8 @@ export const campaignsCapability: CapabilityPage = {
     heading: 'Reach the right people. Give them a reason to choose you.',
     support:
       'Google and Meta ad management, campaign creative, and landing pages for established businesses. Connect the attention your ads earn to inquiries your team can turn into customers.',
-    secondaryLabel: 'See a campaign example',
-    secondaryTarget: '#campaign-example',
+    secondaryLabel: 'Explore campaign services',
+    secondaryTarget: '#matrix',
     visual: homepageAssets.campaignsSubmerged,
     insetVisual: revisionAssets.bakery,
   },
@@ -318,7 +318,7 @@ export const campaignsCapability: CapabilityPage = {
       ],
     },
     matrix: {
-      eye: 'What you can hire us for',
+      eye: 'Campaign services',
       heading: 'Ad management, creative and the page people land on.',
       intro: 'Hire campaign management on its own, or include creative and landing-page work. Your proposal spells out the services, deliverables and fees before work starts.',
       rows: [

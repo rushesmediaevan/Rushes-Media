@@ -435,7 +435,7 @@ assert.deepEqual(JSON.parse(homepageSchemaText), SITE_CONTRACT[0].jsonLd);
 for (const approvedHomepageMarker of [
   'Media<br',
   '<em>done right.</em>',
-  'Rushes translates real reputation, expertise, and value into exceptional media and digital experiences',
+  'Photography, video, advertising and websites that earn attention',
   'Book a Growth Call',
   'Our Services',
   '>Services</a>',
@@ -518,7 +518,7 @@ assert.ok(!homepageHtml.includes('href="/industries/"'), 'Retired industries hub
 for (const retiredIndustryHref of ['/outdoor-living/', '/interior-design/', '/hvac/', '/med-spa/']) {
   assert.ok(!homepageHtml.includes(`href="${retiredIndustryHref}"`), `Retired industry route leaked into homepage links: ${retiredIndustryHref}`);
 }
-assert.ok(homepageHtml.includes('Usual first move'), 'Homepage examples lost their first-move breakdown.');
+assert.ok(homepageHtml.includes('These are concepts, not completed client projects.'), 'Homepage concepts must not imply completed client work.');
 assert.ok(!/<a\s[^>]*class="v3-range-card/.test(homepageHtml), 'Homepage examples must be breakdowns, not links.');
 assert.ok(!homepageHtml.includes('href="/hardscape/"'), 'Retired hardscape URL leaked into homepage links.');
 assert.ok(!homepageHtml.includes('href="/pools/"'), 'Retired pools URL leaked into homepage links.');
@@ -799,7 +799,7 @@ for (const image of homepageConceptImages) {
 for (const routePath of ['/campaigns/', '/web/', '/follow-up/', '/demand-loop/']) {
   const html = await readFile(pageFile(routePath), 'utf8');
   assert.ok(html.includes('class="brand-media-hero'), `${routePath} lost the shared two-image opening.`);
-  const exampleTarget = routePath === '/campaigns/' ? 'campaign-example' : routePath === '/web/' ? 'website-example' : null;
+  const exampleTarget = routePath === '/campaigns/' ? 'matrix' : routePath === '/web/' ? 'website-example' : null;
   if (exampleTarget) {
     assert.ok(html.includes(`href="#${exampleTarget}"`) && html.includes(`id="${exampleTarget}"`), `${routePath} example link must reach its corresponding section.`);
     assert.ok(!html.includes('>See the work<'), `${routePath} must label its example honestly.`);
@@ -909,7 +909,7 @@ const campaignsHtml = await readFile(pageFile('/campaigns/'), 'utf8');
 for (const marker of [
   'Google Ads',
   'Meta ads',
-  'Illustrative campaign · not a client result',
+  'Explore campaign services',
 ]) {
   assert.ok(campaignsHtml.includes(marker), `/campaigns/ is missing strategic marker: ${marker}`);
 }
@@ -917,8 +917,8 @@ for (const marker of [
 const webHtml = await readFile(pageFile('/web/'), 'utf8');
 for (const marker of [
   'Make the value clear. Make the next step easy.',
-  'Rushes Media · our own website',
-  'not an external client case study',
+  'Our own website',
+  'Designed and built by Rushes.',
   'href="/articles/landing-page-or-full-website/"',
 ]) {
   assert.ok(webHtml.includes(marker), `/web/ is missing strategic marker: ${marker}`);
