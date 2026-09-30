@@ -511,8 +511,22 @@ assert.ok(
 );
 assert.ok(homepageHtml.includes('Outdoor Living &amp; Design-Build'));
 assert.ok(homepageHtml.includes('Interior Design &amp; Residential Build'));
-assert.ok(homepageHtml.includes('HVAC Replacement &amp; Home Comfort'));
-assert.ok(homepageHtml.includes('Med Spa &amp; Aesthetic Practices'));
+assert.ok(homepageHtml.includes('HVAC &amp; Home Comfort'));
+assert.ok(homepageHtml.includes('Med Spas &amp; Aesthetic Practices'));
+// Industry examples: short cards, one fuller example per selectable panel, tracking line once.
+{
+  const tabs = tags(homepageHtml, 'button').filter((button) => button.role === 'tab');
+  assert.equal(tabs.length, 4, 'Homepage industry selector must offer four examples.');
+  assert.equal(tabs.filter((tab) => tab['aria-selected'] === 'true').length, 1, 'Exactly one industry example starts selected.');
+  for (const tab of tabs) {
+    assert.ok(homepageHtml.includes(`id="${tab['aria-controls']}"`), `Industry tab ${tab.id} controls a missing panel.`);
+  }
+  assert.equal((homepageHtml.match(/role="tabpanel"/g) || []).length, 4, 'Each industry needs its own panel.');
+  assert.equal((homepageHtml.match(/We track calls, consultations and booked work/g) || []).length, 1, 'The tracking line appears once.');
+  for (const retired of ['buyer-ready media', 'project-aware consultation page', 'Protect the call, estimate, and confirmation handoffs']) {
+    assert.ok(!homepageHtml.includes(retired), `Homepage retained internal industry phrasing: ${retired}`);
+  }
+}
 assert.ok(!homepageHtml.includes('href="/industries/"'), 'Retired industries hub leaked into homepage links.');
 for (const retiredIndustryHref of ['/outdoor-living/', '/interior-design/', '/hvac/', '/med-spa/']) {
   assert.ok(!homepageHtml.includes(`href="${retiredIndustryHref}"`), `Retired industry route leaked into homepage links: ${retiredIndustryHref}`);
@@ -814,7 +828,7 @@ for (const image of homepageConceptImages) {
 for (const routePath of ['/campaigns/', '/web/', '/follow-up/', '/demand-loop/']) {
   const html = await readFile(pageFile(routePath), 'utf8');
   assert.ok(html.includes('class="brand-media-hero'), `${routePath} lost the shared two-image opening.`);
-  const exampleTarget = routePath === '/campaigns/' ? 'what-this-is' : routePath === '/web/' ? 'website-example' : null;
+  const exampleTarget = routePath === '/campaigns/' || routePath === '/web/' ? 'what-this-is' : null;
   if (exampleTarget) {
     assert.ok(html.includes(`href="#${exampleTarget}"`) && html.includes(`id="${exampleTarget}"`), `${routePath} example link must reach its corresponding section.`);
     assert.ok(!html.includes('>See the work<'), `${routePath} must label its example honestly.`);
@@ -838,7 +852,7 @@ for (const routePath of ['/campaigns/', '/web/', '/follow-up/', '/demand-loop/']
 const capabilitySignatures = new Map([
   ['/brand-media/', ['data-capability-body="brand-media"', 'id="contractors"', 'id="gallery"', 'id="delivery"', 'class="cap-spread__map"']],
   ['/campaigns/', ['data-capability-body="campaigns"', 'id="leak-map"', 'class="cap-leak__map cap-leak__map--narrow"', 'id="matrix"', '<table class="cap-matrix"']],
-  ['/web/', ['data-capability-body="web"', 'id="scope"', 'id="website-example"', 'id="capabilities"', 'id="process"', 'class="design-showcase"']],
+  ['/web/', ['data-capability-body="web"', 'id="scope"', 'id="capabilities"', 'id="process"', 'class="design-pair"']],
   ['/follow-up/', ['data-capability-body="systems"', 'id="systems-work"', 'id="request-timeline"']],
   ['/demand-loop/', ['data-capability-body="demand-loop"', 'id="loop-map"', 'id="chapters"', 'id="thread"', 'id="entry"']],
 ]);
@@ -941,15 +955,39 @@ for (const marker of [
 const webHtml = await readFile(pageFile('/web/'), 'utf8');
 for (const marker of [
   'Make the value clear. Make the next step easy.',
-  'Stonevale',
-  'Halewood',
-  '/assets/images/web/stonevale-desktop-1200.webp',
-  '/assets/images/web/halewood-phone-720.webp',
-  'Speed and search foundations',
+  '/assets/images/web/fathom-desktop-1200.webp',
+  '/assets/images/web/ora-desktop-1200.webp',
+  '/assets/images/web/fathom-phone-720.webp',
+  '/assets/images/web/ora-phone-720.webp',
+  'Explain the business',
+  'Help visitors take action',
+  'Build a dependable site',
+  'How the work happens',
   'href="/articles/landing-page-or-full-website/"',
 ]) {
   assert.ok(webHtml.includes(marker), `/web/ is missing strategic marker: ${marker}`);
 }
+for (const retired of ['Stonevale', 'Halewood', 'See two recent designs', 'id="website-example"', 'The site you’re reading']) {
+  assert.ok(!webHtml.includes(retired), `/web/ retained a superseded showcase or own-site line: ${retired}`);
+}
+// Research cards stay attributed: figure, dated source and a working source link.
+{
+  const followUpHtml = await readFile(pageFile('/follow-up/'), 'utf8');
+  for (const [figure, source, href] of [
+    ['15%', 'Brynjolfsson, Li &amp; Raymond, Quarterly Journal of Economics, 2025', 'https://doi.org/10.1093/qje/qjae044'],
+    ['~7×', 'Oldroyd, McElheran &amp; Elkington, Harvard Business Review, 2011', 'https://hbr.org/2011/03/the-short-life-of-online-sales-leads'],
+  ]) {
+    assert.ok(followUpHtml.includes(`research-card__figure">${figure}<`), `/follow-up/ lost the ${figure} research card.`);
+    assert.ok(followUpHtml.includes(source), `/follow-up/ research card ${figure} lost its dated source.`);
+    assert.ok(followUpHtml.includes(`href="${href}"`), `/follow-up/ research card ${figure} lost its source link.`);
+  }
+  for (const route of INDEXABLE_ROUTES) {
+    const html = await readFile(pageFile(route.path), 'utf8');
+    assert.ok(!/\bROAS\b/.test(visibleText(html)), `${route.path} makes a generic ROAS claim.`);
+  }
+}
+// Instrument Sans is requested once, at the two weights the headings use.
+assert.ok(homepageHtml.includes('family=Instrument+Sans:wght@500;600'), 'Instrument Sans must load at weights 500 and 600 only.');
 assert.ok(!webHtml.includes('/assets/images/revision/06-daylit-venue-'), '/web/ hero must show website design work, not unrelated photography.');
 assert.ok(!webHtml.includes('Designed and built by Rushes.'), '/web/ retained the self-referential owned-site section.');
 for (const image of tags(webHtml, 'img').filter((entry) => entry.src?.includes('/assets/images/web/'))) {

@@ -1,15 +1,14 @@
 ---
 import type { WebBody } from '../../data/capability-pages';
-import DesignFrame from './DesignFrame.astro';
 import Lead from './Lead.astro';
 
 interface Props { body: WebBody; }
 const { body } = Astro.props;
-const { scope, designs, capabilities, process } = body;
+const { scope, capabilities, process } = body;
 ---
 
 <section id="what-this-is" tabindex="-1" class="cap-section" aria-labelledby="scope-heading">
-  <Lead lead={scope} id="scope-heading" />
+  <Lead lead={scope} id="scope-heading" stacked />
   <div id="scope" class="cap-options">
     {scope.options.map((option) => (
       <article>
@@ -20,38 +19,23 @@ const { scope, designs, capabilities, process } = body;
   </div>
 </section>
 
-<section id="website-example" tabindex="-1" class="cap-band cap-band--navy" aria-labelledby="designs-heading">
+<section id="capabilities" class="cap-band cap-band--navy" aria-labelledby="capabilities-heading">
   <div class="cap-section">
-    <Lead lead={designs} id="designs-heading" wide />
-    <div class="cap-designs">
-      {designs.items.map((design) => (
-        <article class="cap-design">
-          <DesignFrame design={design.id} kind="phone" name={design.name} className="cap-design__phone" />
-          <div class="cap-design__copy">
-            <span class="brand-media-eye">{design.label}</span>
-            <h3>{design.name}</h3>
-            <p>{design.body}</p>
-            <ul>{design.features.map((feature) => <li>{feature}</li>)}</ul>
-          </div>
+    <Lead lead={capabilities} id="capabilities-heading" />
+    <div class="cap-jobs">
+      {capabilities.groups.map((group, index) => (
+        <article>
+          <span class="cap-num">{String(index + 1).padStart(2, '0')}</span>
+          <h3>{group.title}</h3>
+          <p>{group.body}</p>
+          <p class="cap-jobs__covers">{group.covers}</p>
         </article>
       ))}
     </div>
   </div>
 </section>
 
-<section id="capabilities" class="cap-section" aria-labelledby="capabilities-heading">
-  <Lead lead={capabilities} id="capabilities-heading" />
-  <dl class="cap-groups">
-    {capabilities.groups.map((group) => (
-      <div>
-        <dt>{group.title}</dt>
-        <dd>{group.body}</dd>
-      </div>
-    ))}
-  </dl>
-</section>
-
-<section id="process" class="cap-section cap-process-row" aria-labelledby="process-heading">
+<section id="process" class="cap-section" aria-labelledby="process-heading">
   <Lead lead={process} id="process-heading" />
   <ol class="cap-flow">
     {process.steps.map((step, index) => (

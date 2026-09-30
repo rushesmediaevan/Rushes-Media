@@ -378,7 +378,7 @@
 
 /* ── v6 (2026-09-29): one container edge, calmer hierarchy, restored service detail ──────
    Sections share the hero's content edge (1440 container); section headings sit a clear
-   step below the H1. Components: web design frames, grouped capabilities, the campaign
+   step below the H1. Components: the campaign
    flow graphic at phone size, the systems work list, and the Demand Loop connection band. */
 .capability-page { --cap-max: 1440px; }
 .cap-lead { grid-template-columns: minmax(0, 1fr) minmax(280px, .62fr); align-items: end; }
@@ -392,42 +392,11 @@
 .capability-page .cap-options h3 { margin: 0 0 10px; font-size: clamp(26px, 2.3vw, 32px); line-height: 1.06; }
 .capability-page .cap-options p { margin: 0; max-width: 40ch; }
 
-/* Website designs (/web/): phone frame beside a precise description */
-.cap-designs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 3vw, 48px); }
-.cap-design { display: grid; grid-template-columns: minmax(130px, .42fr) minmax(0, 1fr); gap: clamp(20px, 2.4vw, 32px); align-items: start; padding: clamp(20px, 2.4vw, 28px); border: 1px solid var(--cap-line-dark); }
-.capability-page .cap-design h3 { margin: 10px 0 12px; font-size: clamp(30px, 2.8vw, 40px); line-height: 1; }
-.capability-page .cap-band--navy .cap-design p { margin: 0 0 16px; color: var(--cap-text-dark); font-size: 15px; line-height: 1.62; }
-.cap-design ul { margin: 0; padding: 14px 0 0; list-style: none; border-top: 1px solid var(--cap-line-dark); }
-.cap-design li { position: relative; padding: 5px 0 5px 20px; color: rgba(245, 240, 230, .86); font-size: 14px; line-height: 1.5; }
-.cap-design li::before { content: ''; position: absolute; left: 0; top: .95em; width: 10px; height: 1px; background: var(--bm-gold); }
-
-/* Design frames: browser and phone */
-.design-frame { margin: 0; overflow: hidden; background: #16222f; }
-.design-frame picture, .design-frame img { display: block; width: 100%; height: auto; }
-.design-frame--desktop { border: 1px solid rgba(245, 240, 230, .18); border-radius: 8px; box-shadow: 0 30px 70px rgba(2, 8, 14, .45); }
-.design-frame__bar { display: flex; align-items: center; gap: 6px; height: 26px; padding: 0 12px; background: #1f2d3c; }
-.design-frame__bar i { width: 8px; height: 8px; border-radius: 50%; background: rgba(245, 240, 230, .28); }
-.design-frame__bar span { margin-left: 10px; color: rgba(245, 240, 230, .6); font-size: 11px; letter-spacing: .02em; }
-.design-frame--phone { border: 5px solid #05090e; border-radius: 22px; box-shadow: 0 24px 50px rgba(2, 8, 14, .45), 0 0 0 1px rgba(245, 240, 230, .16); }
-
-/* /web/ hero: two designs, overlapping windows */
-.design-showcase { position: relative; width: min(100%, 660px); justify-self: end; padding: 0 0 44px 0; }
-.design-showcase__back { width: 78%; margin-left: auto; opacity: .92; }
-.design-showcase__front { position: relative; width: 78%; margin-top: -30%; }
-.design-showcase__caption { margin: 18px 0 0; color: rgba(245, 240, 230, .66); font-size: 12px; line-height: 1.4; text-align: right; }
-
-/* Grouped capabilities (/web/) */
-.cap-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(32px, 5vw, 72px); margin: 0; }
-.cap-groups > div { display: grid; grid-template-columns: minmax(150px, .42fr) minmax(0, 1fr); gap: 8px 24px; padding: 22px 0 24px; border-top: 1px solid var(--cap-line); }
-.cap-groups dt { color: var(--bm-navy); font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(23px, 1.9vw, 27px); line-height: 1.08; letter-spacing: -.02em; }
-.cap-groups dd { margin: 0; color: var(--cap-text); font-size: 15px; line-height: 1.62; }
-
 /* Numbered process row (/web/) */
 .cap-flow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 2.6vw, 40px); margin: 0; padding: 0; list-style: none; }
 .cap-flow li { padding-top: 22px; border-top: 1px solid var(--cap-line); }
 .capability-page .cap-flow h3 { margin: 16px 0 8px; font-size: clamp(24px, 2vw, 28px); line-height: 1.08; }
 .capability-page .cap-flow p { margin: 0; font-size: 15px; line-height: 1.62; }
-.cap-process-row { padding-top: 0; }
 
 /* Campaign flow graphic: the wide row on desktop, a text-sized row on phones */
 .cap-leak__map--narrow { display: none; }
@@ -499,12 +468,13 @@
 .capability-page .brand-media-breadcrumb a:hover { color: var(--bm-cream); }
 
 /* In-page anchors land below the sticky header instead of under it. */
-.capability-page :is(section, aside, div)[id] { scroll-margin-top: 84px; }
+/* html scroll-padding already clears the sticky header; pull sections up past their own top padding. */
+.capability-page :is(section, aside, div)[id] { scroll-margin-top: -48px; }
+@media (max-width: 760px) { .capability-page :is(section, aside, div)[id] { scroll-margin-top: 0; } }
 
 @media (max-width: 900px) {
-  .cap-lead, .cap-options, .cap-designs, .cap-groups, .cap-work__grid { grid-template-columns: 1fr; }
+  .cap-lead, .cap-options, .cap-work__grid { grid-template-columns: 1fr; }
   .cap-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .design-showcase { justify-self: start; }
   .cap-work__visuals { max-width: 460px; margin-left: 28px; }
   .svc-connect { grid-template-columns: 1fr; }
 }
@@ -515,14 +485,6 @@
   .cap-leak__map--narrow { display: block; max-width: 390px; margin: 0 0 28px; }
   .cap-leak__map--narrow .cap-leak__label { font-size: 11px; }
   .cap-leak__map--narrow .cap-leak__gap text { font-size: 9px; }
-  .cap-design { grid-template-columns: 108px minmax(0, 1fr); padding: 18px; }
-  .capability-page .cap-design h3 { font-size: 30px; }
-  .design-frame--phone { border-width: 4px; border-radius: 16px; }
-  .cap-groups > div { grid-template-columns: 1fr; gap: 6px; }
-  .cap-groups dt { font-size: 24px; }
-  .cap-groups dd { font-size: 16px; }
-  .design-showcase { width: 100%; padding-bottom: 8px; }
-  .design-showcase__caption { font-size: 11px; text-align: left; }
   .cap-work__list li { grid-template-columns: 32px minmax(0, 1fr); gap: 12px; }
   .cap-work__visuals { max-width: none; margin-left: 20px; padding-bottom: 44px; }
   .cap-work__inset { left: -20px; width: 36%; }
@@ -537,20 +499,10 @@
   .cap-flow li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 0 12px; padding: 18px 0; }
   .cap-flow .cap-num { grid-row: 1 / span 2; font-size: 24px; }
   .capability-page .cap-flow h3 { margin: 0 0 6px; }
-  .cap-design { grid-template-columns: 1fr; }
-  .cap-design__phone { width: 58%; max-width: 220px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .svc-connect__orbit { animation: none; }
   .svc-connect__button, .svc-connect__button span { transition: none; }
-}
-
-/* /web/ hero gives the two designs the larger column. */
-@media (min-width: 901px) {
-  .capability-page .brand-media-hero:has(.design-showcase) { grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); }
-  .design-showcase { width: 100%; max-width: 720px; }
-  .design-showcase__back, .design-showcase__front { width: 82%; }
-  .design-showcase__front { margin-top: -34%; }
 }
 
 /* Related routes after booking sit on cream here; the inherited cream text was invisible. */
@@ -559,3 +511,94 @@
 .capability-page .commercial-route-links a:hover { color: var(--bm-ink); background: var(--bm-gold); }
 .capability-page .commercial-route-links a[aria-current] { color: var(--bm-gold-ink); }
 .capability-page .commercial-route-links a:focus-visible { outline: 2px solid var(--bm-navy); outline-offset: -4px; }
+
+/* ── v7 (2026-09-29, approved): heading hierarchy, Fathom + Ora, three jobs, research cards ──
+   Cormorant Garamond stays for the page headline (H1), the Brand Media statement and the
+   closing booking headline. Instrument Sans carries section and service headings. Inter
+   remains the body face. */
+.capability-page { --cap-heading: "Instrument Sans", Inter, system-ui, sans-serif; }
+.capability-page .cap-section h2,
+.capability-page .cap-section h3,
+.capability-page .brand-media-faq h2,
+.capability-page .svc-connect__loop h2,
+.cap-matrix tbody th b,
+.cap-groups dt { font-family: var(--cap-heading); font-weight: 500; letter-spacing: -.02em; }
+.cap-lead h2, .capability-page .cap-lead h2 { font-size: clamp(30px, 3.1vw, 44px); line-height: 1.08; }
+.capability-page .brand-media-faq h2 { font-size: clamp(26px, 2.6vw, 36px); line-height: 1.1; }
+.capability-page .cap-section h3 { letter-spacing: -.012em; line-height: 1.2; }
+.capability-page .cap-options h3,
+.capability-page .cap-jobs h3 { font-size: clamp(21px, 1.8vw, 24px); }
+.capability-page .cap-leak__pains h3,
+.capability-page .cap-flow h3,
+.capability-page .cap-work__list h3,
+.capability-page .cap-timeline h3,
+.capability-page .cap-stages h3,
+.capability-page .cap-gallery__item h3 { font-size: clamp(19px, 1.55vw, 21px); }
+.capability-page .cap-spread__copy h3 { font-size: clamp(22px, 2vw, 28px); }
+.capability-page .cap-entry__card h3 { font-size: 22px; }
+.capability-page .cap-chapter__copy h2 { font-size: clamp(28px, 2.8vw, 40px); }
+.cap-matrix tbody th b { font-size: 19px; line-height: 1.2; }
+.capability-page .svc-connect__loop h2 { font-size: clamp(20px, 1.8vw, 24px); }
+/* Editorial serif, kept on purpose */
+.capability-page .cap-manifesto__copy h2 { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 400; letter-spacing: -.03em; }
+
+/* /web/ hero: Fathom and Ora staggered, no overlap */
+.design-pair { position: relative; width: 100%; max-width: 680px; justify-self: end; display: grid; gap: 14px; }
+.design-pair__frame { margin: 0; overflow: hidden; border: 1px solid rgba(245, 240, 230, .16); border-radius: 6px; background: #16222f; box-shadow: 0 24px 60px rgba(2, 8, 14, .42); }
+.design-pair__frame picture, .design-pair__frame img { display: block; width: 100%; height: auto; }
+.design-pair__frame--fathom { width: 80%; }
+.design-pair__frame--ora { width: 80%; justify-self: end; }
+@media (min-width: 901px) {
+  .capability-page .brand-media-hero:has(.design-pair) { grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); }
+}
+@media (max-width: 900px) {
+  .design-pair { justify-self: start; max-width: 620px; }
+}
+@media (max-width: 760px) {
+  /* Phones show the phone renders side by side. */
+  .design-pair { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .design-pair__frame--fathom, .design-pair__frame--ora { width: 100%; }
+  .design-pair__frame--ora { margin-top: 28px; }
+  .design-pair__frame { border-radius: 14px; }
+}
+
+/* /web/ three jobs */
+.cap-jobs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 2.6vw, 40px); }
+.cap-jobs article { padding-top: 22px; border-top: 1px solid var(--cap-line-dark); }
+.cap-band--navy .cap-jobs .cap-num { color: var(--bm-gold); }
+.capability-page .cap-jobs h3 { margin: 14px 0 10px; }
+.capability-page .cap-band--navy .cap-jobs p { margin: 0; font-size: 15px; line-height: 1.62; }
+.capability-page .cap-band--navy .cap-jobs .cap-jobs__covers { margin-top: 14px; color: var(--bm-gold); font: 600 11px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .05em; }
+@media (max-width: 900px) { .cap-jobs { grid-template-columns: 1fr; gap: 0; } .cap-jobs article { padding-block: 20px; } }
+
+/* Campaigns: heading, introduction beneath it, then the diagram */
+.cap-lead--stacked { grid-template-columns: 1fr; gap: 14px; margin-bottom: clamp(24px, 3vw, 36px); }
+.cap-lead--stacked h2 { max-width: 22ch; }
+.capability-page .cap-lead--stacked p { max-width: 64ch; }
+.cap-leak .cap-leak__map--wide { margin: 0 0 clamp(24px, 3vw, 36px); max-width: 860px; }
+.capability-page .cap-leak { padding-bottom: clamp(48px, 5vw, 72px); }
+
+/* Research cards: external findings, clearly attributed */
+.research-card { margin-top: 24px; padding: 20px 22px 18px; border-top: 2px solid var(--bm-gold); background: var(--bm-paper); color: var(--bm-navy); }
+.research-card__eye { display: block; color: var(--bm-gold-ink); font: 700 10px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .12em; text-transform: uppercase; }
+.capability-page .research-card p { margin: 0; }
+.capability-page .research-card .research-card__figure { margin-top: 10px; color: var(--bm-navy); font: 500 clamp(38px, 3.4vw, 48px)/1 "Instrument Sans", Inter, sans-serif; letter-spacing: -.03em; }
+.capability-page .research-card .research-card__title { margin-top: 6px; color: var(--bm-navy); font: 600 16px/1.3 "Instrument Sans", Inter, sans-serif; }
+.capability-page .research-card .research-card__line { margin-top: 10px; color: var(--cap-text); font-size: 14.5px; line-height: 1.55; }
+.capability-page .research-card .research-card__source { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--cap-line); color: rgba(26, 42, 63, .62); font-size: 12px; line-height: 1.5; }
+.research-card a { color: var(--bm-navy); font-weight: 600; text-underline-offset: 3px; }
+.research-card a:focus-visible { outline: 2px solid var(--bm-navy); outline-offset: 2px; }
+.research-card--dark { margin-top: 0; align-self: start; background: rgba(245, 240, 230, .06); color: var(--bm-cream); }
+.research-card--dark .research-card__eye { color: var(--bm-gold); }
+.capability-page .research-card--dark .research-card__figure,
+.capability-page .research-card--dark .research-card__title { color: var(--bm-cream); }
+.capability-page .research-card--dark .research-card__line { color: var(--cap-text-dark); }
+.capability-page .research-card--dark .research-card__source { border-top-color: var(--cap-line-dark); color: rgba(245, 240, 230, .6); }
+.research-card--dark a { color: var(--bm-cream); }
+.research-card--dark a:focus-visible { outline-color: var(--bm-gold); }
+.cap-work__aside { min-width: 0; }
+.cap-work__aside .research-card { margin-top: 28px; }
+@media (max-width: 900px) { .cap-work__aside { max-width: 520px; } .cap-work__aside .cap-work__visuals { max-width: none; } }
+.cap-example-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(260px, .7fr); gap: clamp(28px, 4vw, 64px); align-items: start; }
+@media (max-width: 900px) { .cap-example-grid { grid-template-columns: 1fr; } }
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

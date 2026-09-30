@@ -24,7 +24,7 @@ ${pages}
 
 - Rushes produces original brand photography and video for owner-led businesses. Brand Media can be hired on its own or connected with campaigns, websites, and business systems.
 - Rushes does not publish prices, guarantees, or performance claims on the site.
-- Much of the site's photography is original Rushes concept imagery, not client work. Stonevale and Halewood are website designs by Rushes, not client commissions.
+- Much of the site's photography is original Rushes concept imagery, not client work. Fathom and Ora, shown on the web page, are Rushes website designs for fictional brands, not client commissions.
 - Privacy: ${SITE.origin}/privacy/ · Terms: ${SITE.origin}/terms/
 `;
   return new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });

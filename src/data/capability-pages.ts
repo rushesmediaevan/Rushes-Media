@@ -49,24 +49,29 @@ export interface CampaignsBody {
   matrix: SectionLead & { rows: readonly LabeledPoint[] };
 }
 
-export type WebDesignId = 'stonevale' | 'halewood';
-
 export interface WebBody {
   kind: 'web';
   scope: SectionLead & { options: readonly Point[] };
-  designs: SectionLead & {
-    items: readonly { id: WebDesignId; name: string; label: string; body: string; features: readonly string[] }[];
-  };
-  capabilities: SectionLead & { groups: readonly Point[] };
+  capabilities: SectionLead & { groups: readonly (Point & { covers: string })[] };
   process: SectionLead & { steps: readonly NamedStep[] };
+}
+
+/** External research shown beside a relevant explanation. Never a Rushes result or promise. */
+export interface ResearchFinding {
+  figure: string;
+  title: string;
+  line: string;
+  source: string;
+  links: readonly { href: string; label: string }[];
 }
 
 export interface SystemsBody {
   kind: 'systems';
-  work: SectionLead & { items: readonly Point[]; visual: VisualAsset; inset: VisualAsset };
+  work: SectionLead & { items: readonly Point[]; visual: VisualAsset; inset: VisualAsset; research: ResearchFinding };
   example: SectionLead & {
     label: string;
     moments: readonly { time: string; stage: string; heading: string; body: string }[];
+    research: ResearchFinding;
   };
 }
 
@@ -104,7 +109,7 @@ export interface CapabilityPage {
     secondaryTarget: string;
     visual: VisualAsset;
     insetVisual: VisualAsset;
-    /** Show the Stonevale and Halewood website designs instead of the two photographs. */
+    /** Show the Fathom and Ora website designs instead of the two photographs. */
     designShowcase?: boolean;
   };
   body: CapabilityBody;
@@ -311,7 +316,7 @@ export const campaignsCapability: CapabilityPage = {
         { label: 'Meta ads', title: 'Introduce your offer', body: 'Facebook and Instagram campaigns with creative that explains the offer and gives people a reason to respond.', note: 'Rushes manages the agreed campaigns.' },
         { label: 'Creative', title: 'Give the campaign its message', body: 'Ad copy and visual assets matched to the offer. Photography, video and additional versions are scoped in the proposal.', note: 'You approve the claims and creative.' },
         { label: 'Landing pages', title: 'Turn interest into an inquiry', body: 'A focused page that answers buyer questions, shows relevant work and makes contacting you easy.', note: 'Use a suitable existing page or commission a new one.' },
-        { label: 'Reporting', title: 'See what the spend produces', body: 'Spend, responses and inquiry quality, checked against the appointments and sales your team records.', note: 'Your team confirms sales outcomes.' },
+        { label: 'Reporting', title: 'Know what the spend brings back', body: 'We track spend and inquiries, then connect them to booked work and revenue where your records allow. That helps us see which campaigns deserve more investment.', note: 'Your team confirms sales outcomes.' },
       ],
     },
   },
@@ -370,8 +375,8 @@ export const webCapability: CapabilityPage = {
     heading: 'Make the value clear. Make the next step easy.',
     support:
       'Websites and landing pages that explain what you do, show the quality of your work and make it easy for the right visitors to get in touch. Hire a focused improvement or a complete site.',
-    secondaryLabel: 'See two recent designs',
-    secondaryTarget: '#website-example',
+    secondaryLabel: 'See what’s included',
+    secondaryTarget: '#what-this-is',
     visual: revisionAssets.daylitVenue,
     insetVisual: homepageAssets.brandMediaRiversideMill,
     designShowcase: true,
@@ -388,51 +393,29 @@ export const webCapability: CapabilityPage = {
         { title: 'Improvements to your site', body: 'Fix a confusing service page, an awkward mobile layout or a difficult contact form without replacing everything.' },
       ],
     },
-    designs: {
-      eye: 'Website design',
-      heading: 'Two sites, designed around how their customers decide.',
-      intro:
-        'Each design starts with what that kind of customer needs to see, what they need to know and what they’re ready to do next. The layout, photography and forms follow from those answers.',
-      items: [
-        {
-          id: 'stonevale',
-          name: 'Stonevale',
-          label: 'Outdoor living design & build',
-          body: 'An evening-led site for a builder of patios, outdoor kitchens and fire features. The homepage opens on a dusk film because that is when the work is used, and every section leads toward a design consultation.',
-          features: [
-            'Short dusk film in the homepage header',
-            'Drag-to-compare view of a finished backyard',
-            'Services organized by project type',
-            'Consultation form that asks about the project first',
-          ],
-        },
-        {
-          id: 'halewood',
-          name: 'Halewood',
-          label: 'Interior design & residential build',
-          body: 'A quieter, editorial site for a studio that designs and builds rooms. Large photography carries each page, and the services follow the order a project actually happens in.',
-          features: [
-            'Editorial layout led by full-width photography',
-            'Room comparison with a draggable divider',
-            'Services in project order: plan, materials, build, styling',
-            'Consultation form that starts with which rooms are involved',
-          ],
-        },
-      ],
-    },
     capabilities: {
       eye: 'What the work covers',
-      heading: 'Design, build and the details that make a site work.',
+      heading: 'Every site we build has three jobs.',
       groups: [
-        { title: 'Design and development', body: 'Custom design and development for full websites and campaign landing pages, laid out for phones, tablets and large screens.' },
-        { title: 'Content and navigation', body: 'Service pages written around the work you want to win, navigation that matches how customers look for it, and approved photos, projects and reviews placed where they help people decide.' },
-        { title: 'Speed and search foundations', body: 'Fast-loading pages, correctly sized images, clear page titles and descriptions, a sitemap and structured data, so search engines can read the site. The site you’re reading is built this way.' },
-        { title: 'Forms, booking and integrations', body: 'Contact forms, booking calendars and call buttons connected to your CRM or inbox, plus analytics and ad tracking when the project needs them. Each one is tested before launch.' },
-        { title: 'Launch and support', body: 'Important existing URLs keep working after launch, and you receive the access you need. Updates and ongoing support are agreed separately if you want them.' },
+        {
+          title: 'Explain the business',
+          body: 'Pages that say what you do, who it’s for and why it’s worth choosing, with photos, projects and reviews where they help people decide.',
+          covers: 'Content · navigation · design',
+        },
+        {
+          title: 'Help visitors take action',
+          body: 'Forms, booking calendars and call buttons that work on any screen, connected to your CRM or inbox and tested so each inquiry reaches the right person.',
+          covers: 'Mobile layouts · forms and booking · integrations',
+        },
+        {
+          title: 'Build a dependable site',
+          body: 'Custom development, fast pages and the search basics done properly. Existing URLs keep working at launch, and support afterwards is available if you want it.',
+          covers: 'Development · speed and search foundations · launch and support',
+        },
       ],
     },
     process: {
-      eye: 'How a project runs',
+      eye: 'How the work happens',
       heading: 'From first call to launch.',
       steps: [
         { name: 'Agree on scope', body: 'Talk through the work you want to attract and review your current site. Confirm the pages, content and who supplies each piece.' },
@@ -519,6 +502,16 @@ export const systemsCapability: CapabilityPage = {
       ],
       visual: capabilityAssets.routingTable,
       inset: capabilityAssets.phoneCounterNight,
+      research: {
+        figure: '15%',
+        title: 'More customer issues resolved per hour',
+        line: 'In a study of 5,172 support agents, AI assistance improved average productivity by 15%.',
+        source: 'Brynjolfsson, Li & Raymond, Quarterly Journal of Economics, 2025. One company’s support team; gains varied with experience. It measures support throughput, not profit.',
+        links: [
+          { href: 'https://doi.org/10.1093/qje/qjae044', label: 'Published study' },
+          { href: 'https://arxiv.org/abs/2304.11771', label: 'Authors’ manuscript' },
+        ],
+      },
     },
     example: {
       eye: 'An example',
@@ -531,6 +524,13 @@ export const systemsCapability: CapabilityPage = {
         { time: 'Monday · 8:05 am', stage: 'Assign', heading: 'The right person has it, with context.', body: 'The replacement inquiry goes to the owner with the details and the first reply attached. Routine service requests stay with dispatch.' },
         { time: 'Day three', stage: 'Follow up', heading: 'Nothing is forgotten.', body: 'If the estimate still isn’t scheduled, a reminder appears on the owner’s list instead of the request disappearing into an inbox.' },
       ],
+      research: {
+        figure: '~7×',
+        title: 'More likely to qualify a lead',
+        line: 'A 2011 study found that firms attempting contact within an hour were nearly seven times as likely to qualify a lead as firms waiting even an hour longer.',
+        source: 'Oldroyd, McElheran & Elkington, Harvard Business Review, 2011. Observational study of 1.25 million leads at 42 firms. Qualifying meant a meaningful conversation with a decision-maker, not a sale or an automatic reply.',
+        links: [{ href: 'https://hbr.org/2011/03/the-short-life-of-online-sales-leads', label: 'Original article' }],
+      },
     },
   },
   connect: {

@@ -346,10 +346,10 @@ export const SITE_CONTRACT = [
       extraAssets: [
         '/assets/brand-media.css',
         '/assets/capability-pages.css',
-        '/assets/images/web/stonevale-desktop-1200.webp',
-        '/assets/images/web/halewood-desktop-1200.webp',
-        '/assets/images/web/stonevale-phone-720.webp',
-        '/assets/images/web/halewood-phone-720.webp',
+        '/assets/images/web/fathom-desktop-1200.webp',
+        '/assets/images/web/ora-desktop-1200.webp',
+        '/assets/images/web/fathom-phone-720.webp',
+        '/assets/images/web/ora-phone-720.webp',
       ],
     },
     {
@@ -761,9 +761,9 @@ export const REVIEW_COMPATIBILITY_FILES = [
   'call/teleprompter.html',
 ];
 
-// Stonevale and Halewood website designs shown on /web/ (src/components/capability/DesignShowcase.astro).
-// Captured from the review-only /work/ routes with the review strips hidden; those routes stay unpublished.
-export const WEB_SHOWCASE_ASSET_FILES = ['stonevale', 'halewood'].flatMap((design) => [
+// Fathom and Ora website designs in the /web/ hero (src/components/capability/DesignShowcase.astro).
+// 2x renders of rushes-os/demos/fathom and rushes-os/demos/ora in the compositions approved 2026-09-29.
+export const WEB_SHOWCASE_ASSET_FILES = ['fathom', 'ora'].flatMap((design) => [
   ...[800, 1200, 1600].flatMap((width) => ['avif', 'webp'].map((type) => `assets/images/web/${design}-desktop-${width}.${type}`)),
   ...[360, 720].flatMap((width) => ['avif', 'webp'].map((type) => `assets/images/web/${design}-phone-${width}.${type}`)),
 ]);

@@ -1,5 +1,5 @@
 ---
-import { audiences } from '../../data/home';
+import { audienceTrackingNote, audiences } from '../../data/home';
 import HomePicture from './HomePicture.astro';
 ---
 
@@ -8,25 +8,68 @@ import HomePicture from './HomePicture.astro';
     <span>Who we work with</span>
     <h2 id="examples-heading">Different businesses. Different opportunities.</h2>
     <div>
-      <p>Rushes works across industries. Here is where the work might start for a few of them.</p>
+      <p>Rushes works across industries. Good marketing helps the right people find you, understand what you offer and take the next step, and the work looks different for each business. Choose an example.</p>
     </div>
   </div>
-  <div class="v3-range">
-    {audiences.map((audience) => (
-      <article
-        class="v3-range-card"
+  <div class="industry-tabs" role="tablist" aria-label="Industry examples" data-industry-tabs>
+    {audiences.map((audience, index) => (
+      <button
+        type="button"
+        role="tab"
+        class="industry-card"
+        id={`industry-tab-${index + 1}`}
+        aria-controls={`industry-panel-${index + 1}`}
+        aria-selected={index === 0 ? 'true' : 'false'}
+        tabindex={index === 0 ? 0 : -1}
         data-visual-truth={audience.visual.truthClass}
       >
-        <figure>
-          <HomePicture
-            asset={audience.visual}
-            sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1440px) 44vw, 624px"
-          />
-        </figure>
-        <span class="who-card-route">{audience.routeLabel}</span>
-        <h3>{audience.label}</h3>
-        <p>{audience.summary}</p>
-      </article>
+        <span class="industry-card__image">
+          <HomePicture asset={audience.visual} sizes="(max-width: 760px) 44vw, (max-width: 1440px) 22vw, 310px" />
+        </span>
+        <span class="industry-card__label">{audience.label}</span>
+        <span class="industry-card__intro">{audience.intro}</span>
+      </button>
     ))}
   </div>
+  <div class="industry-panels">
+    {audiences.map((audience, index) => (
+      <div class="industry-panel" role="tabpanel" id={`industry-panel-${index + 1}`} aria-labelledby={`industry-tab-${index + 1}`} tabindex="0">
+        <h3>{audience.label}</h3>
+        <p>{audience.example}</p>
+      </div>
+    ))}
+    <p class="industry-note">{audienceTrackingNote}</p>
+  </div>
 </section>
+
+<script is:inline>
+  // Tabs: one example visible at a time. Without JavaScript every example stays readable.
+  (() => {
+    const list = document.querySelector('[data-industry-tabs]');
+    if (!list) return;
+    const tabs = [...list.querySelectorAll('[role="tab"]')];
+    const select = (tab, focus) => {
+      tabs.forEach((item) => {
+        const on = item === tab;
+        item.setAttribute('aria-selected', String(on));
+        item.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(item.getAttribute('aria-controls'));
+        if (panel) panel.hidden = !on;
+      });
+      if (focus) tab.focus();
+    };
+    select(tabs.find((tab) => tab.getAttribute('aria-selected') === 'true') || tabs[0], false);
+    list.addEventListener('click', (event) => {
+      const tab = event.target instanceof Element ? event.target.closest('[role="tab"]') : null;
+      if (tab) select(tab, false);
+    });
+    list.addEventListener('keydown', (event) => {
+      const index = tabs.indexOf(document.activeElement);
+      if (index < 0) return;
+      const next = { ArrowRight: index + 1, ArrowDown: index + 1, ArrowLeft: index - 1, ArrowUp: index - 1, Home: 0, End: tabs.length - 1 }[event.key];
+      if (next === undefined) return;
+      event.preventDefault();
+      select(tabs[(next + tabs.length) % tabs.length], true);
+    });
+  })();
+</script>

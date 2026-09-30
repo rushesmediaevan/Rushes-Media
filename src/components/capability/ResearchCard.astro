@@ -1,0 +1,22 @@
+---
+import type { ResearchFinding } from '../../data/capability-pages';
+
+interface Props { finding: ResearchFinding; className?: string; }
+const { finding, className = '' } = Astro.props;
+---
+
+<aside class:list={['research-card', className]} aria-label={`Research: ${finding.title}`}>
+  <span class="research-card__eye">Research</span>
+  <p class="research-card__figure">{finding.figure}</p>
+  <p class="research-card__title">{finding.title}</p>
+  <p class="research-card__line">{finding.line}</p>
+  <p class="research-card__source">
+    {finding.source}
+    {finding.links.map((link, index) => (
+      <>
+        {index === 0 ? ' ' : ' · '}
+        <a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}<span class="visually-hidden"> (opens in a new tab)</span></a>
+      </>
+    ))}
+  </p>
+</aside>

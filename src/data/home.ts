@@ -22,10 +22,11 @@ export interface HomeService {
 }
 
 export interface HomeAudience {
-  routeLabel: string;
   label: string;
-  summary: string;
-  firstMove: string;
+  /** One line on the card. */
+  intro: string;
+  /** The fuller example shown when the card is selected. */
+  example: string;
   visual: VisualAsset;
 }
 
@@ -55,38 +56,37 @@ export const marqueeItems = [
 
 export const audiences: readonly HomeAudience[] = [
   {
-    routeLabel: 'Project-led design-build',
     label: 'Outdoor Living & Design-Build',
-    summary:
-      'Show the transformation, qualify the scope, and move the right homeowners toward a project consultation.',
-    firstMove: 'Turn completed projects into buyer-ready media.',
+    intro: 'Show finished projects to homeowners planning one.',
+    example:
+      'A finished pool and patio is easier to sell when people can picture themselves using it. We photograph the project, make ads for homeowners in your area and build a page that explains the work and invites an estimate request. Then we track which inquiries become projects.',
     visual: industryVisuals.outdoorLiving,
   },
   {
-    routeLabel: 'Considered consultation',
     label: 'Interior Design & Residential Build',
-    summary:
-      'Make taste, judgment, and process easier to understand before the first consultation.',
-    firstMove: 'Build a project-aware consultation page.',
+    intro: 'Show your work and what working with you involves.',
+    example:
+      'Before hiring a designer or builder, people want to see what you can do and what working with you involves. Project photography and short walkthrough videos show the details. A clear website explains your services and helps the right clients request a consultation.',
     visual: industryVisuals.interiorDesign,
   },
   {
-    routeLabel: 'Urgent and planned demand',
-    label: 'HVAC Replacement & Home Comfort',
-    summary:
-      'Separate urgent service from planned replacement and respond before the homeowner moves on.',
-    firstMove: 'Protect the call, estimate, and confirmation handoffs.',
+    label: 'HVAC & Home Comfort',
+    intro: 'Separate urgent repairs from planned replacements.',
+    example:
+      'A homeowner with a broken AC needs a clear way to call now. Someone planning a replacement needs help comparing options. We build ads and pages for each situation, make sure inquiries reach your team and track which ones turn into booked work.',
     visual: industryVisuals.hvac,
   },
   {
-    routeLabel: 'Appointment-led service',
-    label: 'Med Spa & Aesthetic Practices',
-    summary:
-      'Build service-specific trust, guide the right consultation request, and keep follow-up timely.',
-    firstMove: 'Build a campaign around one approved growth priority.',
+    label: 'Med Spas & Aesthetic Practices',
+    intro: 'Answer the questions people have before they book.',
+    example:
+      'People want to know who will treat them, what the appointment involves and whether a service suits them. We create practitioner videos and clear service pages, then connect relevant ads to consultation booking. Your clinicians review treatment information before it goes live.',
     visual: revisionAssets.medSpa,
   },
 ] as const;
+
+export const audienceTrackingNote =
+  'We track calls, consultations and booked work, using your records to see what the marketing contributes.';
 
 export const homeServices: readonly HomeService[] = [
   {

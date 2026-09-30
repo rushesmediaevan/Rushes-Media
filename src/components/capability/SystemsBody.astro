@@ -2,6 +2,7 @@
 import type { SystemsBody } from '../../data/capability-pages';
 import ConceptPicture from '../brand-media/ConceptPicture.astro';
 import Lead from './Lead.astro';
+import ResearchCard from './ResearchCard.astro';
 
 interface Props { body: SystemsBody; }
 const { body } = Astro.props;
@@ -22,9 +23,12 @@ const { work, example } = body;
         </li>
       ))}
     </ol>
-    <div class="cap-work__visuals">
-      <ConceptPicture asset={work.visual} className="cap-work__main" sizes={work.visual.sizes} showCaption={false} />
-      <ConceptPicture asset={work.inset} className="cap-work__inset" sizes="(max-width: 760px) 36vw, 180px" showCaption={false} />
+    <div class="cap-work__aside">
+      <div class="cap-work__visuals">
+        <ConceptPicture asset={work.visual} className="cap-work__main" sizes={work.visual.sizes} showCaption={false} />
+        <ConceptPicture asset={work.inset} className="cap-work__inset" sizes="(max-width: 760px) 36vw, 180px" showCaption={false} />
+      </div>
+      <ResearchCard finding={work.research} className="cap-work__research" />
     </div>
   </div>
 </section>
@@ -32,6 +36,7 @@ const { work, example } = body;
 <section id="request-timeline" class="cap-band cap-band--navy" aria-labelledby="example-heading">
   <div class="cap-section">
     <Lead lead={example} id="example-heading" wide />
+    <div class="cap-example-grid">
     <ol class="cap-timeline" aria-label={example.label}>
       {example.moments.map((moment) => (
         <li>
@@ -44,5 +49,7 @@ const { work, example } = body;
         </li>
       ))}
     </ol>
+    <ResearchCard finding={example.research} className="research-card--dark" />
+    </div>
   </div>
 </section>

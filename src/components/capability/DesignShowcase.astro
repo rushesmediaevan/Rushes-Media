@@ -1,9 +1,45 @@
 ---
-import DesignFrame from './DesignFrame.astro';
+/**
+ * Web & Landing hero: rendered views of two Rushes website designs, Fathom and Ora.
+ * Source: rushes-os/demos/fathom and rushes-os/demos/ora (fictional brands, local builds),
+ * captured at 2x in the compositions Evan approved on 2026-09-29
+ * (systems/agency-stack/okara-final-day-20260929/website-choice-review/).
+ * Phones get the phone renders; larger screens get the desktop renders.
+ * Files are listed in scripts/site-contract.mjs.
+ */
+const designs = [
+  {
+    id: 'fathom',
+    alt: 'Fathom website design: a wooden daysailer in fog beneath the Fathom wordmark, with “The boat”, “The loft” and “Sea trial” in the navigation.',
+  },
+  {
+    id: 'ora',
+    alt: 'Ora website design: the Ora wordmark and an “Inquire” button beside a photograph of a swimmer walking along a white wall.',
+  },
+] as const;
+const srcset = (id: string, crop: 'desktop' | 'phone', type: string) =>
+  (crop === 'desktop' ? [800, 1200, 1600] : [360, 720]).map((w) => `/assets/images/web/${id}-${crop}-${w}.${type} ${w}w`).join(', ');
 ---
 
-<div class="design-showcase">
-  <DesignFrame design="halewood" kind="desktop" name="Halewood" className="design-showcase__back" sizes="(max-width: 760px) 80vw, 36vw" loading="eager" />
-  <DesignFrame design="stonevale" kind="desktop" name="Stonevale" className="design-showcase__front" sizes="(max-width: 760px) 80vw, 36vw" loading="eager" fetchpriority="high" />
-  <p class="design-showcase__caption">Stonevale and Halewood, two websites designed by Rushes</p>
+<div class="design-pair">
+  {designs.map((design, index) => (
+    <figure class:list={['design-pair__frame', `design-pair__frame--${design.id}`]}>
+      <picture>
+        <source media="(max-width: 760px)" type="image/avif" srcset={srcset(design.id, 'phone', 'avif')} sizes="44vw" />
+        <source media="(max-width: 760px)" type="image/webp" srcset={srcset(design.id, 'phone', 'webp')} sizes="44vw" />
+        <source type="image/avif" srcset={srcset(design.id, 'desktop', 'avif')} sizes="(max-width: 1200px) 46vw, 560px" />
+        <img
+          src={`/assets/images/web/${design.id}-desktop-1200.webp`}
+          srcset={srcset(design.id, 'desktop', 'webp')}
+          sizes="(max-width: 1200px) 46vw, 560px"
+          width="1600"
+          height="900"
+          alt={design.alt}
+          loading="eager"
+          fetchpriority={index === 0 ? 'high' : 'auto'}
+          decoding="async"
+        />
+      </picture>
+    </figure>
+  ))}
 </div>

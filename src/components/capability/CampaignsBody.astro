@@ -14,7 +14,7 @@ const lines = (node: string) => (node.includes(' ') ? node.split(' ') : [node]);
 ---
 
 <section id="what-this-is" tabindex="-1" class="cap-section cap-leak" aria-labelledby="flow-heading">
-  <Lead lead={flow} id="flow-heading" />
+  <Lead lead={flow} id="flow-heading" stacked />
   <svg id="leak-map" class="cap-leak__map cap-leak__map--wide" viewBox="0 0 760 130" role="img" aria-label={flowLabel}>
     {flow.nodes.map((node, index) => {
       const x = wide.start + index * wide.gap;
