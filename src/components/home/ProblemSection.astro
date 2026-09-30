@@ -1,18 +1,30 @@
-<!-- ══ PROBLEM ════════════════════════════════════════════ -->
-<section id="problem">
-  <div class="problem-inner">
-    <div class="r">
-      <span class="eye">The Opportunity</span>
-      <h2 class="problem-h2">Make the value of a strong business<br /><em>unmistakable.</em></h2>
+---
+import { homeServices } from '../../data/home';
+
+const serviceNotes = ['Photography and video', 'Google and Meta ads', 'Websites and landing pages', 'Connected tools and follow-up'];
+---
+
+<!-- ══ OPPORTUNITY ═══════════════════════════════════════ -->
+<section id="problem" class="opp" aria-labelledby="opp-heading">
+  <div class="opp-inner">
+    <div class="opp-head">
+      <span class="eye">The opportunity</span>
+      <h2 id="opp-heading" class="opp-h2">Turn attention into <em>business.</em></h2>
     </div>
-    <div class="r d1">
-      <div class="problem-body">
-        <p>Strong companies often have more reputation, skill and value than their public presence shows. Rushes picks the media, advertising, web or systems work that closes that gap, and keeps what already works.</p>
-      </div>
-      <blockquote class="problem-pull">
-        Exceptional media makes the value visible.<br />
-        <em>The right digital path makes it easy to act.</em>
-      </blockquote>
-    </div>
+    <p class="opp-lead">
+      Show what makes your business worth choosing, reach the people who need it, and make it easy for them to get in touch or buy.
+      Rushes brings the creative, advertising, website and supporting systems together around that goal.
+    </p>
+    <ol class="opp-index" aria-label="Rushes services">
+      {homeServices.map((service, index) => (
+        <li>
+          <a href={service.href}>
+            <span class="opp-n">{String(index + 1).padStart(2, '0')}</span>
+            <b>{service.name}</b>
+            <span class="opp-note">{serviceNotes[index]}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
   </div>
 </section>

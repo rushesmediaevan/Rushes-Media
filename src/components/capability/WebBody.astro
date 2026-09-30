@@ -1,11 +1,11 @@
 ---
 import type { WebBody } from '../../data/capability-pages';
+import DesignFrame from './DesignFrame.astro';
 import Lead from './Lead.astro';
-import Pair from './Pair.astro';
 
 interface Props { body: WebBody; }
 const { body } = Astro.props;
-const { scope, example, process } = body;
+const { scope, designs, capabilities, process } = body;
 ---
 
 <section id="what-this-is" tabindex="-1" class="cap-section" aria-labelledby="scope-heading">
@@ -18,29 +18,40 @@ const { scope, example, process } = body;
       </article>
     ))}
   </div>
-  <div class="cap-includes">
-    <h3>{scope.includes.title}</h3>
-    <ul>{scope.includes.items.map((item) => <li>{item}</li>)}</ul>
+</section>
+
+<section id="website-example" tabindex="-1" class="cap-band cap-band--navy" aria-labelledby="designs-heading">
+  <div class="cap-section">
+    <Lead lead={designs} id="designs-heading" wide />
+    <div class="cap-designs">
+      {designs.items.map((design) => (
+        <article class="cap-design">
+          <DesignFrame design={design.id} kind="phone" name={design.name} className="cap-design__phone" />
+          <div class="cap-design__copy">
+            <span class="brand-media-eye">{design.label}</span>
+            <h3>{design.name}</h3>
+            <p>{design.body}</p>
+            <ul>{design.features.map((feature) => <li>{feature}</li>)}</ul>
+          </div>
+        </article>
+      ))}
+    </div>
   </div>
 </section>
 
-<section id="website-example" tabindex="-1" class="cap-band cap-band--navy" aria-labelledby="website-example-heading">
-  <div class="cap-section cap-example">
-    <div>
-      <span class="brand-media-eye">{example.eye}</span>
-      <h2 id="website-example-heading">{example.heading}</h2>
-    </div>
-    <div>
-      <p>{example.intro}</p>
-      <p class="cap-example__note">{example.note}</p>
-      <ul class="cap-example__links" aria-label="Pages to explore">
-        {example.links.map((link) => <li><a href={link.href}>{link.label}<span aria-hidden="true">→</span></a></li>)}
-      </ul>
-    </div>
-  </div>
+<section id="capabilities" class="cap-section" aria-labelledby="capabilities-heading">
+  <Lead lead={capabilities} id="capabilities-heading" />
+  <dl class="cap-groups">
+    {capabilities.groups.map((group) => (
+      <div>
+        <dt>{group.title}</dt>
+        <dd>{group.body}</dd>
+      </div>
+    ))}
+  </dl>
 </section>
 
-<section id="process" class="cap-section" aria-labelledby="process-heading">
+<section id="process" class="cap-section cap-process-row" aria-labelledby="process-heading">
   <Lead lead={process} id="process-heading" />
   <ol class="cap-flow">
     {process.steps.map((step, index) => (
@@ -52,5 +63,3 @@ const { scope, example, process } = body;
     ))}
   </ol>
 </section>
-
-<Pair pair={body.pair} />

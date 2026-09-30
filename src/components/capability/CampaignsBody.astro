@@ -1,44 +1,92 @@
 ---
 import type { CampaignsBody } from '../../data/capability-pages';
 import Lead from './Lead.astro';
-import Pair from './Pair.astro';
 
 interface Props { body: CampaignsBody; }
 const { body } = Astro.props;
-const { matrix, plan } = body;
+const { flow, matrix } = body;
+const flowLabel = `A campaign connects the ${flow.nodes.map((node) => node.toLowerCase()).join(', ')}`;
+
+// Desktop: one row across 760 units. Phone: the same row redrawn at text size for 350 units.
+const wide = { gap: 160, start: 60, r: 22, label: 104 };
+const narrow = { gap: 70, start: 35, r: 13, label: 62 };
+const lines = (node: string) => (node.includes(' ') ? node.split(' ') : [node]);
 ---
 
-<section id="what-this-is" tabindex="-1" class="cap-section" aria-labelledby="matrix-heading">
-  <Lead lead={matrix} id="matrix-heading" />
-  <table id="matrix" class="cap-matrix cap-matrix--light">
-    <thead>
-      <tr><th scope="col">Service</th><th scope="col">What the work includes</th><th scope="col">Who decides what</th></tr>
-    </thead>
-    <tbody>
-      {matrix.rows.map((row) => (
-        <tr>
-          <th scope="row"><span class="brand-media-eye">{row.label}</span><b>{row.title}</b></th>
-          <td>{row.body}</td>
-          <td class="cap-matrix__note">{row.note}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
+<section id="what-this-is" tabindex="-1" class="cap-section cap-leak" aria-labelledby="flow-heading">
+  <Lead lead={flow} id="flow-heading" />
+  <svg id="leak-map" class="cap-leak__map cap-leak__map--wide" viewBox="0 0 760 130" role="img" aria-label={flowLabel}>
+    {flow.nodes.map((node, index) => {
+      const x = wide.start + index * wide.gap;
+      return (
+        <>
+          {index < flow.nodes.length - 1 && (
+            <>
+              <path class="cap-leak__line" d={`M${x + wide.r} 50 H${x + wide.gap - wide.r}`} />
+              <g class="cap-leak__gap" transform={`translate(${x + wide.gap / 2} 50)`}>
+                <circle r="11" />
+                <text y="4" text-anchor="middle">{index + 1}</text>
+              </g>
+            </>
+          )}
+          <circle class="cap-leak__node" cx={x} cy="50" r={wide.r} />
+          <text class="cap-leak__label" x={x} y={wide.label} text-anchor="middle">{node}</text>
+        </>
+      );
+    })}
+  </svg>
+  <svg class="cap-leak__map cap-leak__map--narrow" viewBox="0 0 350 92" role="img" aria-label={flowLabel}>
+    {flow.nodes.map((node, index) => {
+      const x = narrow.start + index * narrow.gap;
+      return (
+        <>
+          {index < flow.nodes.length - 1 && (
+            <>
+              <path class="cap-leak__line" d={`M${x + narrow.r} 30 H${x + narrow.gap - narrow.r}`} />
+              <g class="cap-leak__gap" transform={`translate(${x + narrow.gap / 2} 30)`}>
+                <circle r="8" />
+                <text y="3.5" text-anchor="middle">{index + 1}</text>
+              </g>
+            </>
+          )}
+          <circle class="cap-leak__node" cx={x} cy="30" r={narrow.r} />
+          <text class="cap-leak__label" x={x} y={narrow.label} text-anchor="middle">
+            {lines(node).map((line, lineIndex) => <tspan x={x} dy={lineIndex === 0 ? 0 : 13}>{line}</tspan>)}
+          </text>
+        </>
+      );
+    })}
+  </svg>
+  <ol class="cap-leak__pains">
+    {flow.links.map((link, index) => (
+      <li>
+        <span class="cap-num">{index + 1}</span>
+        <div>
+          <span class="brand-media-eye">{flow.nodes[link.after]} → {flow.nodes[link.after + 1]}</span>
+          <h3>{link.title}</h3>
+          <p>{link.body}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
 </section>
 
-<section id="plan" class="cap-band cap-band--navy" aria-labelledby="plan-heading">
+<section id="matrix" class="cap-band cap-band--navy" aria-labelledby="matrix-heading">
   <div class="cap-section">
-    <Lead lead={plan} id="plan-heading" />
-    <ol class="cap-flow">
-      {plan.steps.map((step, index) => (
-        <li>
-          <span class="cap-num">{String(index + 1).padStart(2, '0')}</span>
-          <h3>{step.name}</h3>
-          <p>{step.body}</p>
-        </li>
-      ))}
-    </ol>
+    <Lead lead={matrix} id="matrix-heading" wide />
+    <table class="cap-matrix">
+      <thead>
+        <tr><th scope="col">Service</th><th scope="col">What the work includes</th><th scope="col">What to agree on</th></tr>
+      </thead>
+      <tbody>
+        {matrix.rows.map((row) => (
+          <tr>
+            <th scope="row"><span class="brand-media-eye">{row.label}</span><b>{row.title}</b></th>
+            <td>{row.body}</td>
+            <td class="cap-matrix__note">{row.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </div>
 </section>
-
-<Pair pair={body.pair} />

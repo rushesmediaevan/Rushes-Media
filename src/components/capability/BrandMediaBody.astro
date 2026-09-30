@@ -2,7 +2,6 @@
 import type { BrandMediaBody } from '../../data/capability-pages';
 import ConceptPicture from '../brand-media/ConceptPicture.astro';
 import Lead from './Lead.astro';
-import Pair from './Pair.astro';
 
 interface Props { body: BrandMediaBody; }
 const { body } = Astro.props;
@@ -96,4 +95,3 @@ const frames = delivery.spread.formats.map((format) => {
   </div>
 </section>
 
-<Pair pair={body.pair} />

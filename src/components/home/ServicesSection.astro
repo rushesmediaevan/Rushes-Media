@@ -1,5 +1,5 @@
 ---
-import { brandMediaFilm, homeServices, systemsUses } from '../../data/home';
+import { brandMediaFilm, homeServices, systemsBeats } from '../../data/home';
 import { homepageAssets } from '../../data/homepage-assets';
 import HomePicture from './HomePicture.astro';
 
@@ -15,7 +15,10 @@ const systems = homeServices[3];
       <span class="eye">What Rushes does</span>
       <h2 id="v3-services-heading" class="svc-h2">Capabilities that move the business forward.</h2>
     </div>
-    <p>Photography and video, advertising, websites and practical AI. Hire one, or several that work together.</p>
+    <p>
+      Rushes brings together brand media, creative campaigns, websites and business systems.
+      Hire one on its own, or connect them through the Demand Loop.
+    </p>
   </header>
 
   <article class="v3-chapter" aria-labelledby="v3-brand-heading">
@@ -35,6 +38,7 @@ const systems = homeServices[3];
       <h3 id="v3-brand-heading">{brand.name}</h3>
       <p class="v3-claim">{brand.plainName}</p>
       <p>{brand.description}</p>
+      <ul class="v3-tags" aria-label="Includes">{brand.tags.map((tag) => <li>{tag}</li>)}</ul>
       <a class="v3-more" href={brand.href}>Open Brand Media<span aria-hidden="true">→</span></a>
     </div>
   </article>
@@ -48,6 +52,7 @@ const systems = homeServices[3];
       <h3 id="v3-campaigns-heading">{campaigns.name}</h3>
       <p class="v3-claim">{campaigns.plainName}</p>
       <p>{campaigns.description}</p>
+      <ul class="v3-tags" aria-label="Includes">{campaigns.tags.map((tag) => <li>{tag}</li>)}</ul>
       <a class="v3-more" href={campaigns.href}>Open Creative Campaigns<span aria-hidden="true">→</span></a>
     </div>
   </article>
@@ -61,18 +66,29 @@ const systems = homeServices[3];
       <h3 id="v3-web-heading">{web.name}</h3>
       <p class="v3-claim">{web.plainName}</p>
       <p>{web.description}</p>
+      <ul class="v3-tags" aria-label="Includes">{web.tags.map((tag) => <li>{tag}</li>)}</ul>
       <a class="v3-more" href={web.href}>Open Web & Landing<span aria-hidden="true">→</span></a>
     </div>
   </article>
 
   <article class="v3-chapter v3-chapter--systems" aria-labelledby="v3-systems-heading">
-    <div class="v3-systems v3-systems--uses">
-      <p class="v3-systems-title">Where it helps</p>
+    <div class="v3-systems" aria-label="Four things a connected system handles">
+      <svg class="v3-systems-map" viewBox="0 0 640 132" aria-hidden="true" focusable="false">
+        <path class="v3-systems-line" d="M88 40 H192 M228 40 H332 M368 40 H472" />
+        {systemsBeats.map((beat, index) => (
+          <>
+            <circle cx={70 + index * 140} cy="40" r="18" />
+            <text x={70 + index * 140} y="45" text-anchor="middle">{String(index + 1).padStart(2, '0')}</text>
+            <text class="v3-systems-label" x={70 + index * 140} y="86" text-anchor="middle">{beat.label}</text>
+          </>
+        ))}
+      </svg>
       <ol>
-        {systemsUses.map((use, index) => (
+        {systemsBeats.map((beat, index) => (
           <li>
-            <span><b>{String(index + 1).padStart(2, '0')}</b> {use.label}</span>
-            <strong>{use.text}</strong>
+            <span><b>{String(index + 1).padStart(2, '0')}</b> {beat.label}</span>
+            <strong>{beat.heading}</strong>
+            <p>{beat.example}</p>
           </li>
         ))}
       </ol>
@@ -82,6 +98,7 @@ const systems = homeServices[3];
       <h3 id="v3-systems-heading">{systems.name}</h3>
       <p class="v3-claim">{systems.plainName}</p>
       <p>{systems.description}</p>
+      <ul class="v3-tags" aria-label="Includes">{systems.tags.map((tag) => <li>{tag}</li>)}</ul>
       <a class="v3-more" href={systems.href}>Open AI &amp; Business Systems<span aria-hidden="true">→</span></a>
     </div>
   </article>

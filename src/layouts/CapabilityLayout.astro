@@ -4,7 +4,8 @@ import BrandMediaBody from '../components/capability/BrandMediaBody.astro';
 import CampaignsBody from '../components/capability/CampaignsBody.astro';
 import DemandLoopBody from '../components/capability/DemandLoopBody.astro';
 import SystemsBody from '../components/capability/SystemsBody.astro';
-import SiteShowcase from '../components/capability/SiteShowcase.astro';
+import DesignShowcase from '../components/capability/DesignShowcase.astro';
+import ServiceConnect from '../components/capability/ServiceConnect.astro';
 import WebBody from '../components/capability/WebBody.astro';
 import BookingWidget from '../components/shared/BookingWidget.astro';
 import EditorialFooter from '../components/shared/EditorialFooter.astro';
@@ -40,7 +41,7 @@ const guides = ARTICLES.filter((article) => article.category === guideCategory[p
   <link slot="head" rel="stylesheet" href="/assets/brand-media.css" />
   <link slot="head" rel="stylesheet" href="/assets/capability-pages.css" />
 
-  <EditorialHeader current={page.current} />
+  <EditorialHeader current={page.current} path={`/${page.slug}/`} />
   <main
     id="main-content"
     tabindex="-1"
@@ -55,7 +56,7 @@ const guides = ARTICLES.filter((article) => article.category === guideCategory[p
         <p class="brand-media-breadcrumb">
           {page.breadcrumb.map((item, index) => (
             <>
-              {index === 0 ? <a href="/">{item}</a> : index === page.breadcrumb.length - 1 ? <b>{item}</b> : <span>{item}</span>}
+              {index === page.breadcrumb.length - 1 ? <b aria-current="page">{item}</b> : <a href={item === 'Services' ? '/#services' : '/'}>{item}</a>}
               {index < page.breadcrumb.length - 1 && <span>/</span>}
             </>
           ))}
@@ -69,8 +70,8 @@ const guides = ARTICLES.filter((article) => article.category === guideCategory[p
           </a>
         </div>
       </div>
-      {page.hero.siteShowcase ? (
-        <SiteShowcase />
+      {page.hero.designShowcase ? (
+        <DesignShowcase />
       ) : (
         <div class="brand-media-hero__visuals">
           <ConceptPicture
@@ -81,7 +82,6 @@ const guides = ARTICLES.filter((article) => article.category === guideCategory[p
             fetchpriority="high"
             showCaption={false}
           />
-          <p class="brand-media-hero__disclosure">Concept imagery, not client work</p>
           <ConceptPicture
             asset={page.hero.insetVisual}
             className="brand-media-hero__inset"
@@ -119,6 +119,8 @@ const guides = ARTICLES.filter((article) => article.category === guideCategory[p
       </div>
     </section>
 
+    {page.connect && <ServiceConnect connect={page.connect} />}
+
     <section id="book" tabindex="-1" class="brand-media-booking" aria-labelledby="capability-booking-heading">
       <div class="brand-media-booking__copy">
         <span class="brand-media-eye">{page.booking.eyebrow}</span>
@@ -130,7 +132,7 @@ const guides = ARTICLES.filter((article) => article.category === guideCategory[p
     </section>
 
     <nav class="commercial-route-links" aria-label="Related Rushes Media routes">
-      {innerPageNavigation.map((link) => <a href={link.href}>{link.label}<span aria-hidden="true">→</span></a>)}
+      {innerPageNavigation.map((link) => <a href={link.href} aria-current={link.href === `/${page.slug}/` ? 'page' : undefined}>{link.label}<span aria-hidden="true">→</span></a>)}
     </nav>
   </main>
   <EditorialFooter />

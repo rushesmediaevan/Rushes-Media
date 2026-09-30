@@ -376,100 +376,186 @@
   .capability-page .brand-media-booking__copy p { font-size: 16px; line-height: 1.65; }
 }
 
-/* ── v5 (2026-09-29): calmer hierarchy, one container edge, fewer sections ───────────
-   Sections share the hero's content edge (1440 container), section headings sit a
-   clear step below the H1, and the old two-panel pair is a single closing line. */
+/* ── v6 (2026-09-29): one container edge, calmer hierarchy, restored service detail ──────
+   Sections share the hero's content edge (1440 container); section headings sit a clear
+   step below the H1. Components: web design frames, grouped capabilities, the campaign
+   flow graphic at phone size, the systems work list, and the Demand Loop connection band. */
 .capability-page { --cap-max: 1440px; }
 .cap-lead { grid-template-columns: minmax(0, 1fr) minmax(280px, .62fr); align-items: end; }
 .cap-lead h2 { max-width: 18ch; font-size: clamp(34px, 3.7vw, 52px); line-height: 1.02; }
-.capability-page .cap-lead p { max-width: 46ch; }
+.cap-lead--wide h2 { max-width: 24ch; }
+.capability-page .cap-lead p { max-width: 50ch; }
 
-/* /web/ scope choices and what every project covers */
+/* Scope choices (/web/) */
 .cap-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); margin: 0; }
 .cap-options article { padding: 26px 0 0; border-top: 2px solid var(--bm-gold); }
 .capability-page .cap-options h3 { margin: 0 0 10px; font-size: clamp(26px, 2.3vw, 32px); line-height: 1.06; }
 .capability-page .cap-options p { margin: 0; max-width: 40ch; }
-.cap-includes { display: grid; grid-template-columns: minmax(200px, .38fr) minmax(0, 1fr); gap: 16px clamp(32px, 5vw, 72px); margin-top: clamp(40px, 5vw, 64px); padding-top: 28px; border-top: 1px solid var(--cap-line); }
-.capability-page .cap-includes h3 { margin: 0; font-size: clamp(24px, 2vw, 28px); line-height: 1.1; }
-.cap-includes ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 40px; margin: 0; padding: 0; list-style: none; }
-.cap-includes li { position: relative; padding-left: 22px; color: var(--cap-text); font-size: 15.5px; line-height: 1.55; }
-.cap-includes li::before { content: ''; position: absolute; left: 0; top: .62em; width: 10px; height: 1px; background: var(--bm-gold-ink); }
 
-/* /web/ owned-site example */
-.cap-example { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, .9fr); gap: 20px clamp(40px, 7vw, 110px); align-items: end; }
-.capability-page .cap-example h2 { margin: 14px 0 0; font-size: clamp(34px, 3.7vw, 52px); line-height: 1.02; }
-.capability-page .cap-example p { margin: 0 0 12px; max-width: 52ch; }
-.capability-page .cap-band--navy .cap-example .cap-example__note { color: var(--bm-gold); font-size: 13px; font-weight: 600; }
-.cap-example__links { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 0; padding: 0; list-style: none; }
-.cap-example__links a { min-height: 44px; display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; border: 1px solid var(--cap-line-dark); color: var(--bm-cream); font-size: 13px; font-weight: 600; text-decoration: none; }
-.cap-example__links a:hover, .cap-example__links a:focus-visible { border-color: var(--bm-gold); color: var(--bm-gold); }
+/* Website designs (/web/): phone frame beside a precise description */
+.cap-designs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 3vw, 48px); }
+.cap-design { display: grid; grid-template-columns: minmax(130px, .42fr) minmax(0, 1fr); gap: clamp(20px, 2.4vw, 32px); align-items: start; padding: clamp(20px, 2.4vw, 28px); border: 1px solid var(--cap-line-dark); }
+.capability-page .cap-design h3 { margin: 10px 0 12px; font-size: clamp(30px, 2.8vw, 40px); line-height: 1; }
+.capability-page .cap-band--navy .cap-design p { margin: 0 0 16px; color: var(--cap-text-dark); font-size: 15px; line-height: 1.62; }
+.cap-design ul { margin: 0; padding: 14px 0 0; list-style: none; border-top: 1px solid var(--cap-line-dark); }
+.cap-design li { position: relative; padding: 5px 0 5px 20px; color: rgba(245, 240, 230, .86); font-size: 14px; line-height: 1.5; }
+.cap-design li::before { content: ''; position: absolute; left: 0; top: .95em; width: 10px; height: 1px; background: var(--bm-gold); }
 
-/* Numbered process row shared by /web/ and /campaigns/ */
+/* Design frames: browser and phone */
+.design-frame { margin: 0; overflow: hidden; background: #16222f; }
+.design-frame picture, .design-frame img { display: block; width: 100%; height: auto; }
+.design-frame--desktop { border: 1px solid rgba(245, 240, 230, .18); border-radius: 8px; box-shadow: 0 30px 70px rgba(2, 8, 14, .45); }
+.design-frame__bar { display: flex; align-items: center; gap: 6px; height: 26px; padding: 0 12px; background: #1f2d3c; }
+.design-frame__bar i { width: 8px; height: 8px; border-radius: 50%; background: rgba(245, 240, 230, .28); }
+.design-frame__bar span { margin-left: 10px; color: rgba(245, 240, 230, .6); font-size: 11px; letter-spacing: .02em; }
+.design-frame--phone { border: 5px solid #05090e; border-radius: 22px; box-shadow: 0 24px 50px rgba(2, 8, 14, .45), 0 0 0 1px rgba(245, 240, 230, .16); }
+
+/* /web/ hero: two designs, overlapping windows */
+.design-showcase { position: relative; width: min(100%, 660px); justify-self: end; padding: 0 0 44px 0; }
+.design-showcase__back { width: 78%; margin-left: auto; opacity: .92; }
+.design-showcase__front { position: relative; width: 78%; margin-top: -30%; }
+.design-showcase__caption { margin: 18px 0 0; color: rgba(245, 240, 230, .66); font-size: 12px; line-height: 1.4; text-align: right; }
+
+/* Grouped capabilities (/web/) */
+.cap-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(32px, 5vw, 72px); margin: 0; }
+.cap-groups > div { display: grid; grid-template-columns: minmax(150px, .42fr) minmax(0, 1fr); gap: 8px 24px; padding: 22px 0 24px; border-top: 1px solid var(--cap-line); }
+.cap-groups dt { color: var(--bm-navy); font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(23px, 1.9vw, 27px); line-height: 1.08; letter-spacing: -.02em; }
+.cap-groups dd { margin: 0; color: var(--cap-text); font-size: 15px; line-height: 1.62; }
+
+/* Numbered process row (/web/) */
 .cap-flow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 2.6vw, 40px); margin: 0; padding: 0; list-style: none; }
 .cap-flow li { padding-top: 22px; border-top: 1px solid var(--cap-line); }
-.cap-band--navy .cap-flow li { border-top-color: var(--cap-line-dark); }
-.cap-band--navy .cap-flow .cap-num { color: var(--bm-gold); }
 .capability-page .cap-flow h3 { margin: 16px 0 8px; font-size: clamp(24px, 2vw, 28px); line-height: 1.08; }
 .capability-page .cap-flow p { margin: 0; font-size: 15px; line-height: 1.62; }
+.cap-process-row { padding-top: 0; }
 
-/* /campaigns/ services table on cream */
-.cap-matrix--light thead th { color: var(--bm-gold-ink); border-bottom-color: var(--cap-line); }
-.cap-matrix--light tbody th, .cap-matrix--light tbody td { border-top-color: var(--cap-line); }
-.capability-page .cap-matrix--light tbody th b { color: var(--bm-navy); }
-.cap-matrix--light tbody td { color: var(--cap-text); font-size: 15px; }
-.cap-matrix--light .cap-matrix__note { color: var(--bm-gold-ink) !important; }
+/* Campaign flow graphic: the wide row on desktop, a text-sized row on phones */
+.cap-leak__map--narrow { display: none; }
+.cap-leak__pains .brand-media-eye { letter-spacing: .08em; }
 
-/* One closing line replaces the stands-alone / connects pair */
-.cap-connect { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 40px; padding-block: 0 clamp(32px, 4vw, 56px); }
-.cap-connect::before { content: ''; flex: 0 0 100%; height: 1px; background: var(--cap-line); }
-.capability-page .cap-connect p { flex: 1 1 420px; max-width: 64ch; margin: 18px 0; color: var(--bm-navy); font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(22px, 2vw, 27px); line-height: 1.3; }
-.cap-connect .cap-link { color: var(--bm-navy); }
+/* Systems work list with the routing image (/follow-up/) */
+.cap-work__grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr); gap: clamp(32px, 5vw, 80px); align-items: start; }
+.cap-work__list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--cap-line); }
+.cap-work__list li { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 14px; padding: 20px 0 22px; border-bottom: 1px solid var(--cap-line); }
+.capability-page .cap-work__list h3 { margin: 2px 0 6px; font-size: clamp(24px, 2.1vw, 29px); line-height: 1.08; }
+.capability-page .cap-work__list p { margin: 0; max-width: 60ch; font-size: 15px; line-height: 1.62; }
+.cap-work__visuals { position: relative; padding: 0 0 56px 0; }
+.cap-work__main picture { aspect-ratio: 4 / 5; }
+.cap-work__inset { position: absolute; left: -28px; bottom: 0; width: 38%; padding: 6px; background: var(--bm-cream); box-shadow: 0 24px 50px rgba(2, 8, 14, .26); }
+.cap-work__inset picture { aspect-ratio: 4 / 5; }
+.cap-band--navy .cap-timeline { border-left-color: var(--cap-line-dark); }
+.cap-band--navy .cap-timeline li::before { box-shadow: 0 0 0 4px var(--bm-navy); }
+.cap-band--navy .cap-timeline time { color: var(--bm-gold); }
 
-/* /web/ hero: screenshots of the Rushes site (owned work) */
-.site-showcase { position: relative; width: min(100%, 640px); justify-self: end; padding: 0 44px 56px 0; }
-.site-showcase figure { margin: 0; }
-.site-showcase__desktop { overflow: hidden; border: 1px solid rgba(245, 240, 230, .18); border-radius: 8px; background: #16222f; box-shadow: 0 30px 70px rgba(2, 8, 14, .45); }
-.site-showcase__bar { display: flex; align-items: center; gap: 6px; height: 28px; padding: 0 12px; background: #1f2d3c; }
-.site-showcase__bar i { width: 8px; height: 8px; border-radius: 50%; background: rgba(245, 240, 230, .28); }
-.site-showcase__bar span { margin-left: 12px; color: rgba(245, 240, 230, .55); font-size: 11px; letter-spacing: .02em; }
-.site-showcase picture, .site-showcase img { display: block; width: 100%; height: auto; }
-.site-showcase__phone { position: absolute; right: 0; bottom: 0; width: 26%; overflow: hidden; border: 5px solid #0a121b; border-radius: 22px; background: #0a121b; box-shadow: 0 24px 50px rgba(2, 8, 14, .5), 0 0 0 1px rgba(245, 240, 230, .18); }
-.site-showcase__caption { position: absolute; left: 0; bottom: 14px; max-width: calc(74% - 16px); margin: 0; color: rgba(245, 240, 230, .66); font-size: 12px; line-height: 1.4; }
+/* Demand Loop connection band, before booking on each service page */
+.svc-connect {
+  width: min(100% - 2 * var(--cap-x), 1440px - 2 * var(--cap-x));
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 2.1fr);
+  margin: clamp(48px, 6vw, 88px) auto 0;
+}
+.svc-connect__eye { display: block; margin-bottom: 8px; font: 700 10px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .12em; text-transform: uppercase; }
+.svc-connect__alone { padding: 26px 28px; color: var(--bm-navy); background: var(--bm-paper); }
+.svc-connect__alone .svc-connect__eye { color: var(--bm-gold-ink); }
+.capability-page .svc-connect__alone p { margin: 0; color: var(--bm-navy); font-size: 15px; line-height: 1.55; }
+.svc-connect__loop { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 18px 24px; align-items: center; padding: 22px 28px; color: var(--bm-cream); background: var(--bm-navy); }
+.svc-connect__loop .svc-connect__eye { color: var(--bm-gold); }
+.capability-page .svc-connect__loop h2 { margin: 0 0 4px; color: var(--bm-cream); font-size: clamp(24px, 2.2vw, 30px); line-height: 1.05; }
+.capability-page .svc-connect__loop p { margin: 0; color: rgba(245, 240, 230, .78); font-size: 15px; line-height: 1.55; }
+.svc-connect__symbol { width: 64px; height: 64px; overflow: visible; }
+.svc-connect__ring { fill: none; stroke: rgba(184, 152, 96, .75); stroke-width: 1.6; }
+.svc-connect__node { fill: var(--bm-navy); stroke: var(--bm-gold); stroke-width: 1.4; }
+.svc-connect__orbit { fill: var(--bm-gold); transform-box: view-box; transform-origin: 36px 36px; animation: svc-orbit 9s linear infinite; }
+@keyframes svc-orbit { to { transform: rotate(360deg); } }
+.svc-connect__button {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border: 1px solid var(--bm-gold);
+  color: var(--bm-ink);
+  background: var(--bm-gold);
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background .2s ease, border-color .2s ease;
+}
+.svc-connect__button:hover { background: var(--bm-cream); border-color: var(--bm-cream); }
+.svc-connect__button:focus-visible { outline: 3px solid var(--bm-cream); outline-offset: 3px; }
+.svc-connect__button span { transition: transform .2s ease; }
+.svc-connect__button:hover span { transform: translateX(3px); }
+.svc-connect + .brand-media-booking { margin-top: 0; }
 
-/* The concept label sits directly under the hero photo it describes. */
-.capability-page .brand-media-hero__disclosure { font-size: 11px; color: rgba(245, 240, 230, .62); }
+/* FAQ, booking and route links share the same 1440 content edge. */
+.capability-page .brand-media-faq,
+.capability-page .brand-media-booking { max-width: 1440px; }
+.capability-page .commercial-route-links { width: auto; max-width: calc(1440px - 2 * var(--cap-x)); margin-inline: max(var(--cap-x), calc((100% - 1440px) / 2 + var(--cap-x))); }
+.capability-page .commercial-route-links a[aria-current] { color: var(--bm-gold); }
+
+/* Breadcrumb items share one baseline; the Services crumb is a real link. */
+.capability-page .brand-media-breadcrumb { align-items: center; }
+.capability-page .brand-media-breadcrumb a:hover { color: var(--bm-cream); }
+
+/* In-page anchors land below the sticky header instead of under it. */
+.capability-page :is(section, aside, div)[id] { scroll-margin-top: 84px; }
 
 @media (max-width: 900px) {
-  .cap-lead, .cap-options, .cap-includes, .cap-example { grid-template-columns: 1fr; }
+  .cap-lead, .cap-options, .cap-designs, .cap-groups, .cap-work__grid { grid-template-columns: 1fr; }
   .cap-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .site-showcase { justify-self: start; }
+  .design-showcase { justify-self: start; }
+  .cap-work__visuals { max-width: 460px; margin-left: 28px; }
+  .svc-connect { grid-template-columns: 1fr; }
 }
 @media (max-width: 760px) {
-  .cap-includes ul { grid-template-columns: 1fr; }
-  .cap-includes li { font-size: 16px; }
   .capability-page .cap-options h3 { font-size: 28px; }
   .cap-options { gap: 28px; }
-  .cap-matrix--light tbody tr { border-top-color: var(--cap-line); }
-  .capability-page .cap-connect p { font-size: 22px; margin: 16px 0 0; }
-  .cap-connect { gap: 8px; padding-block: 0 28px; }
-  .site-showcase { width: 100%; padding: 0 24px 44px 0; }
-  .site-showcase__phone { width: 30%; border-width: 4px; border-radius: 16px; }
-  .site-showcase__caption { font-size: 11px; bottom: 8px; }
+  .cap-leak__map--wide { display: none; }
+  .cap-leak__map--narrow { display: block; max-width: 390px; margin: 0 0 28px; }
+  .cap-leak__map--narrow .cap-leak__label { font-size: 11px; }
+  .cap-leak__map--narrow .cap-leak__gap text { font-size: 9px; }
+  .cap-design { grid-template-columns: 108px minmax(0, 1fr); padding: 18px; }
+  .capability-page .cap-design h3 { font-size: 30px; }
+  .design-frame--phone { border-width: 4px; border-radius: 16px; }
+  .cap-groups > div { grid-template-columns: 1fr; gap: 6px; }
+  .cap-groups dt { font-size: 24px; }
+  .cap-groups dd { font-size: 16px; }
+  .design-showcase { width: 100%; padding-bottom: 8px; }
+  .design-showcase__caption { font-size: 11px; text-align: left; }
+  .cap-work__list li { grid-template-columns: 32px minmax(0, 1fr); gap: 12px; }
+  .cap-work__visuals { max-width: none; margin-left: 20px; padding-bottom: 44px; }
+  .cap-work__inset { left: -20px; width: 36%; }
+  .svc-connect { width: calc(100% - 2 * var(--cap-x)); margin-top: 36px; }
+  .svc-connect__alone { padding: 20px; }
+  .svc-connect__loop { grid-template-columns: 52px minmax(0, 1fr); padding: 20px; }
+  .svc-connect__symbol { width: 52px; height: 52px; }
+  .svc-connect__button { grid-column: 1 / -1; justify-content: center; }
 }
 @media (max-width: 560px) {
   .cap-flow { grid-template-columns: 1fr; gap: 0; }
   .cap-flow li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 0 12px; padding: 18px 0; }
   .cap-flow .cap-num { grid-row: 1 / span 2; font-size: 24px; }
   .capability-page .cap-flow h3 { margin: 0 0 6px; }
+  .cap-design { grid-template-columns: 1fr; }
+  .cap-design__phone { width: 58%; max-width: 220px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .svc-connect__orbit { animation: none; }
+  .svc-connect__button, .svc-connect__button span { transition: none; }
 }
 
-/* Breadcrumb items share one baseline on phones (the Home link was taller than its siblings). */
-.capability-page .brand-media-breadcrumb { align-items: center; }
+/* /web/ hero gives the two designs the larger column. */
+@media (min-width: 901px) {
+  .capability-page .brand-media-hero:has(.design-showcase) { grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); }
+  .design-showcase { width: 100%; max-width: 720px; }
+  .design-showcase__back, .design-showcase__front { width: 82%; }
+  .design-showcase__front { margin-top: -34%; }
+}
 
-/* FAQ, booking and route links share the same 1440 content edge as the hero and sections. */
-.capability-page .brand-media-faq,
-.capability-page .brand-media-booking { max-width: 1440px; }
-.capability-page .commercial-route-links { width: auto; max-width: calc(1440px - 2 * var(--cap-x)); margin-inline: max(var(--cap-x), calc((100% - 1440px) / 2 + var(--cap-x))); }
-
-/* In-page anchors land below the sticky header instead of under it. */
-.capability-page :is(section, aside)[id] { scroll-margin-top: 84px; }
+/* Related routes after booking sit on cream here; the inherited cream text was invisible. */
+.capability-page .commercial-route-links { margin-block: 0 clamp(40px, 5vw, 64px); border-color: var(--cap-line); }
+.capability-page .commercial-route-links a { border-color: var(--cap-line); color: var(--bm-navy); font-weight: 600; }
+.capability-page .commercial-route-links a:hover { color: var(--bm-ink); background: var(--bm-gold); }
+.capability-page .commercial-route-links a[aria-current] { color: var(--bm-gold-ink); }
+.capability-page .commercial-route-links a:focus-visible { outline: 2px solid var(--bm-navy); outline-offset: -4px; }

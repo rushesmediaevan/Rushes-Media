@@ -91,44 +91,44 @@ export const audiences: readonly HomeAudience[] = [
 export const homeServices: readonly HomeService[] = [
   {
     href: '/brand-media/',
-    stage: 'Creative expression',
+    stage: 'Photography & video',
     name: 'Brand Media',
     plainName: 'Show what makes the business worth choosing.',
     description:
       'Photography and video that make the business, its people, products, services, places, and point of view worth noticing across every channel.',
-    tags: ['Photo & motion', 'Campaign creative', 'Organic content'],
+    tags: ['Brand photography', 'Video & reels', 'Campaign creative'],
     tone: 'ink',
     visual: homepageAssets.brandMediaRiversideMill,
   },
   {
     href: '/campaigns/',
-    stage: 'Focused reach',
+    stage: 'Advertising',
     name: 'Creative Campaigns',
     plainName: 'Reach more of the people most likely to need the service.',
     description:
-      'Meta and Google campaigns pair strong creative with a clear message and next step.',
-    tags: ['Meta', 'Google', 'Campaign management'],
+      'Google and Meta campaigns that pair strong creative with a clear message and a landing page that gives people a reason to get in touch.',
+    tags: ['Google Ads', 'Meta ads', 'Campaign management'],
     tone: 'paper',
     visual: homepageAssets.campaignsSubmerged,
   },
   {
     href: '/web/',
-    stage: 'Digital experience',
+    stage: 'Websites',
     name: 'Web & Landing',
     plainName: 'Help interested buyers understand the service and act.',
     description:
       'Focused sites and landing pages answer key questions and make calling, booking, or requesting an estimate straightforward.',
-    tags: ['Custom sites', 'Landing pages', 'Conversion UX'],
+    tags: ['Custom websites', 'Landing pages', 'Forms & booking'],
     tone: 'gold',
     visual: revisionAssets.daylitVenue,
   },
   {
     href: '/follow-up/',
-    stage: 'Time & leverage',
+    stage: 'Tools & workflows',
     name: 'AI & Business Systems',
-    plainName: 'Give your team time back.',
+    plainName: 'Less repeated admin. Clearer handoffs.',
     description:
-      'Practical AI and better workflows take repetitive work off your team, connect the tools you already use and make sure every inquiry gets an owner, a reply and a next step.',
+      'Practical AI and better workflows connect the tools you already use, cut repeated data entry and make sure every request has an owner and a next step.',
     tags: ['AI consulting', 'Workflow automation', 'Lead capture & follow-up'],
     tone: 'navy',
   },
@@ -140,11 +140,27 @@ export const brandMediaFilm = [
   revisionAssets.restaurant,
 ] as const;
 
-export const systemsUses = [
-  { label: 'Admin', text: 'Automate repetitive admin, data entry and paperwork.' },
-  { label: 'Tools', text: 'Connect the forms, calendar, CRM and apps you already use.' },
-  { label: 'Inquiries', text: 'Capture every inquiry and send it to the right person.' },
-  { label: 'Replies', text: 'Draft first replies and follow-ups for your team to review.' },
+export const systemsBeats = [
+  {
+    label: 'Connect',
+    heading: 'Your tools share information.',
+    example: 'A website form creates the contact in your CRM with the service and source attached.',
+  },
+  {
+    label: 'Organize',
+    heading: 'Requests arrive sorted.',
+    example: 'Calls, forms and messages land in one list, grouped by service and location.',
+  },
+  {
+    label: 'Prepare',
+    heading: 'The first draft is ready.',
+    example: 'AI drafts the reply or summarizes a long message for someone to check and send.',
+  },
+  {
+    label: 'Assign',
+    heading: 'Everyone knows who owns what.',
+    example: 'Each open request shows an owner and a next date, with reminders before anything slips.',
+  },
 ] as const;
 
 import { demandLoopSteps } from './demand-loop';

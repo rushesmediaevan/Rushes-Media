@@ -98,6 +98,7 @@ const CAPABILITY_ASSETS = {
   phoneCounterNight: capabilityDerivativeFiles('phone-counter-night', ...SMALL_WIDTHS),
   porchDuskDoorbell: capabilityDerivativeFiles('porch-dusk-doorbell', ...SMALL_WIDTHS),
   twoTrucksDawn: capabilityDerivativeFiles('two-trucks-dawn', ...SMALL_WIDTHS),
+  routingTable: capabilityDerivativeFiles('routing-table', ...FULL_WIDTHS),
 };
 
 export const CAPABILITY_BROWSER_ASSET_FILES = Object.values(CAPABILITY_ASSETS).flat();
@@ -295,7 +296,7 @@ export const SITE_CONTRACT = [
           ...HOMEPAGE_ASSETS.campaignsSubmerged,
           ...REVISION_ASSETS.daylitVenue,
           ...CAPABILITY_ASSETS.phoneCounterNight,
-          ...CAPABILITY_ASSETS.twoTrucksDawn,
+          ...CAPABILITY_ASSETS.routingTable,
         ]),
       ],
     },
@@ -345,8 +346,10 @@ export const SITE_CONTRACT = [
       extraAssets: [
         '/assets/brand-media.css',
         '/assets/capability-pages.css',
-        '/assets/images/web/rushes-site-desktop-1200.webp',
-        '/assets/images/web/rushes-site-phone-720.webp',
+        '/assets/images/web/stonevale-desktop-1200.webp',
+        '/assets/images/web/halewood-desktop-1200.webp',
+        '/assets/images/web/stonevale-phone-720.webp',
+        '/assets/images/web/halewood-phone-720.webp',
       ],
     },
     {
@@ -363,8 +366,7 @@ export const SITE_CONTRACT = [
           ...REVISION_ASSETS.restaurant,
           ...INDUSTRY_ASSETS.interiorDesign,
           ...CAPABILITY_ASSETS.phoneCounterNight,
-          ...CAPABILITY_ASSETS.porchDuskDoorbell,
-          ...CAPABILITY_ASSETS.twoTrucksDawn,
+          ...CAPABILITY_ASSETS.routingTable,
         ]),
       ],
     },
@@ -759,11 +761,12 @@ export const REVIEW_COMPATIBILITY_FILES = [
   'call/teleprompter.html',
 ];
 
-// Screenshots of rushesmedia.com shown on /web/ as owned work (src/components/capability/SiteShowcase.astro).
-export const WEB_SHOWCASE_ASSET_FILES = [
-  ...[800, 1200, 1600].flatMap((width) => ['avif', 'webp'].map((type) => `assets/images/web/rushes-site-desktop-${width}.${type}`)),
-  ...[360, 720].flatMap((width) => ['avif', 'webp'].map((type) => `assets/images/web/rushes-site-phone-${width}.${type}`)),
-];
+// Stonevale and Halewood website designs shown on /web/ (src/components/capability/DesignShowcase.astro).
+// Captured from the review-only /work/ routes with the review strips hidden; those routes stay unpublished.
+export const WEB_SHOWCASE_ASSET_FILES = ['stonevale', 'halewood'].flatMap((design) => [
+  ...[800, 1200, 1600].flatMap((width) => ['avif', 'webp'].map((type) => `assets/images/web/${design}-desktop-${width}.${type}`)),
+  ...[360, 720].flatMap((width) => ['avif', 'webp'].map((type) => `assets/images/web/${design}-phone-${width}.${type}`)),
+]);
 
 export const PUBLIC_ASSET_FILES = [
   'assets/interaction.css',
