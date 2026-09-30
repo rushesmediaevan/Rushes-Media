@@ -3232,7 +3232,7 @@
 
     /* v6 (2026-09-29): the opportunity statement, readable service claims with their
        specifics, a compact Demand Loop band, and one scroll offset for section anchors. */
-    #problem.opp { padding: clamp(80px, 8vw, 116px) var(--px) clamp(64px, 6vw, 88px); background: var(--navy, #1a2a3f); }
+    #problem.opp { padding: clamp(80px, 8vw, 116px) var(--px) clamp(64px, 6vw, 88px); background: var(--ink, #0c1825); }
     .opp-inner {
       max-width: var(--max);
       margin: 0 auto;

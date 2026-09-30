@@ -439,7 +439,7 @@ img { display: block; max-width: 100%; }
   .editorial-logo img:last-child { display: none; }
   .editorial-nav-links { margin-left: auto; }
   .editorial-nav-links > a:not(.editorial-nav-cta) { display: none; }
-  .editorial-nav-links .editorial-nav-cta { max-width: 124px; padding-inline: 12px; line-height: 1.15; text-align: center; }
+  .editorial-nav-links .editorial-nav-cta { max-width: 124px; padding-inline: 12px; line-height: 1.15; text-align: center; white-space: normal; justify-content: center; }
   .service-hero, .loop-hero { padding-top: 52px; padding-bottom: 74px; }
   .service-hero h1, .loop-hero h1 { font-size: clamp(52px, 16vw, 72px); }
   .commercial-section-head-split { grid-template-columns: 1fr; }
