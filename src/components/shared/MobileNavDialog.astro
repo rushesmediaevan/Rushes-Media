@@ -4,6 +4,7 @@ interface MobileNavLink {
   label: string;
   current?: 'page' | 'location';
   cta?: boolean;
+  children?: readonly { href: string; label: string; current?: 'page' }[];
 }
 
 interface Props {
@@ -34,15 +35,22 @@ const labelId = `${id}-label`;
   </div>
   <nav aria-label="Mobile navigation">
     {links.map((link, index) => (
-      <a
-        href={link.href}
-        class:list={[link.cta && 'shared-mobile-nav__cta']}
-        aria-current={link.current}
-      >
-        <span>{String(index + 1).padStart(2, '0')}</span>
-        <strong>{link.label}</strong>
-        <i aria-hidden="true">→</i>
-      </a>
+      <>
+        <a
+          href={link.href}
+          class:list={[link.cta && 'shared-mobile-nav__cta']}
+          aria-current={link.current}
+        >
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <strong>{link.label}</strong>
+          <i aria-hidden="true">→</i>
+        </a>
+        {link.children && (
+          <ul class="shared-mobile-nav__sub" aria-label={`${link.label} pages`}>
+            {link.children.map((child) => <li><a href={child.href} aria-current={child.current}>{child.label}</a></li>)}
+          </ul>
+        )}
+      </>
     ))}
   </nav>
 </dialog>
@@ -50,7 +58,7 @@ const labelId = `${id}-label`;
 <noscript>
   <style>.shared-mobile-nav__trigger { display: none !important; }</style>
   <nav class="shared-mobile-nav__noscript" aria-label="Mobile navigation without JavaScript">
-    {links.map((link) => <a href={link.href} aria-current={link.current}>{link.label}</a>)}
+    {links.flatMap((link) => [link, ...(link.children ?? [])]).map((link) => <a href={link.href} aria-current={link.current}>{link.label}</a>)}
   </nav>
 </noscript>
 
@@ -205,6 +213,16 @@ const labelId = `${id}-label`;
       font: 400 clamp(25px, 8vw, 36px)/1 "Cormorant Garamond", Georgia, serif;
     }
     .shared-mobile-nav nav a i { color: #b89860; font-style: normal; }
+    .shared-mobile-nav nav .shared-mobile-nav__sub { margin: 0; padding: 6px 0 10px 46px; list-style: none; border-bottom: 1px solid rgba(245, 240, 230, .13); }
+    .shared-mobile-nav nav .shared-mobile-nav__sub a {
+      min-height: 44px;
+      display: flex;
+      border: 0;
+      color: rgba(245, 240, 230, .82);
+      font: 500 15px/1.2 Inter, system-ui, sans-serif;
+    }
+    .shared-mobile-nav nav .shared-mobile-nav__sub a[aria-current] { color: #d5bc86; }
+    .shared-mobile-nav nav .shared-mobile-nav__sub a[aria-current]::after { content: '· this page'; margin-left: 8px; color: rgba(245, 240, 230, .5); font-size: 12px; }
     .shared-mobile-nav nav a[aria-current] strong { color: #d5bc86; }
     .shared-mobile-nav nav a.shared-mobile-nav__cta {
       margin-top: 28px;

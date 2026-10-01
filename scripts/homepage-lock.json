@@ -6,7 +6,7 @@
     "assets/images/hero/hero-night-city-video-poster-665c792f.jpg": "665c792f1d5be7901feed1d97a80a44dbb52ffc6326e28490dc48f31c6a5af02"
   },
   "approvedRevisionFiles": {
-    "src/components/home/HeroSection.astro": "a3cb960380d58424f5f8633a7c72b8145c182df7d59704450ac7cee7fbcf9aac",
+    "src/components/home/HeroSection.astro": "e7a282deb3f25bfc507eb34db2d5a09915fe5b851c52ec16d649d5189cbe1da5",
     "src/components/home/HomepageHeader.astro": "a8755b57d074c55946ac7aa8db2f85e2b0909a9c09aa2b96a6d67d57e00e8f8f"
   },
   "homepageCssProtectedPrefix": {
@@ -14,5 +14,6 @@
     "lineCount": 645,
     "sha256": "fc92f24ecea4c599f03fc542d2c15685faaa678c93077df58b08d25baf3cba5d"
   },
-  "repairBaseline": "2026-09-05: approved cursor removal and native homepage dialog; hero media unchanged."
+  "repairBaseline": "2026-09-05: approved cursor removal and native homepage dialog; hero media unchanged.",
+  "pendingReview": "PR29: hero supporting sentence simplified at Evan's request. Source fingerprint updated for validation; release approval remains pending. Media, header and protected CSS unchanged."
 }

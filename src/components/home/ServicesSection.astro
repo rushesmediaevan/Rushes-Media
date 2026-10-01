@@ -16,8 +16,8 @@ const systems = homeServices[3];
       <h2 id="v3-services-heading" class="svc-h2">Capabilities that move the business forward.</h2>
     </div>
     <p>
-      Rushes brings together brand media, creative campaigns, web experiences, and business systems.
-      Each capability can stand alone or connect through the Demand Loop.
+      Rushes brings together brand media, creative campaigns, websites and business systems.
+      Hire one on its own, or connect them through the Demand Loop.
     </p>
   </header>
 
@@ -38,6 +38,7 @@ const systems = homeServices[3];
       <h3 id="v3-brand-heading">{brand.name}</h3>
       <p class="v3-claim">{brand.plainName}</p>
       <p>{brand.description}</p>
+      <ul class="v3-tags" aria-label="Includes">{brand.tags.map((tag) => <li>{tag}</li>)}</ul>
       <a class="v3-more" href={brand.href}>Open Brand Media<span aria-hidden="true">→</span></a>
     </div>
   </article>
@@ -51,6 +52,7 @@ const systems = homeServices[3];
       <h3 id="v3-campaigns-heading">{campaigns.name}</h3>
       <p class="v3-claim">{campaigns.plainName}</p>
       <p>{campaigns.description}</p>
+      <ul class="v3-tags" aria-label="Includes">{campaigns.tags.map((tag) => <li>{tag}</li>)}</ul>
       <a class="v3-more" href={campaigns.href}>Open Creative Campaigns<span aria-hidden="true">→</span></a>
     </div>
   </article>
@@ -64,26 +66,22 @@ const systems = homeServices[3];
       <h3 id="v3-web-heading">{web.name}</h3>
       <p class="v3-claim">{web.plainName}</p>
       <p>{web.description}</p>
+      <ul class="v3-tags" aria-label="Includes">{web.tags.map((tag) => <li>{tag}</li>)}</ul>
       <a class="v3-more" href={web.href}>Open Web & Landing<span aria-hidden="true">→</span></a>
     </div>
   </article>
 
   <article class="v3-chapter v3-chapter--systems" aria-labelledby="v3-systems-heading">
-    <div class="v3-systems" aria-label="How inquiries move through the business">
+    <div class="v3-systems" aria-label="Four things a connected system handles">
       <svg class="v3-systems-map" viewBox="0 0 640 132" aria-hidden="true" focusable="false">
-        <path class="v3-systems-line" d="M70 40 H190 M210 40 H330 M350 40 H470 M490 40 H570" />
-        <circle cx="70" cy="40" r="18" />
-        <circle cx="210" cy="40" r="18" />
-        <circle cx="350" cy="40" r="18" />
-        <circle cx="490" cy="40" r="18" />
-        <text x="70" y="45" text-anchor="middle">01</text>
-        <text x="210" y="45" text-anchor="middle">02</text>
-        <text x="350" y="45" text-anchor="middle">03</text>
-        <text x="490" y="45" text-anchor="middle">04</text>
-        <text class="v3-systems-label" x="70" y="86" text-anchor="middle">Capture</text>
-        <text class="v3-systems-label" x="210" y="86" text-anchor="middle">Route</text>
-        <text class="v3-systems-label" x="350" y="86" text-anchor="middle">Respond</text>
-        <text class="v3-systems-label" x="490" y="86" text-anchor="middle">Keep moving</text>
+        <path class="v3-systems-line" d="M88 40 H192 M228 40 H332 M368 40 H472" />
+        {systemsBeats.map((beat, index) => (
+          <>
+            <circle cx={70 + index * 140} cy="40" r="18" />
+            <text x={70 + index * 140} y="45" text-anchor="middle">{String(index + 1).padStart(2, '0')}</text>
+            <text class="v3-systems-label" x={70 + index * 140} y="86" text-anchor="middle">{beat.label}</text>
+          </>
+        ))}
       </svg>
       <ol>
         {systemsBeats.map((beat, index) => (
@@ -100,6 +98,7 @@ const systems = homeServices[3];
       <h3 id="v3-systems-heading">{systems.name}</h3>
       <p class="v3-claim">{systems.plainName}</p>
       <p>{systems.description}</p>
+      <ul class="v3-tags" aria-label="Includes">{systems.tags.map((tag) => <li>{tag}</li>)}</ul>
       <a class="v3-more" href={systems.href}>Open AI &amp; Business Systems<span aria-hidden="true">→</span></a>
     </div>
   </article>

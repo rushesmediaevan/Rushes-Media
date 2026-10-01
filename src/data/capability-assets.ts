@@ -17,7 +17,8 @@ export type CapabilityAssetId =
   | 'daylit-studio'
   | 'phone-counter-night'
   | 'porch-dusk-doorbell'
-  | 'two-trucks-dawn';
+  | 'two-trucks-dawn'
+  | 'routing-table';
 
 interface CapabilityAssetInput {
   id: CapabilityAssetId;
@@ -170,6 +171,20 @@ export const capabilityAssetInputs = {
     alt: 'Two white work trucks parked in a frosted driveway at dawn.',
     scene: 'crew at dawn',
     sizes: '(max-width: 760px) 30vw, 300px',
+  },
+  routingTable: {
+    id: 'routing-table',
+    // 4K delivery upscale of the native 1672x941 generation (see the pack README).
+    masterPath: 'rushes-content/website-capability-image-pack-2026-09-02/deliveries/desktop-3840x2160/03-ai-systems-routing-table-4k-upscaled.png',
+    masterWidth: 3840,
+    masterHeight: 2160,
+    masterSha256: '044dc05da98a9edc3c768b69767a2aeaa266196f19d66393c1437d0b833e9b4e',
+    ...FULL,
+    desktopAspectRatio: '4 / 5',
+    alt: 'Glass channels on a workshop table carrying colored cards into three sorted wooden trays.',
+    scene: 'workflow routing table',
+    focalPoint: '84% 60%',
+    sizes: '(max-width: 760px) calc(100vw - 44px), 34vw',
   },
 } as const satisfies Record<string, CapabilityAssetInput>;
 

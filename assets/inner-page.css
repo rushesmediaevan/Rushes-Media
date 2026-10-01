@@ -439,7 +439,7 @@ img { display: block; max-width: 100%; }
   .editorial-logo img:last-child { display: none; }
   .editorial-nav-links { margin-left: auto; }
   .editorial-nav-links > a:not(.editorial-nav-cta) { display: none; }
-  .editorial-nav-links .editorial-nav-cta { max-width: 124px; padding-inline: 12px; line-height: 1.15; text-align: center; }
+  .editorial-nav-links .editorial-nav-cta { max-width: 124px; padding-inline: 12px; line-height: 1.15; text-align: center; white-space: normal; justify-content: center; }
   .service-hero, .loop-hero { padding-top: 52px; padding-bottom: 74px; }
   .service-hero h1, .loop-hero h1 { font-size: clamp(52px, 16vw, 72px); }
   .commercial-section-head-split { grid-template-columns: 1fr; }
@@ -488,4 +488,72 @@ img { display: block; max-width: 100%; }
   .editorial-footer-brand img:last-child { width: min(220px, 60vw); }
   .editorial-footer-legal { margin-top: 8px; font-size: 12px; overflow-wrap: anywhere; }
   .commercial-route-links a { min-height: 48px; }
+}
+
+/* Tablet header: keep each nav label on one line (the wordmark yields first). */
+.editorial-nav-links > a { white-space: nowrap; }
+@media (min-width: 761px) and (max-width: 940px) {
+  .editorial-logo img:last-child { display: none; }
+}
+
+/* Services menu on inner pages: every service one click away, plus the homepage overview. */
+.editorial-services { position: relative; }
+.editorial-services > summary {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(245, 240, 230, .7);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .055em;
+  list-style: none;
+  white-space: nowrap;
+}
+.editorial-services > summary::-webkit-details-marker { display: none; }
+.editorial-services > summary:hover,
+.editorial-services > summary.is-current,
+.editorial-services[open] > summary { color: var(--cream); }
+.editorial-services > summary:focus-visible,
+.editorial-services__panel a:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+.editorial-services__chevron { width: 6px; height: 6px; margin-top: -3px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); transition: transform .18s ease; }
+.editorial-services[open] .editorial-services__chevron { margin-top: 3px; transform: rotate(-135deg); }
+.editorial-services__panel {
+  position: absolute;
+  top: calc(100% + 16px);
+  left: -18px;
+  z-index: 950;
+  width: 340px;
+  padding: 8px;
+  border: 1px solid rgba(184, 152, 96, .32);
+  background: #0c1825;
+  box-shadow: 0 24px 50px rgba(2, 8, 14, .45);
+}
+.editorial-services__panel ul { margin: 0; padding: 0; list-style: none; }
+.editorial-services__panel li a { display: grid; gap: 3px; padding: 11px 14px; text-decoration: none; }
+.editorial-services__panel li a:hover { background: #1a2a3f; }
+.editorial-services__panel b { color: var(--cream); font-size: 14px; font-weight: 600; }
+.editorial-services__panel li span { color: rgba(245, 240, 230, .6); font-size: 12px; line-height: 1.4; }
+.editorial-services__panel a[aria-current] b { color: var(--gold); }
+.editorial-services__panel a[aria-current] b::after { content: ' · this page'; color: rgba(245, 240, 230, .5); font-size: 11px; font-weight: 500; }
+.editorial-services__all {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+  padding: 10px 14px;
+  border-top: 1px solid rgba(245, 240, 230, .12);
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.editorial-services__all:hover { color: var(--cream); }
+@media (max-width: 760px) {
+  .editorial-services { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .editorial-services__chevron { transition: none; }
 }

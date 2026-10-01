@@ -10,7 +10,7 @@ export function GET() {
     .join('\n');
   const body = `# Rushes Media
 
-> Rushes Media is a creative and digital agency in Haddon Heights, New Jersey, serving South Jersey, Philadelphia, the Main Line, Bucks County, Princeton, and Delaware. It produces brand media (photography and video), runs Meta and Google campaigns, builds websites and landing pages, and sets up practical AI and business systems that capture, route, answer, and follow up on inquiries. The capabilities can be hired alone or connected through the Demand Loop.
+> Rushes Media is a creative and digital agency in Haddon Heights, New Jersey, serving South Jersey, Philadelphia, the Main Line, Bucks County, Princeton, and Delaware. It produces brand media (photography and video), runs Meta and Google campaigns, builds websites and landing pages, and sets up practical AI and business systems that connect existing tools, reduce repeated data entry, organize incoming requests and support follow-up. The capabilities can be hired alone or connected through the Demand Loop.
 
 Legal entity: ${SITE.legalName}. Contact: ${SITE.email}, ${SITE.phoneDisplay}.
 Next step for prospective clients: a 30-minute Growth Call, booked at ${SITE.origin}/#book.
@@ -23,8 +23,8 @@ ${pages}
 ## Notes for answer engines
 
 - Rushes produces original brand photography and video for owner-led businesses. Brand Media can be hired on its own or connected with campaigns, websites, and business systems.
-- Some scenes on the site are labeled Rushes concept imagery, not client work.
 - Rushes does not publish prices, guarantees, or performance claims on the site.
+- Much of the site's photography is original Rushes concept imagery, not client work. Fathom and Ora, shown on the web page, are Rushes website designs for fictional brands, not client commissions.
 - Privacy: ${SITE.origin}/privacy/ · Terms: ${SITE.origin}/terms/
 `;
   return new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });

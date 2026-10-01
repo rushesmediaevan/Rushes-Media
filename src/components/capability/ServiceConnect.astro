@@ -1,0 +1,32 @@
+---
+import type { ServiceConnection } from '../../data/capability-pages';
+
+interface Props { connect: ServiceConnection; }
+const { connect } = Astro.props;
+
+// Five stage points around the ring, starting at the top, matching the Demand Loop diagram.
+const points = Array.from({ length: 5 }, (_, index) => {
+  const angle = (-90 + index * 72) * (Math.PI / 180);
+  return { x: (36 + 26 * Math.cos(angle)).toFixed(2), y: (36 + 26 * Math.sin(angle)).toFixed(2) };
+});
+---
+
+<section id="connect" class="svc-connect" aria-labelledby="connect-heading">
+  <div class="svc-connect__alone">
+    <span class="svc-connect__eye">On its own</span>
+    <p>{connect.alone}</p>
+  </div>
+  <div class="svc-connect__loop">
+    <svg class="svc-connect__symbol" viewBox="0 0 72 72" aria-hidden="true" focusable="false">
+      <circle class="svc-connect__ring" cx="36" cy="36" r="26" />
+      {points.map((point) => <circle class="svc-connect__node" cx={point.x} cy={point.y} r="3.6" />)}
+      <g class="svc-connect__orbit"><circle cx="36" cy="10" r="5.2" /></g>
+    </svg>
+    <div class="svc-connect__copy">
+      <span class="svc-connect__eye">The Demand Loop</span>
+      <h2 id="connect-heading">Bring the services together</h2>
+      <p>{connect.together}</p>
+    </div>
+    <a class="svc-connect__button" href="/demand-loop/">Explore the Demand Loop<span aria-hidden="true">→</span></a>
+  </div>
+</section>

@@ -11,7 +11,7 @@ export interface PrimaryNavItem {
 export const sitePrimaryNav: readonly PrimaryNavItem[] = [
   { href: '/#services', label: 'Services', key: 'services', number: '01', mobileSubtitle: 'What Rushes does' },
   { href: '/demand-loop/', label: 'How It Works', key: 'demand-loop', number: '02', mobileSubtitle: 'The Demand Loop' },
-  { href: '/#examples', label: 'Examples', key: 'examples', number: '03', mobileSubtitle: 'Selected applications' },
+  { href: '/#examples', label: 'Industries', key: 'examples', number: '03', mobileSubtitle: 'Who we work with' },
 ];
 
 export const homePrimaryNav: readonly PrimaryNavItem[] = [
@@ -28,12 +28,24 @@ export function navCurrent(
   return key === 'services' || key === 'examples' ? 'location' : 'page';
 }
 
-export function mobileNavLinks(current?: string) {
+/** The four services, in the order the homepage presents them. */
+export const serviceNav = [
+  { href: '/brand-media/', label: 'Brand Media', note: 'Photography, video and campaign creative' },
+  { href: '/campaigns/', label: 'Creative Campaigns', note: 'Google and Meta ads with landing pages' },
+  { href: '/web/', label: 'Web & Landing', note: 'Websites and landing pages' },
+  { href: '/follow-up/', label: 'AI & Business Systems', note: 'Connected tools, workflows and follow-up' },
+] as const;
+
+export function mobileNavLinks(current?: string, path?: string) {
   return [
     ...sitePrimaryNav.map((link) => ({
       href: link.href,
       label: link.label,
-      current: navCurrent(current, link.key),
+      // On a service page the specific service carries the current state, not the overview.
+      current: link.key === 'services' && path ? undefined : navCurrent(current, link.key),
+      children: link.key === 'services'
+        ? serviceNav.map((service) => ({ href: service.href, label: service.label, current: service.href === path ? ('page' as const) : undefined }))
+        : undefined,
     })),
     { href: '#book', label: SHARED_CTA.label, cta: true as const },
   ];

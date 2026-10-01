@@ -100,8 +100,11 @@ export const SITE = {
   logoWordmark: '/assets/images/logo-wordmark.png',
 } as const;
 
+// Instrument Sans (section and service headings): SIL Open Font License 1.1,
+// source https://github.com/Instrument/instrument-sans. Served by Google Fonts; only
+// weights 500 and 600 are requested. Cormorant Garamond stays for editorial headlines.
 export const HOME_FONT_URL =
-  'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap';
+  'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Instrument+Sans:wght@500;600&family=Inter:wght@300;400;500;600&display=swap';
 
 export const LEGAL_FONT_URL =
   'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap';

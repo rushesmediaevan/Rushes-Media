@@ -5,12 +5,14 @@ interface Props {
   lead: SectionLead;
   id: string;
   wide?: boolean;
+  /** Heading with its introduction directly beneath, for sections whose visual follows. */
+  stacked?: boolean;
 }
 
-const { lead, id, wide = false } = Astro.props;
+const { lead, id, wide = false, stacked = false } = Astro.props;
 ---
 
-<header class:list={['cap-lead', wide && 'cap-lead--wide']}>
+<header class:list={['cap-lead', wide && 'cap-lead--wide', stacked && 'cap-lead--stacked']}>
   <span class="brand-media-eye">{lead.eye}</span>
   <h2 id={id}>{lead.heading}</h2>
   {lead.intro && <p>{lead.intro}</p>}

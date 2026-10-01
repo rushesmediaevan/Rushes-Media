@@ -339,6 +339,78 @@
       141656,
       "c747d9d73b995b402104a8402c02b966a3eff14a29557dccdff20b00b470e0e6"
     ],
+    "routing-table-desktop-1200.avif": [
+      1200,
+      1500,
+      69687,
+      "7f47b1605e0442eb4db721810d8a810fab03231ca875f12d8e8d373d6068c87a"
+    ],
+    "routing-table-desktop-1200.webp": [
+      1200,
+      1500,
+      130350,
+      "8f47633a0bdef0d24e9bfe6a68914f8943ae559537762b5bd7997b15c74cf81e"
+    ],
+    "routing-table-desktop-1600.avif": [
+      1600,
+      2000,
+      96866,
+      "abda138ceddddad6947cbaac38698c1e71b73cc7020385737a54bf90fd13882f"
+    ],
+    "routing-table-desktop-1600.webp": [
+      1600,
+      2000,
+      175576,
+      "ad9be09d62fa8179058248d3ba7fe0021a1b7789bbb2912580a8a2ba539b996c"
+    ],
+    "routing-table-desktop-800.avif": [
+      800,
+      1000,
+      43477,
+      "eebe7e283145619e038e6355f1b151e11b912153c9a6f741f743fec388dc3e7e"
+    ],
+    "routing-table-desktop-800.webp": [
+      800,
+      1000,
+      82510,
+      "8cd8d92bcbdc7287332bb3143edd83fdfd7f7b66c30fd084daf60219e84dac52"
+    ],
+    "routing-table-mobile-1200.avif": [
+      1200,
+      1500,
+      69687,
+      "7f47b1605e0442eb4db721810d8a810fab03231ca875f12d8e8d373d6068c87a"
+    ],
+    "routing-table-mobile-1200.webp": [
+      1200,
+      1500,
+      130350,
+      "8f47633a0bdef0d24e9bfe6a68914f8943ae559537762b5bd7997b15c74cf81e"
+    ],
+    "routing-table-mobile-480.avif": [
+      480,
+      600,
+      22008,
+      "91d8bade05b435d09c347a28b5ebe047c77fe1f888c12b7bb213428b06d25cb0"
+    ],
+    "routing-table-mobile-480.webp": [
+      480,
+      600,
+      43826,
+      "f23f558c6d3b20811b34912f9ea5dba2bfadb1635bfb1419bdc5b88f0851d0f5"
+    ],
+    "routing-table-mobile-800.avif": [
+      800,
+      1000,
+      43477,
+      "eebe7e283145619e038e6355f1b151e11b912153c9a6f741f743fec388dc3e7e"
+    ],
+    "routing-table-mobile-800.webp": [
+      800,
+      1000,
+      82510,
+      "8cd8d92bcbdc7287332bb3143edd83fdfd7f7b66c30fd084daf60219e84dac52"
+    ],
     "two-trucks-dawn-desktop-800.avif": [
       800,
       1000,

@@ -22,10 +22,11 @@ export interface HomeService {
 }
 
 export interface HomeAudience {
-  routeLabel: string;
   label: string;
-  summary: string;
-  firstMove: string;
+  /** One line on the card. */
+  intro: string;
+  /** The fuller example shown when the card is selected. */
+  example: string;
   visual: VisualAsset;
 }
 
@@ -37,9 +38,9 @@ export const primaryNavigation: readonly HomeNavItem[] = homePrimaryNav.map(({ h
 }));
 
 export const heroFlow = [
-  { from: 'Content', to: 'Attention' },
-  { from: 'Systems', to: 'Conversion' },
-  { from: 'Follow-up', to: 'Compounding' },
+  { from: 'Photo & video', to: 'Attention' },
+  { from: 'Ads & websites', to: 'Inquiries' },
+  { from: 'AI & systems', to: 'Time back' },
 ] as const;
 
 export const marqueeItems = [
@@ -55,80 +56,79 @@ export const marqueeItems = [
 
 export const audiences: readonly HomeAudience[] = [
   {
-    routeLabel: 'Project-led design-build',
     label: 'Outdoor Living & Design-Build',
-    summary:
-      'Show the transformation, qualify the scope, and move the right homeowners toward a project consultation.',
-    firstMove: 'Turn completed projects into buyer-ready media.',
+    intro: 'Show finished projects to homeowners planning one.',
+    example:
+      'A finished pool and patio is easier to sell when people can picture themselves using it. We photograph the project, make ads for homeowners in your area and build a page that explains the work and invites an estimate request. Then we track which inquiries become projects.',
     visual: industryVisuals.outdoorLiving,
   },
   {
-    routeLabel: 'Considered consultation',
     label: 'Interior Design & Residential Build',
-    summary:
-      'Make taste, judgment, and process easier to understand before the first consultation.',
-    firstMove: 'Build a project-aware consultation page.',
+    intro: 'Show your work and what working with you involves.',
+    example:
+      'Before hiring a designer or builder, people want to see what you can do and what working with you involves. Project photography and short walkthrough videos show the details. A clear website explains your services and helps the right clients request a consultation.',
     visual: industryVisuals.interiorDesign,
   },
   {
-    routeLabel: 'Urgent and planned demand',
-    label: 'HVAC Replacement & Home Comfort',
-    summary:
-      'Separate urgent service from planned replacement and respond before the homeowner moves on.',
-    firstMove: 'Protect the call, estimate, and confirmation handoffs.',
+    label: 'HVAC & Home Comfort',
+    intro: 'Separate urgent repairs from planned replacements.',
+    example:
+      'A homeowner with a broken AC needs a clear way to call now. Someone planning a replacement needs help comparing options. We build ads and pages for each situation, make sure inquiries reach your team and track which ones turn into booked work.',
     visual: industryVisuals.hvac,
   },
   {
-    routeLabel: 'Appointment-led service',
-    label: 'Med Spa & Aesthetic Practices',
-    summary:
-      'Build service-specific trust, guide the right consultation request, and keep follow-up timely.',
-    firstMove: 'Build a campaign around one approved growth priority.',
+    label: 'Med Spas & Aesthetic Practices',
+    intro: 'Answer the questions people have before they book.',
+    example:
+      'People want to know who will treat them, what the appointment involves and whether a service suits them. We create practitioner videos and clear service pages, then connect relevant ads to consultation booking. Your clinicians review treatment information before it goes live.',
     visual: revisionAssets.medSpa,
   },
 ] as const;
 
+export const audienceTrackingNote =
+  'We track calls, consultations and booked work, using your records to see what the marketing contributes.';
+
 export const homeServices: readonly HomeService[] = [
   {
     href: '/brand-media/',
-    stage: 'Creative expression',
+    stage: 'Photography & video',
     name: 'Brand Media',
     plainName: 'Show what makes the business worth choosing.',
     description:
       'Photography and video that make the business, its people, products, services, places, and point of view worth noticing across every channel.',
-    tags: ['Photo & motion', 'Campaign creative', 'Organic content'],
+    tags: ['Brand photography', 'Video & reels', 'Campaign creative'],
     tone: 'ink',
     visual: homepageAssets.brandMediaRiversideMill,
   },
   {
     href: '/campaigns/',
-    stage: 'Focused reach',
+    stage: 'Advertising',
     name: 'Creative Campaigns',
     plainName: 'Reach more of the people most likely to need the service.',
     description:
-      'Meta and Google campaigns pair strong creative with a clear message and next step.',
-    tags: ['Meta', 'Google', 'Campaign management'],
+      'Google and Meta campaigns that pair strong creative with a clear message and a landing page that gives people a reason to get in touch.',
+    tags: ['Google Ads', 'Meta ads', 'Campaign management'],
     tone: 'paper',
     visual: homepageAssets.campaignsSubmerged,
   },
   {
     href: '/web/',
-    stage: 'Digital experience',
+    stage: 'Websites',
     name: 'Web & Landing',
     plainName: 'Help interested buyers understand the service and act.',
     description:
       'Focused sites and landing pages answer key questions and make calling, booking, or requesting an estimate straightforward.',
-    tags: ['Custom sites', 'Landing pages', 'Conversion UX'],
+    tags: ['Custom websites', 'Landing pages', 'Forms & booking'],
     tone: 'gold',
     visual: revisionAssets.daylitVenue,
   },
   {
     href: '/follow-up/',
-    stage: 'Time & leverage',
+    stage: 'Tools & workflows',
     name: 'AI & Business Systems',
-    plainName: 'Inquiries get captured, routed, answered, and kept moving.',
+    plainName: 'Less repeated admin. Clearer handoffs.',
     description:
-      'Practical AI, workflow design, and follow-up give every request an owner, a first reply, and a next date — without adding another tool the team has to remember.',
+      'Practical AI and better workflows connect the tools you already use, cut repeated data entry and make sure every request has an owner and a next step.',
     tags: ['AI consulting', 'Workflow automation', 'Lead capture & follow-up'],
     tone: 'navy',
   },
@@ -142,24 +142,24 @@ export const brandMediaFilm = [
 
 export const systemsBeats = [
   {
-    label: 'Capture',
-    heading: 'Every request lands in one place.',
-    example: 'A Saturday estimate request is logged with the service and neighborhood before anyone picks up.',
+    label: 'Connect',
+    heading: 'Your tools share information.',
+    example: 'A website form creates the contact in your CRM with the service and source attached.',
   },
   {
-    label: 'Route',
-    heading: 'The right person sees it, with context.',
-    example: 'Replacement inquiries go to the owner. Routine service stays with dispatch.',
+    label: 'Organize',
+    heading: 'Requests arrive sorted.',
+    example: 'Calls, forms and messages land in one list, grouped by service and location.',
   },
   {
-    label: 'Respond',
-    heading: 'A useful first reply goes out while intent is high.',
-    example: 'A missed-call text confirms the request and offers two appointment windows.',
+    label: 'Prepare',
+    heading: 'The first draft is ready.',
+    example: 'AI drafts the reply or summarizes a long message for someone to check and send.',
   },
   {
-    label: 'Keep moving',
-    heading: 'Open items stay visible until they close.',
-    example: 'An unanswered estimate reminder surfaces on day three instead of disappearing into the inbox.',
+    label: 'Assign',
+    heading: 'Everyone knows who owns what.',
+    example: 'Each open request shows an owner and a next date, with reminders before anything slips.',
   },
 ] as const;
 
@@ -171,30 +171,6 @@ export const systemSteps = demandLoopSteps.map((step) => ({
   title: `${step.name}.`,
   description: step.purpose,
 }));
-
-export const processSteps = [
-  {
-    phase: 'Focus',
-    title: 'Choose the priority.',
-    description:
-      'We agree on the service, market, audience, or business priority that deserves attention first.',
-    badge: 'Clear starting point',
-  },
-  {
-    phase: 'Build',
-    title: 'Build around it.',
-    description:
-      'Rushes builds the specific media, campaign, web, AI, or business-system work the priority requires without replacing what already works.',
-    badge: 'Focused scope',
-  },
-  {
-    phase: 'Improve',
-    title: 'Learn from the response.',
-    description:
-      'Audience response and buyer actions show what to keep, change, or expand.',
-    badge: 'Measured refinement',
-  },
-] as const;
 
 export const faqs = [
   {
@@ -220,17 +196,12 @@ export const faqs = [
   {
     question: 'Can Rushes handle one capability or connect several?',
     answer:
-      'Yes. Brand Media, campaigns, web, and AI or business systems can each stand alone. When several are useful, the Demand Loop connects them around one goal and one clear path from attention to action.',
+      'Yes. Photo and video, campaigns, websites and AI or business systems can each be hired on their own. When several are useful, we connect them around one goal. We call that the Demand Loop, and it is never a required package.',
   },
   {
     question: 'How do you measure results?',
     answer:
       'We choose a small set of signals that match the goal. Depending on the work, that may be audience response, qualified inquiries, booked conversations, or action on a page.',
-  },
-  {
-    question: 'Do we need the full Demand Loop?',
-    answer:
-      'No. The Demand Loop is Rushes’ connected system, not a mandatory package. Start with the capability that matters now, then connect more of the path only when it creates useful leverage.',
   },
 ] as const;
 
@@ -238,6 +209,6 @@ export const footerLinks = [
   { href: '/articles/', label: 'Articles' },
   { href: '#services', label: 'Services' },
   { href: '/demand-loop/', label: 'Demand Loop' },
-  { href: '#examples', label: 'Examples' },
+  { href: '#examples', label: 'Industries' },
   { href: '#book', label: 'Book a Growth Call' },
 ] as const;

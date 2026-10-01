@@ -1,5 +1,5 @@
 // Shared customer-facing explanation for the homepage and Demand Loop page.
-export const demandLoopIntroduction = 'Rushes connects compelling media, targeted campaigns, websites built to convert, and timely follow-up to help turn interest in your business into paying customers.';
+export const demandLoopIntroduction = 'Rushes connects photography and video, advertising, your website and follow-up around one goal, so people who notice your business have a clear path to becoming customers.';
 
 export const demandLoopSteps = [
   { stage: 'Attention', name: 'Earn attention', capability: 'Brand Media', href: '/brand-media/', purpose: 'Show the work, expertise, and value that make your business worth choosing.' },

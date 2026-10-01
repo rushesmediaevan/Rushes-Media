@@ -1,42 +1,70 @@
 ---
 import type { CampaignsBody } from '../../data/capability-pages';
-import ConceptPicture from '../brand-media/ConceptPicture.astro';
 import Lead from './Lead.astro';
-import Pair from './Pair.astro';
 
 interface Props { body: CampaignsBody; }
 const { body } = Astro.props;
-const { leak, matrix, experiment } = body;
-const nodeX = (index: number) => 60 + index * 160;
+const { flow, matrix } = body;
+const flowLabel = `A campaign connects the ${flow.nodes.map((node) => node.toLowerCase()).join(', ')}`;
+
+// Desktop: one row across 760 units. Phone: the same row redrawn at text size for 350 units.
+const wide = { gap: 160, start: 60, r: 22, label: 104 };
+const narrow = { gap: 70, start: 35, r: 13, label: 62 };
+const lines = (node: string) => (node.includes(' ') ? node.split(' ') : [node]);
 ---
 
-<section id="what-this-is" tabindex="-1" class="cap-section cap-leak" aria-labelledby="leak-heading">
-  <Lead lead={leak} id="leak-heading" />
-  <svg id="leak-map" class="cap-leak__map" viewBox="0 0 760 130" role="img" aria-label="A campaign connects the idea, ad, landing page, response and outcome">
-    {leak.nodes.map((node, index) => (
-      <>
-        {index < leak.nodes.length - 1 && (
-          <>
-            <path class="cap-leak__line" d={`M${nodeX(index) + 22} 50 H${nodeX(index + 1) - 22}`} />
-            <g class="cap-leak__gap" transform={`translate(${nodeX(index) + 80} 50)`}>
-              <circle r="11" />
-              <text y="4" text-anchor="middle">{index + 1}</text>
-            </g>
-          </>
-        )}
-        <circle class="cap-leak__node" cx={nodeX(index)} cy="50" r="22" />
-        <text class="cap-leak__label" x={nodeX(index)} y="104" text-anchor="middle">{node}</text>
-      </>
-    ))}
+<section id="what-this-is" tabindex="-1" class="cap-section cap-leak" aria-labelledby="flow-heading">
+  <Lead lead={flow} id="flow-heading" stacked />
+  <svg id="leak-map" class="cap-leak__map cap-leak__map--wide" viewBox="0 0 760 130" role="img" aria-label={flowLabel}>
+    {flow.nodes.map((node, index) => {
+      const x = wide.start + index * wide.gap;
+      return (
+        <>
+          {index < flow.nodes.length - 1 && (
+            <>
+              <path class="cap-leak__line" d={`M${x + wide.r} 50 H${x + wide.gap - wide.r}`} />
+              <g class="cap-leak__gap" transform={`translate(${x + wide.gap / 2} 50)`}>
+                <circle r="11" />
+                <text y="4" text-anchor="middle">{index + 1}</text>
+              </g>
+            </>
+          )}
+          <circle class="cap-leak__node" cx={x} cy="50" r={wide.r} />
+          <text class="cap-leak__label" x={x} y={wide.label} text-anchor="middle">{node}</text>
+        </>
+      );
+    })}
+  </svg>
+  <svg class="cap-leak__map cap-leak__map--narrow" viewBox="0 0 350 92" role="img" aria-label={flowLabel}>
+    {flow.nodes.map((node, index) => {
+      const x = narrow.start + index * narrow.gap;
+      return (
+        <>
+          {index < flow.nodes.length - 1 && (
+            <>
+              <path class="cap-leak__line" d={`M${x + narrow.r} 30 H${x + narrow.gap - narrow.r}`} />
+              <g class="cap-leak__gap" transform={`translate(${x + narrow.gap / 2} 30)`}>
+                <circle r="8" />
+                <text y="3.5" text-anchor="middle">{index + 1}</text>
+              </g>
+            </>
+          )}
+          <circle class="cap-leak__node" cx={x} cy="30" r={narrow.r} />
+          <text class="cap-leak__label" x={x} y={narrow.label} text-anchor="middle">
+            {lines(node).map((line, lineIndex) => <tspan x={x} dy={lineIndex === 0 ? 0 : 13}>{line}</tspan>)}
+          </text>
+        </>
+      );
+    })}
   </svg>
   <ol class="cap-leak__pains">
-    {leak.pains.map((pain, index) => (
+    {flow.links.map((link, index) => (
       <li>
         <span class="cap-num">{index + 1}</span>
         <div>
-          <span class="brand-media-eye">Between {leak.nodes[pain.after]} and {leak.nodes[pain.after + 1]}</span>
-          <h3>{pain.title}</h3>
-          <p>{pain.body}</p>
+          <span class="brand-media-eye">{flow.nodes[link.after]} → {flow.nodes[link.after + 1]}</span>
+          <h3>{link.title}</h3>
+          <p>{link.body}</p>
         </div>
       </li>
     ))}
@@ -62,36 +90,3 @@ const nodeX = (index: number) => 60 + index * 160;
     </table>
   </div>
 </section>
-
-<section id="experiment" class="cap-section cap-experiment" aria-labelledby="experiment-heading">
-  <Lead lead={experiment} id="experiment-heading" />
-  <div class="cap-experiment__grid">
-    <ol class="cap-rail">
-      {experiment.steps.map((step, index) => (
-        <li>
-          <span class="cap-num">{String(index + 1).padStart(2, '0')}</span>
-          <h3>{step.name}</h3>
-          <p>{step.body}</p>
-        </li>
-      ))}
-    </ol>
-    <ConceptPicture asset={experiment.asset} className="cap-experiment__visual" sizes={experiment.asset.sizes} showCaption={false} />
-  </div>
-</section>
-
-<section id="campaign-example" tabindex="-1" class="cap-section" aria-labelledby="campaign-example-heading">
-  <Lead lead={{ eye: 'Illustrative campaign · not a client result', heading: 'One service. A relevant ad. A page that answers the next question.', intro: 'Consider an established remodeling business that wants more kitchen projects. This example shows how the pieces could work together; it is not a campaign we are claiming to have run.' }} id="campaign-example-heading" />
-  <ol class="cap-rail">
-    <li><span class="cap-num">01</span><h3>Show the kind of project the customer wants.</h3><p>Use approved photographs of completed kitchens and explain the work the business takes on. Google search ads can address relevant searches; Facebook and Instagram creative can introduce the offer visually. Choose the channel to suit the opportunity and budget.</p></li>
-    <li><span class="cap-num">02</span><h3>Answer the questions before the inquiry.</h3><p>The landing page explains the service area, project scope and consultation process, with relevant examples. Someone interested in a kitchen project should not have to search a general service menu for those details.</p></li>
-    <li><span class="cap-num">03</span><h3>Check what happens after someone responds.</h3><p>Send the inquiry to the team handling consultations. Review which requests fit, which appointments happen and which projects are won. Those records help judge the campaign beyond clicks alone.</p></li>
-  </ol>
-  <p><a class="brand-media-text-link" href="/web/">Explore website and landing-page services →</a></p>
-</section>
-
-<Pair pair={body.pair} />
-
-<style>
-  #campaign-example .brand-media-text-link { color: var(--bm-navy); }
-  #campaign-example .brand-media-text-link:hover { text-decoration: underline; }
-</style>

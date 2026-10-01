@@ -435,12 +435,12 @@ assert.deepEqual(JSON.parse(homepageSchemaText), SITE_CONTRACT[0].jsonLd);
 for (const approvedHomepageMarker of [
   'Media<br',
   '<em>done right.</em>',
-  'Rushes translates real reputation, expertise, and value into exceptional media and digital experiences',
+  'Photography, video, advertising and websites that earn attention',
   'Book a Growth Call',
   'Our Services',
   '>Services</a>',
   '>How It Works</a>',
-  '>Examples</a>',
+  '>Industries</a>',
 ]) {
   assert.ok(
     homepageHtml.includes(approvedHomepageMarker),
@@ -462,7 +462,6 @@ assertOrdered(homepageHtml, [
   'id="services"',
   'id="system"',
   'id="examples"',
-  'id="process"',
   'id="faq"',
   'id="book"',
 ], 'Homepage');
@@ -492,13 +491,13 @@ assert.ok(!homepageHtml.includes('web-law-office'), 'Homepage retained the retir
 assert.ok(!homepageHtml.includes('/assets/images/revision/07-coastal-terrace-'));
 assert.ok(homepageHtml.includes('The Demand Loop'));
 assert.ok(
-  homepageHtml.includes('Rushes connects compelling media, targeted campaigns, websites built to convert, and timely follow-up'),
+  homepageHtml.includes('Rushes connects photography and video, advertising, your website and follow-up around one goal'),
   'Homepage connection copy lost its tangible cause-and-effect sequence.',
 );
 for (const phrase of ['Earn attention.', 'Reach the right people.', 'Turn interest into inquiries.', 'Start the conversation.', 'Follow through to the sale.']) {
   assert.ok(homepageHtml.includes(phrase), `Homepage connection concept is missing: ${phrase}`);
 }
-assert.equal((homepageHtml.match(/Rushes capability/g) || []).length, 5, 'Each connection moment needs a visible capability relationship.');
+assert.equal((homepageHtml.match(/class="sys-step-service"><strong>[^<]+<\/strong>/g) || []).length, 5, 'Each connection moment needs a visible capability relationship.');
 assert.ok(!homepageHtml.includes('How It Can Connect'));
 assert.ok(!homepageHtml.includes('A connected path, when the priority calls for one.'));
 for (const utmKey of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
@@ -512,13 +511,35 @@ assert.ok(
 );
 assert.ok(homepageHtml.includes('Outdoor Living &amp; Design-Build'));
 assert.ok(homepageHtml.includes('Interior Design &amp; Residential Build'));
-assert.ok(homepageHtml.includes('HVAC Replacement &amp; Home Comfort'));
-assert.ok(homepageHtml.includes('Med Spa &amp; Aesthetic Practices'));
+assert.ok(homepageHtml.includes('HVAC &amp; Home Comfort'));
+assert.ok(homepageHtml.includes('Med Spas &amp; Aesthetic Practices'));
+// Industry examples: short cards, one fuller example per selectable panel, tracking line once.
+{
+  const tabs = tags(homepageHtml, 'button').filter((button) => button.role === 'tab');
+  assert.equal(tabs.length, 4, 'Homepage industry selector must offer four examples.');
+  assert.equal(tabs.filter((tab) => tab['aria-selected'] === 'true').length, 1, 'Exactly one industry example starts selected.');
+  for (const tab of tabs) {
+    assert.ok(homepageHtml.includes(`id="${tab['aria-controls']}"`), `Industry tab ${tab.id} controls a missing panel.`);
+  }
+  assert.equal((homepageHtml.match(/role="tabpanel"/g) || []).length, 4, 'Each industry needs its own panel.');
+  assert.equal((homepageHtml.match(/We track calls, consultations and booked work/g) || []).length, 1, 'The tracking line appears once.');
+  for (const retired of ['buyer-ready media', 'project-aware consultation page', 'Protect the call, estimate, and confirmation handoffs']) {
+    assert.ok(!homepageHtml.includes(retired), `Homepage retained internal industry phrasing: ${retired}`);
+  }
+}
 assert.ok(!homepageHtml.includes('href="/industries/"'), 'Retired industries hub leaked into homepage links.');
 for (const retiredIndustryHref of ['/outdoor-living/', '/interior-design/', '/hvac/', '/med-spa/']) {
   assert.ok(!homepageHtml.includes(`href="${retiredIndustryHref}"`), `Retired industry route leaked into homepage links: ${retiredIndustryHref}`);
 }
-assert.ok(homepageHtml.includes('Usual first move'), 'Homepage examples lost their first-move breakdown.');
+assert.ok(homepageHtml.includes('Turn attention into <em>business.</em>'), 'Homepage lost its opportunity statement.');
+assert.equal(
+  tags(homepageHtml, 'a').filter((link) => ['/brand-media/', '/campaigns/', '/web/', '/follow-up/'].includes(link.href)).length >= 8,
+  true,
+  'Homepage must link each service from both the opportunity index and its service chapter.',
+);
+assert.ok(!homepageHtml.includes('id="process"'), 'Homepage retained the generic process section the booking call already covers.');
+assert.ok(!homepageHtml.includes('Compounding'), 'Homepage hero retained internal operating vocabulary.');
+assert.ok(!homepageHtml.includes('>Examples</a>'), 'Navigation must not call concept imagery examples.');
 assert.ok(!/<a\s[^>]*class="v3-range-card/.test(homepageHtml), 'Homepage examples must be breakdowns, not links.');
 assert.ok(!homepageHtml.includes('href="/hardscape/"'), 'Retired hardscape URL leaked into homepage links.');
 assert.ok(!homepageHtml.includes('href="/pools/"'), 'Retired pools URL leaked into homepage links.');
@@ -682,9 +703,18 @@ function assertBuiltMobileNav(html, id, routePath) {
 for (const routePath of ['/brand-media/', '/campaigns/', '/web/', '/follow-up/']) {
   const html = await readFile(pageFile(routePath), 'utf8');
   assertBuiltMobileNav(html, 'editorial-mobile-navigation', routePath);
+  const navHtml = html.slice(html.indexOf('class="editorial-nav"'), html.indexOf('</nav>', html.indexOf('data-services-menu')));
+  assert.ok(navHtml.includes('<details class="editorial-services"'), `${routePath} lost the Services menu.`);
+  for (const serviceHref of ['/brand-media/', '/campaigns/', '/web/', '/follow-up/', '/#services']) {
+    assert.ok(tags(navHtml, 'a').some((link) => link.href === serviceHref), `${routePath} Services menu is missing ${serviceHref}.`);
+  }
   assert.ok(
-    tags(html, 'a').some((link) => link.href === '/#services' && link['aria-current'] === 'location'),
-    `${routePath} Services navigation must point home and expose section-current state.`,
+    tags(navHtml, 'a').some((link) => link.href === routePath && link['aria-current'] === 'page'),
+    `${routePath} Services menu must mark the current service.`,
+  );
+  assert.ok(
+    tags(html, 'a').some((link) => link.href === '/#services' && link['aria-current'] === undefined),
+    `${routePath} breadcrumb or menu must link back to the services overview.`,
   );
 }
 {
@@ -714,9 +744,8 @@ for (const marker of [
   'Make the finished job the first thing a buyer sees.',
   'brand photography and video for high-end contractors',
   'What strong media makes visible',
-  'What owners want to ask',
+  'Brand media questions',
   'Bring the offer that deserves a clearer story.',
-  'Some scenes are Rushes concept imagery, not client work.',
   'data-visual-truth="labeled-concept"',
 ]) {
   assert.ok(brandMediaHtml.includes(marker), `/brand-media/ is missing its dedicated marker: ${marker}`);
@@ -799,15 +828,16 @@ for (const image of homepageConceptImages) {
 for (const routePath of ['/campaigns/', '/web/', '/follow-up/', '/demand-loop/']) {
   const html = await readFile(pageFile(routePath), 'utf8');
   assert.ok(html.includes('class="brand-media-hero'), `${routePath} lost the shared two-image opening.`);
-  const exampleTarget = routePath === '/campaigns/' ? 'campaign-example' : routePath === '/web/' ? 'website-example' : null;
+  const exampleTarget = routePath === '/campaigns/' || routePath === '/web/' ? 'what-this-is' : null;
   if (exampleTarget) {
     assert.ok(html.includes(`href="#${exampleTarget}"`) && html.includes(`id="${exampleTarget}"`), `${routePath} example link must reach its corresponding section.`);
     assert.ok(!html.includes('>See the work<'), `${routePath} must label its example honestly.`);
   } else {
-    assert.ok(html.includes('See the work') || html.includes('See how it connects'), `${routePath} lost its in-page work anchor.`);
+    const heroLink = html.match(/class="brand-media-text-link" href="#([^"]+)"/)?.[1];
+    assert.ok(heroLink && html.includes(`id="${heroLink}"`), `${routePath} hero link must reach a section on the page.`);
   }
   assert.ok(!html.includes('class="brand-media-button--primary"'), `${routePath} hero must not duplicate the Growth Call button.`);
-  assert.ok(html.includes('What owners want to ask'), `${routePath} lost its FAQ.`);
+  assert.ok(html.includes('class="brand-media-faq__list"') && !html.includes('What owners want to ask'), `${routePath} lost its FAQ or kept the old eyebrow.`);
   assert.ok(!html.includes('A realistic example'), `${routePath} retained a cut example block.`);
   assert.ok(!html.includes('A strong starting point'), `${routePath} retained a cut starting-point section.`);
   assertOrdered(html, [
@@ -821,9 +851,9 @@ for (const routePath of ['/campaigns/', '/web/', '/follow-up/', '/demand-loop/']
 // Each capability page carries its own body; the generic answer-row template is gone.
 const capabilitySignatures = new Map([
   ['/brand-media/', ['data-capability-body="brand-media"', 'id="contractors"', 'id="gallery"', 'id="delivery"', 'class="cap-spread__map"']],
-  ['/campaigns/', ['data-capability-body="campaigns"', 'id="leak-map"', 'id="matrix"', 'id="experiment"', '<table class="cap-matrix"']],
-  ['/web/', ['data-capability-body="web"', 'id="decision-ladder"', 'id="pains"', 'id="process"']],
-  ['/follow-up/', ['data-capability-body="systems"', 'id="request-timeline"', 'id="systems-map"', 'id="control"']],
+  ['/campaigns/', ['data-capability-body="campaigns"', 'id="leak-map"', 'class="cap-leak__map cap-leak__map--narrow"', 'id="matrix"', '<table class="cap-matrix"']],
+  ['/web/', ['data-capability-body="web"', 'id="scope"', 'id="capabilities"', 'id="process"', 'class="design-pair"']],
+  ['/follow-up/', ['data-capability-body="systems"', 'id="systems-work"', 'id="request-timeline"']],
   ['/demand-loop/', ['data-capability-body="demand-loop"', 'id="loop-map"', 'id="chapters"', 'id="thread"', 'id="entry"']],
 ]);
 const capabilityBodies = [];
@@ -834,7 +864,14 @@ for (const [routePath, markers] of capabilitySignatures) {
   }
   assert.ok(!html.includes('class="capability-answers"'), `${routePath} still renders the generic answer-row template.`);
   assert.ok(html.includes('/assets/capability-pages.css'), `${routePath} lost the capability stylesheet.`);
-  assert.ok(html.includes('id="pair"') || routePath === '/demand-loop/', `${routePath} lost its stands-alone / connects pair.`);
+  if (routePath === '/demand-loop/') {
+    assert.ok(!html.includes('id="connect"'), '/demand-loop/ must not link to itself through the connection band.');
+  } else {
+    assert.ok(html.includes('id="connect"') && html.includes('class="svc-connect__button" href="/demand-loop/"'), `${routePath} lost its Demand Loop connection band.`);
+    assertOrdered(html, ['class="brand-media-faq', 'id="connect"', 'id="book"'], `${routePath} connection band`);
+  }
+  assert.ok(!html.includes('cap-pair__loop'), `${routePath} reverted to the oversized two-panel block.`);
+  assert.ok(!html.includes('What you can hire us for'), `${routePath} retained the retired "What you can hire us for" heading.`);
   capabilityBodies.push(markers[0]);
   for (const otherMarker of [...capabilitySignatures.values()].flat().filter((entry) => entry.startsWith('id=') && !markers.includes(entry))) {
     assert.ok(!html.includes(otherMarker), `${routePath} borrowed another page's section: ${otherMarker}`);
@@ -909,7 +946,8 @@ const campaignsHtml = await readFile(pageFile('/campaigns/'), 'utf8');
 for (const marker of [
   'Google Ads',
   'Meta ads',
-  'Illustrative campaign · not a client result',
+  'See how a campaign works',
+  'One offer, carried from the ad to the inquiry.',
 ]) {
   assert.ok(campaignsHtml.includes(marker), `/campaigns/ is missing strategic marker: ${marker}`);
 }
@@ -917,11 +955,54 @@ for (const marker of [
 const webHtml = await readFile(pageFile('/web/'), 'utf8');
 for (const marker of [
   'Make the value clear. Make the next step easy.',
-  'Rushes Media · our own website',
-  'not an external client case study',
+  '/assets/images/web/fathom-desktop-1200.webp',
+  '/assets/images/web/ora-desktop-1200.webp',
+  '/assets/images/web/fathom-phone-720.webp',
+  '/assets/images/web/ora-phone-720.webp',
+  'Explain the business',
+  'Help visitors take action',
+  'Build a dependable site',
+  'How the work happens',
   'href="/articles/landing-page-or-full-website/"',
 ]) {
   assert.ok(webHtml.includes(marker), `/web/ is missing strategic marker: ${marker}`);
+}
+for (const retired of ['Stonevale', 'Halewood', 'See two recent designs', 'id="website-example"', 'The site you’re reading']) {
+  assert.ok(!webHtml.includes(retired), `/web/ retained a superseded showcase or own-site line: ${retired}`);
+}
+// Research cards stay attributed: figure, dated source and a working source link.
+{
+  const followUpHtml = await readFile(pageFile('/follow-up/'), 'utf8');
+  for (const [figure, source, href] of [
+    ['15%', 'Brynjolfsson, Li &amp; Raymond, Quarterly Journal of Economics, 2025', 'https://doi.org/10.1093/qje/qjae044'],
+    ['~7×', 'Oldroyd, McElheran &amp; Elkington, Harvard Business Review, 2011', 'https://hbr.org/2011/03/the-short-life-of-online-sales-leads'],
+  ]) {
+    assert.ok(followUpHtml.includes(`research-card__figure">${figure}<`), `/follow-up/ lost the ${figure} research card.`);
+    assert.ok(followUpHtml.includes(source), `/follow-up/ research card ${figure} lost its dated source.`);
+    assert.ok(followUpHtml.includes(`href="${href}"`), `/follow-up/ research card ${figure} lost its source link.`);
+  }
+  for (const route of INDEXABLE_ROUTES) {
+    const html = await readFile(pageFile(route.path), 'utf8');
+    assert.ok(!/\bROAS\b/.test(visibleText(html)), `${route.path} makes a generic ROAS claim.`);
+  }
+}
+// Instrument Sans is requested once, at the two weights the headings use.
+assert.ok(homepageHtml.includes('family=Instrument+Sans:wght@500;600'), 'Instrument Sans must load at weights 500 and 600 only.');
+assert.ok(!webHtml.includes('/assets/images/revision/06-daylit-venue-'), '/web/ hero must show website design work, not unrelated photography.');
+assert.ok(!webHtml.includes('Designed and built by Rushes.'), '/web/ retained the self-referential owned-site section.');
+for (const image of tags(webHtml, 'img').filter((entry) => entry.src?.includes('/assets/images/web/'))) {
+  assert.ok(Number(image.width) > 0 && Number(image.height) > 0 && image.alt, '/web/ design frame lacks dimensions or alt text.');
+}
+
+// Superseded presentation: provenance lives in the asset records, not in visitor-facing labels.
+for (const route of INDEXABLE_ROUTES) {
+  const html = await readFile(pageFile(route.path), 'utf8');
+  const text = visibleText(html);
+  for (const label of ['Concept image', 'Concept imagery', 'not client work', 'not a client project', 'Mockup', 'concept visualization']) {
+    assert.ok(!text.includes(label), `${route.path} shows a retired provenance label: ${label}`);
+  }
+  // Review-only design routes stay unpublished, so no release page may link to them.
+  assert.ok(!tags(html, 'a').some((link) => link.href?.startsWith('/work/')), `${route.path} links to a review-only /work/ route.`);
 }
 
 
@@ -960,18 +1041,19 @@ assert.ok(!sitemap.includes('<priority>'), 'Sitemap must not emit meaningless pr
 assert.ok(!sitemap.includes('<changefreq>'), 'Sitemap must not emit meaningless changefreq values.');
 const sitemapLastmods = [...sitemap.matchAll(/<lastmod>(.*?)<\/lastmod>/g)].map((match) => match[1]);
 const expectedLastmods = new Map([
-  ['/', '2026-09-20'],
+  ['/', '2026-09-29'],
   ['/demand-loop/', '2026-09-20'],
   ['/brand-media/', '2026-09-03'],
-  ['/campaigns/', '2026-09-03'],
-  ['/web/', '2026-09-03'],
-  ['/follow-up/', '2026-09-03'],
+  ['/campaigns/', '2026-09-29'],
+  ['/web/', '2026-09-29'],
+  ['/follow-up/', '2026-09-29'],
   ['/articles/', undefined],
   ['/articles/landing-page-or-full-website/', '2026-09-18'],
   ['/articles/turning-business-reputation-into-brand-content/', '2026-09-18'],
   ['/articles/planning-a-brand-photo-and-video-shoot/', '2026-09-26'],
   ['/articles/building-a-lead-follow-up-process/', '2026-09-26'],
   ['/articles/hiring-a-google-ads-agency/', '2026-09-26'],
+  ['/articles/google-search-or-meta-ads/', '2026-09-29'],
   ['/privacy/', '2026-08-13'],
   ['/terms/', '2026-08-13'],
 ]);

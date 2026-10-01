@@ -259,6 +259,13 @@ const {
   }
   .booking-widget__noscript a { color: #7c6033; font-weight: 700; }
 
+  /* The widget often sits in a narrow column; reflow the status bar on its own width. */
+  .booking-widget { container-type: inline-size; }
+  @container (max-width: 820px) {
+    .booking-widget__bar { grid-template-columns: 1fr; gap: 12px; }
+    .booking-widget__actions { flex-wrap: wrap; justify-content: flex-start; }
+  }
+
   @media (max-width: 680px) {
     .booking-widget__bar { grid-template-columns: 1fr; gap: 12px; padding: 16px; }
     .booking-widget__actions { align-items: stretch; flex-direction: column; gap: 10px; }

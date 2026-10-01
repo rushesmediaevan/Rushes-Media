@@ -3,11 +3,12 @@ import { SHARED_CTA } from '../../data/site';
 import { Image } from 'astro:assets';
 import logoIcon from '../../../assets/images/logo-icon.png';
 import logoWordmark from '../../../assets/images/logo-wordmark.png';
-import { navCurrent, sitePrimaryNav, mobileNavLinks } from '../../data/navigation';
+import { navCurrent, serviceNav, sitePrimaryNav, mobileNavLinks } from '../../data/navigation';
 import MobileNavDialog from './MobileNavDialog.astro';
 
-interface Props { current?: string; }
-const { current = '' } = Astro.props;
+interface Props { current?: string; path?: string; }
+const { current = '', path = '' } = Astro.props;
+const onServicePage = serviceNav.some((service) => service.href === path);
 ---
 
 <nav class="editorial-nav" aria-label="Primary navigation">
@@ -16,12 +17,55 @@ const { current = '' } = Astro.props;
     <Image src={logoWordmark} alt="Rushes Media" height={25} densities={[1, 2, 3]} format="webp" quality="max" loading="eager" />
   </a>
   <div class="editorial-nav-links">
-    {sitePrimaryNav.map((link) => (
-      <a href={link.href} aria-current={navCurrent(current, link.key)}>{link.label}</a>
-    ))}
+    {sitePrimaryNav.map((link) =>
+      link.key === 'services' ? (
+        <details class="editorial-services" data-services-menu>
+          <summary class:list={[onServicePage && 'is-current']}>{link.label}<span class="editorial-services__chevron" aria-hidden="true"></span></summary>
+          <div class="editorial-services__panel">
+            <ul>
+              {serviceNav.map((service) => (
+                <li>
+                  <a href={service.href} aria-current={service.href === path ? 'page' : undefined}>
+                    <b>{service.label}</b>
+                    <span>{service.note}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <a class="editorial-services__all" href={link.href}>All services on the homepage<span aria-hidden="true">→</span></a>
+          </div>
+        </details>
+      ) : (
+        <a href={link.href} aria-current={navCurrent(current, link.key)}>{link.label}</a>
+      ),
+    )}
     <a href="#book" class="editorial-nav-cta" data-growth-call-click data-link-location="navigation">
       {SHARED_CTA.label}
     </a>
   </div>
-  <MobileNavDialog id="editorial-mobile-navigation" links={mobileNavLinks(current)} />
+  <MobileNavDialog id="editorial-mobile-navigation" links={mobileNavLinks(current, path)} />
 </nav>
+
+<script is:inline>
+  (() => {
+    const menu = document.querySelector('[data-services-menu]');
+    if (!(menu instanceof HTMLDetailsElement)) return;
+    const summary = menu.querySelector('summary');
+    const close = (restoreFocus) => {
+      if (!menu.open) return;
+      menu.open = false;
+      if (restoreFocus && summary) summary.focus();
+    };
+    document.addEventListener('click', (event) => {
+      if (event.target instanceof Node && !menu.contains(event.target)) close(false);
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && menu.open) { event.preventDefault(); close(true); }
+    });
+    menu.addEventListener('focusout', (event) => {
+      if (!(event.relatedTarget instanceof Node) || !menu.contains(event.relatedTarget)) close(false);
+    });
+    // Returning with the Back button should not reopen a menu left open before navigating.
+    window.addEventListener('pageshow', () => close(false));
+  })();
+</script>
