@@ -130,7 +130,7 @@ export const SHARED_CTA = {
 
 export const BOOKING_COPY = {
   loadingStatus: 'Loading available times…',
-  frameOpenedStatus: 'Available times are loading…',
+  frameOpenedStatus: 'Use the calendar below, or open it in a new tab.',
   readyStatus: 'Available times are ready.',
   delayedStatus: 'The calendar did not load here. Open it in a new tab, or request a time by email.',
   offlineStatus: 'You appear to be offline. Reconnect, then open the calendar in a new tab.',

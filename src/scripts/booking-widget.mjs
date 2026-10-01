@@ -52,11 +52,11 @@
     let timeoutId;
     const setState = (state, message) => {
       shell?.setAttribute('data-booking-state', state);
-      shell?.setAttribute('aria-busy', String(state === 'loading' || state === 'frame-loaded'));
+      shell?.setAttribute('aria-busy', String(state === 'loading'));
       fallback?.setAttribute('aria-hidden', String(!['delayed', 'offline', 'unavailable'].includes(state)));
       if (status) status.textContent = message;
       if (retry) {
-        const showRetry = ['delayed', 'offline', 'unavailable'].includes(state);
+        const showRetry = ['frame-loaded', 'delayed', 'offline', 'unavailable'].includes(state);
         if (!showRetry && document.activeElement === retry) direct.focus();
         retry.hidden = !showRetry;
       }
@@ -84,20 +84,24 @@
       setState(state, message);
     };
 
-    const confirmFrameVisibility = () => {
-      if (ready || !frameResponded || !embedReadySignal) return;
-      // Clear our own failure CSS before measuring a genuinely late response.
-      setState('frame-loaded', bookingCopy.frameOpened);
+    const isFrameVisible = () => {
       const style = window.getComputedStyle(frame);
       const rect = frame.getBoundingClientRect();
       const hiddenByEmbedRuntime = frame.getAttribute('data-initial-iframe-hidden') === 'true';
-      frameVisible = !hiddenByEmbedRuntime
+      return !hiddenByEmbedRuntime
         && style.display !== 'none'
         && style.visibility !== 'hidden'
         && Number.parseFloat(style.opacity || '1') > 0
         && rect.width >= 240
         && rect.height >= 300
         && rect.right > 0;
+    };
+
+    const confirmFrameVisibility = () => {
+      if (ready || !frameResponded || !embedReadySignal) return;
+      // Clear our own failure CSS before measuring a genuinely late response.
+      setState('frame-loaded', bookingCopy.frameOpened);
+      frameVisible = isFrameVisible();
       if (frameVisible) maybeReady();
       else showUnavailable('unavailable', bookingCopy.unavailable);
     };
@@ -107,6 +111,8 @@
       monitorStarted = true;
       timeoutId = window.setTimeout(() => {
         if (ready) return;
+        // A usable provider frame does not need our readiness label to stay visible.
+        if (frameResponded && shell?.getAttribute('data-booking-state') === 'frame-loaded' && isFrameVisible()) return;
         showUnavailable('delayed', bookingCopy.delayed);
       }, 8000);
     };
@@ -168,7 +174,13 @@
         if (!frame.contentWindow || frame.contentWindow.location.href === 'about:blank') return;
       } catch {}
       frameResponded = true;
-      setState('frame-loaded', bookingCopy.frameOpened);
+      // Show the provider UI after load without claiming its available times are ready.
+      // Explicit network/provider failures still require retry or authenticated recovery.
+      if (!['offline', 'unavailable'].includes(shell?.getAttribute('data-booking-state'))) {
+        setState('frame-loaded', bookingCopy.frameOpened);
+        frameVisible = isFrameVisible();
+        if (!frameVisible) showUnavailable('unavailable', bookingCopy.unavailable);
+      }
       startMonitor();
       window.requestAnimationFrame(() => window.requestAnimationFrame(confirmFrameVisibility));
     });
