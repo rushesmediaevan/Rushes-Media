@@ -591,7 +591,7 @@ for (const resilientBookingMarker of [
   'data-booking-loading',
   'data-booking-fallback',
   'data-booking-src',
-  'Available times are loading',
+  'Use the calendar below, or open it in a new tab.',
   'The calendar did not load here',
   "showUnavailable('unavailable'",
   'getBoundingClientRect',
