@@ -168,7 +168,11 @@
         if (!frame.contentWindow || frame.contentWindow.location.href === 'about:blank') return;
       } catch {}
       frameResponded = true;
-      setState('frame-loaded', bookingCopy.frameOpened);
+      // A late load alone must not hide a working fallback after failure.
+      // The authenticated embed signal can still recover through visibility confirmation.
+      if (!['delayed', 'offline', 'unavailable'].includes(shell?.getAttribute('data-booking-state'))) {
+        setState('frame-loaded', bookingCopy.frameOpened);
+      }
       startMonitor();
       window.requestAnimationFrame(() => window.requestAnimationFrame(confirmFrameVisibility));
     });
